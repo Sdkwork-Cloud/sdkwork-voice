@@ -1,0 +1,21 @@
+[package]
+name = "sdkwork-voice-drive-rust"
+version = "0.1.0"
+edition = "2021"
+description = "SDKWork Voice generated artifact persistence bridge for SDKWork Drive."
+license = "UNLICENSED"
+publish = false
+
+[lib]
+name = "sdkwork_voice_drive"
+path = "src/lib.rs"
+
+[dependencies]
+async-trait = "0.1"
+sdkwork-drive-config = { path = "D:/sdkwork-opensource/sdkwork-drive/crates/sdkwork-drive-config" }
+sdkwork-drive-product = { path = "D:/sdkwork-opensource/sdkwork-drive/services/sdkwork-drive-product" }
+sdkwork-drive-storage-contract = { path = "D:/sdkwork-opensource/sdkwork-drive/crates/sdkwork-drive-storage-contract" }
+sdkwork-drive-storage-local = { path = "D:/sdkwork-opensource/sdkwork-drive/crates/sdkwork-drive-storage-local" }
+sha2 = "0.10"
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "any", "sqlite", "postgres"] }
+tokio = { version = "1.48", features = ["macros", "rt-multi-thread"] }

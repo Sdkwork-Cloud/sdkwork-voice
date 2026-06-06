@@ -5,8 +5,8 @@ fn exposes_voice_app_and_backend_route_catalogs() {
     let app_routes = app_routes();
     let backend_routes = backend_routes();
 
-    assert_eq!(app_routes.len(), 11);
-    assert_eq!(backend_routes.len(), 19);
+    assert_eq!(app_routes.len(), 12);
+    assert_eq!(backend_routes.len(), 21);
 
     assert!(app_routes.iter().any(|route| {
         route.method == HttpMethod::Post
@@ -42,6 +42,11 @@ fn exposes_voice_app_and_backend_route_catalogs() {
             && route.path == "/app/v3/api/voice/tasks/{taskId}/cancel"
             && route.operation_id == "tasks.cancel"
     }));
+    assert!(app_routes.iter().any(|route| {
+        route.method == HttpMethod::Get
+            && route.path == "/app/v3/api/voice/artifact_drive_sync"
+            && route.operation_id == "artifactDriveSync.list"
+    }));
 
     assert!(backend_routes.iter().any(|route| {
         route.method == HttpMethod::Get
@@ -62,6 +67,16 @@ fn exposes_voice_app_and_backend_route_catalogs() {
         route.method == HttpMethod::Get
             && route.path == "/backend/v3/api/voice/provider_webhook_events"
             && route.operation_id == "providerWebhookEvents.list"
+    }));
+    assert!(backend_routes.iter().any(|route| {
+        route.method == HttpMethod::Get
+            && route.path == "/backend/v3/api/voice/artifact_drive_sync"
+            && route.operation_id == "artifactDriveSync.list"
+    }));
+    assert!(backend_routes.iter().any(|route| {
+        route.method == HttpMethod::Post
+            && route.path == "/backend/v3/api/voice/artifact_drive_sync/{syncId}/retry"
+            && route.operation_id == "artifactDriveSync.retry"
     }));
 
     for route in app_routes.iter().chain(backend_routes.iter()) {

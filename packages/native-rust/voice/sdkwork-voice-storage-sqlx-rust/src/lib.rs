@@ -19,6 +19,7 @@ pub struct VoiceStorageCapabilityManifest {
     pub route_tables: Vec<&'static str>,
     pub task_tables: Vec<&'static str>,
     pub artifact_tables: Vec<&'static str>,
+    pub artifact_sync_tables: Vec<&'static str>,
     pub webhook_tables: Vec<&'static str>,
     pub request_tables: Vec<&'static str>,
     pub migrations: Vec<&'static str>,
@@ -31,6 +32,10 @@ pub fn voice_route_tables() -> Vec<&'static str> {
 
 pub fn voice_artifact_tables() -> Vec<&'static str> {
     vec!["voice_audio_artifact"]
+}
+
+pub fn voice_artifact_sync_tables() -> Vec<&'static str> {
+    vec!["voice_artifact_drive_sync"]
 }
 
 pub fn voice_task_tables() -> Vec<&'static str> {
@@ -49,6 +54,7 @@ pub fn voice_database_tables() -> Vec<&'static str> {
     let mut tables = voice_route_tables();
     tables.extend(voice_task_tables());
     tables.extend(voice_artifact_tables());
+    tables.extend(voice_artifact_sync_tables());
     tables.extend(voice_webhook_tables());
     tables.extend(voice_request_tables());
     tables
@@ -66,6 +72,7 @@ pub fn voice_storage_capability_manifest() -> VoiceStorageCapabilityManifest {
         route_tables: voice_route_tables(),
         task_tables: voice_task_tables(),
         artifact_tables: voice_artifact_tables(),
+        artifact_sync_tables: voice_artifact_sync_tables(),
         webhook_tables: voice_webhook_tables(),
         request_tables: voice_request_tables(),
         migrations: vec![VOICE_INITIAL_MIGRATION],
@@ -80,6 +87,12 @@ pub fn voice_storage_capability_manifest() -> VoiceStorageCapabilityManifest {
                 domain: "voice",
                 repository_name: "VoiceAudioArtifactRepository",
                 tables: voice_artifact_tables(),
+                requires_transaction: true,
+            },
+            VoiceRepositoryBinding {
+                domain: "voice",
+                repository_name: "VoiceArtifactDriveSyncRepository",
+                tables: voice_artifact_sync_tables(),
                 requires_transaction: true,
             },
             VoiceRepositoryBinding {

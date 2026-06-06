@@ -13,6 +13,8 @@ export type { VoiceProviderWebhookEventCommand } from './voice-provider-webhook-
 export type { VoiceTask } from './voice-task';
 export type { VoiceTaskEvent } from './voice-task-event';
 export type { VoiceArtifact } from './voice-artifact';
+export type { VoiceArtifactDriveSyncStatus } from './voice-artifact-drive-sync-status';
+export type { VoiceArtifactDriveSync } from './voice-artifact-drive-sync';
 export type { MediaResource } from './media-resource';
 export type { ProblemDetail } from './problem-detail';
 export type { FieldError } from './field-error';

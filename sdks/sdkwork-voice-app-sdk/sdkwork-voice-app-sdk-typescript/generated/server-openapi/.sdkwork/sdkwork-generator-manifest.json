@@ -43,7 +43,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "55c12d5fdc755a221d7bffb6818ddb0de36a8e2789fb2220bfe4efc1f5d540b8"
+      "sha256": "09a591e9475546a7b7815f520040fd09200d090e9d56e4d36d82eaa977be18f0"
     },
     {
       "path": "sdkwork-sdk.json",
@@ -63,7 +63,7 @@
     },
     {
       "path": "src/api/voice.ts",
-      "sha256": "9e826c70d30e75a6417a8d71edcc03b3fbd940544213bfd151f9a74eb6b00aa0"
+      "sha256": "d185a211716e8c42a1765fb325fbca214a1aa64c020c9a58d282764065fe7e0a"
     },
     {
       "path": "src/auth/index.ts",
@@ -95,11 +95,11 @@
     },
     {
       "path": "src/types/index.ts",
-      "sha256": "37e6713c4b1333143c4c10f947904e2ef03991b8cc520141c1b93330389e7b4d"
+      "sha256": "77c5d4a3b21c66ef86392a1c886205a7b4a371b7cbc2501fcd4d04207243caba"
     },
     {
       "path": "src/types/media-resource.ts",
-      "sha256": "7f9ed9833c39aedb8bbcf1726e7188a35fb8077e959a7de188affac8a88d596d"
+      "sha256": "b8b008d639e0112b71e556d8bd6642f3e944e6960ba1900f9ef3404db68486f3"
     },
     {
       "path": "src/types/problem-detail.ts",
@@ -110,8 +110,16 @@
       "sha256": "3dcd4f7d74307248c1297c74751367042f321d990a9eb198978945a328ea2683"
     },
     {
+      "path": "src/types/voice-artifact-drive-sync-status.ts",
+      "sha256": "6239bc0a68952f8d2b46198a1d8edee7d8433f6a572fabfb945cfe60f09c5037"
+    },
+    {
+      "path": "src/types/voice-artifact-drive-sync.ts",
+      "sha256": "89b32b20a5b67e5da5386c5a91a52e90079e9b297bbacdd2d9b61e303fc83701"
+    },
+    {
       "path": "src/types/voice-artifact.ts",
-      "sha256": "020f25b8755ee66da11d6a0c6879d1a3792e7d514cab1e0faad4fdca757b7f23"
+      "sha256": "7aea471f0ef1d68678aab2dc11aad9668706fa04801f5f2210dc79af0af687f1"
     },
     {
       "path": "src/types/voice-music-create-command.ts",

@@ -441,9 +441,30 @@ class VoiceAudioArtifactsApi {
         return this.client.get(backendApiPath(`/voice/audio_artifacts/${serializePathParameter(audioArtifactId, { name: 'audioArtifactId', style: 'simple', explode: false })}`));
     }
 }
+class VoiceArtifactDriveSyncApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Artifact Drive Sync list. */
+    async list(params) {
+        const query = buildQueryString([
+            { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+            { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+            { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+            { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+            { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+        ]);
+        return this.client.get(appendQueryString(backendApiPath(`/voice/artifact_drive_sync`), query));
+    }
+    /** Artifact Drive Sync retry. */
+    async retry(syncId, body) {
+        return this.client.post(backendApiPath(`/voice/artifact_drive_sync/${serializePathParameter(syncId, { name: 'syncId', style: 'simple', explode: false })}/retry`), body, undefined, undefined, 'application/json');
+    }
+}
 class VoiceApi {
     constructor(client) {
         this.client = client;
+        this.artifactDriveSync = new VoiceArtifactDriveSyncApi(client);
         this.audioArtifacts = new VoiceAudioArtifactsApi(client);
         this.providerRoutes = new VoiceProviderRoutesApi(client);
         this.providerWebhookEvents = new VoiceProviderWebhookEventsApi(client);

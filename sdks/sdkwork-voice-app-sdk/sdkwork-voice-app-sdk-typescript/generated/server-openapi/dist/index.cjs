@@ -381,9 +381,26 @@ class VoiceAudioAssetsApi {
         return this.client.get(appApiPath(`/voice/audio_assets/${serializePathParameter(audioAssetId, { name: 'audioAssetId', style: 'simple', explode: false })}`));
     }
 }
+class VoiceArtifactDriveSyncApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Artifact Drive Sync list. */
+    async list(params) {
+        const query = buildQueryString([
+            { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+            { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+            { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+            { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+            { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+        ]);
+        return this.client.get(appendQueryString(appApiPath(`/voice/artifact_drive_sync`), query));
+    }
+}
 class VoiceApi {
     constructor(client) {
         this.client = client;
+        this.artifactDriveSync = new VoiceArtifactDriveSyncApi(client);
         this.audioAssets = new VoiceAudioAssetsApi(client);
         this.music = new VoiceMusicApi(client);
         this.soundEffects = new VoiceSoundEffectsApi(client);

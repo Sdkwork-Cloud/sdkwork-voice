@@ -1,4 +1,4 @@
-export type SdkworkVoiceMediaKind = "audio" | "voice";
+export type SdkworkVoiceMediaKind = "audio" | "voice" | "image" | "video";
 export type SdkworkVoiceMediaSource = "data_url" | "drive" | "external_url" | "generated" | "provider_asset";
 
 export type SdkworkVoiceOperationType =
@@ -32,7 +32,43 @@ export type SdkworkVoiceProviderRouteCapability =
   | "realtime_transcription"
   | "realtime_translation";
 
-export type SdkworkVoiceArtifactKind = "audio" | "transcript" | "translation" | "sfx" | "music";
+export type SdkworkVoiceArtifactKind =
+  | "audio"
+  | "transcript"
+  | "translation"
+  | "sfx"
+  | "music"
+  | "image"
+  | "video";
+
+export type SdkworkVoiceArtifactDriveSyncStatus =
+  | "pending_upload"
+  | "uploading"
+  | "uploaded"
+  | "failed"
+  | "skipped"
+  | "deleted";
+
+export type SdkworkVoiceArtifactDriveActorType = "anonymous" | "system" | "user";
+
+export interface SdkworkVoiceArtifactDriveSync {
+  actorType: SdkworkVoiceArtifactDriveActorType;
+  anonymousId?: string;
+  artifactId: string;
+  artifactIndex: number;
+  driveNodeId?: string;
+  driveResource?: Record<string, unknown>;
+  driveSpaceId?: string;
+  driveSpaceType: "ai_generated" | "app_upload" | "app" | "personal" | "team" | "knowledge_base";
+  driveUploadItemId?: string;
+  driveUploadSessionId?: string;
+  errorCode?: string;
+  errorMessage?: string;
+  status: SdkworkVoiceArtifactDriveSyncStatus;
+  syncNo: string;
+  taskId: string;
+  userId?: string;
+}
 
 export interface SdkworkVoiceMediaAiProvenance {
   generationTaskId?: string;
@@ -85,6 +121,8 @@ export interface SdkworkVoiceTask {
 }
 
 export interface SdkworkVoiceArtifact {
+  artifactIndex?: number;
+  driveSync?: SdkworkVoiceArtifactDriveSync;
   durationSeconds?: number;
   id: string;
   kind: SdkworkVoiceArtifactKind;

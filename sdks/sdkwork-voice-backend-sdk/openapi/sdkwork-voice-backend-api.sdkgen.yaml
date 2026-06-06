@@ -28,6 +28,261 @@
     }
   ],
   "paths": {
+    "/backend/v3/api/voice/artifact_drive_sync": {
+      "get": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Artifact Drive Sync list.",
+        "operationId": "artifactDriveSync.list",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceApiResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-voice",
+        "x-sdkwork-api-authority": "sdkwork-voice-backend-api",
+        "x-sdkwork-domain": "voice",
+        "x-sdkwork-resource": "artifactDriveSync",
+        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-server-request-id": true,
+        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+      }
+    },
+    "/backend/v3/api/voice/artifact_drive_sync/{syncId}/retry": {
+      "post": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Artifact Drive Sync retry.",
+        "operationId": "artifactDriveSync.retry",
+        "parameters": [
+          {
+            "name": "syncId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceApiResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-voice",
+        "x-sdkwork-api-authority": "sdkwork-voice-backend-api",
+        "x-sdkwork-domain": "voice",
+        "x-sdkwork-resource": "artifactDriveSync",
+        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-server-request-id": true,
+        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoiceOperationCommand"
+              }
+            }
+          }
+        }
+      }
+    },
     "/backend/v3/api/voice/audio_artifacts": {
       "get": {
         "tags": [
@@ -2843,8 +3098,14 @@
               "transcript",
               "translation",
               "sfx",
-              "music"
+              "music",
+              "image",
+              "video"
             ]
+          },
+          "artifactIndex": {
+            "type": "integer",
+            "minimum": 0
           },
           "providerCode": {
             "type": "string"
@@ -2864,6 +3125,98 @@
           },
           "mediaResource": {
             "$ref": "#/components/schemas/MediaResource"
+          },
+          "driveSync": {
+            "$ref": "#/components/schemas/VoiceArtifactDriveSync"
+          }
+        }
+      },
+      "VoiceArtifactDriveSyncStatus": {
+        "type": "string",
+        "enum": [
+          "pending_upload",
+          "uploading",
+          "uploaded",
+          "failed",
+          "skipped",
+          "deleted"
+        ]
+      },
+      "VoiceArtifactDriveSync": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "syncNo",
+          "taskId",
+          "artifactId",
+          "artifactIndex",
+          "actorType",
+          "driveSpaceType",
+          "status"
+        ],
+        "properties": {
+          "syncNo": {
+            "type": "string"
+          },
+          "taskId": {
+            "type": "string"
+          },
+          "artifactId": {
+            "type": "string"
+          },
+          "artifactIndex": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "actorType": {
+            "type": "string",
+            "enum": [
+              "anonymous",
+              "system",
+              "user"
+            ]
+          },
+          "userId": {
+            "type": "string"
+          },
+          "anonymousId": {
+            "type": "string"
+          },
+          "driveSpaceType": {
+            "type": "string",
+            "enum": [
+              "ai_generated",
+              "app_upload",
+              "app",
+              "personal",
+              "team",
+              "knowledge_base"
+            ]
+          },
+          "driveSpaceId": {
+            "type": "string"
+          },
+          "driveNodeId": {
+            "type": "string"
+          },
+          "driveUploadItemId": {
+            "type": "string"
+          },
+          "driveUploadSessionId": {
+            "type": "string"
+          },
+          "driveResource": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/VoiceArtifactDriveSyncStatus"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
           }
         }
       },
@@ -2884,7 +3237,9 @@
             "type": "string",
             "enum": [
               "audio",
-              "voice"
+              "voice",
+              "image",
+              "video"
             ]
           },
           "mimeType": {

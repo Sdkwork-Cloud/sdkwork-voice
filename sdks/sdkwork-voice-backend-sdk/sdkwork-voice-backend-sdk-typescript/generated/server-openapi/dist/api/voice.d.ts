@@ -119,8 +119,24 @@ export declare class VoiceAudioArtifactsApi {
     /** Audio Artifacts retrieve. */
     retrieve(audioArtifactId: string): Promise<VoiceApiResult>;
 }
+export interface VoiceArtifactDriveSyncListParams {
+    page?: number;
+    pageSize?: number;
+    cursor?: string;
+    sort?: string;
+    q?: string;
+}
+export declare class VoiceArtifactDriveSyncApi {
+    private client;
+    constructor(client: HttpClient);
+    /** Artifact Drive Sync list. */
+    list(params?: VoiceArtifactDriveSyncListParams): Promise<VoiceApiResult>;
+    /** Artifact Drive Sync retry. */
+    retry(syncId: string, body: VoiceOperationCommand): Promise<VoiceApiResult>;
+}
 export declare class VoiceApi {
     private client;
+    readonly artifactDriveSync: VoiceArtifactDriveSyncApi;
     readonly audioArtifacts: VoiceAudioArtifactsApi;
     readonly providerRoutes: VoiceProviderRoutesApi;
     readonly providerWebhookEvents: VoiceProviderWebhookEventsApi;

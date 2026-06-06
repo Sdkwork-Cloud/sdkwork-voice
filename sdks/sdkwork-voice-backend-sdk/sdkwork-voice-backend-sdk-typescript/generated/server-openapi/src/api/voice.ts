@@ -276,8 +276,43 @@ export class VoiceAudioArtifactsApi {
   }
 }
 
+export interface VoiceArtifactDriveSyncListParams {
+  page?: number;
+  pageSize?: number;
+  cursor?: string;
+  sort?: string;
+  q?: string;
+}
+
+export class VoiceArtifactDriveSyncApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Artifact Drive Sync list. */
+  async list(params?: VoiceArtifactDriveSyncListParams): Promise<VoiceApiResult> {
+    const query = buildQueryString([
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+      { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+      { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<VoiceApiResult>(appendQueryString(backendApiPath(`/voice/artifact_drive_sync`), query));
+  }
+
+/** Artifact Drive Sync retry. */
+  async retry(syncId: string, body: VoiceOperationCommand): Promise<VoiceApiResult> {
+    return this.client.post<VoiceApiResult>(backendApiPath(`/voice/artifact_drive_sync/${serializePathParameter(syncId, { name: 'syncId', style: 'simple', explode: false })}/retry`), body, undefined, undefined, 'application/json');
+  }
+}
+
 export class VoiceApi {
   private client: HttpClient;
+  public readonly artifactDriveSync: VoiceArtifactDriveSyncApi;
   public readonly audioArtifacts: VoiceAudioArtifactsApi;
   public readonly providerRoutes: VoiceProviderRoutesApi;
   public readonly providerWebhookEvents: VoiceProviderWebhookEventsApi;
@@ -289,6 +324,7 @@ export class VoiceApi {
 
   constructor(client: HttpClient) {
     this.client = client;
+    this.artifactDriveSync = new VoiceArtifactDriveSyncApi(client);
     this.audioArtifacts = new VoiceAudioArtifactsApi(client);
     this.providerRoutes = new VoiceProviderRoutesApi(client);
     this.providerWebhookEvents = new VoiceProviderWebhookEventsApi(client);

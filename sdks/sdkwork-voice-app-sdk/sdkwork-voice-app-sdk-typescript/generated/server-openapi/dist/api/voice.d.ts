@@ -75,8 +75,22 @@ export declare class VoiceAudioAssetsApi {
     /** Audio Assets retrieve. */
     retrieve(audioAssetId: string): Promise<VoiceApiResult>;
 }
+export interface VoiceArtifactDriveSyncListParams {
+    page?: number;
+    pageSize?: number;
+    cursor?: string;
+    sort?: string;
+    q?: string;
+}
+export declare class VoiceArtifactDriveSyncApi {
+    private client;
+    constructor(client: HttpClient);
+    /** Artifact Drive Sync list. */
+    list(params?: VoiceArtifactDriveSyncListParams): Promise<VoiceApiResult>;
+}
 export declare class VoiceApi {
     private client;
+    readonly artifactDriveSync: VoiceArtifactDriveSyncApi;
     readonly audioAssets: VoiceAudioAssetsApi;
     readonly music: VoiceMusicApi;
     readonly soundEffects: VoiceSoundEffectsApi;

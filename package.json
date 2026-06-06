@@ -8,7 +8,7 @@
     "audit:appbase": "node scripts/audit-appbase-voice-migration.mjs",
     "materialize:openapi": "node sdks/materialize-voice-v3-openapi-boundaries.mjs",
     "test": "vitest",
-    "test:rust": "cargo test --manifest-path packages/native-rust/voice/sdkwork-voice-http-rust/Cargo.toml && cargo test --manifest-path packages/native-rust/voice/sdkwork-voice-storage-sqlx-rust/Cargo.toml && cargo test --manifest-path packages/native-rust/voice/sdkwork-voice-local-api-proxy-native/Cargo.toml",
+    "test:rust": "cargo test --manifest-path packages/native-rust/voice/sdkwork-voice-http-rust/Cargo.toml && cargo test --manifest-path packages/native-rust/voice/sdkwork-voice-storage-sqlx-rust/Cargo.toml && cargo test --manifest-path packages/native-rust/voice/sdkwork-voice-drive-rust/Cargo.toml && cargo test --manifest-path packages/native-rust/voice/sdkwork-voice-local-api-proxy-native/Cargo.toml",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

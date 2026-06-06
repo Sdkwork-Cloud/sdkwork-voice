@@ -16,6 +16,7 @@ describe("sdkwork-voice OpenAPI materializer", () => {
     const backendRoutes = selectRoutes(routes, surfaces.backend.prefix);
 
     expect(appRoutes.map((route) => route.operationId)).toEqual([
+      "artifactDriveSync.list",
       "audioAssets.list",
       "audioAssets.retrieve",
       "music.create",
@@ -29,6 +30,8 @@ describe("sdkwork-voice OpenAPI materializer", () => {
       "translations.create",
     ]);
     expect(backendRoutes.map((route) => route.operationId)).toEqual([
+      "artifactDriveSync.list",
+      "artifactDriveSync.retry",
       "audioArtifacts.list",
       "audioArtifacts.delete",
       "audioArtifacts.retrieve",
@@ -87,7 +90,7 @@ describe("sdkwork-voice OpenAPI materializer", () => {
     expect(requestBodySchemaRef(appOpenApi.paths["/app/v3/api/voice/speech"]?.post)).toBe("#/components/schemas/VoiceSpeechCreateCommand");
     expect(requestBodySchemaRef(appOpenApi.paths["/app/v3/api/voice/sound_effects"]?.post)).toBe("#/components/schemas/VoiceSoundEffectCreateCommand");
     expect(requestBodySchemaRef(appOpenApi.paths["/app/v3/api/voice/music"]?.post)).toBe("#/components/schemas/VoiceMusicCreateCommand");
-    expect(appOpenApi.components.schemas.MediaResource.properties.kind.enum).toEqual(["audio", "voice"]);
+    expect(appOpenApi.components.schemas.MediaResource.properties.kind.enum).toEqual(["audio", "voice", "image", "video"]);
     expect(schemaObject(appOpenApi.components.schemas.VoiceOperationType).enum).toEqual([
       "speech",
       "transcription",
@@ -112,6 +115,15 @@ describe("sdkwork-voice OpenAPI materializer", () => {
       expect.arrayContaining(["id", "operationType", "status", "createdAt", "updatedAt"]),
     );
     expect(schemaObject(schemaObject(appOpenApi.components.schemas.VoiceArtifact).properties).mediaResource.$ref).toBe("#/components/schemas/MediaResource");
+    expect(schemaObject(schemaObject(appOpenApi.components.schemas.VoiceArtifact).properties).driveSync.$ref).toBe("#/components/schemas/VoiceArtifactDriveSync");
+    expect(schemaObject(schemaObject(appOpenApi.components.schemas.VoiceArtifactDriveSync).properties).driveSpaceType.enum).toEqual([
+      "ai_generated",
+      "app_upload",
+      "app",
+      "personal",
+      "team",
+      "knowledge_base",
+    ]);
   });
 
   it("writes deterministic JSON-compatible OpenAPI documents to sdkgen paths", async () => {

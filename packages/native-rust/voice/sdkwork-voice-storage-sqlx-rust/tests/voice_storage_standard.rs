@@ -1,6 +1,7 @@
 use sdkwork_voice_storage_sqlx::{
-    voice_artifact_tables, voice_database_tables, voice_initial_migration_sql, voice_request_tables,
-    voice_route_tables, voice_storage_capability_manifest, voice_task_tables, voice_webhook_tables,
+    voice_artifact_sync_tables, voice_artifact_tables, voice_database_tables,
+    voice_initial_migration_sql, voice_request_tables, voice_route_tables,
+    voice_storage_capability_manifest, voice_task_tables, voice_webhook_tables,
 };
 
 #[test]
@@ -14,6 +15,7 @@ fn exposes_voice_database_table_catalog() {
             "voice_generation_task",
             "voice_task_event",
             "voice_audio_artifact",
+            "voice_artifact_drive_sync",
             "voice_provider_webhook_event",
             "voice_webhook_delivery",
             "voice_request_log",
@@ -42,6 +44,7 @@ fn migration_contains_voice_route_artifact_and_log_tables() {
         "CREATE TABLE IF NOT EXISTS voice_generation_task",
         "CREATE TABLE IF NOT EXISTS voice_task_event",
         "CREATE TABLE IF NOT EXISTS voice_audio_artifact",
+        "CREATE TABLE IF NOT EXISTS voice_artifact_drive_sync",
         "CREATE TABLE IF NOT EXISTS voice_provider_webhook_event",
         "CREATE TABLE IF NOT EXISTS voice_webhook_delivery",
         "CREATE TABLE IF NOT EXISTS voice_request_log",
@@ -55,6 +58,8 @@ fn migration_contains_voice_route_artifact_and_log_tables() {
         "CREATE INDEX IF NOT EXISTS idx_voice_request_log_capability_created",
         "CREATE INDEX IF NOT EXISTS idx_voice_generation_task_status",
         "CREATE INDEX IF NOT EXISTS idx_voice_task_event_task",
+        "CREATE INDEX IF NOT EXISTS idx_voice_artifact_drive_sync_status",
+        "CREATE INDEX IF NOT EXISTS idx_voice_artifact_drive_sync_task",
         "CREATE INDEX IF NOT EXISTS idx_voice_provider_webhook_event_status",
         "CREATE INDEX IF NOT EXISTS idx_voice_webhook_delivery_due",
     ] {
@@ -70,6 +75,7 @@ fn manifest_maps_repositories_to_voice_tables() {
     assert_eq!(manifest.route_tables, voice_route_tables());
     assert_eq!(manifest.task_tables, voice_task_tables());
     assert_eq!(manifest.artifact_tables, voice_artifact_tables());
+    assert_eq!(manifest.artifact_sync_tables, voice_artifact_sync_tables());
     assert_eq!(manifest.webhook_tables, voice_webhook_tables());
     assert_eq!(manifest.request_tables, voice_request_tables());
     assert_eq!(manifest.migrations, vec!["0001_voice_core.sql"]);
@@ -81,6 +87,10 @@ fn manifest_maps_repositories_to_voice_tables() {
         .repository_bindings
         .iter()
         .any(|binding| binding.repository_name == "VoiceAudioArtifactRepository"));
+    assert!(manifest
+        .repository_bindings
+        .iter()
+        .any(|binding| binding.repository_name == "VoiceArtifactDriveSyncRepository"));
     assert!(manifest
         .repository_bindings
         .iter()
@@ -101,4 +111,30 @@ fn manifest_maps_repositories_to_voice_tables() {
         .repository_bindings
         .iter()
         .any(|binding| binding.repository_name == "VoiceRequestLogRepository"));
+}
+
+#[test]
+fn artifact_drive_sync_table_tracks_ai_generation_upload_consistency() {
+    let sql = voice_initial_migration_sql();
+
+    for expected in [
+        "sync_no VARCHAR(64) NOT NULL",
+        "artifact_index INTEGER NOT NULL DEFAULT 0",
+        "actor_type VARCHAR(32) NOT NULL",
+        "anonymous_id VARCHAR(128)",
+        "drive_space_type VARCHAR(32) NOT NULL",
+        "drive_space_id VARCHAR(128)",
+        "drive_node_id VARCHAR(128)",
+        "drive_upload_item_id VARCHAR(128)",
+        "drive_upload_session_id VARCHAR(128)",
+        "drive_resource_json TEXT",
+        "sync_status VARCHAR(32) NOT NULL",
+        "CONSTRAINT uk_voice_artifact_drive_sync_no UNIQUE",
+        "CONSTRAINT uk_voice_artifact_drive_sync_task_index UNIQUE",
+    ] {
+        assert!(
+            sql.contains(expected),
+            "voice artifact drive sync migration must contain `{expected}`"
+        );
+    }
 }

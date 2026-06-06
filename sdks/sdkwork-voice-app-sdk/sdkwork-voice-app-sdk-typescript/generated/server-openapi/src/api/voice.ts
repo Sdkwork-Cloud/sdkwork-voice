@@ -176,8 +176,38 @@ export class VoiceAudioAssetsApi {
   }
 }
 
+export interface VoiceArtifactDriveSyncListParams {
+  page?: number;
+  pageSize?: number;
+  cursor?: string;
+  sort?: string;
+  q?: string;
+}
+
+export class VoiceArtifactDriveSyncApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Artifact Drive Sync list. */
+  async list(params?: VoiceArtifactDriveSyncListParams): Promise<VoiceApiResult> {
+    const query = buildQueryString([
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+      { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+      { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<VoiceApiResult>(appendQueryString(appApiPath(`/voice/artifact_drive_sync`), query));
+  }
+}
+
 export class VoiceApi {
   private client: HttpClient;
+  public readonly artifactDriveSync: VoiceArtifactDriveSyncApi;
   public readonly audioAssets: VoiceAudioAssetsApi;
   public readonly music: VoiceMusicApi;
   public readonly soundEffects: VoiceSoundEffectsApi;
@@ -189,6 +219,7 @@ export class VoiceApi {
 
   constructor(client: HttpClient) {
     this.client = client;
+    this.artifactDriveSync = new VoiceArtifactDriveSyncApi(client);
     this.audioAssets = new VoiceAudioAssetsApi(client);
     this.music = new VoiceMusicApi(client);
     this.soundEffects = new VoiceSoundEffectsApi(client);

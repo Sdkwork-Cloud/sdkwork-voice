@@ -92,6 +92,12 @@ pub fn app_routes() -> Vec<VoiceHttpRoute> {
         ),
         VoiceHttpRoute::new(
             HttpMethod::Get,
+            "/app/v3/api/voice/artifact_drive_sync",
+            "voice",
+            "artifactDriveSync.list",
+        ),
+        VoiceHttpRoute::new(
+            HttpMethod::Get,
             "/app/v3/api/voice/audio_assets",
             "voice",
             "audioAssets.list",
@@ -202,6 +208,18 @@ pub fn backend_routes() -> Vec<VoiceHttpRoute> {
             "/backend/v3/api/voice/request_logs",
             "voice",
             "requestLogs.list",
+        ),
+        VoiceHttpRoute::new(
+            HttpMethod::Get,
+            "/backend/v3/api/voice/artifact_drive_sync",
+            "voice",
+            "artifactDriveSync.list",
+        ),
+        VoiceHttpRoute::new(
+            HttpMethod::Post,
+            "/backend/v3/api/voice/artifact_drive_sync/{syncId}/retry",
+            "voice",
+            "artifactDriveSync.retry",
         ),
         VoiceHttpRoute::new(
             HttpMethod::Get,

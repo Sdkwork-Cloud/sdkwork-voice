@@ -178,6 +178,7 @@ describe("@sdkwork/voice-local-api-proxy", () => {
       "vlap_generation_tasks",
       "vlap_task_events",
       "vlap_audio_artifacts",
+      "vlap_artifact_drive_sync",
       "vlap_provider_webhook_events",
     ]);
 
@@ -188,10 +189,12 @@ describe("@sdkwork/voice-local-api-proxy", () => {
     const sqliteDdl = sqlite.statements.join("\n");
     expect(sqlite.databasePath).toBe("C:/sdkwork/data/voice-local-api-proxy.db");
     expect(sqliteDdl).toContain("CREATE TABLE IF NOT EXISTS vlap_audio_artifacts");
+    expect(sqliteDdl).toContain("CREATE TABLE IF NOT EXISTS vlap_artifact_drive_sync");
     expect(sqliteDdl).toContain("CREATE TABLE IF NOT EXISTS vlap_generation_tasks");
     expect(sqliteDdl).toContain("provider_task_id TEXT");
     expect(sqliteDdl).toContain("CREATE INDEX IF NOT EXISTS idx_vlap_generation_tasks_status");
     expect(sqliteDdl).toContain("media_resource_json TEXT NOT NULL");
+    expect(sqliteDdl).toContain("drive_space_type TEXT NOT NULL");
 
     const postgresql = buildVoiceLocalApiProxyPostgresqlSchema({
       dialect: "postgresql",
@@ -202,9 +205,11 @@ describe("@sdkwork/voice-local-api-proxy", () => {
     expect(postgresql.schemaName).toBe("voice_local_api_proxy");
     expect(pgDdl).toContain("CREATE SCHEMA IF NOT EXISTS voice_local_api_proxy;");
     expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS voice_local_api_proxy.vlap_audio_artifacts");
+    expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS voice_local_api_proxy.vlap_artifact_drive_sync");
     expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS voice_local_api_proxy.vlap_generation_tasks");
     expect(pgDdl).toContain("provider_task_id TEXT");
     expect(pgDdl).toContain("media_resource_json JSONB NOT NULL");
+    expect(pgDdl).toContain("drive_resource_json JSONB");
   });
 
   it("keeps VoiceLocalApiProxyConfig assignable with a canonical audio route", () => {

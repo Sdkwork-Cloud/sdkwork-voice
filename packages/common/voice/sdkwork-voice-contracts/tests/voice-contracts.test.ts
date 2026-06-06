@@ -2,6 +2,7 @@ import { describe, expect, expectTypeOf, it } from "vitest";
 import {
   voiceContractsPackageMeta,
   type SdkworkVoiceArtifact,
+  type SdkworkVoiceArtifactDriveSync,
   type SdkworkVoiceMediaResource,
   type SdkworkVoiceOperationType,
   type SdkworkVoiceProviderInvocationResult,
@@ -18,7 +19,7 @@ describe("@sdkwork/voice-contracts", () => {
       workspace: "sdkwork-voice",
     });
 
-    expectTypeOf<SdkworkVoiceMediaResource["kind"]>().toEqualTypeOf<"audio" | "voice">();
+    expectTypeOf<SdkworkVoiceMediaResource["kind"]>().toEqualTypeOf<"audio" | "voice" | "image" | "video">();
 
     const resource: SdkworkVoiceMediaResource = {
       ai: { provenance: "generated", provider: "openai" },
@@ -99,5 +100,47 @@ describe("@sdkwork/voice-contracts", () => {
     expect(task.operationType).toBe("sound_effect");
     expect(artifact.kind).toBe("sfx");
     expect(result.status).toBe("task_started");
+  });
+
+  it("models generated image, video, audio, and music artifact persistence into Drive AI space", () => {
+    expectTypeOf<SdkworkVoiceMediaResource["kind"]>().toEqualTypeOf<"audio" | "voice" | "image" | "video">();
+    expectTypeOf<SdkworkVoiceArtifact["kind"]>().toEqualTypeOf<
+      "audio" | "transcript" | "translation" | "sfx" | "music" | "image" | "video"
+    >();
+
+    const driveSync: SdkworkVoiceArtifactDriveSync = {
+      actorType: "anonymous",
+      anonymousId: "anon-browser-1",
+      artifactId: "artifact-image-1",
+      artifactIndex: 0,
+      driveNodeId: "drive-node-image-1",
+      driveSpaceId: "drive-space-ai-generated",
+      driveSpaceType: "ai_generated",
+      driveUploadItemId: "drive-upload-image-1",
+      status: "uploaded",
+      syncNo: "sync-image-1",
+      taskId: "task-image-batch",
+    };
+    const artifact: SdkworkVoiceArtifact = {
+      driveSync,
+      id: "artifact-image-1",
+      kind: "image",
+      mediaResource: {
+        ai: {
+          generationTaskId: "task-image-batch",
+          provenance: "generated",
+          provider: "volcengine",
+        },
+        kind: "image",
+        mimeType: "image/png",
+        source: "drive",
+        uri: "drive://drive-space-ai-generated/drive-node-image-1",
+      },
+      taskId: "task-image-batch",
+    };
+
+    expect(artifact.driveSync?.driveSpaceType).toBe("ai_generated");
+    expect(artifact.driveSync?.actorType).toBe("anonymous");
+    expect(artifact.mediaResource.kind).toBe("image");
   });
 });

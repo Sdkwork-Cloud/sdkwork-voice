@@ -33,7 +33,7 @@ const params = {
   sort: 'sort',
   q: 'q',
 };
-const result = await client.voice.audioArtifacts.list(params);
+const result = await client.voice.artifactDriveSync.list(params);
 ```
 
 ## Authentication Modes (Mutually Exclusive)
@@ -84,7 +84,7 @@ const client = new SdkworkBackendClient({
 ### voice
 
 ```typescript
-// Audio Artifacts list.
+// Artifact Drive Sync list.
 const params = {
   page: 1,
   page_size: 2,
@@ -92,7 +92,7 @@ const params = {
   sort: 'sort',
   q: 'q',
 };
-const result = await client.voice.audioArtifacts.list(params);
+const result = await client.voice.artifactDriveSync.list(params);
 ```
 
 ## Error Handling
@@ -108,7 +108,7 @@ try {
     sort: 'sort',
     q: 'q',
   };
-  const result = await client.voice.audioArtifacts.list(params);
+  const result = await client.voice.artifactDriveSync.list(params);
 } catch (error) {
   if (error instanceof AuthenticationError) {
     console.error('Authentication failed:', error.message);

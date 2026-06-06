@@ -8,7 +8,7 @@
     "sdkType": "app",
     "packageName": "@sdkwork/voice-app-sdk"
   },
-  "changeFingerprint": "885fb8296d2c44e006450370c202827cd14b54697444bf252f16712acbea6f24",
+  "changeFingerprint": "d5dd04c25df49ab3c93d2eb9537b546116d0eef7dc6300d6ebb113dd508c8eb8",
   "changes": {
     "createdGeneratedFiles": [
       "bin/publish-core.mjs",
@@ -36,6 +36,8 @@
       "src/types/media-resource.ts",
       "src/types/problem-detail.ts",
       "src/types/voice-api-result.ts",
+      "src/types/voice-artifact-drive-sync-status.ts",
+      "src/types/voice-artifact-drive-sync.ts",
       "src/types/voice-artifact.ts",
       "src/types/voice-music-create-command.ts",
       "src/types/voice-operation-command.ts",
@@ -94,6 +96,8 @@
           "src/types/media-resource.ts",
           "src/types/problem-detail.ts",
           "src/types/voice-api-result.ts",
+          "src/types/voice-artifact-drive-sync-status.ts",
+          "src/types/voice-artifact-drive-sync.ts",
           "src/types/voice-artifact.ts",
           "src/types/voice-music-create-command.ts",
           "src/types/voice-operation-command.ts",

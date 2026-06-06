@@ -1,6 +1,6 @@
 export interface MediaResource {
     id: string;
-    kind: 'audio' | 'voice';
+    kind: 'audio' | 'voice' | 'image' | 'video';
     mimeType: string;
     uri: string;
     title?: string;
