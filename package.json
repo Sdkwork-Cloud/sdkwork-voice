@@ -1,0 +1,30 @@
+{
+  "name": "@sdkwork/voice-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@10.30.2",
+  "scripts": {
+    "audit:appbase": "node scripts/audit-appbase-voice-migration.mjs",
+    "materialize:openapi": "node sdks/materialize-voice-v3-openapi-boundaries.mjs",
+    "test": "vitest",
+    "test:rust": "cargo test --manifest-path packages/native-rust/voice/sdkwork-voice-http-rust/Cargo.toml && cargo test --manifest-path packages/native-rust/voice/sdkwork-voice-storage-sqlx-rust/Cargo.toml && cargo test --manifest-path packages/native-rust/voice/sdkwork-voice-local-api-proxy-native/Cargo.toml",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@sdkwork/sdk-common": "^1.0.3",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^25.5.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "jsdom": "^29.0.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3",
+    "vitest": "^4.1.2"
+  }
+}

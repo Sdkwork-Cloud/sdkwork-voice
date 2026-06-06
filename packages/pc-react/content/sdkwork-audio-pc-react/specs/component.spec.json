@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "@sdkwork/audio-pc-react",
+    "displayName": "SDKWork Audio PC React",
+    "version": "0.1.0",
+    "type": "react-package",
+    "root": "sdkwork-voice/packages/pc-react/content/sdkwork-audio-pc-react",
+    "domain": "voice",
+    "declaredDomain": "voice",
+    "capability": "audio",
+    "status": "ready",
+    "languages": [
+      "typescript"
+    ],
+    "generated": false,
+    "private": true,
+    "manifests": [
+      "package.json"
+    ]
+  },
+  "canonicalSpecs": [
+    {
+      "file": "APP_PC_REACT_UI_SPEC.md",
+      "path": "../../../../../../../specs/APP_PC_REACT_UI_SPEC.md",
+      "purpose": "App PC React package split, app SDK boundary, and desktop interaction rules."
+    },
+    {
+      "file": "COMPONENT_SPEC.md",
+      "path": "../../../../../../../specs/COMPONENT_SPEC.md",
+      "purpose": "Local component specs directory and manifest rules."
+    },
+    {
+      "file": "CONFIG_SPEC.md",
+      "path": "../../../../../../../specs/CONFIG_SPEC.md",
+      "purpose": "Runtime configuration, environment, SDK bootstrap, and feature flag rules."
+    },
+    {
+      "file": "DOCUMENTATION_SPEC.md",
+      "path": "../../../../../../../specs/DOCUMENTATION_SPEC.md",
+      "purpose": "Module README, examples, ADR, changelog, and runbook rules."
+    },
+    {
+      "file": "DOMAIN_SPEC.md",
+      "path": "../../../../../../../specs/DOMAIN_SPEC.md",
+      "purpose": "Canonical domain ownership and naming."
+    },
+    {
+      "file": "FRONTEND_SPEC.md",
+      "path": "../../../../../../../specs/FRONTEND_SPEC.md",
+      "purpose": "UI, service, SDK, accessibility, and frontend runtime rules."
+    },
+    {
+      "file": "GOVERNANCE_SPEC.md",
+      "path": "../../../../../../../specs/GOVERNANCE_SPEC.md",
+      "purpose": "Standard ownership, exception, compatibility, and migration rules."
+    },
+    {
+      "file": "I18N_SPEC.md",
+      "path": "../../../../../../../specs/I18N_SPEC.md",
+      "purpose": "User-facing language, locale, message catalog, and fallback rules."
+    },
+    {
+      "file": "MODULE_SPEC.md",
+      "path": "../../../../../../../specs/MODULE_SPEC.md",
+      "purpose": "Reusable package contract and dependency direction."
+    },
+    {
+      "file": "README.md",
+      "path": "../../../../../../../specs/README.md",
+      "purpose": "SDKWork root standards entrypoint."
+    },
+    {
+      "file": "SDK_SPEC.md",
+      "path": "../../../../../../../specs/SDK_SPEC.md",
+      "purpose": "SDK generation and SDK integration rules."
+    },
+    {
+      "file": "TEST_SPEC.md",
+      "path": "../../../../../../../specs/TEST_SPEC.md",
+      "purpose": "Contract, frontend, SDK, security, parity, and documentation verification rules."
+    },
+    {
+      "file": "UI_ARCHITECTURE_SPEC.md",
+      "path": "../../../../../../../specs/UI_ARCHITECTURE_SPEC.md",
+      "purpose": "UI architecture selection, package-family ownership, and SDK boundary rules."
+    }
+  ],
+  "contracts": {
+    "publicExports": [
+      "."
+    ],
+    "runtimeEntrypoints": [
+      "package.json#scripts.typecheck"
+    ],
+    "sdkClients": [],
+    "events": [],
+    "configKeys": [
+      "package.json#sdkwork"
+    ]
+  },
+  "integration": {
+    "authority": "Root SDKWork specs remain authoritative. Local specs may extend but must not contradict them.",
+    "dependencyPolicy": "Consumers integrate through public package exports, declared runtime entrypoints, generated SDK clients, or documented adapters only.",
+    "sdkPolicy": "Generated SDK clients are injected through service/runtime boundaries; reusable UI must not create raw HTTP clients or manual auth headers.",
+    "languagePolicy": "Language-specific packages follow their native manifest and build tools while preserving the same component contract."
+  },
+  "verification": {
+    "commands": [
+      "pnpm --filter @sdkwork/audio-pc-react typecheck"
+    ]
+  },
+  "metadata": {
+    "managedBy": "apps/scripts/initialize-component-specs.mjs",
+    "standardVersion": "2026-05-13"
+  }
+}

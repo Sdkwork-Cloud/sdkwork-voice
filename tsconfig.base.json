@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@sdkwork/audio-pc-react": [
+        "packages/pc-react/content/sdkwork-audio-pc-react/src/index.ts"
+      ],
+      "@sdkwork/voice-contracts": [
+        "packages/common/voice/sdkwork-voice-contracts/src/index.ts"
+      ],
+      "@sdkwork/voice-local-api-proxy": [
+        "packages/pc-react/voice/sdkwork-voice-local-api-proxy/src/index.ts"
+      ],
+      "@sdkwork/voice-app-sdk": [
+        "sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/generated/server-openapi/src/index.ts"
+      ],
+      "@sdkwork/voice-backend-sdk": [
+        "sdks/sdkwork-voice-backend-sdk/sdkwork-voice-backend-sdk-typescript/generated/server-openapi/src/index.ts"
+      ],
+      "react": [
+        "node_modules/@types/react"
+      ],
+      "react-dom": [
+        "node_modules/@types/react-dom"
+      ],
+      "react/jsx-runtime": [
+        "node_modules/@types/react/jsx-runtime.d.ts"
+      ]
+    },
+    "allowImportingTsExtensions": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "ignoreDeprecations": "6.0",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["node", "@testing-library/jest-dom"]
+  }
+}

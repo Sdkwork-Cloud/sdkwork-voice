@@ -1,0 +1,174 @@
+{
+  "workspace": "sdkwork-voice-app-sdk",
+  "title": "SDKWork Voice App API SDK",
+  "apiVersion": "1.0.0",
+  "openapiVersion": "3.1.2",
+  "authoritySpec": "openapi/sdkwork-voice-app-api.openapi.yaml",
+  "generationInputSpec": "openapi/sdkwork-voice-app-api.sdkgen.yaml",
+  "derivedSpecs": {
+    "default": "openapi/sdkwork-voice-app-api.sdkgen.yaml",
+    "flutter": "openapi/sdkwork-voice-app-api.flutter.sdkgen.yaml"
+  },
+  "sdkOwner": "sdkwork-voice",
+  "apiAuthority": "sdkwork-voice-app-api",
+  "discoverySurface": {
+    "sdkTarget": "app",
+    "apiPrefix": "/app/v3/api",
+    "schemaUrl": "/app/v3/openapi.json",
+    "generatedProtocols": [
+      "http-openapi"
+    ],
+    "manualTransports": []
+  },
+  "languages": [
+    {
+      "language": "typescript",
+      "workspace": "sdkwork-voice-app-sdk-typescript",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-typescript/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-typescript/generated/server-openapi/package.json",
+      "name": "@sdkwork/voice-app-sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned TypeScript transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-typescript/generated/server-openapi"
+    },
+    {
+      "language": "dart",
+      "workspace": "sdkwork-voice-app-sdk-dart",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-dart/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-dart/generated/server-openapi/pubspec.yaml",
+      "name": "sdkwork_voice_app_sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned Dart transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-dart/generated/server-openapi"
+    },
+    {
+      "language": "python",
+      "workspace": "sdkwork-voice-app-sdk-python",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-python/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-python/generated/server-openapi/pyproject.toml",
+      "name": "sdkwork-voice-app-sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned Python transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-python/generated/server-openapi"
+    },
+    {
+      "language": "go",
+      "workspace": "sdkwork-voice-app-sdk-go",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-go/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-go/generated/server-openapi/go.mod",
+      "name": "github.com/sdkwork/sdkwork-voice-app-sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned Go transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-go/generated/server-openapi"
+    },
+    {
+      "language": "java",
+      "workspace": "sdkwork-voice-app-sdk-java",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-java/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-java/generated/server-openapi/pom.xml",
+      "name": "com.sdkwork:sdkwork-voice-app-sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned Java transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-java/generated/server-openapi"
+    },
+    {
+      "language": "kotlin",
+      "workspace": "sdkwork-voice-app-sdk-kotlin",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-kotlin/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-kotlin/generated/server-openapi/build.gradle.kts",
+      "name": "com.sdkwork:sdkwork-voice-app-sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned Kotlin transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-kotlin/generated/server-openapi"
+    },
+    {
+      "language": "swift",
+      "workspace": "sdkwork-voice-app-sdk-swift",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-swift/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-swift/generated/server-openapi/Package.swift",
+      "name": "sdkwork-voice-app-sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned Swift transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-swift/generated/server-openapi"
+    },
+    {
+      "language": "csharp",
+      "workspace": "sdkwork-voice-app-sdk-csharp",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-csharp/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-csharp/generated/server-openapi/SDKWork.Voice.AppSdk.csproj",
+      "name": "SDKWork.Voice.AppSdk",
+      "version": "1.0.0",
+      "description": "Generator-owned C# transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-csharp/generated/server-openapi"
+    },
+    {
+      "language": "flutter",
+      "workspace": "sdkwork-voice-app-sdk-flutter",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-flutter/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-flutter/generated/server-openapi/pubspec.yaml",
+      "name": "sdkwork_voice_app_sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned Flutter transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-flutter/generated/server-openapi"
+    },
+    {
+      "language": "rust",
+      "workspace": "sdkwork-voice-app-sdk-rust",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-rust/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-rust/generated/server-openapi/Cargo.toml",
+      "name": "sdkwork-voice-app-sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned Rust transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-rust/generated/server-openapi"
+    },
+    {
+      "language": "php",
+      "workspace": "sdkwork-voice-app-sdk-php",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-php/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-php/generated/server-openapi/composer.json",
+      "name": "sdkwork/voice-app-sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned PHP transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-php/generated/server-openapi"
+    },
+    {
+      "language": "ruby",
+      "workspace": "sdkwork-voice-app-sdk-ruby",
+      "generationState": "materialized",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-voice-app-sdk-ruby/generated/server-openapi",
+      "manifestPath": "sdkwork-voice-app-sdk-ruby/generated/server-openapi/sdkwork-voice-app-sdk.gemspec",
+      "name": "sdkwork-voice-app-sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned Ruby transport SDK for SDKWork Voice App API.",
+      "generatedPath": "sdkwork-voice-app-sdk-ruby/generated/server-openapi"
+    }
+  ],
+  "sdkDependencies": [],
+  "metadata": {
+    "managedBy": "sdks/materialize-voice-v3-openapi-boundaries.mjs",
+    "standardVersion": "2026-06-06"
+  }
+}

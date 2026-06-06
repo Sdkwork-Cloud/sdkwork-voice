@@ -1,0 +1,11 @@
+[package]
+name = "sdkwork-voice-http-rust"
+version = "0.1.0"
+edition = "2021"
+description = "SDKWork Voice HTTP route catalog for app/backend API authority generation."
+license = "UNLICENSED"
+publish = false
+
+[lib]
+name = "sdkwork_voice_http"
+path = "src/lib.rs"

@@ -1,0 +1,29 @@
+{
+  "name": "@sdkwork/voice-local-api-proxy",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "SDKWork Voice local API proxy contracts for speech, transcription, and translation routes.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "files": [
+    "src",
+    "native",
+    "README.md"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "sdkwork": {
+    "workspace": "sdkwork-voice",
+    "architecture": "pc-react",
+    "domain": "voice",
+    "capability": "voice-local-api-proxy",
+    "status": "ready"
+  }
+}

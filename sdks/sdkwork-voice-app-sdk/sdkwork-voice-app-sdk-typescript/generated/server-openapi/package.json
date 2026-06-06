@@ -1,0 +1,40 @@
+{
+  "name": "@sdkwork/voice-app-sdk",
+  "version": "1.0.0",
+  "description": "sdkwork-voice-app-sdk",
+  "author": "SDKWork Team",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "node custom/build-runtime.mjs",
+    "dev": "node custom/build-runtime.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@sdkwork/sdk-common": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "rollup": "^4.0.0"
+  },
+  "keywords": [
+    "sdk",
+    "api",
+    "app",
+    "sdkwork"
+  ]
+}

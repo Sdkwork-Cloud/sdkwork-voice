@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "metadata": {
+    "name": "sdkwork-voice-app-sdk",
+    "owner": "sdkwork-voice",
+    "domain": "voice",
+    "status": "ready"
+  },
+  "contracts": {
+    "apiAuthority": "sdkwork-voice-app-api",
+    "authoritySpec": "openapi/sdkwork-voice-app-api.openapi.yaml",
+    "generationInputSpec": "openapi/sdkwork-voice-app-api.sdkgen.yaml",
+    "sdkDependencies": []
+  }
+}

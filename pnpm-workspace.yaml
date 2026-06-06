@@ -1,0 +1,17 @@
+packages:
+  - "packages/common/*/*"
+  - "packages/native-rust/*/*"
+  - "packages/pc-react/*/*"
+  - "sdks/*"
+  - "sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/generated/server-openapi"
+  - "sdks/sdkwork-voice-backend-sdk/sdkwork-voice-backend-sdk-typescript/generated/server-openapi"
+
+catalog:
+  "@types/react": ^19.2.14
+  "@types/react-dom": ^19.2.3
+  "@vitejs/plugin-react": ^6.0.1
+  react: ^19.2.4
+  react-dom: ^19.2.4
+  typescript: ~6.0.2
+  vite: ^8.0.3
+  vite-plugin-dts: ^4.5.4

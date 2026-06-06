@@ -1,0 +1,24 @@
+{
+  "name": "@sdkwork/voice-contracts",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "SDKWork voice and audio shared contracts.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "sdkwork": {
+    "workspace": "sdkwork-voice",
+    "architecture": "common",
+    "domain": "voice",
+    "capability": "contracts",
+    "status": "ready"
+  }
+}
