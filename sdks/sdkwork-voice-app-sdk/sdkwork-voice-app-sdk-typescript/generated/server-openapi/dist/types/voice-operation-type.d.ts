@@ -1,0 +1,2 @@
+export type VoiceOperationType = 'speech' | 'transcription' | 'translation' | 'sound_effect' | 'music' | 'realtime_transcription' | 'realtime_translation';
+//# sourceMappingURL=voice-operation-type.d.ts.map

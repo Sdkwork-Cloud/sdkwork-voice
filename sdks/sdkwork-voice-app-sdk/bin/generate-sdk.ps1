@@ -98,5 +98,10 @@ foreach ($LanguageValue in $Languages) {
         if ($LASTEXITCODE -ne 0) {
             exit $LASTEXITCODE
         }
+
+        & node (Join-Path $VoiceRoot "scripts\normalize-generated-sdk-whitespace.mjs") $OutputPath
+        if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+        }
     }
 }

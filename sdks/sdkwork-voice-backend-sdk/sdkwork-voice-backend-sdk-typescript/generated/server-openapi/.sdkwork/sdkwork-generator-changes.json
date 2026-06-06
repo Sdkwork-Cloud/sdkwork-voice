@@ -8,7 +8,7 @@
     "sdkType": "backend",
     "packageName": "@sdkwork/voice-backend-sdk"
   },
-  "changeFingerprint": "63f0d8a195a5e22c6ac7e379e2fc751e7a42173099e397e2bd57130b8cd4c37d",
+  "changeFingerprint": "b50783151d2dcbaa057e017c39a5b8ca02a8f424a75f69d4f746fed61e01489f",
   "changes": {
     "createdGeneratedFiles": [
       "bin/publish-core.mjs",
@@ -36,7 +36,19 @@
       "src/types/media-resource.ts",
       "src/types/problem-detail.ts",
       "src/types/voice-api-result.ts",
+      "src/types/voice-artifact.ts",
+      "src/types/voice-music-create-command.ts",
       "src/types/voice-operation-command.ts",
+      "src/types/voice-operation-type.ts",
+      "src/types/voice-provider-options.ts",
+      "src/types/voice-provider-webhook-event-command.ts",
+      "src/types/voice-sound-effect-create-command.ts",
+      "src/types/voice-speech-create-command.ts",
+      "src/types/voice-task-event.ts",
+      "src/types/voice-task-status.ts",
+      "src/types/voice-task.ts",
+      "src/types/voice-transcription-create-command.ts",
+      "src/types/voice-translation-create-command.ts",
       "tsconfig.json"
     ],
     "updatedGeneratedFiles": [],
@@ -82,7 +94,19 @@
           "src/types/media-resource.ts",
           "src/types/problem-detail.ts",
           "src/types/voice-api-result.ts",
-          "src/types/voice-operation-command.ts"
+          "src/types/voice-artifact.ts",
+          "src/types/voice-music-create-command.ts",
+          "src/types/voice-operation-command.ts",
+          "src/types/voice-operation-type.ts",
+          "src/types/voice-provider-options.ts",
+          "src/types/voice-provider-webhook-event-command.ts",
+          "src/types/voice-sound-effect-create-command.ts",
+          "src/types/voice-speech-create-command.ts",
+          "src/types/voice-task-event.ts",
+          "src/types/voice-task-status.ts",
+          "src/types/voice-task.ts",
+          "src/types/voice-transcription-create-command.ts",
+          "src/types/voice-translation-create-command.ts"
         ]
       },
       {

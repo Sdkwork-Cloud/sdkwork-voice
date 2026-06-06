@@ -1,6 +1,18 @@
 export * from './common';
 export type { VoiceApiResult } from './voice-api-result';
 export type { VoiceOperationCommand } from './voice-operation-command';
+export type { VoiceOperationType } from './voice-operation-type';
+export type { VoiceTaskStatus } from './voice-task-status';
+export type { VoiceProviderOptions } from './voice-provider-options';
+export type { VoiceSpeechCreateCommand } from './voice-speech-create-command';
+export type { VoiceTranscriptionCreateCommand } from './voice-transcription-create-command';
+export type { VoiceTranslationCreateCommand } from './voice-translation-create-command';
+export type { VoiceSoundEffectCreateCommand } from './voice-sound-effect-create-command';
+export type { VoiceMusicCreateCommand } from './voice-music-create-command';
+export type { VoiceProviderWebhookEventCommand } from './voice-provider-webhook-event-command';
+export type { VoiceTask } from './voice-task';
+export type { VoiceTaskEvent } from './voice-task-event';
+export type { VoiceArtifact } from './voice-artifact';
 export type { MediaResource } from './media-resource';
 export type { ProblemDetail } from './problem-detail';
 export type { FieldError } from './field-error';

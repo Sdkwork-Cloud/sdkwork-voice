@@ -244,8 +244,8 @@ export class HttpClient extends BaseHttpClient {
     const { body, headers, contentType, method = 'GET', ...rest } = options;
     const requestHeaders = this.applySdkworkAuthHeaders(headers);
     return withRetry(
-      () => execute.call(this, { 
-        url: path, 
+      () => execute.call(this, {
+        url: path,
         method,
         ...rest,
         body: this.buildRequestBody(body, contentType),

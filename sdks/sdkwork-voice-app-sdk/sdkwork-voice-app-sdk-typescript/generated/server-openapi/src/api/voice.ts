@@ -1,48 +1,144 @@
 import { appApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { VoiceApiResult, VoiceOperationCommand } from '../types';
+import type { VoiceApiResult, VoiceMusicCreateCommand, VoiceOperationCommand, VoiceSoundEffectCreateCommand, VoiceSpeechCreateCommand, VoiceTranscriptionCreateCommand, VoiceTranslationCreateCommand } from '../types';
 
 
 export class VoiceTranslationsApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
 /** Translations create. */
-  async create(body: VoiceOperationCommand): Promise<VoiceApiResult> {
+  async create(body: VoiceTranslationCreateCommand): Promise<VoiceApiResult> {
     return this.client.post<VoiceApiResult>(appApiPath(`/voice/translations`), body, undefined, undefined, 'application/json');
   }
 }
 
 export class VoiceTranscriptionsApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
 /** Transcriptions create. */
-  async create(body: VoiceOperationCommand): Promise<VoiceApiResult> {
+  async create(body: VoiceTranscriptionCreateCommand): Promise<VoiceApiResult> {
     return this.client.post<VoiceApiResult>(appApiPath(`/voice/transcriptions`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export interface VoiceTasksListParams {
+  page?: number;
+  pageSize?: number;
+  cursor?: string;
+  sort?: string;
+  q?: string;
+}
+
+export class VoiceTasksApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Tasks list. */
+  async list(params?: VoiceTasksListParams): Promise<VoiceApiResult> {
+    const query = buildQueryString([
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+      { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+      { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<VoiceApiResult>(appendQueryString(appApiPath(`/voice/tasks`), query));
+  }
+
+/** Tasks retrieve. */
+  async retrieve(taskId: string): Promise<VoiceApiResult> {
+    return this.client.get<VoiceApiResult>(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}`));
+  }
+
+/** Tasks cancel. */
+  async cancel(taskId: string, body: VoiceOperationCommand): Promise<VoiceApiResult> {
+    return this.client.post<VoiceApiResult>(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/cancel`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export interface VoiceTaskEventsListParams {
+  page?: number;
+  pageSize?: number;
+  cursor?: string;
+  sort?: string;
+  q?: string;
+}
+
+export class VoiceTaskEventsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Task Events list. */
+  async list(params?: VoiceTaskEventsListParams): Promise<VoiceApiResult> {
+    const query = buildQueryString([
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+      { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+      { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<VoiceApiResult>(appendQueryString(appApiPath(`/voice/task_events`), query));
   }
 }
 
 export class VoiceSpeechApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
 /** Speech create. */
-  async create(body: VoiceOperationCommand): Promise<VoiceApiResult> {
+  async create(body: VoiceSpeechCreateCommand): Promise<VoiceApiResult> {
     return this.client.post<VoiceApiResult>(appApiPath(`/voice/speech`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export class VoiceSoundEffectsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Sound Effects create. */
+  async create(body: VoiceSoundEffectCreateCommand): Promise<VoiceApiResult> {
+    return this.client.post<VoiceApiResult>(appApiPath(`/voice/sound_effects`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export class VoiceMusicApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Music create. */
+  async create(body: VoiceMusicCreateCommand): Promise<VoiceApiResult> {
+    return this.client.post<VoiceApiResult>(appApiPath(`/voice/music`), body, undefined, undefined, 'application/json');
   }
 }
 
@@ -56,9 +152,9 @@ export interface VoiceAudioAssetsListParams {
 
 export class VoiceAudioAssetsApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
@@ -83,16 +179,24 @@ export class VoiceAudioAssetsApi {
 export class VoiceApi {
   private client: HttpClient;
   public readonly audioAssets: VoiceAudioAssetsApi;
+  public readonly music: VoiceMusicApi;
+  public readonly soundEffects: VoiceSoundEffectsApi;
   public readonly speech: VoiceSpeechApi;
+  public readonly taskEvents: VoiceTaskEventsApi;
+  public readonly tasks: VoiceTasksApi;
   public readonly transcriptions: VoiceTranscriptionsApi;
   public readonly translations: VoiceTranslationsApi;
-  
-  constructor(client: HttpClient) { 
+
+  constructor(client: HttpClient) {
     this.client = client;
     this.audioAssets = new VoiceAudioAssetsApi(client);
+    this.music = new VoiceMusicApi(client);
+    this.soundEffects = new VoiceSoundEffectsApi(client);
     this.speech = new VoiceSpeechApi(client);
+    this.taskEvents = new VoiceTaskEventsApi(client);
+    this.tasks = new VoiceTasksApi(client);
     this.transcriptions = new VoiceTranscriptionsApi(client);
-    this.translations = new VoiceTranslationsApi(client); 
+    this.translations = new VoiceTranslationsApi(client);
   }
 
 }

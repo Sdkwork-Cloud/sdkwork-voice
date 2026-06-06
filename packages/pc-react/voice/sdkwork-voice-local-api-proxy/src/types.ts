@@ -7,10 +7,24 @@ export const VOICE_LOCAL_API_PROXY_DEFAULT_PORT = 21381 as const;
 
 export type VoiceLocalApiProxyMode = "desktop-local" | "server-managed";
 export type VoiceLocalApiClientProtocol = "openai-compatible" | "custom-http";
-export type VoiceLocalApiUpstreamProtocol = "openai-compatible" | "azure-openai" | "custom-http";
-export type VoiceLocalApiCapability = "audio-speech" | "audio-transcription" | "audio-translation";
+export type VoiceLocalApiUpstreamProtocol = "openai-compatible" | "azure-openai" | "claw-router" | "custom-http";
+export type VoiceLocalApiCapability =
+  | "audio-speech"
+  | "audio-transcription"
+  | "audio-translation"
+  | "audio-sound-effect"
+  | "audio-music"
+  | "audio-realtime-transcription"
+  | "audio-realtime-translation";
 export type VoiceLocalApiProxyManagedBy = "system" | "user";
-export type VoiceLocalApiProxyModelRole = "speech" | "transcription" | "translation" | "custom";
+export type VoiceLocalApiProxyModelRole =
+  | "speech"
+  | "transcription"
+  | "translation"
+  | "sound-effect"
+  | "music"
+  | "realtime"
+  | "custom";
 export type VoiceLocalApiProxyExposureTarget = "sdkwork" | "desktop-clients" | "internal-sdk" | "custom";
 export type VoiceLocalApiProxyHttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 

@@ -63,7 +63,7 @@
     },
     {
       "path": "src/api/voice.ts",
-      "sha256": "e4899927652fac442bf37b55dcebb3e995662abeeb3d821da295b9dd996b3fee"
+      "sha256": "9e826c70d30e75a6417a8d71edcc03b3fbd940544213bfd151f9a74eb6b00aa0"
     },
     {
       "path": "src/auth/index.ts",
@@ -71,7 +71,7 @@
     },
     {
       "path": "src/http/client.ts",
-      "sha256": "05609fa19c8bfded1765dadb8f875dae5dd3e6f11f13244f6239450dea8732fc"
+      "sha256": "32f5df2501769499b007c72d482862e4f82ca7ca4a3303556eae6b2271551eba"
     },
     {
       "path": "src/http/index.ts",
@@ -95,7 +95,7 @@
     },
     {
       "path": "src/types/index.ts",
-      "sha256": "3951afd1c5619479e359dbcb4e6094e99dd1cb24a206f9daeacff099cd553276"
+      "sha256": "37e6713c4b1333143c4c10f947904e2ef03991b8cc520141c1b93330389e7b4d"
     },
     {
       "path": "src/types/media-resource.ts",
@@ -110,8 +110,56 @@
       "sha256": "3dcd4f7d74307248c1297c74751367042f321d990a9eb198978945a328ea2683"
     },
     {
+      "path": "src/types/voice-artifact.ts",
+      "sha256": "020f25b8755ee66da11d6a0c6879d1a3792e7d514cab1e0faad4fdca757b7f23"
+    },
+    {
+      "path": "src/types/voice-music-create-command.ts",
+      "sha256": "2958fb8172ea497c69de1ede400eb99fe3548ece25aea74d8b0ebfabab5bfdc2"
+    },
+    {
       "path": "src/types/voice-operation-command.ts",
-      "sha256": "6a6f810538a37268b943e0940b5e75bc5887f3a5d87cfeb8cf4f700f57d728eb"
+      "sha256": "00ce6327e6ce7ffc92fe18f0161bdc718ae4252925be9288f9a956034c89cf0b"
+    },
+    {
+      "path": "src/types/voice-operation-type.ts",
+      "sha256": "6f0a4f32f3f65b50925d458e8af895ac84a4670b6f02d04001e581e5161d1410"
+    },
+    {
+      "path": "src/types/voice-provider-options.ts",
+      "sha256": "39c7c13358f5065ca67cd9a191bd0daeed41be7db1c91dc016a4952c2684d8ec"
+    },
+    {
+      "path": "src/types/voice-provider-webhook-event-command.ts",
+      "sha256": "bc7dde4f72e13140bc07ddc086ecb875f95f993fa7eb8466f720d65ee6f23e26"
+    },
+    {
+      "path": "src/types/voice-sound-effect-create-command.ts",
+      "sha256": "5e093bbf3b2e14de53e76e052c9deb488699004570c15aad9d8b23398b49eb93"
+    },
+    {
+      "path": "src/types/voice-speech-create-command.ts",
+      "sha256": "8495b06a229f027362d7f1e945a812668877f42e9cc5b4b90d566f04964322f7"
+    },
+    {
+      "path": "src/types/voice-task-event.ts",
+      "sha256": "c07cc70dbed647c503300954358e62f9e2ba7c9381282f952dd87d36c199317a"
+    },
+    {
+      "path": "src/types/voice-task-status.ts",
+      "sha256": "aa42bef9cb863c7e8d134520cdf047b2f4e6efb56b479e24341c3016eb298ae4"
+    },
+    {
+      "path": "src/types/voice-task.ts",
+      "sha256": "6b2128e1fb1647153104bf6871fb0dd3d998699d6aef94d7f4c7390609c68ac2"
+    },
+    {
+      "path": "src/types/voice-transcription-create-command.ts",
+      "sha256": "f6f32b709af88a185f8cc5f4ec845e2dd38dde730c2dad8477a128c747dc220c"
+    },
+    {
+      "path": "src/types/voice-translation-create-command.ts",
+      "sha256": "68034a4618cc42b5c9f38da7108da6e6f286a74d6e59231b1c9147c30010c015"
     },
     {
       "path": "tsconfig.json",

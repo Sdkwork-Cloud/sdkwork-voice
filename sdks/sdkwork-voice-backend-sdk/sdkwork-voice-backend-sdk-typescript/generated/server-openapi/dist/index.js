@@ -275,6 +275,70 @@ function backendApiPath(path) {
     return `${normalizedPrefix}${normalizedPath}`;
 }
 
+class VoiceWebhookDeliveriesApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Webhook Deliveries list. */
+    async list(params) {
+        const query = buildQueryString([
+            { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+            { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+            { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+            { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+            { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+        ]);
+        return this.client.get(appendQueryString(backendApiPath(`/voice/webhook_deliveries`), query));
+    }
+}
+class VoiceTasksApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Tasks list. */
+    async list(params) {
+        const query = buildQueryString([
+            { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+            { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+            { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+            { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+            { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+        ]);
+        return this.client.get(appendQueryString(backendApiPath(`/voice/tasks`), query));
+    }
+    /** Tasks retrieve. */
+    async retrieve(taskId) {
+        return this.client.get(backendApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}`));
+    }
+    /** Tasks cancel. */
+    async cancel(taskId, body) {
+        return this.client.post(backendApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/cancel`), body, undefined, undefined, 'application/json');
+    }
+    /** Tasks reconcile. */
+    async reconcile(taskId, body) {
+        return this.client.post(backendApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/reconcile`), body, undefined, undefined, 'application/json');
+    }
+    /** Tasks retry. */
+    async retry(taskId, body) {
+        return this.client.post(backendApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/retry`), body, undefined, undefined, 'application/json');
+    }
+}
+class VoiceTaskEventsApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Task Events list. */
+    async list(params) {
+        const query = buildQueryString([
+            { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+            { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+            { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+            { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+            { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+        ]);
+        return this.client.get(appendQueryString(backendApiPath(`/voice/task_events`), query));
+    }
+}
 class VoiceRequestLogsApi {
     constructor(client) {
         this.client = client;
@@ -289,6 +353,35 @@ class VoiceRequestLogsApi {
             { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
         ]);
         return this.client.get(appendQueryString(backendApiPath(`/voice/request_logs`), query));
+    }
+}
+class VoiceProviderWebhooksApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Provider Webhooks accept. */
+    async accept(providerCode, body) {
+        return this.client.post(backendApiPath(`/voice/provider_webhooks/${serializePathParameter(providerCode, { name: 'providerCode', style: 'simple', explode: false })}`), body, undefined, undefined, 'application/json');
+    }
+}
+class VoiceProviderWebhookEventsApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Provider Webhook Events list. */
+    async list(params) {
+        const query = buildQueryString([
+            { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+            { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+            { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+            { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+            { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+        ]);
+        return this.client.get(appendQueryString(backendApiPath(`/voice/provider_webhook_events`), query));
+    }
+    /** Provider Webhook Events replay. */
+    async replay(eventId, body) {
+        return this.client.post(backendApiPath(`/voice/provider_webhook_events/${serializePathParameter(eventId, { name: 'eventId', style: 'simple', explode: false })}/replay`), body, undefined, undefined, 'application/json');
     }
 }
 class VoiceProviderRoutesApi {
@@ -352,7 +445,12 @@ class VoiceApi {
         this.client = client;
         this.audioArtifacts = new VoiceAudioArtifactsApi(client);
         this.providerRoutes = new VoiceProviderRoutesApi(client);
+        this.providerWebhookEvents = new VoiceProviderWebhookEventsApi(client);
+        this.providerWebhooks = new VoiceProviderWebhooksApi(client);
         this.requestLogs = new VoiceRequestLogsApi(client);
+        this.taskEvents = new VoiceTaskEventsApi(client);
+        this.tasks = new VoiceTasksApi(client);
+        this.webhookDeliveries = new VoiceWebhookDeliveriesApi(client);
     }
 }
 function createVoiceApi(client) {

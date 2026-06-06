@@ -3,7 +3,7 @@
   "info": {
     "title": "SDKWork Voice App API",
     "version": "1.0.0",
-    "description": "App/client contract for SDKWork Voice speech, transcription, translation, and audio asset browsing.",
+    "description": "App/client contract for SDKWork Voice speech, transcription, translation, sound-effect generation, music generation, task state, and audio asset browsing.",
     "x-sdkwork-api-authority": "sdkwork-voice-app-api",
     "x-sdkwork-sdk-family": "sdkwork-voice-app-sdk",
     "x-sdkwork-audience": "App, desktop, mobile, H5, and user-facing voice clients"
@@ -273,6 +273,216 @@
         "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
       }
     },
+    "/app/v3/api/voice/music": {
+      "post": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Music create.",
+        "operationId": "music.create",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceApiResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-voice",
+        "x-sdkwork-api-authority": "sdkwork-voice-app-api",
+        "x-sdkwork-domain": "voice",
+        "x-sdkwork-resource": "music",
+        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-server-request-id": true,
+        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoiceMusicCreateCommand"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/app/v3/api/voice/sound_effects": {
+      "post": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Sound Effects create.",
+        "operationId": "soundEffects.create",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceApiResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-voice",
+        "x-sdkwork-api-authority": "sdkwork-voice-app-api",
+        "x-sdkwork-domain": "voice",
+        "x-sdkwork-resource": "soundEffects",
+        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-server-request-id": true,
+        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoiceSoundEffectCreateCommand"
+              }
+            }
+          }
+        }
+      }
+    },
     "/app/v3/api/voice/speech": {
       "post": {
         "tags": [
@@ -363,6 +573,506 @@
         "x-sdkwork-api-authority": "sdkwork-voice-app-api",
         "x-sdkwork-domain": "voice",
         "x-sdkwork-resource": "speech",
+        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-server-request-id": true,
+        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoiceSpeechCreateCommand"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/app/v3/api/voice/task_events": {
+      "get": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Task Events list.",
+        "operationId": "taskEvents.list",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceApiResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-voice",
+        "x-sdkwork-api-authority": "sdkwork-voice-app-api",
+        "x-sdkwork-domain": "voice",
+        "x-sdkwork-resource": "taskEvents",
+        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-server-request-id": true,
+        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+      }
+    },
+    "/app/v3/api/voice/tasks": {
+      "get": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Tasks list.",
+        "operationId": "tasks.list",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceApiResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-voice",
+        "x-sdkwork-api-authority": "sdkwork-voice-app-api",
+        "x-sdkwork-domain": "voice",
+        "x-sdkwork-resource": "tasks",
+        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-server-request-id": true,
+        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+      }
+    },
+    "/app/v3/api/voice/tasks/{taskId}": {
+      "get": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Tasks retrieve.",
+        "operationId": "tasks.retrieve",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceApiResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-voice",
+        "x-sdkwork-api-authority": "sdkwork-voice-app-api",
+        "x-sdkwork-domain": "voice",
+        "x-sdkwork-resource": "tasks",
+        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-server-request-id": true,
+        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+      }
+    },
+    "/app/v3/api/voice/tasks/{taskId}/cancel": {
+      "post": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Tasks cancel.",
+        "operationId": "tasks.cancel",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceApiResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-voice",
+        "x-sdkwork-api-authority": "sdkwork-voice-app-api",
+        "x-sdkwork-domain": "voice",
+        "x-sdkwork-resource": "tasks",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
@@ -476,7 +1186,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/VoiceOperationCommand"
+                "$ref": "#/components/schemas/VoiceTranscriptionCreateCommand"
               }
             }
           }
@@ -581,7 +1291,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/VoiceOperationCommand"
+                "$ref": "#/components/schemas/VoiceTranslationCreateCommand"
               }
             }
           }
@@ -635,8 +1345,505 @@
       "VoiceOperationCommand": {
         "type": "object",
         "additionalProperties": true,
-        "description": "Operation-specific command payload for SDKWork Voice speech, transcription, translation, provider route, and artifact operations.",
+        "description": "Operation-specific command payload for SDKWork Voice administrative operations and provider extension commands.",
         "properties": {
+          "mediaResource": {
+            "$ref": "#/components/schemas/MediaResource"
+          }
+        }
+      },
+      "VoiceOperationType": {
+        "type": "string",
+        "enum": [
+          "speech",
+          "transcription",
+          "translation",
+          "sound_effect",
+          "music",
+          "realtime_transcription",
+          "realtime_translation"
+        ]
+      },
+      "VoiceTaskStatus": {
+        "type": "string",
+        "enum": [
+          "queued",
+          "routing",
+          "submitted",
+          "running",
+          "succeeded",
+          "failed",
+          "cancelled",
+          "expired",
+          "needs_review"
+        ]
+      },
+      "VoiceProviderOptions": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "providerCode": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "providerRouteId": {
+            "type": "string"
+          },
+          "providerOptions": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "VoiceSpeechCreateCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "input",
+          "model",
+          "voice"
+        ],
+        "properties": {
+          "input": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "model": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "voice": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "responseFormat": {
+            "type": "string",
+            "enum": [
+              "aac",
+              "flac",
+              "mp3",
+              "opus",
+              "pcm",
+              "wav"
+            ]
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 0.25,
+            "maximum": 4
+          },
+          "instructions": {
+            "type": "string"
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "callbackUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/VoiceProviderOptions"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "VoiceTranscriptionCreateCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "file",
+          "model"
+        ],
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/MediaResource"
+          },
+          "model": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "language": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "responseFormat": {
+            "type": "string",
+            "enum": [
+              "json",
+              "text",
+              "srt",
+              "verbose_json",
+              "vtt"
+            ]
+          },
+          "timestampGranularities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "word",
+                "segment"
+              ]
+            }
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "callbackUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/VoiceProviderOptions"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "VoiceTranslationCreateCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "file",
+          "model"
+        ],
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/MediaResource"
+          },
+          "model": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "sourceLanguage": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "targetLanguage": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "responseFormat": {
+            "type": "string",
+            "enum": [
+              "json",
+              "text",
+              "srt",
+              "verbose_json",
+              "vtt"
+            ]
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "callbackUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/VoiceProviderOptions"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "VoiceSoundEffectCreateCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "prompt",
+          "model"
+        ],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "minLength": 1
+          },
+          "model": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "durationSeconds": {
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 120
+          },
+          "loop": {
+            "type": "boolean"
+          },
+          "promptInfluence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "responseFormat": {
+            "type": "string",
+            "enum": [
+              "mp3",
+              "wav"
+            ]
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "callbackUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/VoiceProviderOptions"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "VoiceMusicCreateCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "prompt",
+          "model"
+        ],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "minLength": 1
+          },
+          "model": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tags": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "negativeTags": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "durationSeconds": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 600
+          },
+          "instrumental": {
+            "type": "boolean"
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "callbackUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/VoiceProviderOptions"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "VoiceProviderWebhookEventCommand": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "payload"
+        ],
+        "properties": {
+          "eventId": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "providerTaskId": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "signature": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "VoiceTask": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "operationType",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "operationType": {
+            "$ref": "#/components/schemas/VoiceOperationType"
+          },
+          "status": {
+            "$ref": "#/components/schemas/VoiceTaskStatus"
+          },
+          "progress": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "providerCode": {
+            "type": "string"
+          },
+          "providerTaskId": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VoiceArtifact"
+            }
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "VoiceTaskEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "taskId",
+          "eventType",
+          "createdAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "taskId": {
+            "type": "string"
+          },
+          "eventType": {
+            "type": "string"
+          },
+          "fromStatus": {
+            "$ref": "#/components/schemas/VoiceTaskStatus"
+          },
+          "toStatus": {
+            "$ref": "#/components/schemas/VoiceTaskStatus"
+          },
+          "providerEventId": {
+            "type": "string"
+          },
+          "providerTaskId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "VoiceArtifact": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "taskId",
+          "kind",
+          "mediaResource"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "taskId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "audio",
+              "transcript",
+              "translation",
+              "sfx",
+              "music"
+            ]
+          },
+          "providerCode": {
+            "type": "string"
+          },
+          "providerAssetId": {
+            "type": "string"
+          },
+          "durationSeconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "transcriptText": {
+            "type": "string"
+          },
+          "translationText": {
+            "type": "string"
+          },
           "mediaResource": {
             "$ref": "#/components/schemas/MediaResource"
           }

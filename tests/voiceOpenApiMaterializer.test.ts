@@ -18,7 +18,13 @@ describe("sdkwork-voice OpenAPI materializer", () => {
     expect(appRoutes.map((route) => route.operationId)).toEqual([
       "audioAssets.list",
       "audioAssets.retrieve",
+      "music.create",
+      "soundEffects.create",
       "speech.create",
+      "taskEvents.list",
+      "tasks.list",
+      "tasks.retrieve",
+      "tasks.cancel",
       "transcriptions.create",
       "translations.create",
     ]);
@@ -31,7 +37,17 @@ describe("sdkwork-voice OpenAPI materializer", () => {
       "providerRoutes.delete",
       "providerRoutes.retrieve",
       "providerRoutes.update",
+      "providerWebhookEvents.list",
+      "providerWebhookEvents.replay",
+      "providerWebhooks.accept",
       "requestLogs.list",
+      "taskEvents.list",
+      "tasks.list",
+      "tasks.retrieve",
+      "tasks.cancel",
+      "tasks.reconcile",
+      "tasks.retry",
+      "webhookDeliveries.list",
     ]);
     expect(appRoutes.every((route) => route.path.startsWith("/app/v3/api/voice"))).toBe(true);
     expect(backendRoutes.every((route) => route.path.startsWith("/backend/v3/api/voice"))).toBe(true);
@@ -63,7 +79,39 @@ describe("sdkwork-voice OpenAPI materializer", () => {
     expect(appOpenApi.paths["/app/v3/api/voice/speech"]?.post?.operationId).toBe("speech.create");
     expect(appOpenApi.paths["/app/v3/api/voice/transcriptions"]?.post?.operationId).toBe("transcriptions.create");
     expect(appOpenApi.paths["/app/v3/api/voice/translations"]?.post?.operationId).toBe("translations.create");
+    expect(appOpenApi.paths["/app/v3/api/voice/sound_effects"]?.post?.operationId).toBe("soundEffects.create");
+    expect(appOpenApi.paths["/app/v3/api/voice/music"]?.post?.operationId).toBe("music.create");
+    expect(appOpenApi.paths["/app/v3/api/voice/tasks/{taskId}"]?.get?.operationId).toBe("tasks.retrieve");
+    expect(backendOpenApi.paths["/backend/v3/api/voice/provider_webhooks/{providerCode}"]?.post?.operationId).toBe("providerWebhooks.accept");
+    expect(backendOpenApi.paths["/backend/v3/api/voice/tasks/{taskId}/reconcile"]?.post?.operationId).toBe("tasks.reconcile");
+    expect(requestBodySchemaRef(appOpenApi.paths["/app/v3/api/voice/speech"]?.post)).toBe("#/components/schemas/VoiceSpeechCreateCommand");
+    expect(requestBodySchemaRef(appOpenApi.paths["/app/v3/api/voice/sound_effects"]?.post)).toBe("#/components/schemas/VoiceSoundEffectCreateCommand");
+    expect(requestBodySchemaRef(appOpenApi.paths["/app/v3/api/voice/music"]?.post)).toBe("#/components/schemas/VoiceMusicCreateCommand");
     expect(appOpenApi.components.schemas.MediaResource.properties.kind.enum).toEqual(["audio", "voice"]);
+    expect(schemaObject(appOpenApi.components.schemas.VoiceOperationType).enum).toEqual([
+      "speech",
+      "transcription",
+      "translation",
+      "sound_effect",
+      "music",
+      "realtime_transcription",
+      "realtime_translation",
+    ]);
+    expect(schemaObject(appOpenApi.components.schemas.VoiceTaskStatus).enum).toEqual([
+      "queued",
+      "routing",
+      "submitted",
+      "running",
+      "succeeded",
+      "failed",
+      "cancelled",
+      "expired",
+      "needs_review",
+    ]);
+    expect(schemaObject(appOpenApi.components.schemas.VoiceTask).required).toEqual(
+      expect.arrayContaining(["id", "operationType", "status", "createdAt", "updatedAt"]),
+    );
+    expect(schemaObject(schemaObject(appOpenApi.components.schemas.VoiceArtifact).properties).mediaResource.$ref).toBe("#/components/schemas/MediaResource");
   });
 
   it("writes deterministic JSON-compatible OpenAPI documents to sdkgen paths", async () => {
@@ -81,3 +129,13 @@ describe("sdkwork-voice OpenAPI materializer", () => {
     }
   });
 });
+
+function schemaObject(value: unknown) {
+  return value as Record<string, any>;
+}
+
+function requestBodySchemaRef(operation: unknown) {
+  return schemaObject(
+    schemaObject(schemaObject(operation).requestBody).content,
+  )["application/json"].schema.$ref;
+}

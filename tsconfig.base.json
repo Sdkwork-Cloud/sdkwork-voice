@@ -15,6 +15,9 @@
       "@sdkwork/voice-local-api-proxy": [
         "packages/pc-react/voice/sdkwork-voice-local-api-proxy/src/index.ts"
       ],
+      "@sdkwork/voice-provider-adapter": [
+        "packages/common/voice/sdkwork-voice-provider-adapter/src/index.ts"
+      ],
       "@sdkwork/voice-app-sdk": [
         "sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/generated/server-openapi/src/index.ts"
       ],

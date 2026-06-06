@@ -293,6 +293,46 @@ class VoiceTranscriptionsApi {
         return this.client.post(appApiPath(`/voice/transcriptions`), body, undefined, undefined, 'application/json');
     }
 }
+class VoiceTasksApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Tasks list. */
+    async list(params) {
+        const query = buildQueryString([
+            { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+            { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+            { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+            { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+            { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+        ]);
+        return this.client.get(appendQueryString(appApiPath(`/voice/tasks`), query));
+    }
+    /** Tasks retrieve. */
+    async retrieve(taskId) {
+        return this.client.get(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}`));
+    }
+    /** Tasks cancel. */
+    async cancel(taskId, body) {
+        return this.client.post(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/cancel`), body, undefined, undefined, 'application/json');
+    }
+}
+class VoiceTaskEventsApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Task Events list. */
+    async list(params) {
+        const query = buildQueryString([
+            { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+            { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+            { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+            { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+            { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+        ]);
+        return this.client.get(appendQueryString(appApiPath(`/voice/task_events`), query));
+    }
+}
 class VoiceSpeechApi {
     constructor(client) {
         this.client = client;
@@ -300,6 +340,24 @@ class VoiceSpeechApi {
     /** Speech create. */
     async create(body) {
         return this.client.post(appApiPath(`/voice/speech`), body, undefined, undefined, 'application/json');
+    }
+}
+class VoiceSoundEffectsApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Sound Effects create. */
+    async create(body) {
+        return this.client.post(appApiPath(`/voice/sound_effects`), body, undefined, undefined, 'application/json');
+    }
+}
+class VoiceMusicApi {
+    constructor(client) {
+        this.client = client;
+    }
+    /** Music create. */
+    async create(body) {
+        return this.client.post(appApiPath(`/voice/music`), body, undefined, undefined, 'application/json');
     }
 }
 class VoiceAudioAssetsApi {
@@ -319,14 +377,18 @@ class VoiceAudioAssetsApi {
     }
     /** Audio Assets retrieve. */
     async retrieve(audioAssetId) {
-        return this.client.get(appApiPath(`/voice/audio_assets/${serializePathParameter(audioAssetId, { name: 'audioAssetId'})}`));
+        return this.client.get(appApiPath(`/voice/audio_assets/${serializePathParameter(audioAssetId, { name: 'audioAssetId', style: 'simple', explode: false })}`));
     }
 }
 class VoiceApi {
     constructor(client) {
         this.client = client;
         this.audioAssets = new VoiceAudioAssetsApi(client);
+        this.music = new VoiceMusicApi(client);
+        this.soundEffects = new VoiceSoundEffectsApi(client);
         this.speech = new VoiceSpeechApi(client);
+        this.taskEvents = new VoiceTaskEventsApi(client);
+        this.tasks = new VoiceTasksApi(client);
         this.transcriptions = new VoiceTranscriptionsApi(client);
         this.translations = new VoiceTranslationsApi(client);
     }
@@ -345,32 +407,49 @@ function serializePathParameter(value, spec) {
     if (value === undefined || value === null) {
         return '';
     }
+    const style = spec.style || 'simple';
     if (Array.isArray(value)) {
-        return serializePathArray(spec.name, value);
+        return serializePathArray(spec.name, value, style, spec.explode);
     }
     if (typeof value === 'object') {
-        return serializePathObject(spec.name, value);
+        return serializePathObject(spec.name, value, style, spec.explode);
     }
-    return pathPrefix() + encodePathValue(serializePathPrimitive(value));
+    return pathPrefix(spec.name, style) + encodePathValue(serializePathPrimitive(value));
 }
 function serializePathArray(name, values, style, explode) {
     const serialized = values
         .filter((item) => item !== undefined && item !== null)
         .map((item) => encodePathValue(serializePathPrimitive(item)));
     if (serialized.length === 0) {
-        return pathPrefix();
+        return pathPrefix(name, style);
     }
-    return pathPrefix() + serialized.join(',');
+    if (style === 'matrix') {
+        return explode
+            ? serialized.map((item) => `;${name}=${item}`).join('')
+            : `;${name}=${serialized.join(',')}`;
+    }
+    return pathPrefix(name, style) + serialized.join(explode ? '.' : ',');
 }
 function serializePathObject(name, value, style, explode) {
     const entries = Object.entries(value).filter(([, entryValue]) => entryValue !== undefined && entryValue !== null);
     if (entries.length === 0) {
-        return pathPrefix();
+        return pathPrefix(name, style);
     }
-    const serialized = entries.flatMap(([key, entryValue]) => [encodePathValue(key), encodePathValue(serializePathPrimitive(entryValue))]).join(',');
-    return pathPrefix() + serialized;
+    if (style === 'matrix') {
+        return explode
+            ? entries.map(([key, entryValue]) => `;${encodePathValue(key)}=${encodePathValue(serializePathPrimitive(entryValue))}`).join('')
+            : `;${name}=${entries.flatMap(([key, entryValue]) => [encodePathValue(key), encodePathValue(serializePathPrimitive(entryValue))]).join(',')}`;
+    }
+    const serialized = explode
+        ? entries.map(([key, entryValue]) => `${encodePathValue(key)}=${encodePathValue(serializePathPrimitive(entryValue))}`).join(style === 'label' ? '.' : ',')
+        : entries.flatMap(([key, entryValue]) => [encodePathValue(key), encodePathValue(serializePathPrimitive(entryValue))]).join(',');
+    return pathPrefix(name, style) + serialized;
 }
 function pathPrefix(name, style, _objectValue) {
+    if (style === 'label')
+        return '.';
+    if (style === 'matrix')
+        return `;${name}`;
     return '';
 }
 function encodePathValue(value) {

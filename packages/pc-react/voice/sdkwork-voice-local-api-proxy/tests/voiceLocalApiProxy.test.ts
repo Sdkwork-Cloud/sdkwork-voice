@@ -33,14 +33,20 @@ describe("@sdkwork/voice-local-api-proxy", () => {
 
     expectTypeOf<VoiceLocalApiProxyMode>().toEqualTypeOf<"desktop-local" | "server-managed">();
     expectTypeOf<VoiceLocalApiCapability>().toEqualTypeOf<
-      "audio-speech" | "audio-transcription" | "audio-translation"
+      | "audio-speech"
+      | "audio-transcription"
+      | "audio-translation"
+      | "audio-sound-effect"
+      | "audio-music"
+      | "audio-realtime-transcription"
+      | "audio-realtime-translation"
     >();
     expectTypeOf<VoiceRouteCapabilityBinding["capability"]>().toEqualTypeOf<VoiceLocalApiCapability>();
     expectTypeOf<VoiceLocalApiProxyModelBinding["role"]>().toEqualTypeOf<
-      "speech" | "transcription" | "translation" | "custom"
+      "speech" | "transcription" | "translation" | "sound-effect" | "music" | "realtime" | "custom"
     >();
     expectTypeOf<VoiceProxyUpstreamIdentity["protocolKind"]>().toEqualTypeOf<
-      "openai-compatible" | "azure-openai" | "custom-http"
+      "openai-compatible" | "azure-openai" | "claw-router" | "custom-http"
     >();
   });
 
@@ -104,11 +110,18 @@ describe("@sdkwork/voice-local-api-proxy", () => {
     ]);
   });
 
-  it("registers only speech, transcription, and translation operations", () => {
+  it("registers speech, transcription, translation, sound-effect, music, realtime, and provider task operations", () => {
     expect(createVoiceLocalApiProxyOperationCatalog().map((operation) => operation.id)).toEqual([
       "openai.v1.audio.speech.create",
       "openai.v1.audio.transcriptions.create",
       "openai.v1.audio.translations.create",
+      "openai.v1.realtime.transcription_sessions.create",
+      "openai.v1.realtime.translations.create",
+      "suno.v1.music.generations.create",
+      "suno.v1.music.generations.retrieve",
+      "elevenlabs.v1.sound_generation.create",
+      "volcengine.api.v3.contents.generations.tasks.create",
+      "volcengine.api.v3.contents.generations.tasks.retrieve",
     ]);
     expect(findVoiceLocalApiProxyOperation("openai.v1.audio.transcriptions.create")).toMatchObject({
       capability: "audio-transcription",
@@ -129,12 +142,27 @@ describe("@sdkwork/voice-local-api-proxy", () => {
     ]);
     expect(createVoiceLocalApiProxyRouteGroups()).toEqual([
       {
-        capabilityFamilies: ["audio-speech", "audio-transcription", "audio-translation"],
+        capabilityFamilies: [
+          "audio-speech",
+          "audio-transcription",
+          "audio-translation",
+          "audio-sound-effect",
+          "audio-music",
+          "audio-realtime-transcription",
+          "audio-realtime-translation",
+        ],
         id: "voice-audio",
         operationIds: [
           "openai.v1.audio.speech.create",
           "openai.v1.audio.transcriptions.create",
           "openai.v1.audio.translations.create",
+          "openai.v1.realtime.transcription_sessions.create",
+          "openai.v1.realtime.translations.create",
+          "suno.v1.music.generations.create",
+          "suno.v1.music.generations.retrieve",
+          "elevenlabs.v1.sound_generation.create",
+          "volcengine.api.v3.contents.generations.tasks.create",
+          "volcengine.api.v3.contents.generations.tasks.retrieve",
         ],
       },
     ]);
@@ -147,7 +175,10 @@ describe("@sdkwork/voice-local-api-proxy", () => {
       "vlap_routes",
       "vlap_route_capabilities",
       "vlap_request_logs",
+      "vlap_generation_tasks",
+      "vlap_task_events",
       "vlap_audio_artifacts",
+      "vlap_provider_webhook_events",
     ]);
 
     const sqlite = buildVoiceLocalApiProxySqliteSchema({
@@ -157,6 +188,9 @@ describe("@sdkwork/voice-local-api-proxy", () => {
     const sqliteDdl = sqlite.statements.join("\n");
     expect(sqlite.databasePath).toBe("C:/sdkwork/data/voice-local-api-proxy.db");
     expect(sqliteDdl).toContain("CREATE TABLE IF NOT EXISTS vlap_audio_artifacts");
+    expect(sqliteDdl).toContain("CREATE TABLE IF NOT EXISTS vlap_generation_tasks");
+    expect(sqliteDdl).toContain("provider_task_id TEXT");
+    expect(sqliteDdl).toContain("CREATE INDEX IF NOT EXISTS idx_vlap_generation_tasks_status");
     expect(sqliteDdl).toContain("media_resource_json TEXT NOT NULL");
 
     const postgresql = buildVoiceLocalApiProxyPostgresqlSchema({
@@ -168,6 +202,8 @@ describe("@sdkwork/voice-local-api-proxy", () => {
     expect(postgresql.schemaName).toBe("voice_local_api_proxy");
     expect(pgDdl).toContain("CREATE SCHEMA IF NOT EXISTS voice_local_api_proxy;");
     expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS voice_local_api_proxy.vlap_audio_artifacts");
+    expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS voice_local_api_proxy.vlap_generation_tasks");
+    expect(pgDdl).toContain("provider_task_id TEXT");
     expect(pgDdl).toContain("media_resource_json JSONB NOT NULL");
   });
 
@@ -202,5 +238,47 @@ describe("@sdkwork/voice-local-api-proxy", () => {
 
     expect(config.routes[0]?.capabilities[0]?.capability).toBe("audio-transcription");
     expect(config.routes[0]?.modelBindings[0]?.role).toBe("transcription");
+  });
+
+  it("keeps sound-effect and music route capabilities normalized", () => {
+    const config = normalizeVoiceLocalApiProxyConfig({
+      routes: [
+        {
+          capabilities: [
+            {
+              capability: "audio-sound-effect",
+              operationSet: ["elevenlabs.v1.sound_generation.create"],
+            },
+            {
+              capability: "audio-music",
+              operationSet: ["suno.v1.music.generations.create", "suno.v1.music.generations.retrieve"],
+            },
+          ],
+          clientProtocol: "custom-http",
+          id: "voice-generation-provider",
+          modelBindings: [
+            { capability: "audio-sound-effect", modelId: "eleven_text_to_sound_v2", role: "sound-effect" },
+            { capability: "audio-music", modelId: "suno-v5", role: "music" },
+          ],
+          providerId: "claw-router",
+          upstream: {
+            baseUrl: "http://localhost:8080",
+            protocolKind: "custom-http",
+            providerId: "claw-router",
+          },
+          upstreamProtocol: "custom-http",
+        },
+      ],
+      storage: {
+        dialect: "sqlite",
+        sqlitePath: `C:/sdkwork/data/${VOICE_LOCAL_API_PROXY_DEFAULT_SQLITE_FILENAME}`,
+      },
+    });
+
+    expect(config.routes[0]?.capabilities.map((capability) => capability.capability)).toEqual([
+      "audio-sound-effect",
+      "audio-music",
+    ]);
+    expect(config.routes[0]?.modelBindings.map((binding) => binding.role)).toEqual(["sound-effect", "music"]);
   });
 });

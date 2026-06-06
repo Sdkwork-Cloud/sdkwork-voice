@@ -1,22 +1,64 @@
 import type { HttpClient } from '../http/client';
-import type { VoiceApiResult, VoiceOperationCommand } from '../types';
+import type { VoiceApiResult, VoiceMusicCreateCommand, VoiceOperationCommand, VoiceSoundEffectCreateCommand, VoiceSpeechCreateCommand, VoiceTranscriptionCreateCommand, VoiceTranslationCreateCommand } from '../types';
 export declare class VoiceTranslationsApi {
     private client;
     constructor(client: HttpClient);
     /** Translations create. */
-    create(body: VoiceOperationCommand): Promise<VoiceApiResult>;
+    create(body: VoiceTranslationCreateCommand): Promise<VoiceApiResult>;
 }
 export declare class VoiceTranscriptionsApi {
     private client;
     constructor(client: HttpClient);
     /** Transcriptions create. */
-    create(body: VoiceOperationCommand): Promise<VoiceApiResult>;
+    create(body: VoiceTranscriptionCreateCommand): Promise<VoiceApiResult>;
+}
+export interface VoiceTasksListParams {
+    page?: number;
+    pageSize?: number;
+    cursor?: string;
+    sort?: string;
+    q?: string;
+}
+export declare class VoiceTasksApi {
+    private client;
+    constructor(client: HttpClient);
+    /** Tasks list. */
+    list(params?: VoiceTasksListParams): Promise<VoiceApiResult>;
+    /** Tasks retrieve. */
+    retrieve(taskId: string): Promise<VoiceApiResult>;
+    /** Tasks cancel. */
+    cancel(taskId: string, body: VoiceOperationCommand): Promise<VoiceApiResult>;
+}
+export interface VoiceTaskEventsListParams {
+    page?: number;
+    pageSize?: number;
+    cursor?: string;
+    sort?: string;
+    q?: string;
+}
+export declare class VoiceTaskEventsApi {
+    private client;
+    constructor(client: HttpClient);
+    /** Task Events list. */
+    list(params?: VoiceTaskEventsListParams): Promise<VoiceApiResult>;
 }
 export declare class VoiceSpeechApi {
     private client;
     constructor(client: HttpClient);
     /** Speech create. */
-    create(body: VoiceOperationCommand): Promise<VoiceApiResult>;
+    create(body: VoiceSpeechCreateCommand): Promise<VoiceApiResult>;
+}
+export declare class VoiceSoundEffectsApi {
+    private client;
+    constructor(client: HttpClient);
+    /** Sound Effects create. */
+    create(body: VoiceSoundEffectCreateCommand): Promise<VoiceApiResult>;
+}
+export declare class VoiceMusicApi {
+    private client;
+    constructor(client: HttpClient);
+    /** Music create. */
+    create(body: VoiceMusicCreateCommand): Promise<VoiceApiResult>;
 }
 export interface VoiceAudioAssetsListParams {
     page?: number;
@@ -36,7 +78,11 @@ export declare class VoiceAudioAssetsApi {
 export declare class VoiceApi {
     private client;
     readonly audioAssets: VoiceAudioAssetsApi;
+    readonly music: VoiceMusicApi;
+    readonly soundEffects: VoiceSoundEffectsApi;
     readonly speech: VoiceSpeechApi;
+    readonly taskEvents: VoiceTaskEventsApi;
+    readonly tasks: VoiceTasksApi;
     readonly transcriptions: VoiceTranscriptionsApi;
     readonly translations: VoiceTranslationsApi;
     constructor(client: HttpClient);

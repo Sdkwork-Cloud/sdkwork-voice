@@ -12,7 +12,7 @@
   "mode": "apply",
   "hasChanges": true,
   "hasDestructiveChanges": false,
-  "changeFingerprint": "22d7c68dc220093ff7289e92a15ed4e8217d3178f5fdad6315346a0b76b01186",
+  "changeFingerprint": "885fb8296d2c44e006450370c202827cd14b54697444bf252f16712acbea6f24",
   "changeImpact": {
     "schemaVersion": 1,
     "areas": [
@@ -46,7 +46,19 @@
           "src/types/media-resource.ts",
           "src/types/problem-detail.ts",
           "src/types/voice-api-result.ts",
-          "src/types/voice-operation-command.ts"
+          "src/types/voice-artifact.ts",
+          "src/types/voice-music-create-command.ts",
+          "src/types/voice-operation-command.ts",
+          "src/types/voice-operation-type.ts",
+          "src/types/voice-provider-options.ts",
+          "src/types/voice-provider-webhook-event-command.ts",
+          "src/types/voice-sound-effect-create-command.ts",
+          "src/types/voice-speech-create-command.ts",
+          "src/types/voice-task-event.ts",
+          "src/types/voice-task-status.ts",
+          "src/types/voice-task.ts",
+          "src/types/voice-transcription-create-command.ts",
+          "src/types/voice-translation-create-command.ts"
         ]
       },
       {
@@ -213,20 +225,20 @@
     "localVersions": []
   },
   "stats": {
-    "totalFiles": 29,
-    "models": 5,
+    "totalFiles": 41,
+    "models": 17,
     "apis": 1,
-    "types": 7
+    "types": 19
   },
   "warnings": [],
   "syncSummary": {
     "dryRun": false,
-    "writtenFiles": 29,
+    "writtenFiles": 41,
     "skippedScaffoldFiles": 0,
     "skippedUnchangedGeneratedFiles": 0,
     "deletedGeneratedFiles": 0,
     "changeSummaryPath": ".sdkwork/sdkwork-generator-changes.json",
-    "changeFingerprint": "22d7c68dc220093ff7289e92a15ed4e8217d3178f5fdad6315346a0b76b01186",
+    "changeFingerprint": "885fb8296d2c44e006450370c202827cd14b54697444bf252f16712acbea6f24",
     "changes": {
       "createdGeneratedFiles": [
         "bin/publish-core.mjs",
@@ -254,7 +266,19 @@
         "src/types/media-resource.ts",
         "src/types/problem-detail.ts",
         "src/types/voice-api-result.ts",
+        "src/types/voice-artifact.ts",
+        "src/types/voice-music-create-command.ts",
         "src/types/voice-operation-command.ts",
+        "src/types/voice-operation-type.ts",
+        "src/types/voice-provider-options.ts",
+        "src/types/voice-provider-webhook-event-command.ts",
+        "src/types/voice-sound-effect-create-command.ts",
+        "src/types/voice-speech-create-command.ts",
+        "src/types/voice-task-event.ts",
+        "src/types/voice-task-status.ts",
+        "src/types/voice-task.ts",
+        "src/types/voice-transcription-create-command.ts",
+        "src/types/voice-translation-create-command.ts",
         "tsconfig.json"
       ],
       "updatedGeneratedFiles": [],
@@ -300,7 +324,19 @@
             "src/types/media-resource.ts",
             "src/types/problem-detail.ts",
             "src/types/voice-api-result.ts",
-            "src/types/voice-operation-command.ts"
+            "src/types/voice-artifact.ts",
+            "src/types/voice-music-create-command.ts",
+            "src/types/voice-operation-command.ts",
+            "src/types/voice-operation-type.ts",
+            "src/types/voice-provider-options.ts",
+            "src/types/voice-provider-webhook-event-command.ts",
+            "src/types/voice-sound-effect-create-command.ts",
+            "src/types/voice-speech-create-command.ts",
+            "src/types/voice-task-event.ts",
+            "src/types/voice-task-status.ts",
+            "src/types/voice-task.ts",
+            "src/types/voice-transcription-create-command.ts",
+            "src/types/voice-translation-create-command.ts"
           ]
         },
         {

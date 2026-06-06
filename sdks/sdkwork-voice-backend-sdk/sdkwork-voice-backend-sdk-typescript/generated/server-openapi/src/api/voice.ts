@@ -1,8 +1,115 @@
 import { backendApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { VoiceApiResult, VoiceOperationCommand } from '../types';
+import type { VoiceApiResult, VoiceOperationCommand, VoiceProviderWebhookEventCommand } from '../types';
 
+
+export interface VoiceWebhookDeliveriesListParams {
+  page?: number;
+  pageSize?: number;
+  cursor?: string;
+  sort?: string;
+  q?: string;
+}
+
+export class VoiceWebhookDeliveriesApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Webhook Deliveries list. */
+  async list(params?: VoiceWebhookDeliveriesListParams): Promise<VoiceApiResult> {
+    const query = buildQueryString([
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+      { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+      { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<VoiceApiResult>(appendQueryString(backendApiPath(`/voice/webhook_deliveries`), query));
+  }
+}
+
+export interface VoiceTasksListParams {
+  page?: number;
+  pageSize?: number;
+  cursor?: string;
+  sort?: string;
+  q?: string;
+}
+
+export class VoiceTasksApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Tasks list. */
+  async list(params?: VoiceTasksListParams): Promise<VoiceApiResult> {
+    const query = buildQueryString([
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+      { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+      { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<VoiceApiResult>(appendQueryString(backendApiPath(`/voice/tasks`), query));
+  }
+
+/** Tasks retrieve. */
+  async retrieve(taskId: string): Promise<VoiceApiResult> {
+    return this.client.get<VoiceApiResult>(backendApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}`));
+  }
+
+/** Tasks cancel. */
+  async cancel(taskId: string, body: VoiceOperationCommand): Promise<VoiceApiResult> {
+    return this.client.post<VoiceApiResult>(backendApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/cancel`), body, undefined, undefined, 'application/json');
+  }
+
+/** Tasks reconcile. */
+  async reconcile(taskId: string, body: VoiceOperationCommand): Promise<VoiceApiResult> {
+    return this.client.post<VoiceApiResult>(backendApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/reconcile`), body, undefined, undefined, 'application/json');
+  }
+
+/** Tasks retry. */
+  async retry(taskId: string, body: VoiceOperationCommand): Promise<VoiceApiResult> {
+    return this.client.post<VoiceApiResult>(backendApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/retry`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export interface VoiceTaskEventsListParams {
+  page?: number;
+  pageSize?: number;
+  cursor?: string;
+  sort?: string;
+  q?: string;
+}
+
+export class VoiceTaskEventsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Task Events list. */
+  async list(params?: VoiceTaskEventsListParams): Promise<VoiceApiResult> {
+    const query = buildQueryString([
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+      { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+      { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<VoiceApiResult>(appendQueryString(backendApiPath(`/voice/task_events`), query));
+  }
+}
 
 export interface VoiceRequestLogsListParams {
   page?: number;
@@ -14,9 +121,9 @@ export interface VoiceRequestLogsListParams {
 
 export class VoiceRequestLogsApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
@@ -33,6 +140,54 @@ export class VoiceRequestLogsApi {
   }
 }
 
+export class VoiceProviderWebhooksApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Provider Webhooks accept. */
+  async accept(providerCode: string, body: VoiceProviderWebhookEventCommand): Promise<VoiceApiResult> {
+    return this.client.post<VoiceApiResult>(backendApiPath(`/voice/provider_webhooks/${serializePathParameter(providerCode, { name: 'providerCode', style: 'simple', explode: false })}`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export interface VoiceProviderWebhookEventsListParams {
+  page?: number;
+  pageSize?: number;
+  cursor?: string;
+  sort?: string;
+  q?: string;
+}
+
+export class VoiceProviderWebhookEventsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Provider Webhook Events list. */
+  async list(params?: VoiceProviderWebhookEventsListParams): Promise<VoiceApiResult> {
+    const query = buildQueryString([
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+      { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+      { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<VoiceApiResult>(appendQueryString(backendApiPath(`/voice/provider_webhook_events`), query));
+  }
+
+/** Provider Webhook Events replay. */
+  async replay(eventId: string, body: VoiceOperationCommand): Promise<VoiceApiResult> {
+    return this.client.post<VoiceApiResult>(backendApiPath(`/voice/provider_webhook_events/${serializePathParameter(eventId, { name: 'eventId', style: 'simple', explode: false })}/replay`), body, undefined, undefined, 'application/json');
+  }
+}
+
 export interface VoiceProviderRoutesListParams {
   page?: number;
   pageSize?: number;
@@ -43,9 +198,9 @@ export interface VoiceProviderRoutesListParams {
 
 export class VoiceProviderRoutesApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
@@ -92,9 +247,9 @@ export interface VoiceAudioArtifactsListParams {
 
 export class VoiceAudioArtifactsApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
@@ -125,13 +280,23 @@ export class VoiceApi {
   private client: HttpClient;
   public readonly audioArtifacts: VoiceAudioArtifactsApi;
   public readonly providerRoutes: VoiceProviderRoutesApi;
+  public readonly providerWebhookEvents: VoiceProviderWebhookEventsApi;
+  public readonly providerWebhooks: VoiceProviderWebhooksApi;
   public readonly requestLogs: VoiceRequestLogsApi;
-  
-  constructor(client: HttpClient) { 
+  public readonly taskEvents: VoiceTaskEventsApi;
+  public readonly tasks: VoiceTasksApi;
+  public readonly webhookDeliveries: VoiceWebhookDeliveriesApi;
+
+  constructor(client: HttpClient) {
     this.client = client;
     this.audioArtifacts = new VoiceAudioArtifactsApi(client);
     this.providerRoutes = new VoiceProviderRoutesApi(client);
-    this.requestLogs = new VoiceRequestLogsApi(client); 
+    this.providerWebhookEvents = new VoiceProviderWebhookEventsApi(client);
+    this.providerWebhooks = new VoiceProviderWebhooksApi(client);
+    this.requestLogs = new VoiceRequestLogsApi(client);
+    this.taskEvents = new VoiceTaskEventsApi(client);
+    this.tasks = new VoiceTasksApi(client);
+    this.webhookDeliveries = new VoiceWebhookDeliveriesApi(client);
   }
 
 }
