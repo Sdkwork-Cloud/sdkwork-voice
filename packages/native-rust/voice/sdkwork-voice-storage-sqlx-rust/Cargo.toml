@@ -9,3 +9,9 @@ publish = false
 [lib]
 name = "sdkwork_voice_storage_sqlx"
 path = "src/lib.rs"
+
+[dependencies]
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "any", "sqlite", "postgres"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt"] }

@@ -4,6 +4,7 @@ import {
   type SdkworkVoiceArtifact,
   type SdkworkVoiceArtifactDriveSync,
   type SdkworkVoiceMediaResource,
+  type SdkworkVoiceProviderGeneratedArtifact,
   type SdkworkVoiceOperationType,
   type SdkworkVoiceProviderInvocationResult,
   type SdkworkVoiceProviderRouteCapability,
@@ -142,5 +143,42 @@ describe("@sdkwork/voice-contracts", () => {
     expect(artifact.driveSync?.driveSpaceType).toBe("ai_generated");
     expect(artifact.driveSync?.actorType).toBe("anonymous");
     expect(artifact.mediaResource.kind).toBe("image");
+  });
+
+  it("models provider generated artifacts before task artifacts are imported into Drive", () => {
+    const generatedArtifacts: SdkworkVoiceProviderGeneratedArtifact[] = [
+      {
+        artifactIndex: 0,
+        contentLength: 128,
+        fileName: "speech-0000.mp3",
+        kind: "audio",
+        mediaKind: "audio",
+        mimeType: "audio/mpeg",
+        providerCode: "openai",
+        source: "generated",
+        sourceUri: "provider://openai/speech/0000",
+      },
+      {
+        artifactIndex: 1,
+        durationSeconds: 8,
+        fileName: "video-0001.mp4",
+        kind: "video",
+        mediaKind: "video",
+        mimeType: "video/mp4",
+        providerAssetId: "provider-video-1",
+        providerCode: "volcengine",
+        source: "external_url",
+        sourceUri: "https://provider.example/video.mp4",
+      },
+    ];
+    const result: SdkworkVoiceProviderInvocationResult = {
+      generatedArtifacts,
+      providerCode: "volcengine",
+      status: "completed",
+    };
+
+    expect(result.generatedArtifacts?.map((artifact) => artifact.artifactIndex)).toEqual([0, 1]);
+    expect(result.generatedArtifacts?.[1]?.source).toBe("external_url");
+    expect(result.generatedArtifacts?.[1]?.providerAssetId).toBe("provider-video-1");
   });
 });

@@ -51,6 +51,12 @@ export type SdkworkVoiceArtifactDriveSyncStatus =
 
 export type SdkworkVoiceArtifactDriveActorType = "anonymous" | "system" | "user";
 
+export type SdkworkVoiceProviderGeneratedArtifactSource =
+  | "data_url"
+  | "external_url"
+  | "generated"
+  | "provider_asset";
+
 export interface SdkworkVoiceArtifactDriveSync {
   actorType: SdkworkVoiceArtifactDriveActorType;
   anonymousId?: string;
@@ -134,6 +140,22 @@ export interface SdkworkVoiceArtifact {
   translationText?: string;
 }
 
+export interface SdkworkVoiceProviderGeneratedArtifact {
+  artifactIndex: number;
+  contentLength?: number;
+  durationSeconds?: number;
+  fileName: string;
+  kind: SdkworkVoiceArtifactKind;
+  mediaKind?: SdkworkVoiceMediaKind;
+  metadata?: Record<string, unknown>;
+  mimeType: string;
+  providerAssetId?: string;
+  providerCode: string;
+  source: SdkworkVoiceProviderGeneratedArtifactSource;
+  sourceUri: string;
+  title?: string;
+}
+
 export interface SdkworkVoiceTaskEvent {
   createdAt: string;
   eventType: string;
@@ -147,6 +169,7 @@ export interface SdkworkVoiceTaskEvent {
 
 export interface SdkworkVoiceProviderInvocationResult {
   artifacts?: SdkworkVoiceArtifact[];
+  generatedArtifacts?: SdkworkVoiceProviderGeneratedArtifact[];
   providerCode: string;
   providerResponse?: unknown;
   providerTaskId?: string;

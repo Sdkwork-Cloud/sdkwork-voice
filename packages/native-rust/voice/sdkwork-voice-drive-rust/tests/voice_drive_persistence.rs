@@ -7,10 +7,11 @@ use sdkwork_drive_product::uploader::{DriveUploaderService, UploaderActor, Uploa
 use sdkwork_drive_product::DriveProductError;
 use sdkwork_drive_storage_local::LocalDriveObjectStore;
 use sdkwork_voice_drive::{
-    persist_voice_generated_artifacts_to_drive, plan_voice_drive_uploads, DriveProductVoiceUploadExecutor,
-    DriveProductVoiceBytesPersister, GeneratedArtifactActor, VoiceDriveUploadExecutor,
-    VoiceGeneratedArtifact, VoiceGeneratedArtifactBatch, VoiceGeneratedArtifactBytes,
-    VoiceGeneratedArtifactBytesBatch, VoiceGeneratedArtifactKind, VOICE_DRIVE_AI_GENERATED_SPACE_TYPE,
+    persist_voice_generated_artifacts_to_drive, plan_voice_drive_uploads,
+    DriveProductVoiceBytesPersister, DriveProductVoiceUploadExecutor, GeneratedArtifactActor,
+    VoiceDriveUploadExecutor, VoiceGeneratedArtifact, VoiceGeneratedArtifactBatch,
+    VoiceGeneratedArtifactBytes, VoiceGeneratedArtifactBytesBatch, VoiceGeneratedArtifactKind,
+    VOICE_DRIVE_AI_GENERATED_SPACE_TYPE,
 };
 
 #[test]
@@ -58,11 +59,23 @@ fn plans_ai_generated_artifacts_for_drive_ai_space_and_preserves_batch_order() {
     assert_eq!(plan.uploads[0].sync_status, "pending_upload");
     assert_eq!(plan.uploads[0].command.upload_profile_code, "image");
     assert_eq!(plan.uploads[0].command.app_id, "sdkwork-voice");
-    assert_eq!(plan.uploads[0].command.app_resource_type, "voice_generation_task");
+    assert_eq!(
+        plan.uploads[0].command.app_resource_type,
+        "voice_generation_task"
+    );
     assert_eq!(plan.uploads[0].command.app_resource_id, "task-image-batch");
-    assert_eq!(plan.uploads[0].command.scene.as_deref(), Some("ai_generated"));
-    assert_eq!(plan.uploads[0].command.source.as_deref(), Some("provider:volcengine"));
-    assert!(matches!(plan.uploads[0].command.actor, UploaderActor::User { .. }));
+    assert_eq!(
+        plan.uploads[0].command.scene.as_deref(),
+        Some("ai_generated")
+    );
+    assert_eq!(
+        plan.uploads[0].command.source.as_deref(),
+        Some("provider:volcengine")
+    );
+    assert!(matches!(
+        plan.uploads[0].command.actor,
+        UploaderActor::User { .. }
+    ));
     assert!(matches!(
         plan.uploads[0].command.target,
         UploaderTarget::Space { ref space_id, .. } if space_id == "space-ai-generated-user-user-ai"
@@ -97,7 +110,10 @@ fn supports_anonymous_generated_audio_uploads_into_app_owned_ai_space() {
 
     assert_eq!(plan.uploads.len(), 1);
     assert_eq!(plan.uploads[0].actor_type, "anonymous");
-    assert_eq!(plan.uploads[0].anonymous_id.as_deref(), Some("anon-session-001"));
+    assert_eq!(
+        plan.uploads[0].anonymous_id.as_deref(),
+        Some("anon-session-001")
+    );
     assert_eq!(plan.uploads[0].command.upload_profile_code, "audio");
     assert!(matches!(
         plan.uploads[0].command.actor,
@@ -183,9 +199,18 @@ async fn executes_drive_upload_preparation_through_drive_uploader_service() {
 
     assert_eq!(result.uploaded.len(), 1);
     assert_eq!(result.uploaded[0].artifact_id, "artifact-audio");
-    assert_eq!(result.uploaded[0].drive_space_type, VOICE_DRIVE_AI_GENERATED_SPACE_TYPE);
-    assert_eq!(result.uploaded[0].drive_space_id, "space-ai-generated-user-user-exec");
-    assert_eq!(result.uploaded[0].drive_upload_item_id, "voice-drive-upload-task-exec-0000");
+    assert_eq!(
+        result.uploaded[0].drive_space_type,
+        VOICE_DRIVE_AI_GENERATED_SPACE_TYPE
+    );
+    assert_eq!(
+        result.uploaded[0].drive_space_id,
+        "space-ai-generated-user-user-exec"
+    );
+    assert_eq!(
+        result.uploaded[0].drive_upload_item_id,
+        "voice-drive-upload-task-exec-0000"
+    );
     assert_eq!(executor.created_spaces.borrow().len(), 1);
     assert_eq!(executor.prepared_uploads.borrow().len(), 1);
 }
@@ -223,13 +248,17 @@ async fn sql_executor_creates_ai_generated_space_and_drive_upload_item() {
         .await
         .expect("sql drive executor should persist upload facts");
 
-    assert_eq!(result.uploaded[0].drive_space_id, "space-ai-generated-user-user-sql");
+    assert_eq!(
+        result.uploaded[0].drive_space_id,
+        "space-ai-generated-user-user-sql"
+    );
 
-    let space_type: String = sqlx::query_scalar("SELECT space_type FROM dr_drive_space WHERE id=?1")
-        .bind("space-ai-generated-user-user-sql")
-        .fetch_one(&pool)
-        .await
-        .expect("ai-generated space should exist");
+    let space_type: String =
+        sqlx::query_scalar("SELECT space_type FROM dr_drive_space WHERE id=?1")
+            .bind("space-ai-generated-user-user-sql")
+            .fetch_one(&pool)
+            .await
+            .expect("ai-generated space should exist");
     assert_eq!(space_type, "ai_generated");
 
     let upload: (String, String, String) = sqlx::query_as(
@@ -319,14 +348,18 @@ async fn bytes_persister_writes_multiple_generated_images_to_drive_storage_and_w
 
     for stored in &result.stored {
         let object_path = root.join(&stored.bucket).join(&stored.object_key);
-        assert!(object_path.exists(), "drive object should exist: {object_path:?}");
+        assert!(
+            object_path.exists(),
+            "drive object should exist: {object_path:?}"
+        );
     }
 
-    let space_type: String = sqlx::query_scalar("SELECT space_type FROM dr_drive_space WHERE id=?1")
-        .bind("space-ai-generated-app-sdkwork-voice-anonymous")
-        .fetch_one(&pool)
-        .await
-        .expect("ai generated anonymous space should be created");
+    let space_type: String =
+        sqlx::query_scalar("SELECT space_type FROM dr_drive_space WHERE id=?1")
+            .bind("space-ai-generated-app-sdkwork-voice-anonymous")
+            .fetch_one(&pool)
+            .await
+            .expect("ai generated anonymous space should be created");
     assert_eq!(space_type, "ai_generated");
 
     let object_count: i64 = sqlx::query_scalar("SELECT COUNT(1) FROM dr_drive_storage_object")
@@ -406,8 +439,7 @@ async fn bytes_persister_uses_actual_bytes_for_drive_length_and_checksum() {
         stored_metadata,
         (
             4,
-            "sha256:63d987d1c6d69751c17297f410f5b3547a65d096a8993b35bcb4f9cad054f176"
-                .to_string()
+            "sha256:63d987d1c6d69751c17297f410f5b3547a65d096a8993b35bcb4f9cad054f176".to_string()
         )
     );
 

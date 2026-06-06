@@ -17,9 +17,7 @@ use sdkwork_drive_product::uploader::{
     UploaderRetention, UploaderTarget,
 };
 use sdkwork_drive_product::{ports::uploader_store::DriveUploaderStore, DriveProductError};
-use sdkwork_drive_storage_contract::{
-    DriveObjectLocator, DriveObjectStore, PutObjectRequest,
-};
+use sdkwork_drive_storage_contract::{DriveObjectLocator, DriveObjectStore, PutObjectRequest};
 use sha2::{Digest, Sha256};
 
 pub const VOICE_DRIVE_AI_GENERATED_SPACE_TYPE: &str = "ai_generated";
@@ -303,8 +301,14 @@ where
     let mut stored = Vec::with_capacity(plan.uploads.len());
 
     for (upload, artifact_bytes) in plan.uploads.into_iter().zip(batch.artifacts.into_iter()) {
-        let node_id = format!("voice-drive-node-{}-{:04}", plan.task_id, upload.artifact_index);
-        let object_id = format!("voice-drive-object-{}-{:04}", plan.task_id, upload.artifact_index);
+        let node_id = format!(
+            "voice-drive-node-{}-{:04}",
+            plan.task_id, upload.artifact_index
+        );
+        let object_id = format!(
+            "voice-drive-object-{}-{:04}",
+            plan.task_id, upload.artifact_index
+        );
         let bytes = artifact_bytes.bytes;
         let content_length = i64::try_from(bytes.len()).map_err(|_| {
             VoiceDrivePersistenceError::Plan(VoiceDrivePlanError::Validation(
@@ -331,7 +335,9 @@ where
             version_no: 1,
             object_id: &object_id,
         })
-        .map_err(|message| VoiceDrivePersistenceError::Plan(VoiceDrivePlanError::Validation(message)))?;
+        .map_err(|message| {
+            VoiceDrivePersistenceError::Plan(VoiceDrivePlanError::Validation(message))
+        })?;
 
         persister
             .object_store
@@ -344,7 +350,10 @@ where
                 metadata: std::collections::BTreeMap::from([
                     ("sdkwork-domain".to_string(), "voice".to_string()),
                     ("sdkwork-task-id".to_string(), plan.task_id.clone()),
-                    ("sdkwork-artifact-id".to_string(), upload.artifact_id.clone()),
+                    (
+                        "sdkwork-artifact-id".to_string(),
+                        upload.artifact_id.clone(),
+                    ),
                 ]),
                 body: bytes,
                 checksum_sha256_hex: Some(checksum_sha256_hex.clone()),
@@ -516,7 +525,9 @@ where
                 .into_iter()
                 .find(|space| space.space_type == DriveSpaceType::AiGenerated)
                 .map(|space| space.id)
-                .ok_or_else(|| DriveProductError::Conflict("ai-generated space conflict".to_string())),
+                .ok_or_else(|| {
+                    DriveProductError::Conflict("ai-generated space conflict".to_string())
+                }),
             Err(error) => Err(error),
         }
     }
@@ -577,10 +588,13 @@ pub fn plan_voice_drive_uploads(
         );
         let sync_no = format!("voice-drive-sync-{task_id}-{artifact_index:04}");
         let upload_id = format!("voice-drive-upload-{task_id}-{artifact_index:04}");
-        let file_fingerprint = artifact
-            .checksum_sha256_hex
-            .clone()
-            .unwrap_or_else(|| format!("voice-source:{}:{}", provider_code, stable_suffix(&source_uri)));
+        let file_fingerprint = artifact.checksum_sha256_hex.clone().unwrap_or_else(|| {
+            format!(
+                "voice-source:{}:{}",
+                provider_code,
+                stable_suffix(&source_uri)
+            )
+        });
         let operator_id = actor_context.operator_id.clone();
 
         let command = PrepareUploaderUploadCommand {
@@ -603,6 +617,7 @@ pub fn plan_voice_drive_uploads(
             target: UploaderTarget::Space {
                 space_id: drive_space_id.clone(),
                 parent_node_id: None,
+                share_token: None,
             },
             retention: UploaderRetention::LongTerm,
             operator_id,
@@ -687,7 +702,9 @@ struct ActorContext {
     uploader_actor: UploaderActor,
 }
 
-fn resolve_actor_context(actor: GeneratedArtifactActor) -> Result<ActorContext, VoiceDrivePlanError> {
+fn resolve_actor_context(
+    actor: GeneratedArtifactActor,
+) -> Result<ActorContext, VoiceDrivePlanError> {
     match actor {
         GeneratedArtifactActor::Anonymous { anonymous_id } => {
             let anonymous_id = require_identifier(anonymous_id, "anonymous_id")?;
