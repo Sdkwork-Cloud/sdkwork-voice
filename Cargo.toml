@@ -1,0 +1,17 @@
+[workspace]
+resolver = "2"
+members = [
+    "packages/native-rust/voice/sdkwork-voice-drive-rust",
+]
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+
+[workspace.dependencies]
+# SDKWork workspace members - declared once at workspace root
+sdkwork-voice-drive-rust = { path = "packages/native-rust/voice/sdkwork-voice-drive-rust" }
+sdkwork-drive-config = { path = "../sdkwork-drive/crates/sdkwork-drive-config" }
+sdkwork-drive-product = { path = "../sdkwork-drive/services/sdkwork-drive-product" }
+sdkwork-drive-storage-contract = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-contract" }
+sdkwork-drive-storage-local = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-local" }
