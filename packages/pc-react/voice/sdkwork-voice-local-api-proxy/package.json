@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "SDKWork Voice local API proxy contracts for speech, transcription, and translation routes.",
+  "description": "SDKWork Voice local API proxy contracts for OpenAI-compatible voice/audio and claw-router provider routes.",
   "exports": {
     ".": {
       "types": "./src/index.ts",

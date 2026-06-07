@@ -61,11 +61,35 @@ export interface VoiceOpenApiDocument {
     securitySchemes: Record<string, unknown>;
     schemas: {
       MediaResource: {
-        properties: {
-          kind: {
-            enum: string[];
-          };
-        };
+        type: "object";
+        additionalProperties: false;
+        required: string[];
+        properties: Record<string, unknown>;
+      };
+      MediaKind: {
+        type: "string";
+        enum: string[];
+      };
+      MediaSource: {
+        type: "string";
+        enum: string[];
+      };
+      MediaAccess: {
+        type: "object";
+        additionalProperties: false;
+        required: string[];
+        properties: Record<string, unknown>;
+      };
+      MediaChecksum: {
+        type: "object";
+        additionalProperties: false;
+        required: string[];
+        properties: Record<string, unknown>;
+      };
+      MediaAiProvenance: {
+        type: "object";
+        additionalProperties: false;
+        properties: Record<string, unknown>;
       };
       [schemaName: string]: unknown;
     };

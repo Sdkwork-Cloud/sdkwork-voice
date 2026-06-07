@@ -53,6 +53,12 @@ importers:
 
   packages/common/voice/sdkwork-voice-contracts: {}
 
+  packages/common/voice/sdkwork-voice-provider-adapter:
+    dependencies:
+      '@sdkwork/voice-contracts':
+        specifier: workspace:*
+        version: link:../sdkwork-voice-contracts
+
   packages/pc-react/content/sdkwork-audio-pc-react:
     dependencies:
       '@sdkwork/voice-contracts':

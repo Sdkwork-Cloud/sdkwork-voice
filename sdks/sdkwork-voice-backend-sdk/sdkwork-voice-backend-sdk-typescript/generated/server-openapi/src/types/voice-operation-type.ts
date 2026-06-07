@@ -1,1 +1,1 @@
-export type VoiceOperationType = 'speech' | 'transcription' | 'translation' | 'sound_effect' | 'music' | 'realtime_transcription' | 'realtime_translation';
+export type VoiceOperationType = 'speech' | 'transcription' | 'translation' | 'sound_effect' | 'music' | 'realtime_session' | 'realtime_client_secret' | 'realtime_call' | 'realtime_transcription' | 'realtime_translation';

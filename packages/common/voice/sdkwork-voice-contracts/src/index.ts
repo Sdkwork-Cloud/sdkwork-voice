@@ -1,4 +1,12 @@
-export type SdkworkVoiceMediaKind = "audio" | "voice" | "image" | "video";
+export type SdkworkVoiceMediaKind =
+  | "image"
+  | "video"
+  | "audio"
+  | "voice"
+  | "document"
+  | "archive"
+  | "model"
+  | "other";
 export type SdkworkVoiceMediaSource = "data_url" | "drive" | "external_url" | "generated" | "provider_asset";
 
 export type SdkworkVoiceOperationType =
@@ -7,6 +15,9 @@ export type SdkworkVoiceOperationType =
   | "translation"
   | "sound_effect"
   | "music"
+  | "realtime_session"
+  | "realtime_client_secret"
+  | "realtime_call"
   | "realtime_transcription"
   | "realtime_translation";
 
@@ -29,6 +40,11 @@ export type SdkworkVoiceProviderRouteCapability =
   | "music"
   | "voice_catalog"
   | "voice_consent"
+  | "generated_image"
+  | "generated_video"
+  | "realtime_session"
+  | "realtime_client_secret"
+  | "realtime_call"
   | "realtime_transcription"
   | "realtime_translation";
 
@@ -79,35 +95,42 @@ export interface SdkworkVoiceArtifactDriveSync {
 export interface SdkworkVoiceMediaAiProvenance {
   generationTaskId?: string;
   model?: string;
-  provenance: "edited" | "generated" | "imported" | "recorded";
+  provenance: "uploaded" | "generated" | "edited" | "imported" | "recorded";
   provider?: string;
   sourceMediaIds?: string[];
 }
 
 export interface SdkworkVoiceMediaAccess {
   expiresAt?: string;
-  public?: boolean;
-  scope?: "organization" | "owner" | "tenant" | "user";
+  visibility: "private" | "tenant" | "organization" | "public" | "signed";
 }
 
 export interface SdkworkVoiceMediaResource {
   access?: SdkworkVoiceMediaAccess;
   ai?: SdkworkVoiceMediaAiProvenance;
+  altText?: string;
   checksum?: {
-    algorithm: "md5" | "sha1" | "sha256";
+    algorithm: "md5" | "sha256" | "etag";
     value: string;
   };
   durationSeconds?: number;
   fileName?: string;
+  height?: number;
   id?: string;
   kind: SdkworkVoiceMediaKind;
   metadata?: Record<string, unknown>;
   mimeType?: string;
-  sizeBytes?: number;
+  objectBlobId?: string;
+  poster?: SdkworkVoiceMediaResource;
+  publicUrl?: string;
+  sizeBytes?: string;
   source: SdkworkVoiceMediaSource;
+  thumbnails?: SdkworkVoiceMediaResource[];
   title?: string;
   uri?: string;
   url?: string;
+  variants?: SdkworkVoiceMediaResource[];
+  width?: number;
 }
 
 export interface SdkworkVoiceTask {

@@ -90,13 +90,35 @@ describe("sdkwork-voice OpenAPI materializer", () => {
     expect(requestBodySchemaRef(appOpenApi.paths["/app/v3/api/voice/speech"]?.post)).toBe("#/components/schemas/VoiceSpeechCreateCommand");
     expect(requestBodySchemaRef(appOpenApi.paths["/app/v3/api/voice/sound_effects"]?.post)).toBe("#/components/schemas/VoiceSoundEffectCreateCommand");
     expect(requestBodySchemaRef(appOpenApi.paths["/app/v3/api/voice/music"]?.post)).toBe("#/components/schemas/VoiceMusicCreateCommand");
-    expect(appOpenApi.components.schemas.MediaResource.properties.kind.enum).toEqual(["audio", "voice", "image", "video"]);
+    expect(schemaObject(appOpenApi.components.schemas.MediaResource).required).toEqual(["kind", "source"]);
+    expect(schemaObject(schemaObject(appOpenApi.components.schemas.MediaResource).properties).kind.$ref).toBe("#/components/schemas/MediaKind");
+    expect(schemaObject(schemaObject(appOpenApi.components.schemas.MediaResource).properties).source.$ref).toBe("#/components/schemas/MediaSource");
+    expect(schemaObject(appOpenApi.components.schemas.MediaKind).enum).toEqual([
+      "image",
+      "video",
+      "audio",
+      "voice",
+      "document",
+      "archive",
+      "model",
+      "other",
+    ]);
+    expect(schemaObject(appOpenApi.components.schemas.MediaSource).enum).toEqual([
+      "drive",
+      "external_url",
+      "data_url",
+      "provider_asset",
+      "generated",
+    ]);
     expect(schemaObject(appOpenApi.components.schemas.VoiceOperationType).enum).toEqual([
       "speech",
       "transcription",
       "translation",
       "sound_effect",
       "music",
+      "realtime_session",
+      "realtime_client_secret",
+      "realtime_call",
       "realtime_transcription",
       "realtime_translation",
     ]);

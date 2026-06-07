@@ -16,6 +16,11 @@ export type { VoiceArtifact } from './voice-artifact';
 export type { VoiceArtifactDriveSyncStatus } from './voice-artifact-drive-sync-status';
 export type { VoiceArtifactDriveSync } from './voice-artifact-drive-sync';
 export type { MediaResource } from './media-resource';
+export type { MediaKind } from './media-kind';
+export type { MediaSource } from './media-source';
+export type { MediaAccess } from './media-access';
+export type { MediaChecksum } from './media-checksum';
+export type { MediaAiProvenance } from './media-ai-provenance';
 export type { ProblemDetail } from './problem-detail';
 export type { FieldError } from './field-error';
 //# sourceMappingURL=index.d.ts.map

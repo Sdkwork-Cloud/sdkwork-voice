@@ -12,7 +12,7 @@
   "mode": "apply",
   "hasChanges": true,
   "hasDestructiveChanges": false,
-  "changeFingerprint": "1a8122522adf0db327028a5d022a7b62baa124a9b9f7fe808e0ba4fd082aad4e",
+  "changeFingerprint": "85f372f5ac80c16b40c3a2b52264d49ddf668e5a75161bd3dd746c3c8918fefe",
   "changeImpact": {
     "schemaVersion": 1,
     "areas": [
@@ -43,7 +43,12 @@
           "src/types/common.ts",
           "src/types/field-error.ts",
           "src/types/index.ts",
+          "src/types/media-access.ts",
+          "src/types/media-ai-provenance.ts",
+          "src/types/media-checksum.ts",
+          "src/types/media-kind.ts",
           "src/types/media-resource.ts",
+          "src/types/media-source.ts",
           "src/types/problem-detail.ts",
           "src/types/voice-api-result.ts",
           "src/types/voice-artifact-drive-sync-status.ts",
@@ -138,7 +143,7 @@
         "title": "Unified package check",
         "required": true,
         "rationale": "Validate the generated package with the unified publish helper. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
-        "workingDirectory": "D:\\sdkwork-opensource\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
+        "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
         "command": "node",
         "args": [
           "./bin/publish-core.mjs",
@@ -156,7 +161,7 @@
         "title": "Unified package build",
         "required": true,
         "rationale": "Run the full package build because this language uses a lighter check path than the final build. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
-        "workingDirectory": "D:\\sdkwork-opensource\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
+        "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
         "command": "node",
         "args": [
           "./bin/publish-core.mjs",
@@ -181,7 +186,7 @@
         "title": "Unified package check",
         "required": true,
         "rationale": "Validate the generated package with the unified publish helper. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
-        "workingDirectory": "D:\\sdkwork-opensource\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
+        "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
         "command": "node",
         "args": [
           "./bin/publish-core.mjs",
@@ -199,7 +204,7 @@
         "title": "Unified package build",
         "required": true,
         "rationale": "Run the full package build because this language uses a lighter check path than the final build. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
-        "workingDirectory": "D:\\sdkwork-opensource\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
+        "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
         "command": "node",
         "args": [
           "./bin/publish-core.mjs",
@@ -219,7 +224,7 @@
     "version": "1.0.0",
     "language": "typescript",
     "sdkType": "backend",
-    "outputPath": "D:\\sdkwork-opensource\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
+    "outputPath": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
     "packageName": "@sdkwork/voice-backend-sdk"
   },
   "versioning": {
@@ -227,20 +232,20 @@
     "localVersions": []
   },
   "stats": {
-    "totalFiles": 43,
-    "models": 19,
+    "totalFiles": 48,
+    "models": 24,
     "apis": 1,
-    "types": 21
+    "types": 26
   },
   "warnings": [],
   "syncSummary": {
     "dryRun": false,
-    "writtenFiles": 43,
+    "writtenFiles": 48,
     "skippedScaffoldFiles": 0,
     "skippedUnchangedGeneratedFiles": 0,
     "deletedGeneratedFiles": 0,
     "changeSummaryPath": ".sdkwork/sdkwork-generator-changes.json",
-    "changeFingerprint": "1a8122522adf0db327028a5d022a7b62baa124a9b9f7fe808e0ba4fd082aad4e",
+    "changeFingerprint": "85f372f5ac80c16b40c3a2b52264d49ddf668e5a75161bd3dd746c3c8918fefe",
     "changes": {
       "createdGeneratedFiles": [
         "bin/publish-core.mjs",
@@ -265,7 +270,12 @@
         "src/types/common.ts",
         "src/types/field-error.ts",
         "src/types/index.ts",
+        "src/types/media-access.ts",
+        "src/types/media-ai-provenance.ts",
+        "src/types/media-checksum.ts",
+        "src/types/media-kind.ts",
         "src/types/media-resource.ts",
+        "src/types/media-source.ts",
         "src/types/problem-detail.ts",
         "src/types/voice-api-result.ts",
         "src/types/voice-artifact-drive-sync-status.ts",
@@ -325,7 +335,12 @@
             "src/types/common.ts",
             "src/types/field-error.ts",
             "src/types/index.ts",
+            "src/types/media-access.ts",
+            "src/types/media-ai-provenance.ts",
+            "src/types/media-checksum.ts",
+            "src/types/media-kind.ts",
             "src/types/media-resource.ts",
+            "src/types/media-source.ts",
             "src/types/problem-detail.ts",
             "src/types/voice-api-result.ts",
             "src/types/voice-artifact-drive-sync-status.ts",
@@ -407,7 +422,7 @@
           "title": "Unified package check",
           "required": true,
           "rationale": "Validate the generated package with the unified publish helper. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
-          "workingDirectory": "D:\\sdkwork-opensource\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
+          "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
           "command": "node",
           "args": [
             "./bin/publish-core.mjs",
@@ -425,7 +440,7 @@
           "title": "Unified package build",
           "required": true,
           "rationale": "Run the full package build because this language uses a lighter check path than the final build. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
-          "workingDirectory": "D:\\sdkwork-opensource\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
+          "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-backend-sdk\\sdkwork-voice-backend-sdk-typescript\\generated\\server-openapi",
           "command": "node",
           "args": [
             "./bin/publish-core.mjs",

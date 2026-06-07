@@ -1,0 +1,1 @@
+{"version":3,"file":"media-access.d.ts","sourceRoot":"","sources":["../../src/types/media-access.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,WAAW;IAC1B,UAAU,EAAE,SAAS,GAAG,QAAQ,GAAG,cAAc,GAAG,QAAQ,GAAG,QAAQ,CAAC;IACxE,SAAS,CAAC,EAAE,MAAM,CAAC;CACpB"}

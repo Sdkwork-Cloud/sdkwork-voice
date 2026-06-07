@@ -51,6 +51,103 @@ export interface VoiceTranslationCreateCommand {
   targetLanguage?: string;
 }
 
+export interface VoiceRealtimeTranscriptionSessionCreateCommand {
+  inputAudioFormat?: string;
+  inputAudioTranscription?: unknown;
+  metadata?: Record<string, unknown>;
+  model?: string;
+  provider?: VoiceProviderOptions;
+  turnDetection?: unknown;
+}
+
+export interface VoiceRealtimeTranslationSessionCreateCommand {
+  metadata?: Record<string, unknown>;
+  model?: string;
+  provider?: VoiceProviderOptions;
+  sourceLanguage?: string;
+  targetLanguage?: string;
+}
+
+export interface VoiceRealtimeSessionCreateCommand {
+  instructions?: string;
+  metadata?: Record<string, unknown>;
+  modalities?: string[];
+  model?: string;
+  provider?: VoiceProviderOptions;
+  voice?: string;
+}
+
+export interface VoiceRealtimeClientSecretCreateCommand extends VoiceRealtimeSessionCreateCommand {}
+
+export interface VoiceRealtimeCallCreateCommand {
+  metadata?: Record<string, unknown>;
+  provider?: VoiceProviderOptions;
+  sdp?: string;
+  session?: unknown;
+}
+
+export interface VoiceRealtimeCallActionCommand {
+  callId: string;
+  metadata?: Record<string, unknown>;
+  provider?: VoiceProviderOptions;
+}
+
+export interface VoiceRealtimeCallReferCommand extends VoiceRealtimeCallActionCommand {
+  target?: string;
+}
+
+export interface VoiceListCommand {
+  after?: string;
+  before?: string;
+  limit?: number;
+  order?: "asc" | "desc";
+  provider?: VoiceProviderOptions;
+}
+
+export interface VoiceCreateCommand {
+  description?: string;
+  metadata?: Record<string, unknown>;
+  name?: string;
+  provider?: VoiceProviderOptions;
+}
+
+export interface VoiceRetrieveCommand {
+  provider?: VoiceProviderOptions;
+  voiceId: string;
+}
+
+export interface VoiceConsentListCommand {
+  after?: string;
+  before?: string;
+  limit?: number;
+  order?: "asc" | "desc";
+  provider?: VoiceProviderOptions;
+}
+
+export interface VoiceConsentCreateCommand {
+  consentDocument?: unknown;
+  metadata?: Record<string, unknown>;
+  name?: string;
+  provider?: VoiceProviderOptions;
+}
+
+export interface VoiceConsentRetrieveCommand {
+  consentId: string;
+  provider?: VoiceProviderOptions;
+}
+
+export interface VoiceConsentUpdateCommand {
+  consentId: string;
+  metadata?: Record<string, unknown>;
+  name?: string;
+  provider?: VoiceProviderOptions;
+}
+
+export interface VoiceConsentDeleteCommand {
+  consentId: string;
+  provider?: VoiceProviderOptions;
+}
+
 export interface VoiceSoundEffectCreateCommand {
   callbackUrl?: string;
   durationSeconds?: number;
@@ -93,13 +190,36 @@ export interface VoiceProviderTaskSnapshot {
 }
 
 export interface VoiceProviderAdapter {
+  acceptRealtimeCall(command: VoiceRealtimeCallActionCommand): Promise<SdkworkVoiceProviderInvocationResult>;
   cancelTask(command: VoiceProviderTaskCommand): Promise<VoiceProviderTaskSnapshot>;
+  createRealtimeClientSecret(
+    command: VoiceRealtimeClientSecretCreateCommand,
+  ): Promise<SdkworkVoiceProviderInvocationResult>;
+  createVoice(command: VoiceCreateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  createVoiceConsent(command: VoiceConsentCreateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  deleteVoiceConsent(command: VoiceConsentDeleteCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  hangupRealtimeCall(command: VoiceRealtimeCallActionCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  listVoiceConsents(command: VoiceConsentListCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  listVoices(command: VoiceListCommand): Promise<SdkworkVoiceProviderInvocationResult>;
   queryTask(command: VoiceProviderTaskCommand): Promise<VoiceProviderTaskSnapshot>;
+  referRealtimeCall(command: VoiceRealtimeCallReferCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  rejectRealtimeCall(command: VoiceRealtimeCallActionCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  retrieveVoice(command: VoiceRetrieveCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  retrieveVoiceConsent(command: VoiceConsentRetrieveCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  startRealtimeCall(command: VoiceRealtimeCallCreateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  startRealtimeSession(command: VoiceRealtimeSessionCreateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
   startMusic(command: VoiceMusicCreateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  startRealtimeTranscriptionSession(
+    command: VoiceRealtimeTranscriptionSessionCreateCommand,
+  ): Promise<SdkworkVoiceProviderInvocationResult>;
+  startRealtimeTranslationSession(
+    command: VoiceRealtimeTranslationSessionCreateCommand,
+  ): Promise<SdkworkVoiceProviderInvocationResult>;
   startSoundEffect(command: VoiceSoundEffectCreateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
   startSpeech(command: VoiceSpeechCreateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
   startTranscription(command: VoiceTranscriptionCreateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
   startTranslation(command: VoiceTranslationCreateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
+  updateVoiceConsent(command: VoiceConsentUpdateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
 }
 
 export interface ClawRouterVoiceProviderClient {
@@ -113,6 +233,47 @@ export interface ClawRouterVoiceProviderClient {
     translations?: {
       create(body: unknown): Promise<unknown>;
     };
+    voiceConsents?: {
+      create(body: unknown): Promise<unknown>;
+      delete(consentId: string): Promise<unknown>;
+      list(params?: unknown): Promise<unknown>;
+      retrieve(consentId: string): Promise<unknown>;
+      update(consentId: string, body: unknown): Promise<unknown>;
+    };
+    voices?: {
+      create(body: unknown): Promise<unknown>;
+      list(params?: unknown): Promise<unknown>;
+      retrieve(voiceId: string): Promise<unknown>;
+    };
+  };
+  realtime?: {
+    calls?: {
+      accept?: {
+        create?(callId: string, body: unknown): Promise<unknown>;
+      };
+      create?(body: unknown): Promise<unknown>;
+      hangup?: {
+        create?(callId: string, body: unknown): Promise<unknown>;
+      };
+      refer?: {
+        create?(callId: string, body: unknown): Promise<unknown>;
+      };
+      reject?: {
+        create?(callId: string, body: unknown): Promise<unknown>;
+      };
+    };
+    clientSecrets?: {
+      create?(body: unknown): Promise<unknown>;
+    };
+    sessions?: {
+      create?(body: unknown): Promise<unknown>;
+    };
+    transcriptionSessions?: {
+      create(body: unknown): Promise<unknown>;
+    };
+    translations?: {
+      create(body: unknown): Promise<unknown>;
+    };
   };
   audioSuno?: {
     v1?: {
@@ -120,6 +281,68 @@ export interface ClawRouterVoiceProviderClient {
         generations?: {
           create(body: unknown): Promise<unknown>;
           retrieve?(taskId: string): Promise<unknown>;
+        };
+      };
+    };
+  };
+  imagesMidjourney?: {
+    v1?: {
+      images?: {
+        generations?: {
+          create?(body: unknown): Promise<unknown>;
+          retrieve?(taskId: string): Promise<unknown>;
+        };
+      };
+    };
+  };
+  imagesNanoBanana?: {
+    v1?: {
+      images?: {
+        generations?: {
+          create?(body: unknown): Promise<unknown>;
+          retrieve?(taskId: string): Promise<unknown>;
+        };
+      };
+    };
+  };
+  imagesVidu?: {
+    ent?: {
+      v2?: {
+        reference2image?: {
+          create?(body: unknown): Promise<unknown>;
+        };
+      };
+    };
+  };
+  videosKling?: {
+    v1?: {
+      videos?: {
+        generations?: {
+          create?(body: unknown): Promise<unknown>;
+          retrieve?(taskId: string): Promise<unknown>;
+        };
+      };
+    };
+  };
+  videosVidu?: {
+    ent?: {
+      v2?: {
+        img2video?: {
+          create?(body: unknown): Promise<unknown>;
+        };
+        reference2video?: {
+          create?(body: unknown): Promise<unknown>;
+        };
+        startEnd2video?: {
+          create?(body: unknown): Promise<unknown>;
+        };
+        tasks?: {
+          creations?: {
+            list?(taskId: string): Promise<unknown>;
+          };
+        };
+        text2video?: {
+          create?(body: unknown): Promise<unknown>;
         };
       };
     };
@@ -155,6 +378,8 @@ export interface ProviderRouteInvocationResult {
   status?: string;
 }
 
+type VoiceTextResponseFormat = VoiceTranscriptionCreateCommand["responseFormat"];
+
 interface VoiceProviderArtifactCandidate {
   contentLength?: number;
   durationSeconds?: number;
@@ -184,6 +409,20 @@ function requireClientMethod<T>(value: T | undefined, name: string): T {
     throw new Error(`Missing claw-router SDK method: ${name}`);
   }
   return value;
+}
+
+function callClientMethod(
+  resource: object | undefined,
+  methodName: string,
+  name: string,
+  ...args: unknown[]
+): Promise<unknown> {
+  const target = requireClientMethod(resource, name);
+  const method = requireClientMethod(
+    (target as Record<string, unknown>)[methodName] as ((...methodArgs: unknown[]) => Promise<unknown>) | undefined,
+    name,
+  );
+  return method.apply(target, args);
 }
 
 function providerTaskIdFrom(response: unknown) {
@@ -262,6 +501,97 @@ function buildTranslationBody(command: VoiceTranslationCreateCommand) {
   };
 }
 
+function buildRealtimeTranscriptionSessionBody(command: VoiceRealtimeTranscriptionSessionCreateCommand) {
+  return {
+    input_audio_format: command.inputAudioFormat,
+    input_audio_transcription: command.inputAudioTranscription,
+    metadata: command.metadata,
+    model: command.model,
+    turn_detection: command.turnDetection,
+  };
+}
+
+function buildRealtimeTranslationSessionBody(command: VoiceRealtimeTranslationSessionCreateCommand) {
+  return {
+    metadata: command.metadata,
+    model: command.model,
+    source_language: command.sourceLanguage,
+    target_language: command.targetLanguage,
+  };
+}
+
+function buildRealtimeSessionBody(command: VoiceRealtimeSessionCreateCommand) {
+  return buildProviderGenerationBody(command, {
+    instructions: command.instructions,
+    metadata: command.metadata,
+    modalities: command.modalities,
+    model: command.model,
+    voice: command.voice,
+  });
+}
+
+function buildRealtimeCallBody(command: VoiceRealtimeCallCreateCommand) {
+  return buildProviderGenerationBody(command, {
+    metadata: command.metadata,
+    sdp: command.sdp,
+    session: command.session,
+  });
+}
+
+function buildRealtimeCallActionBody(command: VoiceRealtimeCallActionCommand) {
+  return buildProviderGenerationBody(command, {
+    metadata: command.metadata,
+  });
+}
+
+function buildRealtimeCallReferBody(command: VoiceRealtimeCallReferCommand) {
+  return buildProviderGenerationBody(command, {
+    metadata: command.metadata,
+    target: command.target,
+  });
+}
+
+function buildVoiceListParams(command: VoiceListCommand) {
+  return {
+    after: command.after,
+    before: command.before,
+    limit: command.limit,
+    order: command.order,
+  };
+}
+
+function buildVoiceCreateBody(command: VoiceCreateCommand) {
+  return {
+    description: command.description,
+    metadata: command.metadata,
+    name: command.name,
+  };
+}
+
+function buildVoiceConsentListParams(command: VoiceConsentListCommand) {
+  return {
+    after: command.after,
+    before: command.before,
+    limit: command.limit,
+    order: command.order,
+  };
+}
+
+function buildVoiceConsentCreateBody(command: VoiceConsentCreateCommand) {
+  return {
+    consent_document: command.consentDocument,
+    metadata: command.metadata,
+    name: command.name,
+  };
+}
+
+function buildVoiceConsentUpdateBody(command: VoiceConsentUpdateCommand) {
+  return {
+    metadata: command.metadata,
+    name: command.name,
+  };
+}
+
 function buildSunoMusicBody(command: VoiceMusicCreateCommand) {
   return {
     callback_url: command.callbackUrl,
@@ -283,6 +613,40 @@ function buildVolcengineContentTaskBody(command: VoiceMusicCreateCommand) {
   };
 }
 
+function buildProviderGenerationBody(
+  command: { provider?: VoiceProviderOptions },
+  fields: Record<string, unknown> = {},
+) {
+  return withDefinedValues({
+    ...(command.provider?.providerOptions || {}),
+    ...withDefinedValues(fields),
+  });
+}
+
+function buildPromptedMediaGenerationBody(command: VoiceMusicCreateCommand, fields: Record<string, unknown> = {}) {
+  return buildProviderGenerationBody(command, {
+    callback_url: command.callbackUrl,
+    duration: command.durationSeconds,
+    model: command.model,
+    prompt: command.prompt,
+    ...fields,
+  });
+}
+
+function buildKlingVideoGenerationBody(command: VoiceMusicCreateCommand) {
+  return buildPromptedMediaGenerationBody(command, {
+    negative_prompt: command.negativeTags,
+  });
+}
+
+function buildImageGenerationBody(command: VoiceMusicCreateCommand) {
+  return buildPromptedMediaGenerationBody(command);
+}
+
+function buildViduGenerationBody(command: VoiceMusicCreateCommand) {
+  return buildPromptedMediaGenerationBody(command);
+}
+
 function buildElevenLabsSoundBody(command: VoiceSoundEffectCreateCommand) {
   return {
     duration_seconds: command.durationSeconds,
@@ -301,6 +665,36 @@ function elevenLabsSoundPath(responseFormat: VoiceSoundEffectCreateCommand["resp
   return responseFormat
     ? `/provider/elevenlabs/v1/sound-generation?output_format=${encodeURIComponent(responseFormat)}`
     : "/provider/elevenlabs/v1/sound-generation";
+}
+
+function mimeTypeForTextResponseFormat(responseFormat: VoiceTextResponseFormat) {
+  switch (responseFormat) {
+    case "json":
+    case "verbose_json":
+      return "application/json";
+    case "srt":
+      return "application/x-subrip";
+    case "vtt":
+      return "text/vtt";
+    case "text":
+    case undefined:
+      return "text/plain";
+  }
+}
+
+function fileExtensionForTextResponseFormat(responseFormat: VoiceTextResponseFormat) {
+  switch (responseFormat) {
+    case "json":
+    case "verbose_json":
+      return "json";
+    case "srt":
+      return "srt";
+    case "vtt":
+      return "vtt";
+    case "text":
+    case undefined:
+      return "txt";
+  }
 }
 
 export interface VoiceGeneratedArtifactDefaults {
@@ -368,6 +762,11 @@ function collectGeneratedArtifactCandidates(
     ];
   }
 
+  const textCandidate = textCandidateFromProviderResponse(providerResponse, defaults);
+  if (textCandidate) {
+    return [textCandidate];
+  }
+
   if (!providerResponse || typeof providerResponse !== "object") {
     return [];
   }
@@ -376,14 +775,18 @@ function collectGeneratedArtifactCandidates(
   const candidates: VoiceProviderArtifactCandidate[] = [];
 
   collectSunoTrackCandidates(object, candidates);
+  collectViduCreationCandidates(object, candidates);
   collectProviderGeneratedMediaArray(object.videos, "video", candidates);
   collectProviderGeneratedMediaArray(object.images, "image", candidates);
   collectProviderGeneratedMediaArray(object.audios, defaults.kind || "audio", candidates);
   if (isRecord(object.result)) {
+    collectViduCreationCandidates(object.result, candidates);
     collectProviderGeneratedMediaArray(object.result.videos, "video", candidates);
     collectProviderGeneratedMediaArray(object.result.images, "image", candidates);
     collectProviderGeneratedMediaArray(object.result.audios, defaults.kind || "audio", candidates);
+    collectTextCandidateFromRecord(object.result, defaults, candidates);
   }
+  collectTextCandidateFromRecord(object, defaults, candidates);
   collectOpenAiImageCandidates(object, candidates);
 
   if (candidates.length === 0) {
@@ -402,6 +805,109 @@ function collectGeneratedArtifactCandidates(
   }
 
   return candidates;
+}
+
+function collectViduCreationCandidates(object: Record<string, unknown>, candidates: VoiceProviderArtifactCandidate[]) {
+  if (!Array.isArray(object.creations)) {
+    return;
+  }
+
+  for (const entry of object.creations) {
+    if (!isRecord(entry)) {
+      continue;
+    }
+    const providerAssetId = firstString(entry.id);
+    const base = providerAssetId || "vidu-creation";
+    const durationSeconds = optionalNumber(entry.duration);
+    const metadata = viduCreationMetadata(entry);
+    const seenSourceUris = new Set<string>();
+    appendUniqueViduCreationCandidate(candidates, seenSourceUris, {
+      durationSeconds,
+      fileNameBase: `${base}-video`,
+      kind: "video",
+      metadata,
+      providerAssetId,
+      sourceUri: firstString(entry.video_url),
+    });
+    appendUniqueViduCreationCandidate(candidates, seenSourceUris, {
+      fileNameBase: `${base}-image`,
+      kind: "image",
+      metadata,
+      providerAssetId,
+      sourceUri: firstString(entry.image_url),
+    });
+    appendUniqueViduCreationCandidate(candidates, seenSourceUris, {
+      fileNameBase: `${base}-cover`,
+      kind: "image",
+      metadata,
+      providerAssetId,
+      sourceUri: firstString(entry.cover_url),
+    });
+    appendUniqueViduCreationCandidate(candidates, seenSourceUris, {
+      durationSeconds,
+      fileNameBase: `${base}-audio`,
+      kind: "audio",
+      metadata,
+      providerAssetId,
+      sourceUri: firstString(entry.audio_url),
+    });
+
+    const fallbackSourceUri = firstString(entry.url, entry.uri);
+    appendUniqueViduCreationCandidate(candidates, seenSourceUris, {
+      durationSeconds,
+      fileNameBase: base,
+      kind: fallbackSourceUri ? kindFromUri(fallbackSourceUri) : "video",
+      metadata,
+      providerAssetId,
+      sourceUri: fallbackSourceUri,
+    });
+  }
+}
+
+function appendUniqueViduCreationCandidate(
+  candidates: VoiceProviderArtifactCandidate[],
+  seenSourceUris: Set<string>,
+  input: {
+    durationSeconds?: number;
+    fileNameBase: string;
+    kind: SdkworkVoiceArtifactKind;
+    metadata?: Record<string, unknown>;
+    providerAssetId?: string;
+    sourceUri?: string;
+  },
+) {
+  if (!input.sourceUri || seenSourceUris.has(input.sourceUri)) {
+    return;
+  }
+  seenSourceUris.add(input.sourceUri);
+  candidates.push(candidateFromUri({
+    durationSeconds: input.durationSeconds,
+    fileNameBase: input.fileNameBase,
+    kind: input.kind,
+    metadata: input.metadata,
+    providerAssetId: input.providerAssetId,
+    sourceUri: input.sourceUri,
+  }));
+}
+
+function viduCreationMetadata(entry: Record<string, unknown>) {
+  const metadata: Record<string, unknown> = {};
+  const type = firstString(entry.type);
+  if (type) {
+    metadata.type = type;
+  }
+  const width = optionalNumber(entry.width);
+  if (width !== undefined) {
+    metadata.width = width;
+  }
+  const height = optionalNumber(entry.height);
+  if (height !== undefined) {
+    metadata.height = height;
+  }
+  if (isRecord(entry.metadata)) {
+    metadata.providerMetadata = entry.metadata;
+  }
+  return Object.keys(metadata).length > 0 ? metadata : undefined;
 }
 
 function collectSunoTrackCandidates(object: Record<string, unknown>, candidates: VoiceProviderArtifactCandidate[]) {
@@ -517,6 +1023,115 @@ function collectOpenAiImageCandidates(object: Record<string, unknown>, candidate
       });
     }
   }
+}
+
+function collectTextCandidateFromRecord(
+  object: Record<string, unknown>,
+  defaults: VoiceGeneratedArtifactDefaults,
+  candidates: VoiceProviderArtifactCandidate[],
+) {
+  const textCandidate = textCandidateFromProviderResponse(object, defaults);
+  if (textCandidate) {
+    candidates.push(textCandidate);
+  }
+}
+
+function textCandidateFromProviderResponse(
+  providerResponse: unknown,
+  defaults: VoiceGeneratedArtifactDefaults,
+): VoiceProviderArtifactCandidate | undefined {
+  const kind = textArtifactKind(defaults.kind);
+  if (!kind) {
+    return undefined;
+  }
+
+  if (typeof providerResponse === "string") {
+    return textCandidateFromContent(providerResponse, defaults, kind);
+  }
+
+  if (!isRecord(providerResponse) || typeof providerResponse.text !== "string") {
+    return undefined;
+  }
+
+  const mimeType = textArtifactMimeType(defaults);
+  const content = isJsonMimeType(mimeType) ? JSON.stringify(providerResponse) : providerResponse.text;
+  return textCandidateFromContent(content, defaults, kind, {
+    durationSeconds: optionalNumber(providerResponse.duration, providerResponse.duration_seconds),
+    metadata: textArtifactMetadata(providerResponse),
+    mimeType,
+  });
+}
+
+function textCandidateFromContent(
+  content: string,
+  defaults: VoiceGeneratedArtifactDefaults,
+  kind: "transcript" | "translation",
+  overrides: {
+    durationSeconds?: number;
+    metadata?: Record<string, unknown>;
+    mimeType?: string;
+  } = {},
+): VoiceProviderArtifactCandidate {
+  const mimeType = overrides.mimeType || textArtifactMimeType(defaults);
+  return {
+    contentLength: utf8ByteLength(content),
+    durationSeconds: overrides.durationSeconds,
+    fileNameBase: defaults.operation || kind,
+    kind,
+    mediaKind: defaults.mediaKind || mediaKindForArtifactKind(kind),
+    metadata: overrides.metadata,
+    mimeType,
+    source: "data_url",
+    sourceUri: textDataUrl(content, mimeType),
+    title: defaults.title,
+  };
+}
+
+function textArtifactKind(kind: SdkworkVoiceArtifactKind | undefined): "transcript" | "translation" | undefined {
+  return kind === "transcript" || kind === "translation" ? kind : undefined;
+}
+
+function textArtifactMimeType(defaults: VoiceGeneratedArtifactDefaults) {
+  if (defaults.contentType?.includes("/")) {
+    return defaults.contentType.toLowerCase();
+  }
+  if (defaults.fileExtension) {
+    const mimeType = mimeTypeForExtension(defaults.fileExtension);
+    if (mimeType) {
+      return mimeType;
+    }
+  }
+  return "text/plain";
+}
+
+function textArtifactMetadata(object: Record<string, unknown>) {
+  const metadata: Record<string, unknown> = {};
+  const language = firstString(object.language);
+  if (language) {
+    metadata.language = language;
+  }
+  if (Array.isArray(object.segments)) {
+    metadata.segments = object.segments;
+  }
+  if (Array.isArray(object.words)) {
+    metadata.words = object.words;
+  }
+  if (isRecord(object.metadata)) {
+    metadata.providerMetadata = object.metadata;
+  }
+  return Object.keys(metadata).length > 0 ? metadata : undefined;
+}
+
+function textDataUrl(content: string, mimeType: string) {
+  return `data:${mimeType};charset=utf-8,${encodeURIComponent(content)}`;
+}
+
+function isJsonMimeType(mimeType: string) {
+  return mimeType.toLowerCase().split(";", 1)[0] === "application/json";
+}
+
+function utf8ByteLength(value: string) {
+  return new TextEncoder().encode(value).length;
 }
 
 function candidateFromUri(input: {
@@ -669,8 +1284,14 @@ function extensionForMimeType(mimeType: string) {
       return "png";
     case "image/webp":
       return "webp";
+    case "application/json":
+      return "json";
+    case "application/x-subrip":
+      return "srt";
     case "text/plain":
       return "txt";
+    case "text/vtt":
+      return "vtt";
     case "video/mp4":
       return "mp4";
     case "video/quicktime":
@@ -703,6 +1324,14 @@ function mimeTypeForExtension(extension: string) {
       return "image/png";
     case "webp":
       return "image/webp";
+    case "json":
+      return "application/json";
+    case "srt":
+      return "application/x-subrip";
+    case "txt":
+      return "text/plain";
+    case "vtt":
+      return "text/vtt";
     case "mov":
       return "video/quicktime";
     case "mp4":
@@ -730,6 +1359,130 @@ function estimateBase64ByteLength(value: string) {
   return Math.max(0, Math.floor((normalized.length * 3) / 4) - padding);
 }
 
+function taskRetrieveForProvider(client: ClawRouterVoiceProviderClient, providerCode: string) {
+  switch (providerCode) {
+    case "volcengine":
+      return {
+        name: "videosVolcengine.api.v3.contents.generations.tasks.retrieve",
+        resource: client.videosVolcengine?.api?.v3?.contents?.generations?.tasks,
+      };
+    case "kling":
+      return {
+        name: "videosKling.v1.videos.generations.retrieve",
+        resource: client.videosKling?.v1?.videos?.generations,
+      };
+    case "nano-banana":
+      return {
+        name: "imagesNanoBanana.v1.images.generations.retrieve",
+        resource: client.imagesNanoBanana?.v1?.images?.generations,
+      };
+    case "midjourney":
+      return {
+        name: "imagesMidjourney.v1.images.generations.retrieve",
+        resource: client.imagesMidjourney?.v1?.images?.generations,
+      };
+    case "vidu":
+    case "vidu-image":
+    case "vidu-video":
+      return {
+        methodName: "list",
+        name: "videosVidu.ent.v2.tasks.creations.list",
+        resource: client.videosVidu?.ent?.v2?.tasks?.creations,
+      };
+    case "suno":
+    default:
+      return {
+        name: "audioSuno.v1.music.generations.retrieve",
+        resource: client.audioSuno?.v1?.music?.generations,
+      };
+  }
+}
+
+function taskArtifactDefaultsForProvider(providerCode: string): VoiceGeneratedArtifactDefaults {
+  switch (providerCode) {
+    case "kling":
+    case "vidu":
+    case "vidu-video":
+    case "volcengine":
+      return {
+        kind: "video",
+        mediaKind: "video",
+        operation: "task",
+      };
+    case "midjourney":
+    case "nano-banana":
+    case "vidu-image":
+      return {
+        kind: "image",
+        mediaKind: "image",
+        operation: "task",
+      };
+    case "suno":
+    default:
+      return {
+        kind: "music",
+        mediaKind: "audio",
+        operation: "task",
+      };
+  }
+}
+
+function normalizedProviderRouteId(command: VoiceMusicCreateCommand) {
+  return command.provider?.providerRouteId?.toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+function isProviderRoute(command: VoiceMusicCreateCommand, routeId: string) {
+  const normalized = normalizedProviderRouteId(command);
+  return normalized ? normalized.endsWith(routeId.toLowerCase()) : false;
+}
+
+async function startViduGenerationTask(
+  client: ClawRouterVoiceProviderClient,
+  command: VoiceMusicCreateCommand,
+  providerCode: string,
+) {
+  const body = buildViduGenerationBody(command);
+  if (providerCode === "vidu-image" || isProviderRoute(command, "reference2image")) {
+    return callClientMethod(
+      client.imagesVidu?.ent?.v2?.reference2image,
+      "create",
+      "imagesVidu.ent.v2.reference2image.create",
+      body,
+    );
+  }
+  if (isProviderRoute(command, "img2video") || isProviderRoute(command, "image2video")) {
+    return callClientMethod(
+      client.videosVidu?.ent?.v2?.img2video,
+      "create",
+      "videosVidu.ent.v2.img2video.create",
+      body,
+    );
+  }
+  if (isProviderRoute(command, "reference2video")) {
+    return callClientMethod(
+      client.videosVidu?.ent?.v2?.reference2video,
+      "create",
+      "videosVidu.ent.v2.reference2video.create",
+      body,
+    );
+  }
+  if (isProviderRoute(command, "startend2video")) {
+    return callClientMethod(
+      client.videosVidu?.ent?.v2?.startEnd2video,
+      "create",
+      "videosVidu.ent.v2.startEnd2video.create",
+      body,
+    );
+  }
+
+  return callClientMethod(
+    client.videosVidu?.ent?.v2?.text2video,
+    "create",
+    "videosVidu.ent.v2.text2video.create",
+    body,
+  );
+}
+
 export function createClawRouterVoiceProviderAdapter(
   options: ClawRouterVoiceProviderAdapterOptions,
 ): VoiceProviderAdapter {
@@ -738,8 +1491,12 @@ export function createClawRouterVoiceProviderAdapter(
   return {
     async startSpeech(command) {
       const providerCode = providerCodeFrom(command, defaultProviderCode);
-      const create = requireClientMethod(options.client.audio?.speech?.create, "audio.speech.create");
-      const response = await create(withDefinedValues(buildSpeechBody(command)));
+      const response = await callClientMethod(
+        options.client.audio?.speech,
+        "create",
+        "audio.speech.create",
+        withDefinedValues(buildSpeechBody(command)),
+      );
       return completed(providerCode, response, {
         contentType: command.responseFormat ? mimeTypeForExtension(command.responseFormat) : "audio/mpeg",
         fileExtension: command.responseFormat || "mp3",
@@ -751,11 +1508,15 @@ export function createClawRouterVoiceProviderAdapter(
 
     async startTranscription(command) {
       const providerCode = providerCodeFrom(command, defaultProviderCode);
-      const create = requireClientMethod(options.client.audio?.transcriptions?.create, "audio.transcriptions.create");
-      const response = await create(withDefinedValues(buildTranscriptionBody(command)));
+      const response = await callClientMethod(
+        options.client.audio?.transcriptions,
+        "create",
+        "audio.transcriptions.create",
+        withDefinedValues(buildTranscriptionBody(command)),
+      );
       return completed(providerCode, response, {
-        contentType: "text/plain",
-        fileExtension: command.responseFormat === "json" || command.responseFormat === "verbose_json" ? "json" : command.responseFormat || "txt",
+        contentType: mimeTypeForTextResponseFormat(command.responseFormat),
+        fileExtension: fileExtensionForTextResponseFormat(command.responseFormat),
         kind: "transcript",
         mediaKind: "voice",
         operation: "transcription",
@@ -764,15 +1525,211 @@ export function createClawRouterVoiceProviderAdapter(
 
     async startTranslation(command) {
       const providerCode = providerCodeFrom(command, defaultProviderCode);
-      const create = requireClientMethod(options.client.audio?.translations?.create, "audio.translations.create");
-      const response = await create(withDefinedValues(buildTranslationBody(command)));
+      const response = await callClientMethod(
+        options.client.audio?.translations,
+        "create",
+        "audio.translations.create",
+        withDefinedValues(buildTranslationBody(command)),
+      );
       return completed(providerCode, response, {
-        contentType: "text/plain",
-        fileExtension: command.responseFormat === "json" || command.responseFormat === "verbose_json" ? "json" : command.responseFormat || "txt",
+        contentType: mimeTypeForTextResponseFormat(command.responseFormat),
+        fileExtension: fileExtensionForTextResponseFormat(command.responseFormat),
         kind: "translation",
         mediaKind: "voice",
         operation: "translation",
       });
+    },
+
+    async startRealtimeTranscriptionSession(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.realtime?.transcriptionSessions,
+        "create",
+        "realtime.transcriptionSessions.create",
+        withDefinedValues(buildRealtimeTranscriptionSessionBody(command)),
+      );
+      return completed(providerCode, response);
+    },
+
+    async startRealtimeTranslationSession(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.realtime?.translations,
+        "create",
+        "realtime.translations.create",
+        withDefinedValues(buildRealtimeTranslationSessionBody(command)),
+      );
+      return completed(providerCode, response);
+    },
+
+    async startRealtimeSession(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.realtime?.sessions,
+        "create",
+        "realtime.sessions.create",
+        buildRealtimeSessionBody(command),
+      );
+      return completed(providerCode, response);
+    },
+
+    async createRealtimeClientSecret(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.realtime?.clientSecrets,
+        "create",
+        "realtime.clientSecrets.create",
+        buildRealtimeSessionBody(command),
+      );
+      return completed(providerCode, response);
+    },
+
+    async startRealtimeCall(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.realtime?.calls,
+        "create",
+        "realtime.calls.create",
+        buildRealtimeCallBody(command),
+      );
+      return completed(providerCode, response);
+    },
+
+    async acceptRealtimeCall(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.realtime?.calls?.accept,
+        "create",
+        "realtime.calls.accept.create",
+        command.callId,
+        buildRealtimeCallActionBody(command),
+      );
+      return completed(providerCode, response);
+    },
+
+    async hangupRealtimeCall(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.realtime?.calls?.hangup,
+        "create",
+        "realtime.calls.hangup.create",
+        command.callId,
+        buildRealtimeCallActionBody(command),
+      );
+      return completed(providerCode, response);
+    },
+
+    async referRealtimeCall(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.realtime?.calls?.refer,
+        "create",
+        "realtime.calls.refer.create",
+        command.callId,
+        buildRealtimeCallReferBody(command),
+      );
+      return completed(providerCode, response);
+    },
+
+    async rejectRealtimeCall(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.realtime?.calls?.reject,
+        "create",
+        "realtime.calls.reject.create",
+        command.callId,
+        buildRealtimeCallActionBody(command),
+      );
+      return completed(providerCode, response);
+    },
+
+    async listVoices(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.audio?.voices,
+        "list",
+        "audio.voices.list",
+        withDefinedValues(buildVoiceListParams(command)),
+      );
+      return completed(providerCode, response);
+    },
+
+    async createVoice(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.audio?.voices,
+        "create",
+        "audio.voices.create",
+        withDefinedValues(buildVoiceCreateBody(command)),
+      );
+      return completed(providerCode, response);
+    },
+
+    async retrieveVoice(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.audio?.voices,
+        "retrieve",
+        "audio.voices.retrieve",
+        command.voiceId,
+      );
+      return completed(providerCode, response);
+    },
+
+    async listVoiceConsents(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.audio?.voiceConsents,
+        "list",
+        "audio.voiceConsents.list",
+        withDefinedValues(buildVoiceConsentListParams(command)),
+      );
+      return completed(providerCode, response);
+    },
+
+    async createVoiceConsent(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.audio?.voiceConsents,
+        "create",
+        "audio.voiceConsents.create",
+        withDefinedValues(buildVoiceConsentCreateBody(command)),
+      );
+      return completed(providerCode, response);
+    },
+
+    async retrieveVoiceConsent(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.audio?.voiceConsents,
+        "retrieve",
+        "audio.voiceConsents.retrieve",
+        command.consentId,
+      );
+      return completed(providerCode, response);
+    },
+
+    async updateVoiceConsent(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.audio?.voiceConsents,
+        "update",
+        "audio.voiceConsents.update",
+        command.consentId,
+        withDefinedValues(buildVoiceConsentUpdateBody(command)),
+      );
+      return completed(providerCode, response);
+    },
+
+    async deleteVoiceConsent(command) {
+      const providerCode = providerCodeFrom(command, defaultProviderCode);
+      const response = await callClientMethod(
+        options.client.audio?.voiceConsents,
+        "delete",
+        "audio.voiceConsents.delete",
+        command.consentId,
+      );
+      return completed(providerCode, response);
     },
 
     async startSoundEffect(command) {
@@ -802,34 +1759,70 @@ export function createClawRouterVoiceProviderAdapter(
     async startMusic(command) {
       const providerCode = providerCodeFrom(command, defaultProviderCode);
       if (providerCode === "volcengine") {
-        const create = requireClientMethod(
-          options.client.videosVolcengine?.api?.v3?.contents?.generations?.tasks?.create,
+        const response = await callClientMethod(
+          options.client.videosVolcengine?.api?.v3?.contents?.generations?.tasks,
+          "create",
           "videosVolcengine.api.v3.contents.generations.tasks.create",
+          withDefinedValues(buildVolcengineContentTaskBody(command)),
         );
-        const response = await create(withDefinedValues(buildVolcengineContentTaskBody(command)));
+        return taskStarted(providerCode, response);
+      }
+      if (providerCode === "kling") {
+        const response = await callClientMethod(
+          options.client.videosKling?.v1?.videos?.generations,
+          "create",
+          "videosKling.v1.videos.generations.create",
+          buildKlingVideoGenerationBody(command),
+        );
+        return taskStarted(providerCode, response);
+      }
+      if (providerCode === "nano-banana") {
+        const response = await callClientMethod(
+          options.client.imagesNanoBanana?.v1?.images?.generations,
+          "create",
+          "imagesNanoBanana.v1.images.generations.create",
+          buildImageGenerationBody(command),
+        );
+        return taskStarted(providerCode, response);
+      }
+      if (providerCode === "midjourney") {
+        const response = await callClientMethod(
+          options.client.imagesMidjourney?.v1?.images?.generations,
+          "create",
+          "imagesMidjourney.v1.images.generations.create",
+          buildImageGenerationBody(command),
+        );
+        return taskStarted(providerCode, response);
+      }
+      if (providerCode === "vidu" || providerCode === "vidu-image" || providerCode === "vidu-video") {
+        const response = await startViduGenerationTask(options.client, command, providerCode);
         return taskStarted(providerCode, response);
       }
 
-      const create = requireClientMethod(
-        options.client.audioSuno?.v1?.music?.generations?.create,
+      const response = await callClientMethod(
+        options.client.audioSuno?.v1?.music?.generations,
+        "create",
         "audioSuno.v1.music.generations.create",
+        withDefinedValues(buildSunoMusicBody(command)),
       );
-      const response = await create(withDefinedValues(buildSunoMusicBody(command)));
       return taskStarted(providerCode, response);
     },
 
     async queryTask(command) {
       const providerCode = command.providerCode || defaultProviderCode;
-      const retrieve = providerCode === "volcengine"
-        ? options.client.videosVolcengine?.api?.v3?.contents?.generations?.tasks?.retrieve
-        : options.client.audioSuno?.v1?.music?.generations?.retrieve;
-      const response = await requireClientMethod(retrieve, `${providerCode}.task.retrieve`)(command.providerTaskId);
+      const retrieve = taskRetrieveForProvider(options.client, providerCode);
+      const response = await callClientMethod(
+        retrieve.resource,
+        retrieve.methodName || "retrieve",
+        retrieve.name,
+        command.providerTaskId,
+      );
       return {
-        generatedArtifacts: normalizeVoiceProviderGeneratedArtifacts(response, providerCode, {
-          kind: providerCode === "volcengine" ? "video" : "music",
-          mediaKind: providerCode === "volcengine" ? "video" : "audio",
-          operation: "task",
-        }),
+        generatedArtifacts: normalizeVoiceProviderGeneratedArtifacts(
+          response,
+          providerCode,
+          taskArtifactDefaultsForProvider(providerCode),
+        ),
         providerCode,
         providerResponse: response,
         providerTaskId: command.providerTaskId,

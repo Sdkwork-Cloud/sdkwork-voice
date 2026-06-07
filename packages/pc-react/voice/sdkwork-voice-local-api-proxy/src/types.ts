@@ -12,8 +12,15 @@ export type VoiceLocalApiCapability =
   | "audio-speech"
   | "audio-transcription"
   | "audio-translation"
+  | "audio-voice-catalog"
+  | "audio-voice-consent"
   | "audio-sound-effect"
   | "audio-music"
+  | "audio-generated-image"
+  | "audio-generated-video"
+  | "audio-realtime-session"
+  | "audio-realtime-client-secret"
+  | "audio-realtime-call"
   | "audio-realtime-transcription"
   | "audio-realtime-translation";
 export type VoiceLocalApiProxyManagedBy = "system" | "user";

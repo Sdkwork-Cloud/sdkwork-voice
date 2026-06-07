@@ -20,15 +20,56 @@ describe("@sdkwork/voice-contracts", () => {
       workspace: "sdkwork-voice",
     });
 
-    expectTypeOf<SdkworkVoiceMediaResource["kind"]>().toEqualTypeOf<"audio" | "voice" | "image" | "video">();
+    expectTypeOf<SdkworkVoiceMediaResource["kind"]>().toEqualTypeOf<
+      "image" | "video" | "audio" | "voice" | "document" | "archive" | "model" | "other"
+    >();
+
+    expectTypeOf<SdkworkVoiceMediaResource["sizeBytes"]>().toEqualTypeOf<string | undefined>();
+    expectTypeOf<NonNullable<SdkworkVoiceMediaResource["access"]>["visibility"]>().toEqualTypeOf<
+      "private" | "tenant" | "organization" | "public" | "signed"
+    >();
+    expectTypeOf<NonNullable<SdkworkVoiceMediaResource["checksum"]>["algorithm"]>().toEqualTypeOf<
+      "md5" | "sha256" | "etag"
+    >();
+    expectTypeOf<NonNullable<SdkworkVoiceMediaResource["ai"]>["provenance"]>().toEqualTypeOf<
+      "uploaded" | "generated" | "edited" | "imported" | "recorded"
+    >();
 
     const resource: SdkworkVoiceMediaResource = {
+      access: { visibility: "tenant" },
       ai: { provenance: "generated", provider: "openai" },
+      altText: "Launch tag waveform",
+      checksum: { algorithm: "sha256", value: "sha256:launch-tag" },
+      durationSeconds: 1.2,
+      height: 512,
       id: "media-resource-audio-launch-tag",
       kind: "audio",
       mimeType: "audio/wav",
+      objectBlobId: "object-blob-audio-launch-tag",
+      poster: {
+        kind: "image",
+        source: "generated",
+        uri: "provider://openai/image/poster-launch-tag",
+      },
+      publicUrl: "https://cdn.example.test/launch-tag.wav",
+      sizeBytes: "128",
       source: "generated",
+      thumbnails: [
+        {
+          kind: "image",
+          source: "generated",
+          uri: "provider://openai/image/thumb-launch-tag",
+        },
+      ],
       title: "Launch Tag",
+      variants: [
+        {
+          kind: "audio",
+          source: "generated",
+          uri: "provider://openai/audio/variant-launch-tag",
+        },
+      ],
+      width: 512,
     };
 
     expect(resource.source).toBe("generated");
@@ -41,6 +82,9 @@ describe("@sdkwork/voice-contracts", () => {
       | "translation"
       | "sound_effect"
       | "music"
+      | "realtime_session"
+      | "realtime_client_secret"
+      | "realtime_call"
       | "realtime_transcription"
       | "realtime_translation"
     >();
@@ -63,6 +107,11 @@ describe("@sdkwork/voice-contracts", () => {
       | "music"
       | "voice_catalog"
       | "voice_consent"
+      | "generated_image"
+      | "generated_video"
+      | "realtime_session"
+      | "realtime_client_secret"
+      | "realtime_call"
       | "realtime_transcription"
       | "realtime_translation"
     >();
@@ -104,7 +153,9 @@ describe("@sdkwork/voice-contracts", () => {
   });
 
   it("models generated image, video, audio, and music artifact persistence into Drive AI space", () => {
-    expectTypeOf<SdkworkVoiceMediaResource["kind"]>().toEqualTypeOf<"audio" | "voice" | "image" | "video">();
+    expectTypeOf<SdkworkVoiceMediaResource["kind"]>().toEqualTypeOf<
+      "image" | "video" | "audio" | "voice" | "document" | "archive" | "model" | "other"
+    >();
     expectTypeOf<SdkworkVoiceArtifact["kind"]>().toEqualTypeOf<
       "audio" | "transcript" | "translation" | "sfx" | "music" | "image" | "video"
     >();

@@ -604,6 +604,8 @@ impl VoiceDriveUploadExecutor for InMemoryVoiceDriveUploadExecutor {
             upload_session_id: Some("drive-session-audio".to_string()),
             storage_provider_id: Some("drive-provider".to_string()),
             storage_upload_id: Some("drive-session-audio".to_string()),
+            object_bucket: None,
+            object_key: None,
             original_file_name: command.original_file_name,
             file_extension: Some("mp3".to_string()),
             content_type: command.content_type,

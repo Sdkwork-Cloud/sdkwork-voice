@@ -15,6 +15,10 @@ This README is the SDKWork module entrypoint for `@sdkwork/voice-local-api-proxy
 
 - None declared in `specs/component.spec.json`.
 
+## Supported Proxy Catalog
+
+The local proxy catalog includes OpenAI-compatible speech, transcription, translation, voice catalog, voice consent, realtime session, realtime client secret, realtime call action, realtime transcription, and realtime translation routes. It also includes custom/claw-router provider entries for Suno music, ElevenLabs sound effects, Volcengine provider tasks, Kling video generation, Nano Banana image generation, Midjourney image generation, and Vidu image/video generation plus task creations lookup.
+
 ## Configuration
 
 Configuration keys, runtime entrypoints, and integration contracts are declared in `specs/component.spec.json`. Shared modules must receive configuration through typed bootstrap or service boundaries rather than reading host-local environment state directly.

@@ -36,8 +36,15 @@ describe("@sdkwork/voice-local-api-proxy", () => {
       | "audio-speech"
       | "audio-transcription"
       | "audio-translation"
+      | "audio-voice-catalog"
+      | "audio-voice-consent"
       | "audio-sound-effect"
       | "audio-music"
+      | "audio-generated-image"
+      | "audio-generated-video"
+      | "audio-realtime-session"
+      | "audio-realtime-client-secret"
+      | "audio-realtime-call"
       | "audio-realtime-transcription"
       | "audio-realtime-translation"
     >();
@@ -110,11 +117,26 @@ describe("@sdkwork/voice-local-api-proxy", () => {
     ]);
   });
 
-  it("registers speech, transcription, translation, sound-effect, music, realtime, and provider task operations", () => {
+  it("registers speech, transcription, translation, voice catalog, voice consent, sound-effect, music, realtime, and provider task operations", () => {
     expect(createVoiceLocalApiProxyOperationCatalog().map((operation) => operation.id)).toEqual([
       "openai.v1.audio.speech.create",
       "openai.v1.audio.transcriptions.create",
       "openai.v1.audio.translations.create",
+      "openai.v1.audio.voices.list",
+      "openai.v1.audio.voices.create",
+      "openai.v1.audio.voices.retrieve",
+      "openai.v1.audio.voice_consents.list",
+      "openai.v1.audio.voice_consents.create",
+      "openai.v1.audio.voice_consents.retrieve",
+      "openai.v1.audio.voice_consents.update",
+      "openai.v1.audio.voice_consents.delete",
+      "openai.v1.realtime.sessions.create",
+      "openai.v1.realtime.client_secrets.create",
+      "openai.v1.realtime.calls.create",
+      "openai.v1.realtime.calls.accept.create",
+      "openai.v1.realtime.calls.hangup.create",
+      "openai.v1.realtime.calls.refer.create",
+      "openai.v1.realtime.calls.reject.create",
       "openai.v1.realtime.transcription_sessions.create",
       "openai.v1.realtime.translations.create",
       "suno.v1.music.generations.create",
@@ -122,12 +144,88 @@ describe("@sdkwork/voice-local-api-proxy", () => {
       "elevenlabs.v1.sound_generation.create",
       "volcengine.api.v3.contents.generations.tasks.create",
       "volcengine.api.v3.contents.generations.tasks.retrieve",
+      "kling.v1.videos.generations.create",
+      "kling.v1.videos.generations.retrieve",
+      "nano-banana.v1.images.generations.create",
+      "nano-banana.v1.images.generations.retrieve",
+      "midjourney.v1.images.generations.create",
+      "midjourney.v1.images.generations.retrieve",
+      "vidu.ent.v2.reference2image.create",
+      "vidu.ent.v2.text2video.create",
+      "vidu.ent.v2.img2video.create",
+      "vidu.ent.v2.reference2video.create",
+      "vidu.ent.v2.start_end2video.create",
+      "vidu.ent.v2.tasks.creations.list",
     ]);
     expect(findVoiceLocalApiProxyOperation("openai.v1.audio.transcriptions.create")).toMatchObject({
       capability: "audio-transcription",
       groupId: "voice-audio",
       pathPattern: "/v1/audio/transcriptions",
     });
+    expect(findVoiceLocalApiProxyOperation("openai.v1.audio.voices.retrieve")).toMatchObject({
+      capability: "audio-voice-catalog",
+      groupId: "voice-audio",
+      method: "GET",
+      pathPattern: "/v1/audio/voices/{voice_id}",
+    });
+    expect(findVoiceLocalApiProxyOperation("openai.v1.realtime.client_secrets.create")).toMatchObject({
+      capability: "audio-realtime-client-secret",
+      groupId: "voice-audio",
+      method: "POST",
+      pathPattern: "/v1/realtime/client_secrets",
+    });
+    expect(listVoiceLocalApiProxyOperationsByCapability("audio-realtime-call")).toEqual([
+      {
+        capability: "audio-realtime-call",
+        consumerProtocol: "openai-compatible",
+        groupId: "voice-audio",
+        id: "openai.v1.realtime.calls.create",
+        method: "POST",
+        pathPattern: "/v1/realtime/calls",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-realtime-call",
+        consumerProtocol: "openai-compatible",
+        groupId: "voice-audio",
+        id: "openai.v1.realtime.calls.accept.create",
+        method: "POST",
+        pathPattern: "/v1/realtime/calls/{call_id}/accept",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-realtime-call",
+        consumerProtocol: "openai-compatible",
+        groupId: "voice-audio",
+        id: "openai.v1.realtime.calls.hangup.create",
+        method: "POST",
+        pathPattern: "/v1/realtime/calls/{call_id}/hangup",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-realtime-call",
+        consumerProtocol: "openai-compatible",
+        groupId: "voice-audio",
+        id: "openai.v1.realtime.calls.refer.create",
+        method: "POST",
+        pathPattern: "/v1/realtime/calls/{call_id}/refer",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-realtime-call",
+        consumerProtocol: "openai-compatible",
+        groupId: "voice-audio",
+        id: "openai.v1.realtime.calls.reject.create",
+        method: "POST",
+        pathPattern: "/v1/realtime/calls/{call_id}/reject",
+        probeSupport: true,
+        streaming: false,
+      },
+    ]);
     expect(listVoiceLocalApiProxyOperationsByCapability("audio-translation")).toEqual([
       {
         capability: "audio-translation",
@@ -140,14 +238,197 @@ describe("@sdkwork/voice-local-api-proxy", () => {
         streaming: false,
       },
     ]);
+    expect(listVoiceLocalApiProxyOperationsByCapability("audio-voice-consent")).toEqual([
+      {
+        capability: "audio-voice-consent",
+        consumerProtocol: "openai-compatible",
+        groupId: "voice-audio",
+        id: "openai.v1.audio.voice_consents.list",
+        method: "GET",
+        pathPattern: "/v1/audio/voice_consents",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-voice-consent",
+        consumerProtocol: "openai-compatible",
+        groupId: "voice-audio",
+        id: "openai.v1.audio.voice_consents.create",
+        method: "POST",
+        pathPattern: "/v1/audio/voice_consents",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-voice-consent",
+        consumerProtocol: "openai-compatible",
+        groupId: "voice-audio",
+        id: "openai.v1.audio.voice_consents.retrieve",
+        method: "GET",
+        pathPattern: "/v1/audio/voice_consents/{consent_id}",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-voice-consent",
+        consumerProtocol: "openai-compatible",
+        groupId: "voice-audio",
+        id: "openai.v1.audio.voice_consents.update",
+        method: "POST",
+        pathPattern: "/v1/audio/voice_consents/{consent_id}",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-voice-consent",
+        consumerProtocol: "openai-compatible",
+        groupId: "voice-audio",
+        id: "openai.v1.audio.voice_consents.delete",
+        method: "DELETE",
+        pathPattern: "/v1/audio/voice_consents/{consent_id}",
+        probeSupport: true,
+        streaming: false,
+      },
+    ]);
+    expect(listVoiceLocalApiProxyOperationsByCapability("audio-generated-image")).toEqual([
+      {
+        capability: "audio-generated-image",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "nano-banana.v1.images.generations.create",
+        method: "POST",
+        pathPattern: "/nano-banana/v1/images/generations",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-generated-image",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "nano-banana.v1.images.generations.retrieve",
+        method: "GET",
+        pathPattern: "/nano-banana/v1/images/generations/{task_id}",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-generated-image",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "midjourney.v1.images.generations.create",
+        method: "POST",
+        pathPattern: "/midjourney/v1/images/generations",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-generated-image",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "midjourney.v1.images.generations.retrieve",
+        method: "GET",
+        pathPattern: "/midjourney/v1/images/generations/{task_id}",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-generated-image",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "vidu.ent.v2.reference2image.create",
+        method: "POST",
+        pathPattern: "/vidu/ent/v2/reference2image",
+        probeSupport: true,
+        streaming: false,
+      },
+    ]);
+    expect(listVoiceLocalApiProxyOperationsByCapability("audio-generated-video")).toEqual([
+      {
+        capability: "audio-generated-video",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "kling.v1.videos.generations.create",
+        method: "POST",
+        pathPattern: "/kling/v1/videos/generations",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-generated-video",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "kling.v1.videos.generations.retrieve",
+        method: "GET",
+        pathPattern: "/kling/v1/videos/generations/{task_id}",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-generated-video",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "vidu.ent.v2.text2video.create",
+        method: "POST",
+        pathPattern: "/vidu/ent/v2/text2video",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-generated-video",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "vidu.ent.v2.img2video.create",
+        method: "POST",
+        pathPattern: "/vidu/ent/v2/img2video",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-generated-video",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "vidu.ent.v2.reference2video.create",
+        method: "POST",
+        pathPattern: "/vidu/ent/v2/reference2video",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-generated-video",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "vidu.ent.v2.start_end2video.create",
+        method: "POST",
+        pathPattern: "/vidu/ent/v2/start-end2video",
+        probeSupport: true,
+        streaming: false,
+      },
+      {
+        capability: "audio-generated-video",
+        consumerProtocol: "custom-http",
+        groupId: "voice-audio",
+        id: "vidu.ent.v2.tasks.creations.list",
+        method: "GET",
+        pathPattern: "/vidu/ent/v2/tasks/{task_id}/creations",
+        probeSupport: true,
+        streaming: false,
+      },
+    ]);
     expect(createVoiceLocalApiProxyRouteGroups()).toEqual([
       {
         capabilityFamilies: [
           "audio-speech",
           "audio-transcription",
           "audio-translation",
+          "audio-voice-catalog",
+          "audio-voice-consent",
           "audio-sound-effect",
           "audio-music",
+          "audio-generated-image",
+          "audio-generated-video",
+          "audio-realtime-session",
+          "audio-realtime-client-secret",
+          "audio-realtime-call",
           "audio-realtime-transcription",
           "audio-realtime-translation",
         ],
@@ -156,6 +437,21 @@ describe("@sdkwork/voice-local-api-proxy", () => {
           "openai.v1.audio.speech.create",
           "openai.v1.audio.transcriptions.create",
           "openai.v1.audio.translations.create",
+          "openai.v1.audio.voices.list",
+          "openai.v1.audio.voices.create",
+          "openai.v1.audio.voices.retrieve",
+          "openai.v1.audio.voice_consents.list",
+          "openai.v1.audio.voice_consents.create",
+          "openai.v1.audio.voice_consents.retrieve",
+          "openai.v1.audio.voice_consents.update",
+          "openai.v1.audio.voice_consents.delete",
+          "openai.v1.realtime.sessions.create",
+          "openai.v1.realtime.client_secrets.create",
+          "openai.v1.realtime.calls.create",
+          "openai.v1.realtime.calls.accept.create",
+          "openai.v1.realtime.calls.hangup.create",
+          "openai.v1.realtime.calls.refer.create",
+          "openai.v1.realtime.calls.reject.create",
           "openai.v1.realtime.transcription_sessions.create",
           "openai.v1.realtime.translations.create",
           "suno.v1.music.generations.create",
@@ -163,6 +459,18 @@ describe("@sdkwork/voice-local-api-proxy", () => {
           "elevenlabs.v1.sound_generation.create",
           "volcengine.api.v3.contents.generations.tasks.create",
           "volcengine.api.v3.contents.generations.tasks.retrieve",
+          "kling.v1.videos.generations.create",
+          "kling.v1.videos.generations.retrieve",
+          "nano-banana.v1.images.generations.create",
+          "nano-banana.v1.images.generations.retrieve",
+          "midjourney.v1.images.generations.create",
+          "midjourney.v1.images.generations.retrieve",
+          "vidu.ent.v2.reference2image.create",
+          "vidu.ent.v2.text2video.create",
+          "vidu.ent.v2.img2video.create",
+          "vidu.ent.v2.reference2video.create",
+          "vidu.ent.v2.start_end2video.create",
+          "vidu.ent.v2.tasks.creations.list",
         ],
       },
     ]);
@@ -258,6 +566,17 @@ describe("@sdkwork/voice-local-api-proxy", () => {
               capability: "audio-music",
               operationSet: ["suno.v1.music.generations.create", "suno.v1.music.generations.retrieve"],
             },
+            {
+              capability: "audio-generated-video",
+              operationSet: ["kling.v1.videos.generations.retrieve", "vidu.ent.v2.tasks.creations.list"],
+            },
+            {
+              capability: "audio-generated-image",
+              operationSet: [
+                "nano-banana.v1.images.generations.retrieve",
+                "midjourney.v1.images.generations.retrieve",
+              ],
+            },
           ],
           clientProtocol: "custom-http",
           id: "voice-generation-provider",
@@ -283,6 +602,8 @@ describe("@sdkwork/voice-local-api-proxy", () => {
     expect(config.routes[0]?.capabilities.map((capability) => capability.capability)).toEqual([
       "audio-sound-effect",
       "audio-music",
+      "audio-generated-video",
+      "audio-generated-image",
     ]);
     expect(config.routes[0]?.modelBindings.map((binding) => binding.role)).toEqual(["sound-effect", "music"]);
   });

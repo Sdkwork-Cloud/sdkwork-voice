@@ -964,6 +964,7 @@ dependencies = [
  "async-trait",
  "sdkwork-drive-config",
  "sdkwork-drive-core",
+ "sdkwork-drive-storage-contract",
  "sha2",
  "sqlx",
  "tokio",

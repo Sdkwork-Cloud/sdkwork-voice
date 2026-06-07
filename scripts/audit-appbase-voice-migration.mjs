@@ -1,8 +1,10 @@
 import { access, readFile, stat } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-export const DEFAULT_APPBASE_ROOT = "D:\\javasource\\spring-ai-plus\\spring-ai-plus-business\\apps\\sdkwork-appbase";
+const scriptDir = dirname(fileURLToPath(import.meta.url));
+const workspaceRoot = resolve(scriptDir, "..");
+export const DEFAULT_APPBASE_ROOT = resolve(workspaceRoot, "../sdkwork-appbase");
 
 export const disallowedPathRelatives = [
   "packages/pc-react/content/sdkwork-audio-pc-react",
