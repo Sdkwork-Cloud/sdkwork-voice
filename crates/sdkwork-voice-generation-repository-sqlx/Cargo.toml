@@ -11,6 +11,7 @@ name = "sdkwork_voice_generation_repository_sqlx"
 path = "src/lib.rs"
 
 [dependencies]
+sdkwork-pool-config = { path = "../../../sdkwork-pool/crates/sdkwork-pool-config" }
 sqlx.workspace = true
 
 [dev-dependencies]
