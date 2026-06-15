@@ -9,16 +9,32 @@ export const routeSources = [
   {
     owner: "sdkwork-voice",
     domain: "voice",
-    path: resolve(
-      voiceRoot,
-      "packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
-    ),
+    packageName: "sdkwork-router-voice-app-api",
+    surface: "app-api",
+    apiAuthority: "sdkwork-voice-app-api",
+    sdkFamily: "sdkwork-voice-app-sdk",
+    prefix: "/app/v3/api",
+    routeCrate: "sdkwork-router-voice-app-api",
+    path: resolve(voiceRoot, "crates/sdkwork-router-voice-app-api/src/manifest.rs"),
+    constructors: ["VoiceHttpRoute::new"],
+  },
+  {
+    owner: "sdkwork-voice",
+    domain: "voice",
+    packageName: "sdkwork-router-voice-backend-api",
+    surface: "backend-api",
+    apiAuthority: "sdkwork-voice-backend-api",
+    sdkFamily: "sdkwork-voice-backend-sdk",
+    prefix: "/backend/v3/api",
+    routeCrate: "sdkwork-router-voice-backend-api",
+    path: resolve(voiceRoot, "crates/sdkwork-router-voice-backend-api/src/manifest.rs"),
     constructors: ["VoiceHttpRoute::new"],
   },
 ];
 
 export const surfaces = {
   app: {
+    routeSurface: "app-api",
     sdkType: "app",
     sdkOwner: "sdkwork-voice",
     familyName: "sdkwork-voice-app-sdk",
@@ -27,8 +43,10 @@ export const surfaces = {
     description: "App/client contract for SDKWork Voice speech, transcription, translation, sound-effect generation, music generation, task state, and audio asset browsing.",
     prefix: "/app/v3/api",
     audience: "App, desktop, mobile, H5, and user-facing voice clients",
+    authMode: "dual-token",
   },
   backend: {
+    routeSurface: "backend-api",
     sdkType: "backend",
     sdkOwner: "sdkwork-voice",
     familyName: "sdkwork-voice-backend-sdk",
@@ -37,6 +55,7 @@ export const surfaces = {
     description: "Backend/admin contract for SDKWork Voice provider routes, generation tasks, webhook reconciliation, request logs, and audio artifacts.",
     prefix: "/backend/v3/api",
     audience: "Backend consoles, operators, control-plane integrations, and admin automation",
+    authMode: "dual-token",
   },
 };
 
@@ -62,6 +81,8 @@ export async function main() {
 
   await writeSurfaceOpenApi(surfaces.app, appRoutes);
   await writeSurfaceOpenApi(surfaces.backend, backendRoutes);
+  await writeRouteManifest(surfaces.app, appRoutes);
+  await writeRouteManifest(surfaces.backend, backendRoutes);
 
   console.log(`Materialized ${appRoutes.length} voice app-api operations.`);
   console.log(`Materialized ${backendRoutes.length} voice backend-api operations.`);
@@ -81,6 +102,11 @@ export async function collectRoutes() {
       routes.push({
         domain: source.domain,
         owner: source.owner,
+        sourceRouteCrate: source.routeCrate,
+        surface: source.surface,
+        apiAuthority: source.apiAuthority,
+        sdkFamily: source.sdkFamily,
+        sourcePrefix: source.prefix,
         method: methodNames[match[1]],
         path: match[2],
         tag: toLowerCamel(match[3]),
@@ -126,6 +152,47 @@ export async function writeSurfaceOpenApi(surface, routes) {
   await writeFile(authorityPath, content, "utf8");
   await writeFile(sdkgenPath, content, "utf8");
   await writeFile(flutterSdkgenPath, content, "utf8");
+}
+
+export async function writeRouteManifest(surface, routes) {
+  const packageName = routePackageForSurface(surface);
+  const manifestRoot = resolve(voiceRoot, "sdks", "_route-manifests", surface.routeSurface);
+  await mkdir(manifestRoot, { recursive: true });
+  const manifestPath = resolve(manifestRoot, `${packageName}.route-manifest.json`);
+  const manifest = {
+    schemaVersion: 1,
+    kind: "sdkwork.route.manifest",
+    packageName,
+    surface: surface.routeSurface,
+    owner: surface.sdkOwner,
+    domain: "voice",
+    capability: "voice",
+    apiAuthority: surface.authorityName,
+    sdkFamily: surface.familyName,
+    prefix: surface.prefix,
+    source: {
+      crateRoot: `crates/${packageName}`,
+      crateImport: packageName.replaceAll("-", "_"),
+    },
+    routes: routes.map((route) => ({
+      method: route.method.toUpperCase(),
+      path: route.path,
+      operationId: route.operationId,
+      tags: [route.tag],
+      auth: {
+        mode: surface.authMode,
+        required: true,
+      },
+      ownership: {
+        owner: surface.sdkOwner,
+        apiAuthority: surface.authorityName,
+        sdkFamily: surface.familyName,
+        sourceRouteCrate: route.sourceRouteCrate,
+      },
+    })),
+  };
+
+  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
 }
 
 export function buildOpenApi(surface, routes) {
@@ -180,10 +247,17 @@ export function buildOpenApi(surface, routes) {
       },
       schemas: buildSchemas(),
     },
-    "x-sdkwork-materialized-from": routeSources.map((source) => ({
-      owner: source.owner,
-      path: relativeForOpenApi(source.path),
-    })),
+    "x-sdkwork-materialized-from": routeSources
+      .filter((source) => source.sdkFamily === surface.familyName)
+      .map((source) => ({
+        owner: source.owner,
+        packageName: source.packageName,
+        surface: source.surface,
+        apiAuthority: source.apiAuthority,
+        sdkFamily: source.sdkFamily,
+        path: relativeForOpenApi(source.path),
+        sourceRouteCrate: source.routeCrate,
+      })),
     "x-sdkwork-request-context": {
       contextObject: "AppRequestContext",
       serverRequestId: "server-owned",
@@ -218,6 +292,7 @@ function buildOperation(surface, route) {
     "x-sdkwork-request-context": "AppRequestContext",
     "x-sdkwork-server-request-id": true,
     "x-sdkwork-source": relativeForOpenApi(route.sourcePath),
+    "x-sdkwork-source-route-crate": route.sourceRouteCrate,
   };
 
   if (usesJsonBody(route.method)) {
@@ -712,6 +787,10 @@ function requestSchemaRefForOperation(operationId) {
 
 function isListOperation(route) {
   return route.method === "get" && route.operationId.endsWith(".list");
+}
+
+function routePackageForSurface(surface) {
+  return `sdkwork-router-voice-${surface.routeSurface}`;
 }
 
 function compareRoutes(left, right) {

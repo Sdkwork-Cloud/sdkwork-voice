@@ -308,7 +308,7 @@ The Drive integration depends on the Rust libraries in:
 
 Voice owns a dedicated Rust bridge crate:
 
-- `packages/native-rust/voice/sdkwork-voice-drive-rust`
+- `crates/sdkwork-voice-artifact-drive-service`
 
 The bridge provides two persistence levels:
 
@@ -329,7 +329,7 @@ Runtime synchronization flow:
 2. Successful provider responses are normalized into `generatedArtifacts` without leaking provider DTOs into application APIs.
 3. The voice task worker creates `voice_audio_artifact` rows using the normalized `artifactIndex`, kind, provider asset id, source URI, MIME type, and media provenance.
 4. The worker creates or updates matching `voice_artifact_drive_sync` rows with `pending_upload` or `uploading` status.
-5. The Rust Drive bridge downloads/decodes provider bytes when needed and calls `DriveProductVoiceBytesPersister` or `DriveProductVoiceUploadExecutor`.
+5. The Rust Drive bridge downloads/decodes provider bytes when needed and calls `DriveWorkspaceVoiceBytesPersister` or `DriveWorkspaceVoiceUploadExecutor`.
 6. After Drive writes succeed, the sync row is updated to `uploaded`, and the business artifact media resource points at `drive://spaces/{spaceId}/nodes/{nodeId}`.
 
 Drive sync statuses:
@@ -345,31 +345,47 @@ The app API exposes sync lookup for client progress and Drive resource rendering
 
 ## Rust Catalogs
 
-### Rust HTTP Route Catalog
+### Rust App API Route Catalog
 
-Crate: `sdkwork-voice-http-rust`
+Crate: `sdkwork-router-voice-app-api`
 
 Path:
 
-- `packages/native-rust/voice/sdkwork-voice-http-rust`
+- `crates/sdkwork-router-voice-app-api`
 
-Owns the canonical Rust route catalog used to materialize voice app/backend OpenAPI boundaries:
+Owns the canonical Rust route catalog used to materialize the voice app-api OpenAPI boundary:
 
 - app route catalog
+- operation IDs
+- HTTP methods
+- dual-token header requirement: `Authorization` and `Access-Token`
+
+The OpenAPI materializer reads this crate as the `sdkwork-voice-app-api` route source of truth and writes a normalized route manifest under `sdks/_route-manifests/app-api/`.
+
+### Rust Backend API Route Catalog
+
+Crate: `sdkwork-router-voice-backend-api`
+
+Path:
+
+- `crates/sdkwork-router-voice-backend-api`
+
+Owns the canonical Rust route catalog used to materialize the voice backend-api OpenAPI boundary:
+
 - backend route catalog
 - operation IDs
 - HTTP methods
 - dual-token header requirement: `Authorization` and `Access-Token`
 
-The OpenAPI materializer reads this crate as the route source of truth.
+The OpenAPI materializer reads this crate as the `sdkwork-voice-backend-api` route source of truth and writes a normalized route manifest under `sdks/_route-manifests/backend-api/`.
 
 ### Rust Storage Schema Catalog
 
-Crate: `sdkwork-voice-storage-sqlx-rust`
+Crate: `sdkwork-voice-generation-repository-sqlx`
 
 Path:
 
-- `packages/native-rust/voice/sdkwork-voice-storage-sqlx-rust`
+- `crates/sdkwork-voice-generation-repository-sqlx`
 
 Owns voice database schema contracts and migration catalog:
 
@@ -410,11 +426,11 @@ The crate also exposes `SqlVoiceArtifactDriveSyncRepository` for the generated a
 
 ### Rust Local API Proxy Native Runtime
 
-Crate: `sdkwork-voice-local-api-proxy-native`
+Crate: `sdkwork-voice-local-api-proxy-native-host`
 
 Path:
 
-- `packages/native-rust/voice/sdkwork-voice-local-api-proxy-native`
+- `crates/sdkwork-voice-local-api-proxy-native-host`
 
 Provides native runtime support for the voice local API proxy:
 
@@ -435,13 +451,15 @@ packages/
     sdkwork-audio-pc-react/
   pc-react/voice/
     sdkwork-voice-local-api-proxy/
-  native-rust/voice/
-    sdkwork-voice-http-rust/
-    sdkwork-voice-storage-sqlx-rust/
-    sdkwork-voice-drive-rust/
-    sdkwork-voice-local-api-proxy-native/
+crates/
+  sdkwork-router-voice-app-api/
+  sdkwork-router-voice-backend-api/
+  sdkwork-voice-artifact-drive-service/
+  sdkwork-voice-generation-repository-sqlx/
+  sdkwork-voice-local-api-proxy-native-host/
 sdks/
   materialize-voice-v3-openapi-boundaries.mjs
+  _route-manifests/
   sdkwork-voice-app-sdk/
   sdkwork-voice-backend-sdk/
 scripts/

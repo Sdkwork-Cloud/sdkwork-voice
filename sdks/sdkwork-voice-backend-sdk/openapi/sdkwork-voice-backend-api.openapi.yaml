@@ -166,7 +166,8 @@
         "x-sdkwork-resource": "artifactDriveSync",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       }
     },
     "/backend/v3/api/voice/artifact_drive_sync/{syncId}/retry": {
@@ -270,7 +271,8 @@
         "x-sdkwork-resource": "artifactDriveSync",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -421,7 +423,8 @@
         "x-sdkwork-resource": "audioArtifacts",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       }
     },
     "/backend/v3/api/voice/audio_artifacts/{audioArtifactId}": {
@@ -525,7 +528,8 @@
         "x-sdkwork-resource": "audioArtifacts",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       },
       "get": {
         "tags": [
@@ -627,7 +631,8 @@
         "x-sdkwork-resource": "audioArtifacts",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       }
     },
     "/backend/v3/api/voice/provider_routes": {
@@ -768,7 +773,8 @@
         "x-sdkwork-resource": "providerRoutes",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       },
       "post": {
         "tags": [
@@ -861,7 +867,8 @@
         "x-sdkwork-resource": "providerRoutes",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -975,7 +982,8 @@
         "x-sdkwork-resource": "providerRoutes",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       },
       "get": {
         "tags": [
@@ -1077,7 +1085,8 @@
         "x-sdkwork-resource": "providerRoutes",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       },
       "patch": {
         "tags": [
@@ -1179,7 +1188,8 @@
         "x-sdkwork-resource": "providerRoutes",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api",
         "requestBody": {
           "required": false,
           "content": {
@@ -1330,7 +1340,8 @@
         "x-sdkwork-resource": "providerWebhookEvents",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       }
     },
     "/backend/v3/api/voice/provider_webhook_events/{eventId}/replay": {
@@ -1434,7 +1445,8 @@
         "x-sdkwork-resource": "providerWebhookEvents",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -1548,7 +1560,8 @@
         "x-sdkwork-resource": "providerWebhooks",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -1699,7 +1712,8 @@
         "x-sdkwork-resource": "requestLogs",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       }
     },
     "/backend/v3/api/voice/task_events": {
@@ -1840,7 +1854,8 @@
         "x-sdkwork-resource": "taskEvents",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       }
     },
     "/backend/v3/api/voice/tasks": {
@@ -1981,7 +1996,8 @@
         "x-sdkwork-resource": "tasks",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       }
     },
     "/backend/v3/api/voice/tasks/{taskId}": {
@@ -2085,7 +2101,8 @@
         "x-sdkwork-resource": "tasks",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       }
     },
     "/backend/v3/api/voice/tasks/{taskId}/cancel": {
@@ -2189,7 +2206,8 @@
         "x-sdkwork-resource": "tasks",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -2303,7 +2321,8 @@
         "x-sdkwork-resource": "tasks",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -2417,7 +2436,8 @@
         "x-sdkwork-resource": "tasks",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -2568,7 +2588,8 @@
         "x-sdkwork-resource": "webhookDeliveries",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-router-voice-backend-api"
       }
     }
   },
@@ -3545,7 +3566,12 @@
   "x-sdkwork-materialized-from": [
     {
       "owner": "sdkwork-voice",
-      "path": "<sdkwork-voice>/packages/native-rust/voice/sdkwork-voice-http-rust/src/lib.rs"
+      "packageName": "sdkwork-router-voice-backend-api",
+      "surface": "backend-api",
+      "apiAuthority": "sdkwork-voice-backend-api",
+      "sdkFamily": "sdkwork-voice-backend-sdk",
+      "path": "<sdkwork-voice>/crates/sdkwork-router-voice-backend-api/src/manifest.rs",
+      "sourceRouteCrate": "sdkwork-router-voice-backend-api"
     }
   ],
   "x-sdkwork-request-context": {

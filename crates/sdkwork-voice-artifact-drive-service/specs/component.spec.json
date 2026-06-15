@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-voice-artifact-drive-service",
+    "displayName": "SDKWork Voice Artifact Drive Service",
+    "version": "0.1.0",
+    "type": "rust-crate",
+    "root": "sdkwork-voice/crates/sdkwork-voice-artifact-drive-service",
+    "domain": "communication",
+    "capability": "voice-artifact-drive",
+    "surface": "backend-service",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    {
+      "file": "COMPONENT_SPEC.md",
+      "path": "../../../sdkwork-specs/COMPONENT_SPEC.md",
+      "purpose": "Component-local contract and discovery rules."
+    },
+    {
+      "file": "CODE_STYLE_SPEC.md",
+      "path": "../../../sdkwork-specs/CODE_STYLE_SPEC.md",
+      "purpose": "Authored source structure and generated code boundaries."
+    },
+    {
+      "file": "NAMING_SPEC.md",
+      "path": "../../../sdkwork-specs/NAMING_SPEC.md",
+      "purpose": "Canonical SDKWork naming rules."
+    },
+    {
+      "file": "RUST_CODE_SPEC.md",
+      "path": "../../../sdkwork-specs/RUST_CODE_SPEC.md",
+      "purpose": "Rust service crate and module rules."
+    },
+    {
+      "file": "DRIVE_SPEC.md",
+      "path": "../../../sdkwork-specs/DRIVE_SPEC.md",
+      "purpose": "Drive file lifecycle, uploader, and generated artifact storage rules."
+    },
+    {
+      "file": "MEDIA_RESOURCE_SPEC.md",
+      "path": "../../../sdkwork-specs/MEDIA_RESOURCE_SPEC.md",
+      "purpose": "Generated media representation and Drive-backed resource rules."
+    },
+    {
+      "file": "DEPENDENCY_MANAGEMENT_SPEC.md",
+      "path": "../../../sdkwork-specs/DEPENDENCY_MANAGEMENT_SPEC.md",
+      "purpose": "Cargo workspace dependency centralization and cross-repository source paths."
+    },
+    {
+      "file": "TEST_SPEC.md",
+      "path": "../../../sdkwork-specs/TEST_SPEC.md",
+      "purpose": "Service and integration verification expectations."
+    }
+  ],
+  "contracts": {
+    "publicExports": ["."],
+    "runtimeEntrypoints": [
+      "sdkwork_voice_artifact_drive_service::persist_voice_generated_artifacts_to_drive",
+      "sdkwork_voice_artifact_drive_service::persist_voice_generated_artifact_bytes_to_drive"
+    ],
+    "routeManifest": null,
+    "sdkClients": [],
+    "sdkDependencies": [],
+    "dependencyApiExports": [],
+    "dependencyApiSurfaces": [],
+    "events": [],
+    "configKeys": []
+  },
+  "verification": {
+    "commands": [
+      "cargo test -p sdkwork-voice-artifact-drive-service"
+    ]
+  }
+}

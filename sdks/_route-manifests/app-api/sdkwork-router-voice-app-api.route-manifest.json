@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.route.manifest",
+  "packageName": "sdkwork-router-voice-app-api",
+  "surface": "app-api",
+  "owner": "sdkwork-voice",
+  "domain": "voice",
+  "capability": "voice",
+  "apiAuthority": "sdkwork-voice-app-api",
+  "sdkFamily": "sdkwork-voice-app-sdk",
+  "prefix": "/app/v3/api",
+  "source": {
+    "crateRoot": "crates/sdkwork-router-voice-app-api",
+    "crateImport": "sdkwork_router_voice_app_api"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/app/v3/api/voice/artifact_drive_sync",
+      "operationId": "artifactDriveSync.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/app/v3/api/voice/audio_assets",
+      "operationId": "audioAssets.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/app/v3/api/voice/audio_assets/{audioAssetId}",
+      "operationId": "audioAssets.retrieve",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/voice/music",
+      "operationId": "music.create",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/voice/sound_effects",
+      "operationId": "soundEffects.create",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/voice/speech",
+      "operationId": "speech.create",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/app/v3/api/voice/task_events",
+      "operationId": "taskEvents.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/app/v3/api/voice/tasks",
+      "operationId": "tasks.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/app/v3/api/voice/tasks/{taskId}",
+      "operationId": "tasks.retrieve",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/voice/tasks/{taskId}/cancel",
+      "operationId": "tasks.cancel",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/voice/transcriptions",
+      "operationId": "transcriptions.create",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/voice/translations",
+      "operationId": "translations.create",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      }
+    }
+  ]
+}

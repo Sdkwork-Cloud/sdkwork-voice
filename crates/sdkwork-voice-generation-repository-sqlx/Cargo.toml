@@ -1,0 +1,17 @@
+[package]
+name = "sdkwork-voice-generation-repository-sqlx"
+version.workspace = true
+edition.workspace = true
+description = "SDKWork Voice SQL storage contract and migration catalog."
+license = "UNLICENSED"
+publish = false
+
+[lib]
+name = "sdkwork_voice_generation_repository_sqlx"
+path = "src/lib.rs"
+
+[dependencies]
+sqlx.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true

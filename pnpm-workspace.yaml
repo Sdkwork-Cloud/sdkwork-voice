@@ -1,6 +1,5 @@
 packages:
   - "packages/common/*/*"
-  - "packages/native-rust/*/*"
   - "packages/pc-react/*/*"
   - "sdks/*"
   - "sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/generated/server-openapi"
