@@ -1,1 +1,0 @@
-{"version":3,"file":"voice-provider-options.d.ts","sourceRoot":"","sources":["../../src/types/voice-provider-options.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,oBAAoB;IACnC,YAAY,CAAC,EAAE,MAAM,CAAC;IACtB,eAAe,CAAC,EAAE,MAAM,CAAC;IACzB,eAAe,CAAC,EAAE,MAAM,CAAC,MAAM,EAAE,OAAO,CAAC,CAAC;CAC3C"}

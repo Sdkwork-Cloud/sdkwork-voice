@@ -1,1 +1,0 @@
-{"version":3,"file":"voice-provider-webhook-event-command.d.ts","sourceRoot":"","sources":["../../src/types/voice-provider-webhook-event-command.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,gCAAgC;IAC/C,OAAO,CAAC,EAAE,MAAM,CAAC;IACjB,cAAc,CAAC,EAAE,MAAM,CAAC;IACxB,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,OAAO,EAAE,MAAM,CAAC,MAAM,EAAE,OAAO,CAAC,CAAC;CAClC"}
