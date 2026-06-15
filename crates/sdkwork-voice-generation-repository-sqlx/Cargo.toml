@@ -12,6 +12,7 @@ path = "src/lib.rs"
 
 [dependencies]
 sdkwork-pool-config = { path = "../../../sdkwork-pool/crates/sdkwork-pool-config" }
+sdkwork-pool-sqlx = { path = "../../../sdkwork-pool/crates/sdkwork-pool-sqlx" }
 sqlx.workspace = true
 
 [dev-dependencies]
