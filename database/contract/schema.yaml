@@ -1,0 +1,37 @@
+schema_version: 1
+kind: sdkwork.database.schema
+module_id: voice
+contract_version: 1.0.0
+owner_team: voice-platform
+compliance_level: L2
+engines:
+  - postgres
+table_prefix: voice_
+tables:
+  - name: voice_provider_route
+    lifecycle_status: active
+    owner: voice-platform
+  - name: voice_provider_route_capability
+    lifecycle_status: active
+    owner: voice-platform
+  - name: voice_generation_task
+    lifecycle_status: active
+    owner: voice-platform
+  - name: voice_task_event
+    lifecycle_status: active
+    owner: voice-platform
+  - name: voice_audio_artifact
+    lifecycle_status: active
+    owner: voice-platform
+  - name: voice_artifact_drive_sync
+    lifecycle_status: active
+    owner: voice-platform
+  - name: voice_provider_webhook_event
+    lifecycle_status: active
+    owner: voice-platform
+  - name: voice_webhook_delivery
+    lifecycle_status: active
+    owner: voice-platform
+  - name: voice_request_log
+    lifecycle_status: active
+    owner: voice-platform

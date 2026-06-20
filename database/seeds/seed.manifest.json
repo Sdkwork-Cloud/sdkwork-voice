@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.database.seed",
+  "defaultLocale": "zh-CN",
+  "supportedLocales": ["zh-CN", "en-US", "ja-JP", "de-DE", "fr-FR", "ru-RU", "ko-KR"],
+  "activeLocales": ["zh-CN"],
+  "profiles": {
+    "minimal": {
+      "common": [],
+      "locales": {
+        "zh-CN": []
+      }
+    },
+    "standard": {
+      "common": [],
+      "locales": {
+        "zh-CN": []
+      }
+    }
+  }
+}

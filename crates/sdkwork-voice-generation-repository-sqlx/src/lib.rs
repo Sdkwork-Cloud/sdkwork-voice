@@ -1,6 +1,15 @@
 pub const VOICE_STORAGE_SCHEMA_VERSION: &str = "2026-06-06";
 pub const VOICE_INITIAL_MIGRATION: &str = "0001_voice_core.sql";
 
+mod bootstrap;
+
+pub use bootstrap::{
+    bootstrap_voice_database, bootstrap_voice_database_from_env,
+    connect_and_bootstrap_voice_database_from_env, connect_and_bootstrap_voice_database_from_url,
+    connect_voice_database_pool_from_env, connect_voice_database_pool_from_url, VoiceDatabaseHost,
+    VoiceDatabasePool,
+};
+
 use sqlx::{AnyPool, Row};
 
 const VOICE_INITIAL_MIGRATION_SQL: &str = include_str!("../migrations/0001_voice_core.sql");
@@ -372,6 +381,9 @@ pub fn voice_database_tables() -> Vec<&'static str> {
 pub fn voice_initial_migration_sql() -> &'static str {
     VOICE_INITIAL_MIGRATION_SQL
 }
+
+// Legacy migration SQL retained for contract tests. Runtime PostgreSQL bootstrap uses
+// application-root `database/` via `sdkwork-voice-database-host`.
 
 pub fn voice_storage_capability_manifest() -> VoiceStorageCapabilityManifest {
     VoiceStorageCapabilityManifest {

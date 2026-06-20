@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+    "crates/sdkwork-voice-database-host",
     "crates/sdkwork-router-voice-app-api",
     "crates/sdkwork-router-voice-backend-api",
     "crates/sdkwork-voice-artifact-drive-service",
@@ -23,6 +24,15 @@ sdkwork-router-voice-backend-api = { path = "crates/sdkwork-router-voice-backend
 sdkwork-voice-artifact-drive-service = { path = "crates/sdkwork-voice-artifact-drive-service" }
 sdkwork-voice-generation-repository-sqlx = { path = "crates/sdkwork-voice-generation-repository-sqlx" }
 sdkwork-voice-local-api-proxy-native-host = { path = "crates/sdkwork-voice-local-api-proxy-native-host" }
+sdkwork-voice-database-host = { path = "crates/sdkwork-voice-database-host" }
+sdkwork-database-config = { path = "../sdkwork-database/crates/sdkwork-database-config", package = "sdkwork-database-config" }
+sdkwork-database-lifecycle = { path = "../sdkwork-database/crates/sdkwork-database-lifecycle", package = "sdkwork-database-lifecycle" }
+sdkwork-database-spi = { path = "../sdkwork-database/crates/sdkwork-database-spi", package = "sdkwork-database-spi" }
+sdkwork-database-sqlx = { path = "../sdkwork-database/crates/sdkwork-database-sqlx", package = "sdkwork-database-sqlx" }
+sdkwork_database_config = { path = "../sdkwork-database/crates/sdkwork-database-config", package = "sdkwork-database-config" }
+sdkwork_database_lifecycle = { path = "../sdkwork-database/crates/sdkwork-database-lifecycle", package = "sdkwork-database-lifecycle" }
+sdkwork_database_spi = { path = "../sdkwork-database/crates/sdkwork-database-spi", package = "sdkwork-database-spi" }
+sdkwork_database_sqlx = { path = "../sdkwork-database/crates/sdkwork-database-sqlx", package = "sdkwork-database-sqlx" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sha2 = "0.10"
