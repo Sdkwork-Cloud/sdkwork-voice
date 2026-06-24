@@ -625,3 +625,10 @@ Extension points are limited to declared public exports, runtime entrypoints, SD
 ### Owner And Status
 
 Owner and lifecycle status are tracked in `specs/component.spec.json`.
+
+## Documentation Canon
+
+- [docs/README.md](docs/README.md)
+- [docs/product/prd/PRD.md](docs/product/prd/PRD.md)
+- [docs/architecture/tech/TECH_ARCHITECTURE.md](docs/architecture/tech/TECH_ARCHITECTURE.md)
+

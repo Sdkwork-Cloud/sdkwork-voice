@@ -1,0 +1,8 @@
+schemaVersion: 1
+kind: sdkwork.docs.index
+repository: voice
+canon:
+  prd: docs/product/prd/PRD.md
+  techArchitecture: docs/architecture/tech/TECH_ARCHITECTURE.md
+entries: []
+domains: []
