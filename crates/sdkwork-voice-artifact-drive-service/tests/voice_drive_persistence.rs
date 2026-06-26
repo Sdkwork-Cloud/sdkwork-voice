@@ -19,8 +19,8 @@ use sdkwork_voice_artifact_drive_service::{
 #[test]
 fn plans_ai_generated_artifacts_for_drive_ai_space_and_preserves_batch_order() {
     let batch = VoiceGeneratedArtifactBatch {
-        tenant_id: "tenant-ai".to_string(),
-        organization_id: Some("org-ai".to_string()),
+        tenant_id: "100001".to_string(),
+        organization_id: Some("0".to_string()),
         task_id: "task-image-batch".to_string(),
         actor: GeneratedArtifactActor::User {
             user_id: "user-ai".to_string(),
@@ -87,7 +87,7 @@ fn plans_ai_generated_artifacts_for_drive_ai_space_and_preserves_batch_order() {
 #[test]
 fn supports_anonymous_generated_audio_uploads_into_app_owned_ai_space() {
     let batch = VoiceGeneratedArtifactBatch {
-        tenant_id: "tenant-anon".to_string(),
+        tenant_id: "210002".to_string(),
         organization_id: None,
         task_id: "task-sfx".to_string(),
         actor: GeneratedArtifactActor::Anonymous {
@@ -130,7 +130,7 @@ fn supports_anonymous_generated_audio_uploads_into_app_owned_ai_space() {
 #[test]
 fn maps_video_and_music_to_drive_media_profiles() {
     let batch = VoiceGeneratedArtifactBatch {
-        tenant_id: "tenant-media".to_string(),
+        tenant_id: "210003".to_string(),
         organization_id: None,
         task_id: "task-media".to_string(),
         actor: GeneratedArtifactActor::System {
@@ -173,8 +173,8 @@ fn maps_video_and_music_to_drive_media_profiles() {
 #[tokio::test]
 async fn executes_drive_upload_preparation_through_drive_uploader_service() {
     let batch = VoiceGeneratedArtifactBatch {
-        tenant_id: "tenant-exec".to_string(),
-        organization_id: Some("org-exec".to_string()),
+        tenant_id: "210004".to_string(),
+        organization_id: Some("0".to_string()),
         task_id: "task-exec".to_string(),
         actor: GeneratedArtifactActor::User {
             user_id: "user-exec".to_string(),
@@ -225,7 +225,7 @@ async fn sql_executor_creates_ai_generated_space_and_drive_upload_item() {
         DriveSpaceService::new(SqlSpaceStore::new(pool.clone())),
     );
     let batch = VoiceGeneratedArtifactBatch {
-        tenant_id: "tenant-sql".to_string(),
+        tenant_id: "210005".to_string(),
         organization_id: None,
         task_id: "task-sql".to_string(),
         actor: GeneratedArtifactActor::User {
@@ -300,7 +300,7 @@ async fn bytes_persister_writes_multiple_generated_images_to_drive_storage_and_w
         "provider-voice",
     );
     let batch = VoiceGeneratedArtifactBytesBatch {
-        tenant_id: "tenant-bytes".to_string(),
+        tenant_id: "210006".to_string(),
         organization_id: None,
         task_id: "task-bytes".to_string(),
         actor: GeneratedArtifactActor::Anonymous {
@@ -391,7 +391,7 @@ async fn bytes_persister_uses_actual_bytes_for_drive_length_and_checksum() {
         "provider-voice",
     );
     let batch = VoiceGeneratedArtifactBytesBatch {
-        tenant_id: "tenant-byte-metadata".to_string(),
+        tenant_id: "210007".to_string(),
         organization_id: None,
         task_id: "task-byte-metadata".to_string(),
         actor: GeneratedArtifactActor::User {
@@ -432,7 +432,7 @@ async fn bytes_persister_uses_actual_bytes_for_drive_length_and_checksum() {
          FROM dr_drive_storage_object
          WHERE tenant_id=?1 AND node_id=?2",
     )
-    .bind("tenant-byte-metadata")
+    .bind("210007")
     .bind(&result.stored[0].drive_node_id)
     .fetch_one(&pool)
     .await
@@ -466,7 +466,7 @@ async fn bytes_persister_rejects_provider_checksum_mismatch() {
         "provider-voice",
     );
     let batch = VoiceGeneratedArtifactBytesBatch {
-        tenant_id: "tenant-checksum-mismatch".to_string(),
+        tenant_id: "210008".to_string(),
         organization_id: None,
         task_id: "task-checksum-mismatch".to_string(),
         actor: GeneratedArtifactActor::System {
@@ -503,7 +503,7 @@ async fn bytes_persister_rejects_provider_checksum_mismatch() {
     let object_count: i64 = sqlx::query_scalar(
         "SELECT COUNT(1)
          FROM dr_drive_storage_object
-         WHERE tenant_id='tenant-checksum-mismatch'",
+         WHERE tenant_id='210008'",
     )
     .fetch_one(&pool)
     .await

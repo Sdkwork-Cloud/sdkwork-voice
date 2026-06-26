@@ -96,7 +96,7 @@ These contracts intentionally live outside `sdkwork-appbase` so voice-specific m
 
 Package: `@sdkwork/voice-provider-adapter`
 
-Owns the common provider-routing boundary used by voice orchestration code. It is designed around `sdkwork-claw-router` provider capabilities and avoids product-local raw provider HTTP clients.
+Owns the common provider-routing boundary used by voice orchestration code. It is designed around `sdkwork-clawrouter` provider capabilities and avoids product-local raw provider HTTP clients.
 
 The adapter currently supports:
 
@@ -325,7 +325,7 @@ Multi-output provider responses are modeled as one task with many artifacts. Eac
 
 Runtime synchronization flow:
 
-1. The provider adapter invokes `sdkwork-claw-router` through generated SDK surfaces or the approved route invoker.
+1. The provider adapter invokes `sdkwork-clawrouter` through generated SDK surfaces or the approved route invoker.
 2. Successful provider responses are normalized into `generatedArtifacts` without leaking provider DTOs into application APIs.
 3. The voice task worker creates `voice_audio_artifact` rows using the normalized `artifactIndex`, kind, provider asset id, source URI, MIME type, and media provenance.
 4. The worker creates or updates matching `voice_artifact_drive_sync` rows with `pending_upload` or `uploading` status.

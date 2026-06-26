@@ -13,7 +13,7 @@ This README is the SDKWork module entrypoint for `@sdkwork/voice-provider-adapte
 
 ## Required SDK Surface
 
-The adapter consumes an injected `sdkwork-claw-router` generated SDK client shape. It does not construct SDK clients, read credentials, or issue raw provider HTTP requests.
+The adapter consumes an injected `sdkwork-clawrouter` generated SDK client shape. It does not construct SDK clients, read credentials, or issue raw provider HTTP requests.
 
 Current generated SDK surfaces:
 
