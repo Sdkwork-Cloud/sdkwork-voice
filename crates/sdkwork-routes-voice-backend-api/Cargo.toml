@@ -1,5 +1,5 @@
 [package]
-name = "sdkwork-router-voice-backend-api"
+name = "sdkwork-routes-voice-backend-api"
 version = "0.1.0"
 edition = "2021"
 description = "SDKWork Voice backend API route catalog for authority generation."
@@ -7,5 +7,5 @@ license = "UNLICENSED"
 publish = false
 
 [lib]
-name = "sdkwork_router_voice_backend_api"
+name = "sdkwork_routes_voice_backend_api"
 path = "src/lib.rs"

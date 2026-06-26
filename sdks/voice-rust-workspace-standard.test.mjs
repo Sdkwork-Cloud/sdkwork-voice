@@ -40,8 +40,8 @@ test("voice Rust workspace uses standard crates layout and names", () => {
     "crates/sdkwork-voice-artifact-drive-service",
     "crates/sdkwork-voice-generation-repository-sqlx",
     "crates/sdkwork-voice-local-api-proxy-native-host",
-    "crates/sdkwork-router-voice-app-api",
-    "crates/sdkwork-router-voice-backend-api",
+    "crates/sdkwork-routes-voice-app-api",
+    "crates/sdkwork-routes-voice-backend-api",
   ]) {
     assert.match(rootCargo, new RegExp(expected.replaceAll("/", "[/\\\\]")));
     assert.equal(existsSync(resolve(workspaceRoot, expected, "Cargo.toml")), true, `missing ${expected}`);

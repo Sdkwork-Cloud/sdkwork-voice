@@ -1,0 +1,15 @@
+[package]
+name = "sdkwork-voice-gateway-assembly"
+edition.workspace = true
+version.workspace = true
+description = "Generated gateway assembly for sdkwork-voice application HTTP plane."
+
+[lib]
+name = "sdkwork_voice_gateway_assembly"
+path = "src/lib.rs"
+
+[dependencies]
+axum.workspace = true
+tokio = { version = "1.48", features = ["macros", "rt-multi-thread"] }
+sdkwork_routes_voice_app_api = { package = "sdkwork-routes-voice-app-api", path = "../sdkwork-routes-voice-app-api" }
+sdkwork_routes_voice_backend_api = { package = "sdkwork-routes-voice-backend-api", path = "../sdkwork-routes-voice-backend-api" }

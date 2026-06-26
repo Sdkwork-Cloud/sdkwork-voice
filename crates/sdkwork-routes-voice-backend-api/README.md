@@ -1,4 +1,4 @@
-# sdkwork-router-voice-backend-api
+# sdkwork-routes-voice-backend-api
 
 SDKWork Voice backend-api Rust route catalog.
 
@@ -9,5 +9,5 @@ This crate owns the `/backend/v3/api/voice` route manifest input used by
 Verification:
 
 ```powershell
-cargo test -p sdkwork-router-voice-backend-api
+cargo test -p sdkwork-routes-voice-backend-api
 ```

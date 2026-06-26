@@ -1,5 +1,5 @@
 [package]
-name = "sdkwork-router-voice-app-api"
+name = "sdkwork-routes-voice-app-api"
 version = "0.1.0"
 edition = "2021"
 description = "SDKWork Voice app API route catalog for authority generation."
@@ -7,5 +7,5 @@ license = "UNLICENSED"
 publish = false
 
 [lib]
-name = "sdkwork_router_voice_app_api"
+name = "sdkwork_routes_voice_app_api"
 path = "src/lib.rs"

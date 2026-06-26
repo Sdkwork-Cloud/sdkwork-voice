@@ -166,8 +166,8 @@
         "x-sdkwork-resource": "artifactDriveSync",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api"
       }
     },
     "/app/v3/api/voice/audio_assets": {
@@ -308,8 +308,8 @@
         "x-sdkwork-resource": "audioAssets",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api"
       }
     },
     "/app/v3/api/voice/audio_assets/{audioAssetId}": {
@@ -413,8 +413,8 @@
         "x-sdkwork-resource": "audioAssets",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api"
       }
     },
     "/app/v3/api/voice/music": {
@@ -509,8 +509,8 @@
         "x-sdkwork-resource": "music",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -615,8 +615,8 @@
         "x-sdkwork-resource": "soundEffects",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -721,8 +721,8 @@
         "x-sdkwork-resource": "speech",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -873,8 +873,8 @@
         "x-sdkwork-resource": "taskEvents",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api"
       }
     },
     "/app/v3/api/voice/tasks": {
@@ -1015,8 +1015,8 @@
         "x-sdkwork-resource": "tasks",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api"
       }
     },
     "/app/v3/api/voice/tasks/{taskId}": {
@@ -1120,8 +1120,8 @@
         "x-sdkwork-resource": "tasks",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api"
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api"
       }
     },
     "/app/v3/api/voice/tasks/{taskId}/cancel": {
@@ -1225,8 +1225,8 @@
         "x-sdkwork-resource": "tasks",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -1331,8 +1331,8 @@
         "x-sdkwork-resource": "transcriptions",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -1437,8 +1437,8 @@
         "x-sdkwork-resource": "translations",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api",
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api",
         "requestBody": {
           "required": true,
           "content": {
@@ -2425,12 +2425,12 @@
   "x-sdkwork-materialized-from": [
     {
       "owner": "sdkwork-voice",
-      "packageName": "sdkwork-router-voice-app-api",
+      "packageName": "sdkwork-routes-voice-app-api",
       "surface": "app-api",
       "apiAuthority": "sdkwork-voice-app-api",
       "sdkFamily": "sdkwork-voice-app-sdk",
-      "path": "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
-      "sourceRouteCrate": "sdkwork-router-voice-app-api"
+      "path": "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+      "sourceRouteCrate": "sdkwork-routes-voice-app-api"
     }
   ],
   "x-sdkwork-request-context": {

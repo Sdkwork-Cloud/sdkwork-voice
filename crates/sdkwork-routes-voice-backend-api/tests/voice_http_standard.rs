@@ -1,4 +1,4 @@
-use sdkwork_router_voice_backend_api::{backend_routes, required_dual_token_headers, HttpMethod};
+use sdkwork_routes_voice_backend_api::{backend_routes, required_dual_token_headers, HttpMethod};
 
 #[test]
 fn exposes_voice_backend_route_catalog() {

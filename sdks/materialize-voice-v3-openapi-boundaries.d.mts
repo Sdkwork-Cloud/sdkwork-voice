@@ -1,12 +1,12 @@
 export interface VoiceRouteSource {
   owner: "sdkwork-voice";
   domain: "voice";
-  packageName: "sdkwork-router-voice-app-api" | "sdkwork-router-voice-backend-api";
+  packageName: "sdkwork-routes-voice-app-api" | "sdkwork-routes-voice-backend-api";
   surface: "app-api" | "backend-api";
   apiAuthority: "sdkwork-voice-app-api" | "sdkwork-voice-backend-api";
   sdkFamily: "sdkwork-voice-app-sdk" | "sdkwork-voice-backend-sdk";
   prefix: "/app/v3/api" | "/backend/v3/api";
-  routeCrate: "sdkwork-router-voice-app-api" | "sdkwork-router-voice-backend-api";
+  routeCrate: "sdkwork-routes-voice-app-api" | "sdkwork-routes-voice-backend-api";
   path: string;
   constructors: readonly string[];
 }
@@ -30,7 +30,7 @@ export interface VoiceMaterializedRoute {
   owner: "sdkwork-voice";
   sdkFamily: "sdkwork-voice-app-sdk" | "sdkwork-voice-backend-sdk";
   sourcePrefix: "/app/v3/api" | "/backend/v3/api";
-  sourceRouteCrate: "sdkwork-router-voice-app-api" | "sdkwork-router-voice-backend-api";
+  sourceRouteCrate: "sdkwork-routes-voice-app-api" | "sdkwork-routes-voice-backend-api";
   surface: "app-api" | "backend-api";
   method: "get" | "post" | "patch" | "put" | "delete";
   path: string;
@@ -54,7 +54,7 @@ export interface VoiceOpenApiOperation {
   "x-sdkwork-request-context": "AppRequestContext";
   "x-sdkwork-server-request-id": true;
   "x-sdkwork-source": string;
-  "x-sdkwork-source-route-crate": "sdkwork-router-voice-app-api" | "sdkwork-router-voice-backend-api";
+  "x-sdkwork-source-route-crate": "sdkwork-routes-voice-app-api" | "sdkwork-routes-voice-backend-api";
 }
 
 export interface VoiceOpenApiDocument {

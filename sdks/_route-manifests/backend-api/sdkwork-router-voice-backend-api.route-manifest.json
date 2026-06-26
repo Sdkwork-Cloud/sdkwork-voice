@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "sdkwork.route.manifest",
-  "packageName": "sdkwork-router-voice-backend-api",
+  "packageName": "sdkwork-routes-voice-backend-api",
   "surface": "backend-api",
   "owner": "sdkwork-voice",
   "domain": "voice",
@@ -10,8 +10,8 @@
   "sdkFamily": "sdkwork-voice-backend-sdk",
   "prefix": "/backend/v3/api",
   "source": {
-    "crateRoot": "crates/sdkwork-router-voice-backend-api",
-    "crateImport": "sdkwork_router_voice_backend_api"
+    "crateRoot": "crates/sdkwork-routes-voice-backend-api",
+    "crateImport": "sdkwork_routes_voice_backend_api"
   },
   "routes": [
     {
@@ -29,7 +29,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -47,7 +47,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -65,7 +65,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -83,7 +83,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -101,7 +101,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -119,7 +119,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -137,7 +137,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -155,7 +155,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -173,7 +173,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -191,7 +191,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -209,7 +209,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -227,7 +227,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -245,7 +245,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -263,7 +263,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -281,7 +281,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -299,7 +299,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -317,7 +317,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -335,7 +335,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -353,7 +353,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -371,7 +371,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     },
     {
@@ -389,7 +389,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-backend-api",
         "sdkFamily": "sdkwork-voice-backend-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-backend-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
       }
     }
   ]

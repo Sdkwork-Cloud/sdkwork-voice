@@ -1535,11 +1535,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "sdkwork-router-voice-app-api"
+name = "sdkwork-routes-voice-app-api"
 version = "0.1.0"
 
 [[package]]
-name = "sdkwork-router-voice-backend-api"
+name = "sdkwork-routes-voice-backend-api"
 version = "0.1.0"
 
 [[package]]

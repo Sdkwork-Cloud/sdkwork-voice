@@ -1,4 +1,4 @@
-use sdkwork_router_voice_app_api::{app_routes, required_dual_token_headers, HttpMethod};
+use sdkwork_routes_voice_app_api::{app_routes, required_dual_token_headers, HttpMethod};
 
 #[test]
 fn exposes_voice_app_route_catalog() {

@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "kind": "sdkwork.component.spec",
   "component": {
-    "name": "sdkwork-router-voice-app-api",
-    "displayName": "SDKWork Voice App API Route Catalog",
+    "name": "sdkwork-routes-voice-backend-api",
+    "displayName": "SDKWork Voice Backend API Route Catalog",
     "version": "0.1.0",
     "type": "rust-route-crate",
-    "root": "sdkwork-voice/crates/sdkwork-router-voice-app-api",
+    "root": "sdkwork-voice/crates/sdkwork-routes-voice-backend-api",
     "domain": "communication",
     "capability": "voice",
-    "surface": "app-api",
+    "surface": "backend-api",
     "languages": ["rust"],
     "generated": false,
     "manifests": ["Cargo.toml"]
@@ -58,7 +58,7 @@
     {
       "file": "SECURITY_SPEC.md",
       "path": "../../../sdkwork-specs/SECURITY_SPEC.md",
-      "purpose": "Protected app-api dual-token behavior."
+      "purpose": "Protected backend-api dual-token behavior."
     },
     {
       "file": "TEST_SPEC.md",
@@ -79,7 +79,7 @@
   },
   "verification": {
     "commands": [
-      "cargo test -p sdkwork-router-voice-app-api",
+      "cargo test -p sdkwork-routes-voice-backend-api",
       "pnpm run materialize:openapi"
     ]
   }

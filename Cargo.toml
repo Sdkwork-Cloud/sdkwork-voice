@@ -1,9 +1,10 @@
 [workspace]
 resolver = "2"
 members = [
+    "crates/sdkwork-voice-gateway-assembly",
     "crates/sdkwork-voice-database-host",
-    "crates/sdkwork-router-voice-app-api",
-    "crates/sdkwork-router-voice-backend-api",
+    "crates/sdkwork-routes-voice-app-api",
+    "crates/sdkwork-routes-voice-backend-api",
     "crates/sdkwork-voice-artifact-drive-service",
     "crates/sdkwork-voice-generation-repository-sqlx",
     "crates/sdkwork-voice-local-api-proxy-native-host",
@@ -19,8 +20,8 @@ sdkwork-drive-config = { path = "../sdkwork-drive/crates/sdkwork-drive-config" }
 sdkwork-drive-storage-contract = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-contract" }
 sdkwork-drive-storage-local = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-local" }
 sdkwork-drive-workspace-service = { path = "../sdkwork-drive/crates/sdkwork-drive-workspace-service" }
-sdkwork-router-voice-app-api = { path = "crates/sdkwork-router-voice-app-api" }
-sdkwork-router-voice-backend-api = { path = "crates/sdkwork-router-voice-backend-api" }
+sdkwork-routes-voice-app-api = { path = "crates/sdkwork-routes-voice-app-api" }
+sdkwork-routes-voice-backend-api = { path = "crates/sdkwork-routes-voice-backend-api" }
 sdkwork-voice-artifact-drive-service = { path = "crates/sdkwork-voice-artifact-drive-service" }
 sdkwork-voice-generation-repository-sqlx = { path = "crates/sdkwork-voice-generation-repository-sqlx" }
 sdkwork-voice-local-api-proxy-native-host = { path = "crates/sdkwork-voice-local-api-proxy-native-host" }

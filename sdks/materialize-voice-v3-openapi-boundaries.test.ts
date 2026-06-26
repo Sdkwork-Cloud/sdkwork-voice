@@ -17,10 +17,10 @@ const routes = [
     sdkFamily: "sdkwork-voice-app-sdk",
     sourcePath: resolve(
       workspaceRoot,
-      "crates/sdkwork-router-voice-app-api/src/manifest.rs",
+      "crates/sdkwork-routes-voice-app-api/src/manifest.rs",
     ),
     sourcePrefix: "/app/v3/api",
-    sourceRouteCrate: "sdkwork-router-voice-app-api",
+    sourceRouteCrate: "sdkwork-routes-voice-app-api",
     surface: "app-api",
     tag: "voice",
   },
@@ -86,17 +86,17 @@ describe("voice v3 OpenAPI materializer", () => {
     const operation = openApi.paths["/app/v3/api/voice/tasks"].post;
 
     expect(operation["x-sdkwork-source"]).toBe(
-      "<sdkwork-voice>/crates/sdkwork-router-voice-app-api/src/manifest.rs",
+      "<sdkwork-voice>/crates/sdkwork-routes-voice-app-api/src/manifest.rs",
     );
     expect(operation["x-sdkwork-source-route-crate"]).toBe(
-      "sdkwork-router-voice-app-api",
+      "sdkwork-routes-voice-app-api",
     );
     expect(openApi["x-sdkwork-materialized-from"]).toEqual([
       expect.objectContaining({
         apiAuthority: "sdkwork-voice-app-api",
-        packageName: "sdkwork-router-voice-app-api",
+        packageName: "sdkwork-routes-voice-app-api",
         sdkFamily: "sdkwork-voice-app-sdk",
-        sourceRouteCrate: "sdkwork-router-voice-app-api",
+        sourceRouteCrate: "sdkwork-routes-voice-app-api",
         surface: "app-api",
       }),
     ]);
@@ -116,11 +116,11 @@ describe("voice v3 OpenAPI materializer", () => {
 
     const appManifestPath = resolve(
       workspaceRoot,
-      "sdks/_route-manifests/app-api/sdkwork-router-voice-app-api.route-manifest.json",
+      "sdks/_route-manifests/app-api/sdkwork-routes-voice-app-api.route-manifest.json",
     );
     const backendManifestPath = resolve(
       workspaceRoot,
-      "sdks/_route-manifests/backend-api/sdkwork-router-voice-backend-api.route-manifest.json",
+      "sdks/_route-manifests/backend-api/sdkwork-routes-voice-backend-api.route-manifest.json",
     );
     expect(existsSync(appManifestPath)).toBe(true);
     expect(existsSync(backendManifestPath)).toBe(true);
@@ -128,14 +128,14 @@ describe("voice v3 OpenAPI materializer", () => {
     const appManifest = JSON.parse(readFileSync(appManifestPath, "utf8"));
     const backendManifest = JSON.parse(readFileSync(backendManifestPath, "utf8"));
 
-    expect(appManifest.packageName).toBe("sdkwork-router-voice-app-api");
+    expect(appManifest.packageName).toBe("sdkwork-routes-voice-app-api");
     expect(appManifest.surface).toBe("app-api");
-    expect(appManifest.source.crateRoot).toBe("crates/sdkwork-router-voice-app-api");
+    expect(appManifest.source.crateRoot).toBe("crates/sdkwork-routes-voice-app-api");
     expect(appManifest.routes).toHaveLength(12);
 
-    expect(backendManifest.packageName).toBe("sdkwork-router-voice-backend-api");
+    expect(backendManifest.packageName).toBe("sdkwork-routes-voice-backend-api");
     expect(backendManifest.surface).toBe("backend-api");
-    expect(backendManifest.source.crateImport).toBe("sdkwork_router_voice_backend_api");
+    expect(backendManifest.source.crateImport).toBe("sdkwork_routes_voice_backend_api");
     expect(backendManifest.routes).toHaveLength(21);
   });
 });

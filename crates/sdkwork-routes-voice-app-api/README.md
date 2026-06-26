@@ -1,4 +1,4 @@
-# sdkwork-router-voice-app-api
+# sdkwork-routes-voice-app-api
 
 SDKWork Voice app-api Rust route catalog.
 
@@ -9,5 +9,5 @@ This crate owns the `/app/v3/api/voice` route manifest input used by
 Verification:
 
 ```powershell
-cargo test -p sdkwork-router-voice-app-api
+cargo test -p sdkwork-routes-voice-app-api
 ```

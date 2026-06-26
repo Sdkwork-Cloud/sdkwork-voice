@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "sdkwork.route.manifest",
-  "packageName": "sdkwork-router-voice-app-api",
+  "packageName": "sdkwork-routes-voice-app-api",
   "surface": "app-api",
   "owner": "sdkwork-voice",
   "domain": "voice",
@@ -10,8 +10,8 @@
   "sdkFamily": "sdkwork-voice-app-sdk",
   "prefix": "/app/v3/api",
   "source": {
-    "crateRoot": "crates/sdkwork-router-voice-app-api",
-    "crateImport": "sdkwork_router_voice_app_api"
+    "crateRoot": "crates/sdkwork-routes-voice-app-api",
+    "crateImport": "sdkwork_routes_voice_app_api"
   },
   "routes": [
     {
@@ -29,7 +29,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -47,7 +47,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -65,7 +65,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -83,7 +83,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -101,7 +101,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -119,7 +119,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -137,7 +137,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -155,7 +155,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -173,7 +173,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -191,7 +191,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -209,7 +209,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     },
     {
@@ -227,7 +227,7 @@
         "owner": "sdkwork-voice",
         "apiAuthority": "sdkwork-voice-app-api",
         "sdkFamily": "sdkwork-voice-app-sdk",
-        "sourceRouteCrate": "sdkwork-router-voice-app-api"
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
     }
   ]

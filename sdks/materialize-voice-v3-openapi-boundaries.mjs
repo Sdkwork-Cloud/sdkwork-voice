@@ -9,25 +9,25 @@ export const routeSources = [
   {
     owner: "sdkwork-voice",
     domain: "voice",
-    packageName: "sdkwork-router-voice-app-api",
+    packageName: "sdkwork-routes-voice-app-api",
     surface: "app-api",
     apiAuthority: "sdkwork-voice-app-api",
     sdkFamily: "sdkwork-voice-app-sdk",
     prefix: "/app/v3/api",
-    routeCrate: "sdkwork-router-voice-app-api",
-    path: resolve(voiceRoot, "crates/sdkwork-router-voice-app-api/src/manifest.rs"),
+    routeCrate: "sdkwork-routes-voice-app-api",
+    path: resolve(voiceRoot, "crates/sdkwork-routes-voice-app-api/src/manifest.rs"),
     constructors: ["VoiceHttpRoute::new"],
   },
   {
     owner: "sdkwork-voice",
     domain: "voice",
-    packageName: "sdkwork-router-voice-backend-api",
+    packageName: "sdkwork-routes-voice-backend-api",
     surface: "backend-api",
     apiAuthority: "sdkwork-voice-backend-api",
     sdkFamily: "sdkwork-voice-backend-sdk",
     prefix: "/backend/v3/api",
-    routeCrate: "sdkwork-router-voice-backend-api",
-    path: resolve(voiceRoot, "crates/sdkwork-router-voice-backend-api/src/manifest.rs"),
+    routeCrate: "sdkwork-routes-voice-backend-api",
+    path: resolve(voiceRoot, "crates/sdkwork-routes-voice-backend-api/src/manifest.rs"),
     constructors: ["VoiceHttpRoute::new"],
   },
 ];
@@ -790,7 +790,7 @@ function isListOperation(route) {
 }
 
 function routePackageForSurface(surface) {
-  return `sdkwork-router-voice-${surface.routeSurface}`;
+  return `sdkwork-routes-voice-${surface.routeSurface}`;
 }
 
 function compareRoutes(left, right) {

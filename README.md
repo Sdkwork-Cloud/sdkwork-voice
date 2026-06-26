@@ -347,11 +347,11 @@ The app API exposes sync lookup for client progress and Drive resource rendering
 
 ### Rust App API Route Catalog
 
-Crate: `sdkwork-router-voice-app-api`
+Crate: `sdkwork-routes-voice-app-api`
 
 Path:
 
-- `crates/sdkwork-router-voice-app-api`
+- `crates/sdkwork-routes-voice-app-api`
 
 Owns the canonical Rust route catalog used to materialize the voice app-api OpenAPI boundary:
 
@@ -364,11 +364,11 @@ The OpenAPI materializer reads this crate as the `sdkwork-voice-app-api` route s
 
 ### Rust Backend API Route Catalog
 
-Crate: `sdkwork-router-voice-backend-api`
+Crate: `sdkwork-routes-voice-backend-api`
 
 Path:
 
-- `crates/sdkwork-router-voice-backend-api`
+- `crates/sdkwork-routes-voice-backend-api`
 
 Owns the canonical Rust route catalog used to materialize the voice backend-api OpenAPI boundary:
 
@@ -452,8 +452,8 @@ packages/
   pc-react/voice/
     sdkwork-voice-local-api-proxy/
 crates/
-  sdkwork-router-voice-app-api/
-  sdkwork-router-voice-backend-api/
+  sdkwork-routes-voice-app-api/
+  sdkwork-routes-voice-backend-api/
   sdkwork-voice-artifact-drive-service/
   sdkwork-voice-generation-repository-sqlx/
   sdkwork-voice-local-api-proxy-native-host/
@@ -632,3 +632,6 @@ Owner and lifecycle status are tracked in `specs/component.spec.json`.
 - [docs/product/prd/PRD.md](docs/product/prd/PRD.md)
 - [docs/architecture/tech/TECH_ARCHITECTURE.md](docs/architecture/tech/TECH_ARCHITECTURE.md)
 
+## Application Roots
+
+- [apps directory index](apps/README.md)

@@ -1,0 +1,30 @@
+{
+  "kind": "sdkwork.gateway.assembly",
+  "schemaVersion": 1,
+  "applicationCode": "voice",
+  "packageName": "sdkwork-voice-gateway-assembly",
+  "crateDir": "crates/sdkwork-voice-gateway-assembly",
+  "generatedAt": "2026-06-25T13:08:05.608Z",
+  "routeCrates": [
+    {
+      "packageName": "sdkwork-routes-voice-app-api",
+      "memberDir": "crates/sdkwork-routes-voice-app-api",
+      "libName": "sdkwork_routes_voice_app_api",
+      "surface": "app-api",
+      "pathPrefix": null,
+      "mountOrder": 0,
+      "hasGatewayMount": true,
+      "hasGatewayRouteManifest": false
+    },
+    {
+      "packageName": "sdkwork-routes-voice-backend-api",
+      "memberDir": "crates/sdkwork-routes-voice-backend-api",
+      "libName": "sdkwork_routes_voice_backend_api",
+      "surface": "backend-api",
+      "pathPrefix": null,
+      "mountOrder": 1,
+      "hasGatewayMount": true,
+      "hasGatewayRouteManifest": false
+    }
+  ]
+}
