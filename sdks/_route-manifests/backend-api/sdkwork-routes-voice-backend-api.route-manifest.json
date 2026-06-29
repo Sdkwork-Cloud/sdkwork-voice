@@ -1,0 +1,396 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.route.manifest",
+  "packageName": "sdkwork-routes-voice-backend-api",
+  "surface": "backend-api",
+  "owner": "sdkwork-voice",
+  "domain": "voice",
+  "capability": "voice",
+  "apiAuthority": "sdkwork-voice-backend-api",
+  "sdkFamily": "sdkwork-voice-backend-sdk",
+  "prefix": "/backend/v3/api",
+  "source": {
+    "crateRoot": "crates/sdkwork-routes-voice-backend-api",
+    "crateImport": "sdkwork_routes_voice_backend_api"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/artifact_drive_sync",
+      "operationId": "artifactDriveSync.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/voice/artifact_drive_sync/{syncId}/retry",
+      "operationId": "artifactDriveSync.retry",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/audio_artifacts",
+      "operationId": "audioArtifacts.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/backend/v3/api/voice/audio_artifacts/{audioArtifactId}",
+      "operationId": "audioArtifacts.delete",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/audio_artifacts/{audioArtifactId}",
+      "operationId": "audioArtifacts.retrieve",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/provider_routes",
+      "operationId": "providerRoutes.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/voice/provider_routes",
+      "operationId": "providerRoutes.create",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/backend/v3/api/voice/provider_routes/{providerRouteId}",
+      "operationId": "providerRoutes.delete",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/provider_routes/{providerRouteId}",
+      "operationId": "providerRoutes.retrieve",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/backend/v3/api/voice/provider_routes/{providerRouteId}",
+      "operationId": "providerRoutes.update",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/provider_webhook_events",
+      "operationId": "providerWebhookEvents.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/voice/provider_webhook_events/{eventId}/replay",
+      "operationId": "providerWebhookEvents.replay",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/voice/provider_webhooks/{providerCode}",
+      "operationId": "providerWebhooks.accept",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/request_logs",
+      "operationId": "requestLogs.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/task_events",
+      "operationId": "taskEvents.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/tasks",
+      "operationId": "tasks.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/tasks/{taskId}",
+      "operationId": "tasks.retrieve",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/voice/tasks/{taskId}/cancel",
+      "operationId": "tasks.cancel",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/voice/tasks/{taskId}/reconcile",
+      "operationId": "tasks.reconcile",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/voice/tasks/{taskId}/retry",
+      "operationId": "tasks.retry",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/voice/webhook_deliveries",
+      "operationId": "webhookDeliveries.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-backend-api",
+        "sdkFamily": "sdkwork-voice-backend-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-backend-api"
+      }
+    }
+  ]
+}

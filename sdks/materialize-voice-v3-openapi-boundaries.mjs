@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { bootstrapOpenApiEnvelope } from "../../sdkwork-specs/tools/lib/migrate-openapi-legacy-envelope.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const voiceRoot = resolve(__dirname, "..");
@@ -139,7 +140,7 @@ export function selectRoutes(routes, prefix) {
 }
 
 export async function writeSurfaceOpenApi(surface, routes) {
-  const authority = buildOpenApi(surface, routes);
+  const authority = bootstrapOpenApiEnvelope(buildOpenApi(surface, routes));
   const familyRoot = resolve(voiceRoot, "sdks", surface.familyName);
   const openapiRoot = resolve(familyRoot, "openapi");
   await mkdir(openapiRoot, { recursive: true });
