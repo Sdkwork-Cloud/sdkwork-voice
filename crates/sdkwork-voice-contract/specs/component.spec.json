@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-voice-contract",
+    "displayName": "SDKWork Voice Contract",
+    "version": "0.1.0",
+    "type": "rust-crate",
+    "root": "sdkwork-voice/crates/sdkwork-voice-contract",
+    "domain": "communication",
+    "capability": "voice-contract",
+    "surface": "domain",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    {
+      "file": "NAMING_SPEC.md",
+      "path": "../../../sdkwork-specs/NAMING_SPEC.md",
+      "purpose": "Canonical SDKWork naming rules."
+    },
+    {
+      "file": "RUST_CODE_SPEC.md",
+      "path": "../../../sdkwork-specs/RUST_CODE_SPEC.md",
+      "purpose": "Rust contract crate rules."
+    }
+  ],
+  "contracts": {
+    "publicExports": ["."],
+    "runtimeEntrypoints": [],
+    "routeManifest": null,
+    "sdkClients": [],
+    "sdkDependencies": [],
+    "dependencyApiExports": [],
+    "dependencyApiSurfaces": [],
+    "events": [],
+    "configKeys": []
+  },
+  "verification": {
+    "commands": ["cargo test -p sdkwork-voice-contract"]
+  }
+}

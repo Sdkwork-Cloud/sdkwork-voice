@@ -146,6 +146,11 @@ describe("sdkwork-voice OpenAPI materializer", () => {
       "team",
       "knowledge_base",
     ]);
+    expect(appOpenApi.components.schemas.VoiceApiResult).toBeUndefined();
+    expect(appOpenApi.components.schemas.SdkWorkApiResponse).toBeDefined();
+    const problemDetail = schemaObject(appOpenApi.components.schemas.ProblemDetail);
+    expect(problemDetail.required).toEqual(expect.arrayContaining(["code", "traceId"]));
+    expect(problemDetail.properties.code.$ref).toBe("#/components/schemas/SdkWorkPlatformErrorCode");
   });
 
   it("writes deterministic JSON-compatible OpenAPI documents to sdkgen paths", async () => {

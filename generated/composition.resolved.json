@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.composition.resolved",
+  "repository": "sdkwork-voice",
+  "integrations": [
+    {
+      "workspace": "sdkwork-voice-app-sdk",
+      "surface": "app-api",
+      "apiPrefix": "/app/v3/api",
+      "connectivityPlane": "application",
+      "runtimeMode": "same-origin-embedded",
+      "mountStatus": null,
+      "envKey": "VITE_SDKWORK_VOICE_APP_API_BASE_URL",
+      "forbidProductSameOriginFallback": false,
+      "corePackage": "sdkwork-voice-pc-core",
+      "source": "apps/sdkwork-voice-pc/packages/sdkwork-voice-pc-core/specs/component.spec.json"
+    }
+  ],
+  "permissions": {
+    "inheritanceMode": "module-catalog-with-overrides",
+    "inheritedManifests": []
+  },
+  "env": {},
+  "requiresPlatformGatewayProcess": false,
+  "issues": [],
+  "meta": {
+    "resolver": "sdkwork-specs/tools/lib/composition-resolver.mjs",
+    "credentialModes": {
+      "sdkwork-voice-app-sdk": "authenticated-app-api"
+    }
+  }
+}

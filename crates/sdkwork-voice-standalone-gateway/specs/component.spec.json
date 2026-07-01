@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-voice-standalone-gateway",
+    "displayName": "SDKWork Voice Standalone Gateway",
+    "version": "0.1.0",
+    "type": "rust-binary",
+    "root": "sdkwork-voice/crates/sdkwork-voice-standalone-gateway",
+    "domain": "communication",
+    "capability": "voice-standalone-gateway",
+    "surface": "server",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    {
+      "file": "DEPLOYMENT_SPEC.md",
+      "path": "../../../sdkwork-specs/DEPLOYMENT_SPEC.md",
+      "purpose": "Standalone server deployment rules."
+    }
+  ],
+  "contracts": {
+    "publicExports": [],
+    "runtimeEntrypoints": ["sdkwork-voice-standalone-gateway"],
+    "routeManifest": null,
+    "sdkClients": [],
+    "sdkDependencies": [],
+    "dependencyApiExports": [],
+    "dependencyApiSurfaces": [],
+    "events": [],
+    "configKeys": ["VOICE_API_BIND", "VOICE_API_CORS_ORIGINS"]
+  },
+  "verification": {
+    "commands": ["cargo test -p sdkwork-voice-standalone-gateway"]
+  }
+}

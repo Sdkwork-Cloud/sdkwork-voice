@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-voice-pc-core",
+    "type": "typescript-package",
+    "root": "sdkwork-voice/apps/sdkwork-voice-pc/packages/sdkwork-voice-pc-core",
+    "domain": "voice",
+    "capability": "core",
+    "surface": "app",
+    "languages": [
+      "typescript"
+    ],
+    "generated": false
+  },
+  "contracts": {
+    "sdkDependencies": [
+      {
+        "workspace": "sdkwork-voice-app-sdk",
+        "surface": "app-api",
+        "credentialMode": "authenticated-app-api"
+      }
+    ],
+    "dependencyApiExports": [],
+    "dependencyApiSurfaces": []
+  }
+}

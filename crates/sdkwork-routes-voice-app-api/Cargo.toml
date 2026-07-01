@@ -1,11 +1,24 @@
 [package]
 name = "sdkwork-routes-voice-app-api"
-version = "0.1.0"
-edition = "2021"
-description = "SDKWork Voice app API route catalog for authority generation."
-license = "UNLICENSED"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
 publish = false
+description = "SDKWork Voice app API route handlers."
 
 [lib]
 name = "sdkwork_routes_voice_app_api"
-path = "src/lib.rs"
+
+[dependencies]
+async-trait.workspace = true
+axum.workspace = true
+serde_json.workspace = true
+sdkwork-routes-voice-http-auth.workspace = true
+sdkwork-voice-contract.workspace = true
+sdkwork-voice-service.workspace = true
+sdkwork-web-contract.workspace = true
+sdkwork-web-core.workspace = true
+tokio = { workspace = true, features = ["sync"] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "sync"] }

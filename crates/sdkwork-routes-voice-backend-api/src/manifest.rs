@@ -1,5 +1,8 @@
 pub const BACKEND_API_PREFIX: &str = "/backend/v3/api";
 
+use sdkwork_web_contract::{HttpMethod as WebHttpMethod, HttpRoute};
+use sdkwork_web_core::HttpRouteManifest;
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum HttpMethod {
     Delete,
@@ -166,4 +169,131 @@ pub fn backend_routes() -> Vec<VoiceHttpRoute> {
 
 pub fn required_dual_token_headers() -> [&'static str; 2] {
     ["Authorization", "Access-Token"]
+}
+
+const VOICE_BACKEND_API_ROUTES: &[HttpRoute] = &[
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/backend/v3/api/voice/provider_routes",
+        "voice",
+        "providerRoutes.create",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/provider_routes",
+        "voice",
+        "providerRoutes.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/provider_routes/{providerRouteId}",
+        "voice",
+        "providerRoutes.retrieve",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Patch,
+        "/backend/v3/api/voice/provider_routes/{providerRouteId}",
+        "voice",
+        "providerRoutes.update",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Delete,
+        "/backend/v3/api/voice/provider_routes/{providerRouteId}",
+        "voice",
+        "providerRoutes.delete",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/tasks",
+        "voice",
+        "tasks.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/tasks/{taskId}",
+        "voice",
+        "tasks.retrieve",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/backend/v3/api/voice/tasks/{taskId}/cancel",
+        "voice",
+        "tasks.cancel",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/backend/v3/api/voice/tasks/{taskId}/retry",
+        "voice",
+        "tasks.retry",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/backend/v3/api/voice/tasks/{taskId}/reconcile",
+        "voice",
+        "tasks.reconcile",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/task_events",
+        "voice",
+        "taskEvents.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/provider_webhook_events",
+        "voice",
+        "providerWebhookEvents.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/backend/v3/api/voice/provider_webhook_events/{eventId}/replay",
+        "voice",
+        "providerWebhookEvents.replay",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/webhook_deliveries",
+        "voice",
+        "webhookDeliveries.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/request_logs",
+        "voice",
+        "requestLogs.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/artifact_drive_sync",
+        "voice",
+        "artifactDriveSync.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/backend/v3/api/voice/artifact_drive_sync/{syncId}/retry",
+        "voice",
+        "artifactDriveSync.retry",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/audio_artifacts",
+        "voice",
+        "audioArtifacts.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/backend/v3/api/voice/audio_artifacts/{audioArtifactId}",
+        "voice",
+        "audioArtifacts.retrieve",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Delete,
+        "/backend/v3/api/voice/audio_artifacts/{audioArtifactId}",
+        "voice",
+        "audioArtifacts.delete",
+    ),
+];
+
+pub fn voice_backend_api_http_route_manifest() -> HttpRouteManifest {
+    HttpRouteManifest::new(VOICE_BACKEND_API_ROUTES)
 }

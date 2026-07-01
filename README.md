@@ -1,4 +1,5 @@
 # sdkwork-voice
+repository-kind: application
 
 `sdkwork-voice` owns SDKWork voice and audio capabilities end to end. It contains the voice frontend packages, shared contracts, provider adapter boundary, local API proxy contracts, Rust route and storage catalogs, OpenAPI authorities, and generated SDK outputs that belong to the voice system.
 
@@ -55,20 +56,18 @@ Task statuses:
 - `expired`
 - `needs_review`
 
-### Audio Workspace
+### Voice PC Embed (IM Host Integration)
 
-Package: `@sdkwork/audio-pc-react`
+Application root: `apps/sdkwork-voice-pc/`
 
-Provides the PC React audio capability surface:
+Embed packages consumed by IM PC shell (Drive/Knowledgebase pattern):
 
-- audio workspace contracts and package metadata
-- audio generation, speech synthesis, music, and sound-effect generation helpers
-- audio controller and service contracts
-- audio gallery and summary UI components
-- audio page composition exports
-- history item mapping and voice-owned media resource integration
+- `@sdkwork/voice-pc-market` — voice market catalog and clone UI
+- `@sdkwork/voice-pc-speech` — TTS / speech synthesis UI
+- `sdkwork-voice-pc-core` — host session and `@sdkwork/voice-app-sdk` port wiring
+- `sdkwork-voice-pc-commons` — shared UI utilities
 
-The package depends on `@sdkwork/voice-contracts` for media resource contracts and keeps React runtime dependencies as host-provided peer dependencies.
+Legacy `packages/pc-react/content/sdkwork-audio-pc-react` (`@sdkwork/audio-pc-react`) is retired; do not add new capability work under repository-root `packages/pc-react/**`.
 
 ### Voice Shared Contracts
 
@@ -91,6 +90,18 @@ Defines common voice and audio DTOs shared across frontend, local proxy, provide
 - package ownership metadata for the `sdkwork-voice` workspace
 
 These contracts intentionally live outside `sdkwork-appbase` so voice-specific media semantics do not leak back into appbase runtime types.
+
+### Voice Generation Worker
+
+Package: `@sdkwork/voice-generation-worker`
+
+Polls backend `tasks.list` for `queued` tasks, invokes `@sdkwork/voice-provider-adapter`, and applies provider output through backend `tasks.reconcile` with a typed `providerResult` payload. Artifact rows and Drive sync rows are created server-side during reconcile.
+
+### Voice Drive Sync Worker
+
+Package: `@sdkwork/voice-drive-sync-worker`
+
+Polls backend `artifactDriveSync.list` for `pending_upload` / `failed` rows and invokes `artifactDriveSync.retry` so the Rust service can re-queue Drive import work against `sdkwork-voice-artifact-drive-service`.
 
 ### Voice Provider Adapter
 
@@ -345,6 +356,20 @@ The app API exposes sync lookup for client progress and Drive resource rendering
 
 ## Rust Catalogs
 
+### Rust HTTP Service Plane
+
+Crates: `sdkwork-voice-service`, `sdkwork-routes-voice-http-auth`, `sdkwork-voice-embedded-bootstrap`, `sdkwork-voice-drive-sync-processor`, `sdkwork-voice-standalone-gateway`
+
+The voice HTTP plane integrates `sdkwork-web-framework` for dual-token auth, request context, and SdkWork v3 response mapping. Handlers dispatch through `sdkwork-voice-service` into SQL repositories and Drive artifact services.
+
+Standalone server:
+
+```powershell
+cargo run -p sdkwork-voice-standalone-gateway
+```
+
+Default bind: `0.0.0.0:18096` (`VOICE_API_BIND`).
+
 ### Rust App API Route Catalog
 
 Crate: `sdkwork-routes-voice-app-api`
@@ -375,7 +400,8 @@ Owns the canonical Rust route catalog used to materialize the voice backend-api 
 - backend route catalog
 - operation IDs
 - HTTP methods
-- dual-token header requirement: `Authorization` and `Access-Token`
+- dual-token header requirement for protected backend routes (`Authorization` and `Access-Token`)
+- public provider webhook ingress with HMAC signature verification (`X-Voice-Webhook-Signature`, `VOICE_WEBHOOK_SECRET`, `VOICE_WEBHOOK_DEV_MODE`)
 
 The OpenAPI materializer reads this crate as the `sdkwork-voice-backend-api` route source of truth and writes a normalized route manifest under `sdks/_route-manifests/backend-api/`.
 
@@ -443,20 +469,31 @@ Provides native runtime support for the voice local API proxy:
 ## Repository Layout
 
 ```text
-packages/
-  common/voice/
-    sdkwork-voice-contracts/
-    sdkwork-voice-provider-adapter/
-  pc-react/content/
-    sdkwork-audio-pc-react/
-  pc-react/voice/
-    sdkwork-voice-local-api-proxy/
+apps/
+  sdkwork-voice-common/
+    packages/
+      sdkwork-voice-contracts/
+      sdkwork-voice-provider-adapter/
+      sdkwork-voice-generation-worker/
+      sdkwork-voice-drive-sync-worker/
+  sdkwork-voice-pc/
+    packages/
+      sdkwork-voice-pc-market/
+      sdkwork-voice-pc-speech/
+      sdkwork-voice-pc-core/
+      sdkwork-voice-pc-commons/
+      sdkwork-voice-local-api-proxy/
 crates/
   sdkwork-routes-voice-app-api/
   sdkwork-routes-voice-backend-api/
+  sdkwork-routes-voice-http-auth/
   sdkwork-voice-artifact-drive-service/
+  sdkwork-voice-drive-sync-processor/
+  sdkwork-voice-embedded-bootstrap/
   sdkwork-voice-generation-repository-sqlx/
   sdkwork-voice-local-api-proxy-native-host/
+  sdkwork-voice-service/
+  sdkwork-voice-standalone-gateway/
 sdks/
   materialize-voice-v3-openapi-boundaries.mjs
   _route-manifests/

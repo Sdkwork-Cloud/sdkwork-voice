@@ -4,7 +4,7 @@
   "applicationCode": "voice",
   "packageName": "sdkwork-voice-gateway-assembly",
   "crateDir": "crates/sdkwork-voice-gateway-assembly",
-  "generatedAt": "2026-06-25T13:08:05.608Z",
+  "generatedAt": "2026-06-30T03:18:53.586Z",
   "routeCrates": [
     {
       "packageName": "sdkwork-routes-voice-app-api",
@@ -14,7 +14,7 @@
       "pathPrefix": null,
       "mountOrder": 0,
       "hasGatewayMount": true,
-      "hasGatewayRouteManifest": false
+      "hasGatewayRouteManifest": true
     },
     {
       "packageName": "sdkwork-routes-voice-backend-api",
@@ -23,6 +23,16 @@
       "surface": "backend-api",
       "pathPrefix": null,
       "mountOrder": 1,
+      "hasGatewayMount": true,
+      "hasGatewayRouteManifest": true
+    },
+    {
+      "packageName": "sdkwork-routes-voice-http-auth",
+      "memberDir": "crates/sdkwork-routes-voice-http-auth",
+      "libName": "sdkwork_routes_voice_http_auth",
+      "surface": "unknown",
+      "pathPrefix": null,
+      "mountOrder": 2,
       "hasGatewayMount": true,
       "hasGatewayRouteManifest": false
     }

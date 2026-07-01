@@ -2,6 +2,7 @@ pub const VOICE_STORAGE_SCHEMA_VERSION: &str = "2026-06-06";
 pub const VOICE_INITIAL_MIGRATION: &str = "0001_voice_core.sql";
 
 mod bootstrap;
+mod store;
 
 pub use bootstrap::{
     bootstrap_voice_database, bootstrap_voice_database_from_env,
@@ -9,6 +10,7 @@ pub use bootstrap::{
     connect_voice_database_pool_from_env, connect_voice_database_pool_from_url, VoiceDatabaseHost,
     VoiceDatabasePool,
 };
+pub use store::SqlVoiceStore;
 
 use sqlx::{AnyPool, Row};
 

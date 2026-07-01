@@ -80,108 +80,19 @@
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SdkWorkListResponse"
-                }
-              }
-            }
           },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          }
-        },
-        "security": [
           {
-            "AuthToken": [],
-            "AccessToken": []
-          }
-        ],
-        "x-sdkwork-owner": "sdkwork-voice",
-        "x-sdkwork-api-authority": "sdkwork-voice-backend-api",
-        "x-sdkwork-domain": "voice",
-        "x-sdkwork-resource": "artifactDriveSync",
-        "x-sdkwork-request-context": "AppRequestContext",
-        "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
-      }
-    },
-    "/backend/v3/api/voice/artifact_drive_sync/{syncId}/retry": {
-      "post": {
-        "tags": [
-          "voice"
-        ],
-        "summary": "Artifact Drive Sync retry.",
-        "operationId": "artifactDriveSync.retry",
-        "parameters": [
+            "name": "sync_status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
-            "name": "syncId",
-            "in": "path",
-            "required": true,
+            "name": "task_id",
+            "in": "query",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -193,7 +104,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
+                  "$ref": "#/components/schemas/SdkWorkListResponse"
                 }
               }
             }
@@ -273,170 +184,19 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
         "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VoiceOperationCommand"
-              }
-            }
-          }
-        }
+        "x-sdkwork-auth-mode": "dual-token"
       }
     },
-    "/backend/v3/api/voice/audio_artifacts": {
-      "get": {
+    "/backend/v3/api/voice/artifact_drive_sync/{syncId}/retry": {
+      "post": {
         "tags": [
           "voice"
         ],
-        "summary": "Audio Artifacts list.",
-        "operationId": "audioArtifacts.list",
+        "summary": "Artifact Drive Sync retry.",
+        "operationId": "artifactDriveSync.retry",
         "parameters": [
           {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 200,
-              "default": 20
-            }
-          },
-          {
-            "name": "cursor",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SdkWorkListResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetail"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "AuthToken": [],
-            "AccessToken": []
-          }
-        ],
-        "x-sdkwork-owner": "sdkwork-voice",
-        "x-sdkwork-api-authority": "sdkwork-voice-backend-api",
-        "x-sdkwork-domain": "voice",
-        "x-sdkwork-resource": "audioArtifacts",
-        "x-sdkwork-request-context": "AppRequestContext",
-        "x-sdkwork-server-request-id": true,
-        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
-      }
-    },
-    "/backend/v3/api/voice/audio_artifacts/{audioArtifactId}": {
-      "delete": {
-        "tags": [
-          "voice"
-        ],
-        "summary": "Audio Artifacts delete.",
-        "operationId": "audioArtifacts.delete",
-        "parameters": [
-          {
-            "name": "audioArtifactId",
+            "name": "syncId",
             "in": "path",
             "required": true,
             "schema": {
@@ -525,11 +285,279 @@
         "x-sdkwork-owner": "sdkwork-voice",
         "x-sdkwork-api-authority": "sdkwork-voice-backend-api",
         "x-sdkwork-domain": "voice",
+        "x-sdkwork-resource": "artifactDriveSync",
+        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-server-request-id": true,
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoiceOperationCommand"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/voice/audio_artifacts": {
+      "get": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Audio Artifacts list.",
+        "operationId": "audioArtifacts.list",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "task_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SdkWorkListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-voice",
+        "x-sdkwork-api-authority": "sdkwork-voice-backend-api",
+        "x-sdkwork-domain": "voice",
         "x-sdkwork-resource": "audioArtifacts",
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
+      }
+    },
+    "/backend/v3/api/voice/audio_artifacts/{audioArtifactId}": {
+      "delete": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Audio Artifacts delete.",
+        "operationId": "audioArtifacts.delete",
+        "parameters": [
+          {
+            "name": "audioArtifactId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-voice",
+        "x-sdkwork-api-authority": "sdkwork-voice-backend-api",
+        "x-sdkwork-domain": "voice",
+        "x-sdkwork-resource": "audioArtifacts",
+        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-server-request-id": true,
+        "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       },
       "get": {
         "tags": [
@@ -632,7 +660,8 @@
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       }
     },
     "/backend/v3/api/voice/provider_routes": {
@@ -774,7 +803,8 @@
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       },
       "post": {
         "tags": [
@@ -869,6 +899,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
         "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token",
         "requestBody": {
           "required": true,
           "content": {
@@ -904,7 +935,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SdkWorkCommandResponse"
+                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
                 }
               }
             }
@@ -983,7 +1014,8 @@
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       },
       "get": {
         "tags": [
@@ -1086,7 +1118,8 @@
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       },
       "patch": {
         "tags": [
@@ -1190,6 +1223,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
         "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token",
         "requestBody": {
           "required": false,
           "content": {
@@ -1249,6 +1283,22 @@
           },
           {
             "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "provider_code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "processing_status",
             "in": "query",
             "required": false,
             "schema": {
@@ -1341,7 +1391,8 @@
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       }
     },
     "/backend/v3/api/voice/provider_webhook_events/{eventId}/replay": {
@@ -1367,7 +1418,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
+                  "$ref": "#/components/schemas/SdkWorkCommandResponse"
                 }
               }
             }
@@ -1447,6 +1498,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
         "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token",
         "requestBody": {
           "required": true,
           "content": {
@@ -1482,7 +1534,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
+                  "$ref": "#/components/schemas/SdkWorkCommandResponse"
                 }
               }
             }
@@ -1548,20 +1600,23 @@
             }
           }
         },
-        "security": [
-          {
-            "AuthToken": [],
-            "AccessToken": []
-          }
-        ],
+        "security": [],
         "x-sdkwork-owner": "sdkwork-voice",
         "x-sdkwork-api-authority": "sdkwork-voice-backend-api",
         "x-sdkwork-domain": "voice",
         "x-sdkwork-resource": "providerWebhooks",
-        "x-sdkwork-request-context": "AppRequestContext",
+        "x-sdkwork-request-context": "ProviderWebhookRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
         "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "public",
+        "x-sdkwork-provider-webhook-signature": true,
+        "x-sdkwork-provider-webhook-signature-headers": [
+          "X-Voice-Webhook-Signature"
+        ],
+        "x-sdkwork-forbid-credential-headers": true,
+        "x-sdkwork-rate-limit-tier": "openApiDefault",
+        "x-sdkwork-idempotent": true,
         "requestBody": {
           "required": true,
           "content": {
@@ -1621,6 +1676,14 @@
           },
           {
             "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "provider_code",
             "in": "query",
             "required": false,
             "schema": {
@@ -1713,7 +1776,8 @@
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       }
     },
     "/backend/v3/api/voice/task_events": {
@@ -1763,6 +1827,14 @@
           },
           {
             "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "task_id",
             "in": "query",
             "required": false,
             "schema": {
@@ -1855,7 +1927,8 @@
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       }
     },
     "/backend/v3/api/voice/tasks": {
@@ -1905,6 +1978,30 @@
           },
           {
             "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "operation_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "provider_code",
             "in": "query",
             "required": false,
             "schema": {
@@ -1997,7 +2094,8 @@
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       }
     },
     "/backend/v3/api/voice/tasks/{taskId}": {
@@ -2102,7 +2200,8 @@
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       }
     },
     "/backend/v3/api/voice/tasks/{taskId}/cancel": {
@@ -2128,7 +2227,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
+                  "$ref": "#/components/schemas/SdkWorkCommandResponse"
                 }
               }
             }
@@ -2208,6 +2307,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
         "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token",
         "requestBody": {
           "required": true,
           "content": {
@@ -2243,7 +2343,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
+                  "$ref": "#/components/schemas/SdkWorkCommandResponse"
                 }
               }
             }
@@ -2323,6 +2423,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
         "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token",
         "requestBody": {
           "required": true,
           "content": {
@@ -2358,7 +2459,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
+                  "$ref": "#/components/schemas/SdkWorkCommandResponse"
                 }
               }
             }
@@ -2438,6 +2539,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
         "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token",
         "requestBody": {
           "required": true,
           "content": {
@@ -2497,6 +2599,22 @@
           },
           {
             "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "task_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "delivery_status",
             "in": "query",
             "required": false,
             "schema": {
@@ -2589,7 +2707,8 @@
         "x-sdkwork-request-context": "AppRequestContext",
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source": "<sdkwork-voice>/crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
-        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api"
+        "x-sdkwork-source-route-crate": "sdkwork-routes-voice-backend-api",
+        "x-sdkwork-auth-mode": "dual-token"
       }
     }
   },
@@ -2609,6 +2728,258 @@
       }
     },
     "schemas": {
+      "SdkWorkApiResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "data",
+          "traceId"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "enum": [
+              0
+            ],
+            "default": 0,
+            "minimum": 0,
+            "maximum": 0
+          },
+          "data": {
+            "description": "Operation-specific payload typed per response schema."
+          },
+          "traceId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SdkWorkResourceData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "item"
+        ],
+        "properties": {
+          "item": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Typed domain resource for the operation."
+          }
+        }
+      },
+      "SdkWorkPageData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "SdkWorkCommandData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "accepted"
+        ],
+        "properties": {
+          "accepted": {
+            "type": "boolean",
+            "const": true
+          },
+          "resourceId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "PageInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mode"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "offset",
+              "cursor"
+            ]
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "totalItems": {
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          "totalPages": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SdkWorkPlatformErrorCode": {
+        "type": "integer",
+        "format": "int32",
+        "minimum": 40001,
+        "maximum": 79999,
+        "description": "Platform or domain error code per API_SPEC.md §15.3."
+      },
+      "ProblemDetail": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "type",
+          "title",
+          "status",
+          "code",
+          "traceId"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri-reference"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 599
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/SdkWorkPlatformErrorCode"
+          },
+          "traceId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldError"
+            }
+          }
+        }
+      },
+      "FieldError": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "field",
+          "message"
+        ],
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 40011,
+            "maximum": 40099
+          }
+        }
+      },
+      "SdkWorkResourceResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SdkWorkApiResponse"
+          },
+          {
+            "type": "object",
+            "required": [
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SdkWorkResourceData"
+              }
+            }
+          }
+        ]
+      },
+      "SdkWorkListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SdkWorkApiResponse"
+          },
+          {
+            "type": "object",
+            "required": [
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SdkWorkPageData"
+              }
+            }
+          }
+        ]
+      },
+      "SdkWorkCommandResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SdkWorkApiResponse"
+          },
+          {
+            "type": "object",
+            "required": [
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SdkWorkCommandData"
+              }
+            }
+          }
+        ]
+      },
       "VoiceOperationCommand": {
         "type": "object",
         "additionalProperties": true,
@@ -3206,6 +3577,10 @@
             "type": "object",
             "additionalProperties": true
           },
+          "sourceUri": {
+            "type": "string",
+            "format": "uri"
+          },
           "status": {
             "$ref": "#/components/schemas/VoiceArtifactDriveSyncStatus"
           },
@@ -3468,258 +3843,6 @@
             }
           }
         }
-      },
-      "ProblemDetail": {
-        "type": "object",
-        "additionalProperties": true,
-        "required": [
-          "type",
-          "title",
-          "status",
-          "code",
-          "traceId"
-        ],
-        "properties": {
-          "type": {
-            "type": "string",
-            "format": "uri-reference"
-          },
-          "title": {
-            "type": "string"
-          },
-          "status": {
-            "type": "integer",
-            "minimum": 100,
-            "maximum": 599
-          },
-          "detail": {
-            "type": "string"
-          },
-          "instance": {
-            "type": "string"
-          },
-          "code": {
-            "$ref": "#/components/schemas/SdkWorkPlatformErrorCode"
-          },
-          "traceId": {
-            "type": "string",
-            "format": "uuid",
-            "description": "Server-owned request correlation id."
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FieldError"
-            }
-          }
-        }
-      },
-      "FieldError": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "field",
-          "message"
-        ],
-        "properties": {
-          "field": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "code": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 40011,
-            "maximum": 40099
-          }
-        }
-      },
-      "SdkWorkApiResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "code",
-          "data",
-          "traceId"
-        ],
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32",
-            "enum": [
-              0
-            ],
-            "default": 0,
-            "minimum": 0,
-            "maximum": 0
-          },
-          "data": {
-            "description": "Operation-specific payload typed per response schema."
-          },
-          "traceId": {
-            "type": "string",
-            "format": "uuid",
-            "description": "Server-owned request correlation id."
-          }
-        }
-      },
-      "SdkWorkResourceData": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "item"
-        ],
-        "properties": {
-          "item": {
-            "type": "object",
-            "additionalProperties": true,
-            "description": "Typed domain resource for the operation."
-          }
-        }
-      },
-      "SdkWorkPageData": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "items",
-          "pageInfo"
-        ],
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "additionalProperties": true
-            }
-          },
-          "pageInfo": {
-            "$ref": "#/components/schemas/PageInfo"
-          }
-        }
-      },
-      "SdkWorkCommandData": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "accepted"
-        ],
-        "properties": {
-          "accepted": {
-            "type": "boolean",
-            "const": true
-          },
-          "resourceId": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          }
-        }
-      },
-      "PageInfo": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "mode"
-        ],
-        "properties": {
-          "mode": {
-            "type": "string",
-            "enum": [
-              "offset",
-              "cursor"
-            ]
-          },
-          "page": {
-            "type": "integer",
-            "minimum": 1
-          },
-          "pageSize": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 200
-          },
-          "totalItems": {
-            "type": "string",
-            "pattern": "^[0-9]+$"
-          },
-          "totalPages": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "nextCursor": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "hasMore": {
-            "type": "boolean"
-          }
-        }
-      },
-      "SdkWorkPlatformErrorCode": {
-        "type": "integer",
-        "format": "int32",
-        "minimum": 40001,
-        "maximum": 79999,
-        "description": "Platform or domain error code per API_SPEC.md §15.3."
-      },
-      "SdkWorkResourceResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SdkWorkApiResponse"
-          },
-          {
-            "type": "object",
-            "required": [
-              "data"
-            ],
-            "properties": {
-              "data": {
-                "$ref": "#/components/schemas/SdkWorkResourceData"
-              }
-            }
-          }
-        ]
-      },
-      "SdkWorkListResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SdkWorkApiResponse"
-          },
-          {
-            "type": "object",
-            "required": [
-              "data"
-            ],
-            "properties": {
-              "data": {
-                "$ref": "#/components/schemas/SdkWorkPageData"
-              }
-            }
-          }
-        ]
-      },
-      "SdkWorkCommandResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SdkWorkApiResponse"
-          },
-          {
-            "type": "object",
-            "required": [
-              "data"
-            ],
-            "properties": {
-              "data": {
-                "$ref": "#/components/schemas/SdkWorkCommandData"
-              }
-            }
-          }
-        ]
       }
     }
   },

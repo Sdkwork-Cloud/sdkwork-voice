@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 3,
+  "kind": "sdkwork.app",
+  "app": {
+    "key": "sdkwork-voice",
+    "name": "SDKWork Voice",
+    "displayName": "SDKWork Voice",
+    "description": "SDKWork voice and audio generation domain library and HTTP services.",
+    "vendor": "SDKWork",
+    "officialWebsiteUrl": "https://sdkwork.com/apps/sdkwork-voice",
+    "supportUrl": "https://sdkwork.com/support",
+    "privacyPolicyUrl": "https://sdkwork.com/privacy",
+    "termsOfServiceUrl": "https://sdkwork.com/terms",
+    "iconUrl": "https://cdn.sdkwork.com/apps/sdkwork-voice/assets/icon-1024.png",
+    "appType": "SDK",
+    "versionSource": "package.json",
+    "identifiers": {
+      "packageName": "@sdkwork/voice-workspace",
+      "bundleId": null,
+      "desktopAppId": "com.sdkwork.voice",
+      "containerImage": "registry.sdkwork.com/apps/sdkwork-voice"
+    }
+  },
+  "backend": {
+    "profileKey": "backend-root-admin",
+    "ownerMode": "tenant",
+    "grantMode": "current",
+    "platform": "WEB",
+    "appId": null,
+    "tenantId": "100001",
+    "organizationId": "0",
+    "accessTokenPermissionScope": [
+      "voice.tasks.read",
+      "voice.tasks.write",
+      "voice.providerRoutes.read",
+      "voice.providerRoutes.write"
+    ]
+  },
+  "runtime": {
+    "family": "library",
+    "framework": "rust-domain-library",
+    "runtimes": [
+      "LIBRARY",
+      "SERVER"
+    ],
+    "deliveryModes": [
+      "DIRECT_DOWNLOAD",
+      "CONTAINER"
+    ],
+    "defaultPlatform": "LIBRARY",
+    "defaultArchitecture": "noarch",
+    "supportedDeploymentProfiles": [
+      "cloud",
+      "standalone"
+    ],
+    "defaultDeploymentProfile": "standalone"
+  },
+  "publish": {
+    "status": "ACTIVE",
+    "platforms": [
+      "LIBRARY",
+      "SERVER"
+    ],
+    "config": {
+      "workspaceRoot": ".",
+      "framework": "rust-domain-library",
+      "managedBy": "sdkwork-voice"
+    }
+  },
+  "environments": {
+    "development": {
+      "accessUrl": "http://localhost:18096",
+      "deployUrl": "http://localhost:18096",
+      "deployEnv": "dev"
+    },
+    "test": {
+      "accessUrl": "https://api-test.sdkwork.com/apps/sdkwork-voice",
+      "deployUrl": "https://api-test.sdkwork.com/apps/sdkwork-voice",
+      "deployEnv": "test"
+    },
+    "staging": {
+      "accessUrl": "https://api-staging.sdkwork.com/apps/sdkwork-voice",
+      "deployUrl": "https://api-staging.sdkwork.com/apps/sdkwork-voice",
+      "deployEnv": "staging"
+    },
+    "production": {
+      "accessUrl": "https://api.sdkwork.com/apps/sdkwork-voice",
+      "deployUrl": "https://api.sdkwork.com/apps/sdkwork-voice",
+      "deployEnv": "production"
+    }
+  },
+  "metadata": {
+    "standardOwner": "voice-platform",
+    "initializedAt": "2026-06-30T00:00:00Z"
+  }
+}

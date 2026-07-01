@@ -1,11 +1,17 @@
 [workspace]
 resolver = "2"
 members = [
+    "crates/sdkwork-voice-contract",
+    "crates/sdkwork-voice-service",
+    "crates/sdkwork-voice-embedded-bootstrap",
+    "crates/sdkwork-voice-standalone-gateway",
     "crates/sdkwork-voice-gateway-assembly",
     "crates/sdkwork-voice-database-host",
+    "crates/sdkwork-routes-voice-http-auth",
     "crates/sdkwork-routes-voice-app-api",
     "crates/sdkwork-routes-voice-backend-api",
     "crates/sdkwork-voice-artifact-drive-service",
+    "crates/sdkwork-voice-drive-sync-processor",
     "crates/sdkwork-voice-generation-repository-sqlx",
     "crates/sdkwork-voice-local-api-proxy-native-host",
 ]
@@ -13,30 +19,50 @@ members = [
 [workspace.package]
 edition = "2021"
 version = "0.1.0"
+license = "UNLICENSED"
+publish = false
 
 [workspace.dependencies]
 async-trait = "0.1"
-sdkwork-drive-config = { path = "../sdkwork-drive/crates/sdkwork-drive-config" }
-sdkwork-drive-storage-contract = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-contract" }
-sdkwork-drive-storage-local = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-local" }
-sdkwork-drive-workspace-service = { path = "../sdkwork-drive/crates/sdkwork-drive-workspace-service" }
-sdkwork-routes-voice-app-api = { path = "crates/sdkwork-routes-voice-app-api" }
-sdkwork-routes-voice-backend-api = { path = "crates/sdkwork-routes-voice-backend-api" }
-sdkwork-voice-artifact-drive-service = { path = "crates/sdkwork-voice-artifact-drive-service" }
-sdkwork-voice-generation-repository-sqlx = { path = "crates/sdkwork-voice-generation-repository-sqlx" }
-sdkwork-voice-local-api-proxy-native-host = { path = "crates/sdkwork-voice-local-api-proxy-native-host" }
-sdkwork-voice-database-host = { path = "crates/sdkwork-voice-database-host" }
-sdkwork-database-config = { path = "../sdkwork-database/crates/sdkwork-database-config", package = "sdkwork-database-config" }
-sdkwork-database-lifecycle = { path = "../sdkwork-database/crates/sdkwork-database-lifecycle", package = "sdkwork-database-lifecycle" }
-sdkwork-database-spi = { path = "../sdkwork-database/crates/sdkwork-database-spi", package = "sdkwork-database-spi" }
-sdkwork-database-sqlx = { path = "../sdkwork-database/crates/sdkwork-database-sqlx", package = "sdkwork-database-sqlx" }
-sdkwork_database_config = { path = "../sdkwork-database/crates/sdkwork-database-config", package = "sdkwork-database-config" }
-sdkwork_database_lifecycle = { path = "../sdkwork-database/crates/sdkwork-database-lifecycle", package = "sdkwork-database-lifecycle" }
-sdkwork_database_spi = { path = "../sdkwork-database/crates/sdkwork-database-spi", package = "sdkwork-database-spi" }
-sdkwork_database_sqlx = { path = "../sdkwork-database/crates/sdkwork-database-sqlx", package = "sdkwork-database-sqlx" }
+axum = "0.8"
+http = "1.3"
+tower = "0.5"
+tower-http = { version = "0.5", features = ["cors", "trace", "timeout", "limit"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+dotenvy = "0.15"
+thiserror = "1"
+chrono = { version = "0.4", features = ["serde"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sha2 = "0.10"
 sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "any", "sqlite", "postgres"] }
-tokio = { version = "1.48", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.48", features = ["macros", "rt-multi-thread", "net", "sync", "signal"] }
 uuid = { version = "1", features = ["v4"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+base64 = "0.22"
+sdkwork-drive-config = { path = "../sdkwork-drive/crates/sdkwork-drive-config" }
+sdkwork-drive-storage-contract = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-contract" }
+sdkwork-drive-storage-local = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-local" }
+sdkwork-drive-workspace-service = { path = "../sdkwork-drive/crates/sdkwork-drive-workspace-service" }
+sdkwork-web-core = { path = "../sdkwork-web-framework/crates/sdkwork-web-core" }
+sdkwork-web-axum = { path = "../sdkwork-web-framework/crates/sdkwork-web-axum" }
+sdkwork-web-contract = { path = "../sdkwork-web-framework/crates/sdkwork-web-contract" }
+sdkwork-web-bootstrap = { path = "../sdkwork-web-framework/crates/sdkwork-web-bootstrap" }
+sdkwork-iam-web-adapter = { path = "../sdkwork-iam/crates/sdkwork-iam-web-adapter" }
+sdkwork-utils-rust = { path = "../sdkwork-utils/packages/sdkwork-utils-rust" }
+sdkwork-database-config = { path = "../sdkwork-database/crates/sdkwork-database-config", package = "sdkwork-database-config" }
+sdkwork-database-lifecycle = { path = "../sdkwork-database/crates/sdkwork-database-lifecycle", package = "sdkwork-database-lifecycle" }
+sdkwork-database-spi = { path = "../sdkwork-database/crates/sdkwork-database-spi", package = "sdkwork-database-spi" }
+sdkwork-database-sqlx = { path = "../sdkwork-database/crates/sdkwork-database-sqlx", package = "sdkwork-database-sqlx" }
+sdkwork-voice-contract = { path = "crates/sdkwork-voice-contract" }
+sdkwork-voice-service = { path = "crates/sdkwork-voice-service" }
+sdkwork-voice-embedded-bootstrap = { path = "crates/sdkwork-voice-embedded-bootstrap" }
+sdkwork-voice-database-host = { path = "crates/sdkwork-voice-database-host" }
+sdkwork-voice-generation-repository-sqlx = { path = "crates/sdkwork-voice-generation-repository-sqlx" }
+sdkwork-voice-artifact-drive-service = { path = "crates/sdkwork-voice-artifact-drive-service" }
+sdkwork-voice-drive-sync-processor = { path = "crates/sdkwork-voice-drive-sync-processor" }
+sdkwork-routes-voice-http-auth = { path = "crates/sdkwork-routes-voice-http-auth" }
+sdkwork-routes-voice-app-api = { path = "crates/sdkwork-routes-voice-app-api" }
+sdkwork-routes-voice-backend-api = { path = "crates/sdkwork-routes-voice-backend-api" }
+sdkwork-voice-gateway-assembly = { path = "crates/sdkwork-voice-gateway-assembly" }

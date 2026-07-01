@@ -1,0 +1,42 @@
+schemaVersion: 1
+kind: sdkwork.deploy
+applicationCode: voice
+displayName: SDKWork Voice API
+owner: voice-platform
+deploymentProfile: standalone
+services:
+  - name: voice-api
+    kind: http
+    crate: sdkwork-voice-standalone-gateway
+    bindEnv: VOICE_API_BIND
+    defaultBind: "0.0.0.0:18096"
+    healthPath: /health
+    database:
+      serviceCode: VOICE
+      manifest: database/database.manifest.json
+    dependencies:
+      - sdkwork-database
+      - sdkwork-drive
+      - sdkwork-web-framework
+      - sdkwork-iam-web-adapter
+runtime:
+  corsOriginsEnv: VOICE_API_CORS_ORIGINS
+  gracefulShutdown: true
+  requestTimeoutSec: 30
+  requestBodyLimitBytes: 10485760
+  environment:
+    voiceDatabaseUrl: VOICE_DATABASE_URL
+    webhookSecret: VOICE_WEBHOOK_SECRET
+    webhookDevMode: VOICE_WEBHOOK_DEV_MODE
+    driveSyncEnabled: VOICE_DRIVE_SYNC_ENABLED
+    driveDatabaseUrl: DRIVE_DATABASE_URL
+    driveDatabaseUrlAlt: SDKWORK_DRIVE_DATABASE_URL
+    driveObjectStoreRoot: VOICE_DRIVE_OBJECT_STORE_ROOT
+    driveObjectStoreBucket: VOICE_DRIVE_OBJECT_STORE_BUCKET
+workers:
+  - name: voice-generation-worker
+    package: "@sdkwork/voice-generation-worker"
+    polls: tasks.list?status=queued
+  - name: voice-drive-sync-worker
+    package: "@sdkwork/voice-drive-sync-worker"
+    polls: artifactDriveSync.list?sync_status=pending_upload

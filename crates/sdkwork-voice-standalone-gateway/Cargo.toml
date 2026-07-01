@@ -1,0 +1,20 @@
+[package]
+name = "sdkwork-voice-standalone-gateway"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Standalone HTTP gateway for SDKWork Voice APIs."
+
+[[bin]]
+name = "sdkwork-voice-standalone-gateway"
+path = "src/main.rs"
+
+[dependencies]
+axum.workspace = true
+sdkwork-voice-gateway-assembly.workspace = true
+sdkwork-web-bootstrap.workspace = true
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "signal"] }
+tower-http = { workspace = true, features = ["cors", "trace", "timeout", "limit"] }
+tracing.workspace = true
+tracing-subscriber.workspace = true

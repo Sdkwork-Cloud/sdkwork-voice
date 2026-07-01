@@ -1,5 +1,8 @@
 pub const APP_API_PREFIX: &str = "/app/v3/api";
 
+use sdkwork_web_contract::{HttpMethod as WebHttpMethod, HttpRoute};
+use sdkwork_web_core::HttpRouteManifest;
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum HttpMethod {
     Delete,
@@ -112,4 +115,83 @@ pub fn app_routes() -> Vec<VoiceHttpRoute> {
 
 pub fn required_dual_token_headers() -> [&'static str; 2] {
     ["Authorization", "Access-Token"]
+}
+
+const VOICE_APP_API_ROUTES: &[HttpRoute] = &[
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/app/v3/api/voice/speech",
+        "voice",
+        "speech.create",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/app/v3/api/voice/transcriptions",
+        "voice",
+        "transcriptions.create",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/app/v3/api/voice/translations",
+        "voice",
+        "translations.create",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/app/v3/api/voice/sound_effects",
+        "voice",
+        "soundEffects.create",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/app/v3/api/voice/music",
+        "voice",
+        "music.create",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/app/v3/api/voice/tasks",
+        "voice",
+        "tasks.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/app/v3/api/voice/tasks/{taskId}",
+        "voice",
+        "tasks.retrieve",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/app/v3/api/voice/tasks/{taskId}/cancel",
+        "voice",
+        "tasks.cancel",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/app/v3/api/voice/task_events",
+        "voice",
+        "taskEvents.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/app/v3/api/voice/artifact_drive_sync",
+        "voice",
+        "artifactDriveSync.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/app/v3/api/voice/audio_assets",
+        "voice",
+        "audioAssets.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/app/v3/api/voice/audio_assets/{audioAssetId}",
+        "voice",
+        "audioAssets.retrieve",
+    ),
+];
+
+pub fn voice_app_api_http_route_manifest() -> HttpRouteManifest {
+    HttpRouteManifest::new(VOICE_APP_API_ROUTES)
 }

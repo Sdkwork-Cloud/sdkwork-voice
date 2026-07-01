@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-voice-pc-commons",
+    "displayName": "Voice PC Commons",
+    "version": "0.1.0",
+    "type": "react-package",
+    "root": "sdkwork-voice/apps/sdkwork-voice-pc/packages/sdkwork-voice-pc-commons",
+    "domain": "communication",
+    "capability": "voice-pc-commons",
+    "languages": ["typescript", "react"],
+    "generated": false,
+    "manifests": ["package.json"]
+  },
+  "contracts": {
+    "publicExports": ["."],
+    "runtimeEntrypoints": [],
+    "routeManifest": null,
+    "sdkClients": [],
+    "events": [],
+    "configKeys": []
+  },
+  "verification": {
+    "commands": []
+  }
+}

@@ -20,7 +20,7 @@ Do not copy root standard text into this repository. If these relative paths do 
 
 ## Application Identity
 
-No `sdkwork.app.config.json` is present at this root. If the task changes application behavior, runtime config, SDK wiring, release metadata, or app-owned capabilities, first locate the nearest application root that has this manifest or add one according to the root specs.
+`sdkwork.app.config.json` is present at this root. Application behavior, runtime config, SDK wiring, and deployment metadata are declared there and in `deployments/deploy.yaml`.
 
 ## Local Dictionary Structure
 
@@ -28,12 +28,12 @@ No `sdkwork.app.config.json` is present at this root. If the task changes applic
 - `CLAUDE.md`: Claude Code compatibility shim that points to `AGENTS.md` and must not duplicate rules.
 - `GEMINI.md`: Gemini CLI compatibility shim that points to `AGENTS.md` and must not duplicate rules.
 - `CODEX.md`: Codex compatibility shim that points to `AGENTS.md` and must not duplicate rules.
-- `sdkwork.app.config.json`: not present here; required for application roots.
+- `sdkwork.app.config.json`: application root manifest (also under `apps/sdkwork-voice-pc/` for PC embed).
 - `.sdkwork/`: reserved local dictionary folder; create only for local skills, plugins, manifests, or AI workspace metadata.
 - `specs/`: not present here; use when local contracts need to narrow root standards.
 - `sdks/`: SDK families, OpenAPI authorities, route manifests, and generated SDK artifacts.
 - `package.json`, `pnpm-workspace.yaml`: language/build manifests.
-- Local directories to inspect first when relevant: `packages/`, `scripts/`, `sdks/`, `tests/`.
+- Local directories to inspect first when relevant: `apps/`, `crates/`, `scripts/`, `sdks/`, `tests/`.
 
 ## Documentation Canon
 

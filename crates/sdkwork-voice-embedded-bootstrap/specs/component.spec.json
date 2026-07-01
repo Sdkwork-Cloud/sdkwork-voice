@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-voice-embedded-bootstrap",
+    "displayName": "SDKWork Voice Embedded Bootstrap",
+    "version": "0.1.0",
+    "type": "rust-crate",
+    "root": "sdkwork-voice/crates/sdkwork-voice-embedded-bootstrap",
+    "domain": "communication",
+    "capability": "voice-embedded-bootstrap",
+    "surface": "assembly",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    {
+      "file": "WEB_FRAMEWORK_SPEC.md",
+      "path": "../../../sdkwork-specs/WEB_FRAMEWORK_SPEC.md",
+      "purpose": "Embedded HTTP assembly rules."
+    }
+  ],
+  "contracts": {
+    "publicExports": ["."],
+    "runtimeEntrypoints": [
+      "sdkwork_voice_embedded_bootstrap::assemble_embedded_voice_application_router_from_env"
+    ],
+    "routeManifest": null,
+    "sdkClients": [],
+    "sdkDependencies": [],
+    "dependencyApiExports": [],
+    "dependencyApiSurfaces": [],
+    "events": [],
+    "configKeys": ["VOICE_DATABASE_URL"]
+  },
+  "verification": {
+    "commands": ["cargo test -p sdkwork-voice-embedded-bootstrap"]
+  }
+}

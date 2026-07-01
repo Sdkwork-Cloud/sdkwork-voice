@@ -5,13 +5,14 @@
     "name": "@sdkwork/voice-workspace",
     "displayName": "Voice Workspace",
     "version": "0.1.0",
-    "type": "react-package",
+    "type": "polyglot-workspace",
     "root": "sdkwork-voice",
     "domain": "communication",
     "capability": "voice-workspace",
     "languages": [
       "typescript",
-      "react"
+      "react",
+      "rust"
     ],
     "generated": false,
     "manifests": [
@@ -85,7 +86,8 @@
   },
   "verification": {
     "commands": [
-      "pnpm typecheck"
+      "pnpm verify",
+      "pnpm run check:docs"
     ]
   }
 }

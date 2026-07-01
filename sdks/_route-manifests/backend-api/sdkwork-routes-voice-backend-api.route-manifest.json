@@ -237,9 +237,15 @@
       "tags": [
         "voice"
       ],
+      "rateLimitTier": "openApiDefault",
+      "idempotent": true,
       "auth": {
-        "mode": "dual-token",
-        "required": true
+        "mode": "public",
+        "required": true,
+        "permission": "voice.provider_webhooks.receive",
+        "tenantScope": "tenant",
+        "dataScope": "organization",
+        "providerWebhookSignature": true
       },
       "ownership": {
         "owner": "sdkwork-voice",

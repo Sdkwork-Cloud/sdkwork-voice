@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "kind": "sdkwork.app",
+  "app": {
+    "key": "sdkwork-voice-pc",
+    "name": "SDKWork Voice PC",
+    "displayName": "SDKWork Voice PC",
+    "description": "Voice market and speech synthesis embed for SDKWork IM PC shell.",
+    "vendor": "SDKWork",
+    "appType": "DESKTOP_EMBED",
+    "versionSource": "package.json",
+    "identifiers": {
+      "packageName": "@sdkwork/voice-pc-workspace"
+    }
+  },
+  "runtime": {
+    "family": "react",
+    "framework": "vite-react",
+    "runtimes": ["DESKTOP"],
+    "deliveryModes": ["EMBED"],
+    "defaultPlatform": "DESKTOP",
+    "defaultArchitecture": "noarch"
+  },
+  "environments": {
+    "development": {
+      "accessUrl": "http://localhost:18096",
+      "deployUrl": "http://localhost:18096",
+      "deployEnv": "dev"
+    }
+  },
+  "metadata": {
+    "standardOwner": "voice-platform",
+    "parentAppKey": "sdkwork-voice"
+  }
+}

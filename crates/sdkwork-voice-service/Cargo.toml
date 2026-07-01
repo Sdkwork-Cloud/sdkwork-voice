@@ -1,0 +1,16 @@
+[package]
+name = "sdkwork-voice-service"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lib]
+name = "sdkwork_voice_service"
+
+[dependencies]
+async-trait.workspace = true
+sdkwork-utils-rust.workspace = true
+sdkwork-voice-contract.workspace = true
+serde_json.workspace = true
+tracing.workspace = true

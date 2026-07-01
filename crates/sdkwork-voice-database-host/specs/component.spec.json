@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-voice-database-host",
+    "displayName": "SDKWork Voice Database Host",
+    "version": "0.1.0",
+    "type": "rust-crate",
+    "root": "sdkwork-voice/crates/sdkwork-voice-database-host",
+    "domain": "communication",
+    "capability": "voice-database-host",
+    "surface": "database",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    {
+      "file": "DATABASE_FRAMEWORK_SPEC.md",
+      "path": "../../../sdkwork-specs/DATABASE_FRAMEWORK_SPEC.md",
+      "purpose": "Database module and migration rules."
+    }
+  ],
+  "contracts": {
+    "publicExports": ["."],
+    "runtimeEntrypoints": [],
+    "routeManifest": null,
+    "sdkClients": [],
+    "sdkDependencies": [],
+    "dependencyApiExports": [],
+    "dependencyApiSurfaces": [],
+    "events": [],
+    "configKeys": ["VOICE_DATABASE_URL"]
+  },
+  "verification": {
+    "commands": ["cargo test -p sdkwork-voice-database-host"]
+  }
+}

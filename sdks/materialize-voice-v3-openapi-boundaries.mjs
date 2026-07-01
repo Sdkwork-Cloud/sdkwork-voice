@@ -1,7 +1,10 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { bootstrapOpenApiEnvelope } from "../../sdkwork-specs/tools/lib/migrate-openapi-legacy-envelope.mjs";
+import {
+  sdkWorkEnvelopeComponentSchemas,
+  successResponseSchemaRef,
+} from "../../sdkwork-specs/tools/lib/openapi-envelope-schemas.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const voiceRoot = resolve(__dirname, "..");
@@ -140,7 +143,7 @@ export function selectRoutes(routes, prefix) {
 }
 
 export async function writeSurfaceOpenApi(surface, routes) {
-  const authority = bootstrapOpenApiEnvelope(buildOpenApi(surface, routes));
+  const authority = buildOpenApi(surface, routes);
   const familyRoot = resolve(voiceRoot, "sdks", surface.familyName);
   const openapiRoot = resolve(familyRoot, "openapi");
   await mkdir(openapiRoot, { recursive: true });
@@ -180,10 +183,7 @@ export async function writeRouteManifest(surface, routes) {
       path: route.path,
       operationId: route.operationId,
       tags: [route.tag],
-      auth: {
-        mode: surface.authMode,
-        required: true,
-      },
+      ...routeAuthManifest(surface, route),
       ownership: {
         owner: surface.sdkOwner,
         apiAuthority: surface.authorityName,
@@ -270,14 +270,63 @@ export function buildOpenApi(surface, routes) {
   };
 }
 
+const PROVIDER_WEBHOOK_ACCEPT_OPERATION_ID = "providerWebhooks.accept";
+const PROVIDER_WEBHOOK_SIGNATURE_HEADERS = ["X-Voice-Webhook-Signature"];
+
+function operationAuthMetadata(surface, route) {
+  if (route.operationId === PROVIDER_WEBHOOK_ACCEPT_OPERATION_ID) {
+    return {
+      authMode: "public",
+      providerWebhookSignature: true,
+      security: [],
+      rateLimitTier: "openApiDefault",
+      idempotent: true,
+    };
+  }
+
+  return {
+    authMode: surface.authMode,
+    providerWebhookSignature: false,
+    security: [{ AuthToken: [], AccessToken: [] }],
+    rateLimitTier: null,
+    idempotent: false,
+  };
+}
+
+function routeAuthManifest(surface, route) {
+  const operationAuth = operationAuthMetadata(surface, route);
+  if (route.operationId === PROVIDER_WEBHOOK_ACCEPT_OPERATION_ID) {
+    return {
+      rateLimitTier: operationAuth.rateLimitTier,
+      idempotent: operationAuth.idempotent,
+      auth: {
+        mode: "public",
+        required: true,
+        permission: "voice.provider_webhooks.receive",
+        tenantScope: "tenant",
+        dataScope: "organization",
+        providerWebhookSignature: true,
+      },
+    };
+  }
+
+  return {
+    auth: {
+      mode: surface.authMode,
+      required: true,
+    },
+  };
+}
+
 function buildOperation(surface, route) {
+  const operationAuth = operationAuthMetadata(surface, route);
   const operation = {
     tags: [route.tag],
     summary: `${toTitle(route.operationId)}.`,
     operationId: route.operationId,
     parameters: extractPathParameters(route.path),
     responses: {
-      200: jsonResponse("Success", "#/components/schemas/VoiceApiResult"),
+      200: jsonResponse("Success", voiceSuccessResponseSchemaRef(route)),
       400: problemResponse("Bad request"),
       401: problemResponse("Unauthorized"),
       403: problemResponse("Forbidden"),
@@ -285,7 +334,7 @@ function buildOperation(surface, route) {
       409: problemResponse("Conflict"),
       500: problemResponse("Internal server error"),
     },
-    security: [{ AuthToken: [], AccessToken: [] }],
+    security: operationAuth.security,
     "x-sdkwork-owner": surface.sdkOwner,
     "x-sdkwork-api-authority": surface.authorityName,
     "x-sdkwork-domain": route.domain,
@@ -294,7 +343,24 @@ function buildOperation(surface, route) {
     "x-sdkwork-server-request-id": true,
     "x-sdkwork-source": relativeForOpenApi(route.sourcePath),
     "x-sdkwork-source-route-crate": route.sourceRouteCrate,
+    "x-sdkwork-auth-mode": operationAuth.authMode,
   };
+
+  if (operationAuth.providerWebhookSignature) {
+    operation["x-sdkwork-provider-webhook-signature"] = true;
+    operation["x-sdkwork-provider-webhook-signature-headers"] =
+      PROVIDER_WEBHOOK_SIGNATURE_HEADERS;
+    operation["x-sdkwork-request-context"] = "ProviderWebhookRequestContext";
+    operation["x-sdkwork-forbid-credential-headers"] = true;
+  }
+
+  if (operationAuth.rateLimitTier) {
+    operation["x-sdkwork-rate-limit-tier"] = operationAuth.rateLimitTier;
+  }
+
+  if (operationAuth.idempotent) {
+    operation["x-sdkwork-idempotent"] = true;
+  }
 
   if (usesJsonBody(route.method)) {
     operation.requestBody = {
@@ -315,31 +381,65 @@ function buildOperation(surface, route) {
       queryParameter("sort", { type: "string" }),
       queryParameter("q", { type: "string" }),
     );
+    appendVoiceListFilters(route, operation);
   }
 
   return operation;
 }
 
+function appendVoiceListFilters(route, operation) {
+  switch (route.operationId) {
+    case "tasks.list":
+      operation.parameters.push(
+        queryParameter("status", { type: "string" }),
+        queryParameter("operation_type", { type: "string" }),
+        queryParameter("provider_code", { type: "string" }),
+      );
+      break;
+    case "taskEvents.list":
+      operation.parameters.push(queryParameter("task_id", { type: "string" }));
+      break;
+    case "artifactDriveSync.list":
+      operation.parameters.push(
+        queryParameter("sync_status", { type: "string" }),
+        queryParameter("task_id", { type: "string" }),
+      );
+      break;
+    case "providerWebhookEvents.list":
+      operation.parameters.push(
+        queryParameter("provider_code", { type: "string" }),
+        queryParameter("processing_status", { type: "string" }),
+      );
+      break;
+    case "audioAssets.list":
+    case "audioArtifacts.list":
+      operation.parameters.push(queryParameter("task_id", { type: "string" }));
+      break;
+    case "webhookDeliveries.list":
+      operation.parameters.push(
+        queryParameter("task_id", { type: "string" }),
+        queryParameter("delivery_status", { type: "string" }),
+      );
+      break;
+    case "requestLogs.list":
+      operation.parameters.push(queryParameter("provider_code", { type: "string" }));
+      break;
+    default:
+      break;
+  }
+}
+
+function voiceSuccessResponseSchemaRef(route) {
+  const action = String(route.operationId || "").split(".").pop() || "";
+  if (route.method === "post" && ["cancel", "retry", "reconcile", "replay", "accept"].includes(action)) {
+    return "#/components/schemas/SdkWorkCommandResponse";
+  }
+  return successResponseSchemaRef(route);
+}
+
 function buildSchemas() {
   return {
-    VoiceApiResult: {
-      type: "object",
-      additionalProperties: false,
-      required: ["code", "message", "requestId", "data"],
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-        requestId: {
-          type: "string",
-          format: "uuid",
-          description: "Server-owned request correlation id.",
-        },
-        data: {
-          type: "object",
-          additionalProperties: true,
-        },
-      },
-    },
+    ...structuredClone(sdkWorkEnvelopeComponentSchemas),
     VoiceOperationCommand: {
       type: "object",
       additionalProperties: true,
@@ -575,6 +675,7 @@ function buildSchemas() {
         driveUploadItemId: { type: "string" },
         driveUploadSessionId: { type: "string" },
         driveResource: { type: "object", additionalProperties: true },
+        sourceUri: { type: "string", format: "uri" },
         status: { $ref: "#/components/schemas/VoiceArtifactDriveSyncStatus" },
         errorCode: { type: "string" },
         errorMessage: { type: "string" },
@@ -681,39 +782,6 @@ function buildSchemas() {
           type: "array",
           items: { type: "string" },
         },
-      },
-    },
-    ProblemDetail: {
-      type: "object",
-      additionalProperties: true,
-      required: ["type", "title", "status"],
-      properties: {
-        type: { type: "string", format: "uri-reference" },
-        title: { type: "string" },
-        status: { type: "integer", minimum: 100, maximum: 599 },
-        detail: { type: "string" },
-        instance: { type: "string" },
-        code: { type: "string" },
-        traceId: { type: "string" },
-        requestId: {
-          type: "string",
-          format: "uuid",
-          description: "Server-owned request correlation id.",
-        },
-        errors: {
-          type: "array",
-          items: { $ref: "#/components/schemas/FieldError" },
-        },
-      },
-    },
-    FieldError: {
-      type: "object",
-      additionalProperties: false,
-      required: ["field", "message"],
-      properties: {
-        field: { type: "string" },
-        message: { type: "string" },
-        code: { type: "string" },
       },
     },
   };

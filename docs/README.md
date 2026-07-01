@@ -28,6 +28,8 @@
 ## Verification
 
 ```bash
+pnpm verify
 node ../sdkwork-specs/tools/check-repository-docs-standard.mjs --root .
+node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace .
 ```
 

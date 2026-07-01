@@ -229,16 +229,16 @@ function runTypeScript(ctx) {
   const packageJson = loadJson(packageFile);
   const hasBuildScript = Boolean(packageJson?.scripts?.build);
 
-  if (ctx.action === 'check') {
-    run('npm', ['pack', '--dry-run'], { cwd: ctx.projectDir });
-    return;
-  }
-
   run('npm', ['install'], { cwd: ctx.projectDir });
   if (hasBuildScript) {
     run('npm', ['run', 'build'], { cwd: ctx.projectDir });
   } else {
     log('No build script found in package.json, skipping build.');
+  }
+
+  if (ctx.action === 'check') {
+    run('npm', ['pack', '--dry-run'], { cwd: ctx.projectDir });
+    return;
   }
 
   if (ctx.action === 'build') {

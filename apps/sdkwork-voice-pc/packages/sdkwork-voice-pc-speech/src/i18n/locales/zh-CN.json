@@ -1,0 +1,12 @@
+{
+  "title": "AI 语音合成",
+  "desc": "通过 sdkwork-voice-app-sdk 提交文本转语音任务。",
+  "textLabel": "合成文本",
+  "textPlaceholder": "输入需要合成的文本…",
+  "modelLabel": "模型",
+  "voiceLabel": "音色",
+  "button": "开始合成",
+  "submitting": "提交中…",
+  "success": "语音合成任务已提交。",
+  "successWithTask": "语音合成任务已提交（taskId: {{taskId}}）。"
+}

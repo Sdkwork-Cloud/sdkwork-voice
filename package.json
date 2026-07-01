@@ -3,14 +3,17 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "packageManager": "pnpm@10.30.2",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "audit:appbase": "node scripts/audit-appbase-voice-migration.mjs",
     "materialize:openapi": "node sdks/materialize-voice-v3-openapi-boundaries.mjs",
+    "check:api-envelope": "node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace .",
+    "check:docs": "node ../sdkwork-specs/tools/check-repository-docs-standard.mjs --root .",
+    "verify": "pnpm typecheck && pnpm --filter @sdkwork/voice-contracts typecheck && pnpm --filter @sdkwork/voice-provider-adapter typecheck && pnpm --filter @sdkwork/voice-generation-worker typecheck && pnpm --filter @sdkwork/voice-drive-sync-worker typecheck && pnpm test -- --run && pnpm run db:validate && pnpm run check:api-envelope && pnpm run check:docs && pnpm run check:app-composition && pnpm run gateway:assembly:validate && cargo test --workspace && pnpm audit:appbase",
     "test": "vitest",
     "test:rust": "cargo test --workspace",
     "typecheck": "tsc --noEmit",
-    "db:materialize:contract": "node ../sdkwork-specs/tools/materialize-database-contract-from-baseline.mjs --root . --baseline database/ddl/baseline/postgres/0001_voice_legacy_baseline.sql --module-id voice --owner voice-platform --prefixes voice_ --engines postgres",
+    "db:materialize:contract": "node ../sdkwork-specs/tools/materialize-database-contract-from-baseline.mjs --root . --baseline database/ddl/baseline/postgres/0001_voice_baseline.sql --module-id voice --owner voice-platform --prefixes voice_ --engines postgres",
     "db:validate": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root .",
     "db:plan": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . plan",
     "db:init": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . init",
@@ -22,7 +25,9 @@
     "db:bootstrap": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . bootstrap",
     "test:contract:database": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root .",
     "gateway:assembly:materialize": "node scripts/gateway/assembly-materialize.mjs",
-    "gateway:assembly:validate": "node scripts/gateway/assembly-validate.mjs"
+    "gateway:assembly:validate": "node scripts/gateway/assembly-validate.mjs",
+    "check:app-composition": "node ../sdkwork-specs/tools/verify-repo.mjs --root .",
+    "ci:prepare-deps": "node scripts/prepare-ci-dependencies.mjs --apply"
   },
   "devDependencies": {
     "@sdkwork/sdk-common": "^1.0.3",

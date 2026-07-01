@@ -37,6 +37,13 @@ test("voice Rust workspace uses standard crates layout and names", () => {
   );
 
   for (const expected of [
+    "crates/sdkwork-voice-contract",
+    "crates/sdkwork-voice-service",
+    "crates/sdkwork-voice-embedded-bootstrap",
+    "crates/sdkwork-voice-standalone-gateway",
+    "crates/sdkwork-voice-gateway-assembly",
+    "crates/sdkwork-voice-database-host",
+    "crates/sdkwork-routes-voice-http-auth",
     "crates/sdkwork-voice-artifact-drive-service",
     "crates/sdkwork-voice-generation-repository-sqlx",
     "crates/sdkwork-voice-local-api-proxy-native-host",

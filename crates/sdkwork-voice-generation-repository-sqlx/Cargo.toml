@@ -11,9 +11,13 @@ name = "sdkwork_voice_generation_repository_sqlx"
 path = "src/lib.rs"
 
 [dependencies]
+async-trait.workspace = true
 sdkwork-database-config = { workspace = true }
 sdkwork-database-sqlx = { workspace = true }
+sdkwork-utils-rust.workspace = true
+sdkwork-voice-contract.workspace = true
 sdkwork-voice-database-host = { workspace = true }
+sdkwork-voice-service.workspace = true
 sqlx.workspace = true
 
 [dev-dependencies]

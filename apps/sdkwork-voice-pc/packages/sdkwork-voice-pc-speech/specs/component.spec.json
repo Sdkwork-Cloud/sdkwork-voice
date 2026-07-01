@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "@sdkwork/voice-pc-speech",
+    "displayName": "Voice PC Speech",
+    "version": "0.1.0",
+    "type": "react-package",
+    "root": "sdkwork-voice/apps/sdkwork-voice-pc/packages/sdkwork-voice-pc-speech",
+    "domain": "communication",
+    "capability": "voice-pc-speech",
+    "languages": ["typescript", "react"],
+    "generated": false,
+    "manifests": ["package.json"]
+  },
+  "contracts": {
+    "publicExports": ["."],
+    "runtimeEntrypoints": ["package.json#scripts.typecheck"],
+    "sdkClients": ["@sdkwork/voice-app-sdk"],
+    "routeManifest": null,
+    "events": [],
+    "configKeys": []
+  },
+  "verification": {
+    "commands": ["pnpm --filter @sdkwork/voice-pc-speech typecheck"]
+  }
+}

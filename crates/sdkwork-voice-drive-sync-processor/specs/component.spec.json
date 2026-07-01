@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-voice-drive-sync-processor",
+    "displayName": "SDKWork Voice Drive Sync Processor",
+    "version": "0.1.0",
+    "type": "rust-crate",
+    "root": "sdkwork-voice/crates/sdkwork-voice-drive-sync-processor",
+    "domain": "communication",
+    "capability": "voice-drive-sync-processor",
+    "surface": "backend-service",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    {
+      "file": "DRIVE_SPEC.md",
+      "path": "../../../sdkwork-specs/DRIVE_SPEC.md",
+      "purpose": "Drive artifact persistence rules."
+    },
+    {
+      "file": "RUST_CODE_SPEC.md",
+      "path": "../../../sdkwork-specs/RUST_CODE_SPEC.md",
+      "purpose": "Rust processor crate rules."
+    }
+  ],
+  "contracts": {
+    "publicExports": ["."],
+    "runtimeEntrypoints": [
+      "sdkwork_voice_drive_sync_processor::VoiceDriveSyncProcessor::try_from_env"
+    ],
+    "routeManifest": null,
+    "sdkClients": [],
+    "sdkDependencies": [],
+    "dependencyApiExports": [],
+    "dependencyApiSurfaces": [],
+    "events": [],
+    "configKeys": [
+      "VOICE_DRIVE_SYNC_ENABLED",
+      "DRIVE_DATABASE_URL",
+      "VOICE_DRIVE_OBJECT_STORE_ROOT"
+    ]
+  },
+  "verification": {
+    "commands": ["cargo test -p sdkwork-voice-drive-sync-processor"]
+  }
+}

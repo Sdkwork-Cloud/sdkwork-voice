@@ -6,12 +6,13 @@
     "version": "1.0.0",
     "language": "typescript",
     "sdkType": "app",
+    "protocol": "http",
     "packageName": "@sdkwork/voice-app-sdk"
   },
   "generatedFiles": [
     {
       "path": "bin/publish-core.mjs",
-      "sha256": "affb1f1b5400ac492e94e2d01f3104b8dd38b50329e371265d4f0945f2b0763c"
+      "sha256": "98ad0918a78bfbe22bf8f12fec709b0bed545b9e01edd40f5e4abf31a23378a5"
     },
     {
       "path": "bin/publish.ps1",
@@ -39,11 +40,11 @@
     },
     {
       "path": "package.json",
-      "sha256": "0acb09a21e47bed03876600f0b0f42db64de9c3edf5497fa8c3c12394e130c0e"
+      "sha256": "6038e10912aed59ddae221fbd42059044f0b306fb5f7ecf0a9ed1abb18575b21"
     },
     {
       "path": "README.md",
-      "sha256": "09a591e9475546a7b7815f520040fd09200d090e9d56e4d36d82eaa977be18f0"
+      "sha256": "3da934f997a3225cdde47973e8cf191079988ea17eed17fc18d1c7a82a065660"
     },
     {
       "path": "sdkwork-sdk.json",
@@ -63,7 +64,7 @@
     },
     {
       "path": "src/api/voice.ts",
-      "sha256": "d185a211716e8c42a1765fb325fbca214a1aa64c020c9a58d282764065fe7e0a"
+      "sha256": "a7d33f146441c13781ea35f0606b68e8932695eae6f825048b75c07c029e7ac5"
     },
     {
       "path": "src/auth/index.ts",
@@ -71,7 +72,7 @@
     },
     {
       "path": "src/http/client.ts",
-      "sha256": "32f5df2501769499b007c72d482862e4f82ca7ca4a3303556eae6b2271551eba"
+      "sha256": "902ecbf9b15072c147ac9716f22209cd50b770e517b55d1ce1583671ab4d2c3e"
     },
     {
       "path": "src/http/index.ts",
@@ -83,19 +84,19 @@
     },
     {
       "path": "src/sdk.ts",
-      "sha256": "065669b0a79a1142507738d26035e6ec22dffcb2f29d7be30e5195e3e6c01c1d"
+      "sha256": "aceb40942848f4a8f21ac52d2966cd76a73d41716f7e0203a7e5ad31b8f8a090"
     },
     {
       "path": "src/types/common.ts",
-      "sha256": "ac5b348259c39e2cd8357dfcf8269268ee1da5f8a6e0770d714ab5eb796b3050"
+      "sha256": "d2506be8c4bdbe8e7059393467e6e71d75ef1d8c018dbf997bb0ab2a77b6c7b6"
     },
     {
       "path": "src/types/field-error.ts",
-      "sha256": "44b8c95731a9dd8f7b30bb07a415b9541460964861f9ee806c31a4291953bf60"
+      "sha256": "df70e331e6bff0817bc35428286fa8de5d7274ab83a6c60d7184759bf680a088"
     },
     {
       "path": "src/types/index.ts",
-      "sha256": "a3514a62b900b6097ca2bef5ee43ecfeba7bc26ad5765db7608080f13a1f62fc"
+      "sha256": "acb154a58e5e1719bd49c40ff3ad1d1ecfbd38d89f2bdfd5de22dd0f5ca3df76"
     },
     {
       "path": "src/types/media-access.ts",
@@ -122,12 +123,44 @@
       "sha256": "ebb9a604403756a4529cb47f1700dbd9c0beb6e4145b9a51985783429e29adf3"
     },
     {
-      "path": "src/types/problem-detail.ts",
-      "sha256": "7801e79cab9a1ccace62b2a0ba2119f835b41e4e22f858b10490ffd638b7f3a6"
+      "path": "src/types/page-info.ts",
+      "sha256": "0bf2b44313bc24851eb9ffb6063c1b9eb043e1e5721c8ace8882a3cfa21c932a"
     },
     {
-      "path": "src/types/voice-api-result.ts",
-      "sha256": "3dcd4f7d74307248c1297c74751367042f321d990a9eb198978945a328ea2683"
+      "path": "src/types/problem-detail.ts",
+      "sha256": "deca621176487754cbfa2012aa3eab046131ced5829ddf7cff64de692f8bcb0e"
+    },
+    {
+      "path": "src/types/sdk-work-api-response.ts",
+      "sha256": "79cef2c8e584ba8b8e96c6c77ccf6bda087b0c68cbed63cb97d5fb1ff3e47e1a"
+    },
+    {
+      "path": "src/types/sdk-work-command-data.ts",
+      "sha256": "a875c230e70650e636ac09c1af57ae8ea0f512a89dd21482bb9e6292bb6bad5a"
+    },
+    {
+      "path": "src/types/sdk-work-command-response.ts",
+      "sha256": "36f82aede9b7b352a9b57545705da4003816785c7913fb2436df633f5c2e8447"
+    },
+    {
+      "path": "src/types/sdk-work-list-response.ts",
+      "sha256": "eeb07e413d7e912345eda1cb1093e8e6abfe9b42d8350482f7b580138c7936c5"
+    },
+    {
+      "path": "src/types/sdk-work-page-data.ts",
+      "sha256": "b9f6e60cc3bc39eed4cdf6029a401cc88b6001e4f4c72703487f478001024743"
+    },
+    {
+      "path": "src/types/sdk-work-platform-error-code.ts",
+      "sha256": "f5e30be72be3d1aebd8200627bfac368f10cdd69d2271d24e6b4a2d7edf97fb7"
+    },
+    {
+      "path": "src/types/sdk-work-resource-data.ts",
+      "sha256": "f5a027b000a19c08d5b2560ae47fea43c83f4c5d7e85ad37faafe1e9177459cd"
+    },
+    {
+      "path": "src/types/sdk-work-resource-response.ts",
+      "sha256": "89c05f5549bef773335245f56f61ca1a6959978726799391d584a6bd25d12fdc"
     },
     {
       "path": "src/types/voice-artifact-drive-sync-status.ts",

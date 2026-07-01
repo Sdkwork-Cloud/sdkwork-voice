@@ -1,7 +1,7 @@
 import { appApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { VoiceApiResult, VoiceMusicCreateCommand, VoiceOperationCommand, VoiceSoundEffectCreateCommand, VoiceSpeechCreateCommand, VoiceTranscriptionCreateCommand, VoiceTranslationCreateCommand } from '../types';
+import type { SdkWorkCommandData, SdkWorkPageData, VoiceMusicCreateCommand, VoiceOperationCommand, VoiceSoundEffectCreateCommand, VoiceSpeechCreateCommand, VoiceTranscriptionCreateCommand, VoiceTranslationCreateCommand } from '../types';
 
 
 export class VoiceTranslationsApi {
@@ -13,8 +13,8 @@ export class VoiceTranslationsApi {
 
 
 /** Translations create. */
-  async create(body: VoiceTranslationCreateCommand): Promise<VoiceApiResult> {
-    return this.client.post<VoiceApiResult>(appApiPath(`/voice/translations`), body, undefined, undefined, 'application/json');
+  async create(body: VoiceTranslationCreateCommand): Promise<Record<string, unknown>> {
+    return this.client.post<Record<string, unknown>>(appApiPath(`/voice/translations`), body, undefined, undefined, 'application/json');
   }
 }
 
@@ -27,8 +27,8 @@ export class VoiceTranscriptionsApi {
 
 
 /** Transcriptions create. */
-  async create(body: VoiceTranscriptionCreateCommand): Promise<VoiceApiResult> {
-    return this.client.post<VoiceApiResult>(appApiPath(`/voice/transcriptions`), body, undefined, undefined, 'application/json');
+  async create(body: VoiceTranscriptionCreateCommand): Promise<Record<string, unknown>> {
+    return this.client.post<Record<string, unknown>>(appApiPath(`/voice/transcriptions`), body, undefined, undefined, 'application/json');
   }
 }
 
@@ -49,7 +49,7 @@ export class VoiceTasksApi {
 
 
 /** Tasks list. */
-  async list(params?: VoiceTasksListParams): Promise<VoiceApiResult> {
+  async list(params?: VoiceTasksListParams): Promise<SdkWorkPageData> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
@@ -57,17 +57,17 @@ export class VoiceTasksApi {
       { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<VoiceApiResult>(appendQueryString(appApiPath(`/voice/tasks`), query));
+    return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/tasks`), query));
   }
 
 /** Tasks retrieve. */
-  async retrieve(taskId: string): Promise<VoiceApiResult> {
-    return this.client.get<VoiceApiResult>(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}`));
+  async retrieve(taskId: string): Promise<Record<string, unknown>> {
+    return this.client.get<Record<string, unknown>>(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}`));
   }
 
 /** Tasks cancel. */
-  async cancel(taskId: string, body: VoiceOperationCommand): Promise<VoiceApiResult> {
-    return this.client.post<VoiceApiResult>(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/cancel`), body, undefined, undefined, 'application/json');
+  async cancel(taskId: string, body: VoiceOperationCommand): Promise<SdkWorkCommandData> {
+    return this.client.post<SdkWorkCommandData>(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/cancel`), body, undefined, undefined, 'application/json');
   }
 }
 
@@ -88,7 +88,7 @@ export class VoiceTaskEventsApi {
 
 
 /** Task Events list. */
-  async list(params?: VoiceTaskEventsListParams): Promise<VoiceApiResult> {
+  async list(params?: VoiceTaskEventsListParams): Promise<SdkWorkPageData> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
@@ -96,7 +96,7 @@ export class VoiceTaskEventsApi {
       { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<VoiceApiResult>(appendQueryString(appApiPath(`/voice/task_events`), query));
+    return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/task_events`), query));
   }
 }
 
@@ -109,8 +109,8 @@ export class VoiceSpeechApi {
 
 
 /** Speech create. */
-  async create(body: VoiceSpeechCreateCommand): Promise<VoiceApiResult> {
-    return this.client.post<VoiceApiResult>(appApiPath(`/voice/speech`), body, undefined, undefined, 'application/json');
+  async create(body: VoiceSpeechCreateCommand): Promise<Record<string, unknown>> {
+    return this.client.post<Record<string, unknown>>(appApiPath(`/voice/speech`), body, undefined, undefined, 'application/json');
   }
 }
 
@@ -123,8 +123,8 @@ export class VoiceSoundEffectsApi {
 
 
 /** Sound Effects create. */
-  async create(body: VoiceSoundEffectCreateCommand): Promise<VoiceApiResult> {
-    return this.client.post<VoiceApiResult>(appApiPath(`/voice/sound_effects`), body, undefined, undefined, 'application/json');
+  async create(body: VoiceSoundEffectCreateCommand): Promise<Record<string, unknown>> {
+    return this.client.post<Record<string, unknown>>(appApiPath(`/voice/sound_effects`), body, undefined, undefined, 'application/json');
   }
 }
 
@@ -137,8 +137,8 @@ export class VoiceMusicApi {
 
 
 /** Music create. */
-  async create(body: VoiceMusicCreateCommand): Promise<VoiceApiResult> {
-    return this.client.post<VoiceApiResult>(appApiPath(`/voice/music`), body, undefined, undefined, 'application/json');
+  async create(body: VoiceMusicCreateCommand): Promise<Record<string, unknown>> {
+    return this.client.post<Record<string, unknown>>(appApiPath(`/voice/music`), body, undefined, undefined, 'application/json');
   }
 }
 
@@ -159,7 +159,7 @@ export class VoiceAudioAssetsApi {
 
 
 /** Audio Assets list. */
-  async list(params?: VoiceAudioAssetsListParams): Promise<VoiceApiResult> {
+  async list(params?: VoiceAudioAssetsListParams): Promise<SdkWorkPageData> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
@@ -167,12 +167,12 @@ export class VoiceAudioAssetsApi {
       { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<VoiceApiResult>(appendQueryString(appApiPath(`/voice/audio_assets`), query));
+    return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/audio_assets`), query));
   }
 
 /** Audio Assets retrieve. */
-  async retrieve(audioAssetId: string): Promise<VoiceApiResult> {
-    return this.client.get<VoiceApiResult>(appApiPath(`/voice/audio_assets/${serializePathParameter(audioAssetId, { name: 'audioAssetId', style: 'simple', explode: false })}`));
+  async retrieve(audioAssetId: string): Promise<Record<string, unknown>> {
+    return this.client.get<Record<string, unknown>>(appApiPath(`/voice/audio_assets/${serializePathParameter(audioAssetId, { name: 'audioAssetId', style: 'simple', explode: false })}`));
   }
 }
 
@@ -193,7 +193,7 @@ export class VoiceArtifactDriveSyncApi {
 
 
 /** Artifact Drive Sync list. */
-  async list(params?: VoiceArtifactDriveSyncListParams): Promise<VoiceApiResult> {
+  async list(params?: VoiceArtifactDriveSyncListParams): Promise<SdkWorkPageData> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
@@ -201,7 +201,7 @@ export class VoiceArtifactDriveSyncApi {
       { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<VoiceApiResult>(appendQueryString(appApiPath(`/voice/artifact_drive_sync`), query));
+    return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/artifact_drive_sync`), query));
   }
 }
 

@@ -9,8 +9,8 @@ name = "sdkwork_voice_database_host"
 path = "src/lib.rs"
 
 [dependencies]
-dotenvy = "0.15"
-sdkwork_database_config = { workspace = true }
-sdkwork_database_lifecycle = { workspace = true }
-sdkwork_database_spi = { workspace = true }
-sdkwork_database_sqlx = { workspace = true }
+dotenvy.workspace = true
+sdkwork-database-config.workspace = true
+sdkwork-database-lifecycle.workspace = true
+sdkwork-database-spi.workspace = true
+sdkwork-database-sqlx.workspace = true

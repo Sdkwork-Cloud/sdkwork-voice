@@ -1,0 +1,26 @@
+[package]
+name = "sdkwork-voice-drive-sync-processor"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Processes voice artifact drive sync rows through SDKWork Drive persistence."
+
+[lib]
+name = "sdkwork_voice_drive_sync_processor"
+
+[dependencies]
+async-trait.workspace = true
+base64.workspace = true
+reqwest.workspace = true
+sdkwork-database-sqlx.workspace = true
+sdkwork-drive-storage-local.workspace = true
+sdkwork-drive-workspace-service.workspace = true
+sdkwork-utils-rust.workspace = true
+sdkwork-voice-artifact-drive-service.workspace = true
+sdkwork-voice-contract.workspace = true
+sdkwork-voice-service.workspace = true
+serde_json.workspace = true
+sqlx.workspace = true
+tokio.workspace = true
+tracing.workspace = true

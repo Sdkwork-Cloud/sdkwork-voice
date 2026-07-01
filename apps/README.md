@@ -3,37 +3,32 @@
 Application: voice
 Status: active
 Owner: SDKWork maintainers
-Specs: APPLICATION_SPEC.md, SDKWORK_WORKSPACE_SPEC.md
+Specs: APPLICATION_SPEC.md, APP_PC_ARCHITECTURE_SPEC.md, SDKWORK_WORKSPACE_SPEC.md
 
 ## Primary App Surface
 
-The repository root is not the primary runnable app surface.
-Runnable application roots live under `apps/<application-root>/`.
+Runnable PC application root: `apps/sdkwork-voice-pc/`.
 
 ## Directory Index
 
 | Directory | Surface role | Runnable | Purpose | Entry |
 | --- | --- | --- | --- | --- |
-| _none_ | n/a | no | No child application roots are checked in under `apps/` yet. | n/a |
+| `sdkwork-voice-common/` | Shared TS packages | no | Contracts, provider adapter, generation/drive workers | `packages/sdkwork-voice-contracts`, `packages/sdkwork-voice-generation-worker` |
+| `sdkwork-voice-pc/` | PC React embed host | partial | Voice market and speech synthesis embed packages consumed by IM PC shell | `packages/sdkwork-voice-pc-market`, `packages/sdkwork-voice-pc-speech` |
 
-## Allowed Content
+## Embed Packages
 
-- Selected language/architecture application roots with `README.md`, `AGENTS.md`, `.sdkwork/`, and `specs/` when authored packages exist.
-- Architecture-local `packages/`, `config/`, `src/`, `lib/`, `App/`, or `entry/` directories required by the owning architecture standard.
+- `@sdkwork/voice-contracts`, `@sdkwork/voice-provider-adapter` — shared contracts and provider adapter (`sdkwork-voice-common/`)
+- `@sdkwork/voice-generation-worker`, `@sdkwork/voice-drive-sync-worker` — async backend workers (`sdkwork-voice-common/`)
+- `@sdkwork/voice-pc-market` — voice market catalog and clone UI
+- `@sdkwork/voice-pc-speech` — TTS / speech synthesis UI
+- `sdkwork-voice-pc-core` — host session and SDK port wiring
+- `sdkwork-voice-pc-commons` — shared UI utilities
 
-## Forbidden Content
-
-- Repository-root API contracts, generated SDK workspaces, Rust crates, or deployment descriptors moved under `apps/`.
-- Runtime secrets, user-private state, generated SDK transport output, or cross-application copied business logic.
+IM PC integrates through `voicePcIntegration` and shell lazy loaders, matching Drive/Knowledgebase embed patterns.
 
 ## Related Specs
 
-- `../sdkwork-specs/APPLICATION_SPEC.md`
-- `../sdkwork-specs/SDKWORK_WORKSPACE_SPEC.md`
-- `../sdkwork-specs/APP_CLIENT_ARCHITECTURE_ALIGNMENT_SPEC.md`
-
-## Verification
-
-```bash
-node ../sdkwork-specs/tools/check-apps-directory-index.mjs --root .
-```
+- `../../sdkwork-specs/APPLICATION_SPEC.md`
+- `../../sdkwork-specs/APP_PC_ARCHITECTURE_SPEC.md`
+- `../../sdkwork-specs/SDKWORK_WORKSPACE_SPEC.md`

@@ -6,17 +6,20 @@
     "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
-      "@sdkwork/audio-pc-react": [
-        "packages/pc-react/content/sdkwork-audio-pc-react/src/index.ts"
-      ],
       "@sdkwork/voice-contracts": [
-        "packages/common/voice/sdkwork-voice-contracts/src/index.ts"
-      ],
-      "@sdkwork/voice-local-api-proxy": [
-        "packages/pc-react/voice/sdkwork-voice-local-api-proxy/src/index.ts"
+        "apps/sdkwork-voice-common/packages/sdkwork-voice-contracts/src/index.ts"
       ],
       "@sdkwork/voice-provider-adapter": [
-        "packages/common/voice/sdkwork-voice-provider-adapter/src/index.ts"
+        "apps/sdkwork-voice-common/packages/sdkwork-voice-provider-adapter/src/index.ts"
+      ],
+      "@sdkwork/voice-generation-worker": [
+        "apps/sdkwork-voice-common/packages/sdkwork-voice-generation-worker/src/index.ts"
+      ],
+      "@sdkwork/voice-drive-sync-worker": [
+        "apps/sdkwork-voice-common/packages/sdkwork-voice-drive-sync-worker/src/index.ts"
+      ],
+      "@sdkwork/voice-local-api-proxy": [
+        "apps/sdkwork-voice-pc/packages/sdkwork-voice-local-api-proxy/src/index.ts"
       ],
       "@sdkwork/voice-app-sdk": [
         "sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/generated/server-openapi/src/index.ts"

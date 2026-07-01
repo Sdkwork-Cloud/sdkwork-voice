@@ -1,28 +1,95 @@
 # Voice Technical Architecture
 
-Status: draft
-Owner: SDKWork maintainers
-Updated: 2026-06-24
-Specs: ARCHITECTURE_DECISION_SPEC.md, DOCUMENTATION_SPEC.md
-
-## Document Map
-
-- Add `TECH-<topic>.md` shards in this directory when the architecture grows beyond one reviewable screen.
+Status: active
+Owner: voice-platform
+Updated: 2026-06-30
+Specs: `ARCHITECTURE_DECISION_SPEC.md`, `DOCUMENTATION_SPEC.md`, `API_SPEC.md`, `WEB_FRAMEWORK_SPEC.md`, `DATABASE_FRAMEWORK_SPEC.md`, `DRIVE_SPEC.md`
 
 ## 1. Architecture Overview
 
+`sdkwork-voice` is a domain platform repository for speech synthesis, transcription, translation, sound effects, music generation, provider orchestration, webhook ingestion, and Drive-backed artifact persistence.
+
+Runtime layers:
+
+| Layer | Crates / packages | Responsibility |
+| --- | --- | --- |
+| HTTP plane | `sdkwork-routes-voice-*-api`, `sdkwork-routes-voice-http-auth` | App/backend API handlers via `sdkwork-web-framework` |
+| Service | `sdkwork-voice-service` | Operation dispatch, validation, orchestration |
+| Persistence | `sdkwork-voice-generation-repository-sqlx`, `sdkwork-voice-database-host` | SQL repositories via `sdkwork-database` |
+| Drive | `sdkwork-voice-artifact-drive-service`, `sdkwork-voice-drive-sync-processor` | AI-generated artifact upload through `sdkwork-drive` |
+| Assembly | `sdkwork-voice-embedded-bootstrap`, `sdkwork-voice-gateway-assembly` | Router composition for platform consumers |
+| Standalone server | `sdkwork-voice-standalone-gateway` | Production HTTP entry (`VOICE_API_BIND`, default `0.0.0.0:18096`) |
+| Contracts | OpenAPI authorities, `@sdkwork/voice-app-sdk`, `@sdkwork/voice-backend-sdk` | SDKWork v3 envelope (`SdkWorkApiResponse`, `ProblemDetail`) |
+| Workers | `@sdkwork/voice-generation-worker`, `@sdkwork/voice-drive-sync-worker` | Queued task dispatch and Drive sync retry orchestration |
+| Frontend embed | `apps/sdkwork-voice-pc/*` | IM PC speech/market embed surfaces |
+
 ## 2. Technology Choices
 
-## 3. System Boundaries And Modules
+- **HTTP:** Axum + `sdkwork-web-framework` (dual-token auth, interceptors, traceId)
+- **Database:** PostgreSQL via `sdkwork-database` lifecycle (`database/` module, `VOICE_*` env)
+- **File storage:** `sdkwork-drive-workspace-service` only; no app-local upload APIs
+- **Utilities:** `sdkwork-utils-rust` for HTTP envelope, IDs, datetime, HMAC, SHA-256
+- **Provider routing:** `@sdkwork/voice-provider-adapter` + claw-router (generation worker boundary)
+- **Discovery:** Not used until RPC services are introduced
 
-## 4. Directory And Package Layout
+## 3. System Boundaries
 
-## 5. API, SDK, And Data Ownership
+- **Owns:** voice app/backend APIs, task lifecycle, artifacts, Drive sync, provider routes, webhooks, SDK families, generation/drive workers
+- **Does not own:** IAM, generic Drive platform, claw-router provider implementations, non-voice appbase features
 
-## 6. Security, Privacy, And Observability
+## 4. Directory Layout
 
-## 7. Deployment And Runtime Topology
+```text
+apps/
+  sdkwork-voice-common/packages/   contracts, provider adapter, generation/drive workers
+  sdkwork-voice-pc/packages/       PC embed UI, local API proxy, pc-core composition
+crates/                            Rust services, routes, repository, gateway
+database/                          sdkwork-database module (manifest, contract, migrations)
+sdks/                              OpenAPI authorities and generated SDKs
+deployments/                       deploy.yaml for standalone/cloud parity
+```
 
-## 8. Architecture Decision Index
+## 5. API, SDK, and Data
+
+- Authorities: `sdkwork-voice-app-api`, `sdkwork-voice-backend-api`
+- Materializer: `sdks/materialize-voice-v3-openapi-boundaries.mjs` (native v3 envelope)
+- Success: `{ code: 0, data, traceId }`; errors: `application/problem+json` with numeric `code`
+- Lists: `data.items` + `data.pageInfo`; commands: `data.accepted`
+- List filters: `status`, `operation_type`, `sync_status`, `processing_status`, and related query params on list operations
+
+## 6. Security
+
+- App/backend surfaces: dual-token (`Authorization` + `Access-Token`)
+- Provider webhooks: public ingress with HMAC signature (`X-Voice-Webhook-Signature`, `VOICE_WEBHOOK_SECRET`, `VOICE_WEBHOOK_DEV_MODE`)
+- Webhook events: persisted, processed into task state, replayable through backend API
+- CORS: `VOICE_API_CORS_ORIGINS` allowlist; wildcard denied
+- Secrets: environment / runtime directory only; never in repository
+
+## 7. Async Pipeline
+
+1. App API create operations enqueue `voice_generation_task` rows (`queued`).
+2. `@sdkwork/voice-generation-worker` polls backend `tasks.list?status=queued`, invokes provider adapter, reconciles via `tasks.reconcile`.
+3. Provider webhooks ingress updates linked tasks from signed callbacks; `providerWebhookEvents.replay` reprocesses stored events.
+4. Reconcile creates `voice_audio_artifact` and `voice_artifact_drive_sync` (`pending_upload`) rows.
+5. `@sdkwork/voice-drive-sync-worker` polls `artifactDriveSync.list?sync_status=pending_upload` and calls `artifactDriveSync.retry`.
+6. When `DRIVE_DATABASE_URL` (or `SDKWORK_DRIVE_DATABASE_URL`) is configured, `sdkwork-voice-drive-sync-processor` fetches provider bytes and persists through `sdkwork-voice-artifact-drive-service` into Drive AI-generated spaces.
+
+## 8. Deployment
+
+- Standalone: `cargo run -p sdkwork-voice-standalone-gateway` after `pnpm db:bootstrap`
+- Workers: run generation and drive-sync workers as separate processes with backend SDK credentials
+- Drive sync processor env:
+  - `VOICE_DRIVE_SYNC_ENABLED` (default `true`)
+  - `DRIVE_DATABASE_URL` / `SDKWORK_DRIVE_DATABASE_URL`
+  - `VOICE_DRIVE_OBJECT_STORE_ROOT` (default `.data/voice-drive-objects`)
+  - `VOICE_DRIVE_OBJECT_STORE_BUCKET` (default `voice-generated`)
+- Container: image from `sdkwork-voice-standalone-gateway` binary
+- Config: `sdkwork.app.config.json`, `deployments/deploy.yaml`, `VOICE_DATABASE_URL`
 
 ## 9. Verification
+
+```powershell
+pnpm verify
+cargo run -p sdkwork-voice-standalone-gateway
+node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace .
+```

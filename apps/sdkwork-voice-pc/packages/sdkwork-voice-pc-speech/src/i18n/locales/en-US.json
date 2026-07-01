@@ -1,0 +1,12 @@
+{
+  "title": "AI Voice Synthesis",
+  "desc": "Submit text-to-speech jobs through sdkwork-voice-app-sdk.",
+  "textLabel": "Text",
+  "textPlaceholder": "Enter text to synthesize…",
+  "modelLabel": "Model",
+  "voiceLabel": "Voice",
+  "button": "Generate speech",
+  "submitting": "Submitting…",
+  "success": "Speech synthesis task accepted.",
+  "successWithTask": "Speech synthesis task accepted (taskId: {{taskId}})."
+}

@@ -1,16 +1,37 @@
 packages:
-  - "packages/common/*/*"
-  - "packages/pc-react/*/*"
+  - "apps/sdkwork-voice-common"
+  - "apps/sdkwork-voice-common/packages/*"
+  - "apps/sdkwork-voice-pc"
+  - "apps/sdkwork-voice-pc/packages/*"
   - "sdks/*"
   - "sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/generated/server-openapi"
   - "sdks/sdkwork-voice-backend-sdk/sdkwork-voice-backend-sdk-typescript/generated/server-openapi"
+  - "../sdkwork-iam/apps/sdkwork-iam-common/packages/sdkwork-iam-contracts"
+  - "../sdkwork-iam/apps/sdkwork-iam-common/packages/sdkwork-iam-runtime"
+  - "../sdkwork-iam/apps/sdkwork-iam-common/packages/sdkwork-iam-sdk-ports"
+  - "../sdkwork-iam/apps/sdkwork-iam-common/packages/sdkwork-iam-sdk-adapter"
+  - "../sdkwork-iam/apps/sdkwork-iam-common/packages/sdkwork-iam-service"
+  - "../sdkwork-iam/apps/sdkwork-iam-common/packages/sdkwork-iam-application-bootstrap"
+  - "../sdkwork-iam/apps/sdkwork-iam-pc/packages/sdkwork-auth-pc-react"
+  - "../sdkwork-iam/apps/sdkwork-iam-pc/packages/sdkwork-auth-runtime-pc-react"
+  - "../sdkwork-iam/apps/sdkwork-iam-pc/packages/sdkwork-iam-react"
+  - "../sdkwork-iam/apps/sdkwork-iam-common/packages/sdkwork-iam-credential-entry"
+  - "../sdkwork-iam/sdks/sdkwork-iam-app-sdk/sdkwork-iam-app-sdk-typescript/generated/server-openapi"
+  - "../sdkwork-iam/sdks/sdkwork-iam-backend-sdk/sdkwork-iam-backend-sdk-typescript/generated/server-openapi"
+  - "../sdkwork-appbase/packages/common/foundation/sdkwork-runtime-bootstrap"
+  - "../sdkwork-appbase/packages/pc-react/foundation/sdkwork-appbase-pc-react"
+  - "../sdkwork-appbase/packages/pc-react/foundation/sdkwork-i18n-pc-react"
+  - "../sdkwork-core/sdkwork-core-pc-react"
+  - "../sdkwork-ui/sdkwork-ui-pc-react"
+  - "../sdkwork-sdk-commons/sdkwork-sdk-common-typescript"
+  - "../sdkwork-utils/packages/sdkwork-utils-typescript"
 
 catalog:
-  "@types/react": ^19.2.14
-  "@types/react-dom": ^19.2.3
-  "@vitejs/plugin-react": ^6.0.1
   react: ^19.2.4
   react-dom: ^19.2.4
   typescript: ~6.0.2
   vite: ^8.0.3
+  "@types/react": ^19.2.14
+  "@types/react-dom": ^19.2.3
+  "@vitejs/plugin-react": ^6.0.1
   vite-plugin-dts: ^4.5.4

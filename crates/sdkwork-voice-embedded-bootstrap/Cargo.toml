@@ -1,0 +1,23 @@
+[package]
+name = "sdkwork-voice-embedded-bootstrap"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Embedded voice application bootstrap for unified-process platform consumers."
+
+[lib]
+name = "sdkwork_voice_embedded_bootstrap"
+
+[dependencies]
+axum.workspace = true
+dotenvy.workspace = true
+sdkwork-database-config.workspace = true
+sdkwork-database-sqlx.workspace = true
+sdkwork-routes-voice-app-api.workspace = true
+sdkwork-routes-voice-backend-api.workspace = true
+sdkwork-voice-generation-repository-sqlx.workspace = true
+sdkwork-voice-drive-sync-processor.workspace = true
+sdkwork-voice-service.workspace = true
+tracing.workspace = true
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

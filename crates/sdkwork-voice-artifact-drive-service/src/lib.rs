@@ -454,6 +454,9 @@ where
             owner_subject_id: owner_subject_id.to_string(),
             display_name: "AI Generated".to_string(),
             space_type: DriveSpaceType::AiGenerated,
+            presentation_icon: None,
+            presentation_color: None,
+            description: None,
             operator_id: operator_id.to_string(),
         })
         .await
@@ -511,6 +514,9 @@ where
                 owner_subject_id: owner_subject_id.to_string(),
                 display_name: "AI Generated".to_string(),
                 space_type: DriveSpaceType::AiGenerated,
+                presentation_icon: None,
+                presentation_color: None,
+                description: None,
                 operator_id: operator_id.to_string(),
             })
             .await

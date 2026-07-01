@@ -1,0 +1,15 @@
+{
+  "name": "sdkwork-voice-pc",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit --project tsconfig.json"
+  },
+  "sdkwork": {
+    "workspace": "sdkwork-voice",
+    "application": "sdkwork-voice-pc",
+    "architecture": "pc",
+    "status": "ready"
+  }
+}
