@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "language": "typescript",
   "sdkType": "app",
-  "packageName": "@sdkwork/voice-app-sdk",
+  "packageName": "sdkwork-voice-app-sdk-generated-typescript",
   "generator": "@sdkwork/sdk-generator",
   "capabilities": {
     "supportsGeneratedTests": true,
@@ -26,5 +26,7 @@
     "stateRoots": [
       ".sdkwork/"
     ]
-  }
+  },
+  "transportPackageName": "sdkwork-voice-app-sdk-generated-typescript",
+  "consumerPackageName": "@sdkwork/voice-app-sdk"
 }

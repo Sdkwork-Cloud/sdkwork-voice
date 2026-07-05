@@ -161,6 +161,7 @@ pub async fn reconcile_task(
     State(state): State<VoiceBackendApiState>,
     app_ctx: WebRequestContext,
     Path(task_id): Path<String>,
+    body: Option<Json<Value>>,
 ) -> Response {
     call_single_param_operation(
         state,
@@ -168,7 +169,7 @@ pub async fn reconcile_task(
         "tasks.reconcile",
         "taskId",
         task_id,
-        Value::Null,
+        body.map(|Json(value)| value).unwrap_or(Value::Null),
     )
     .await
 }
@@ -202,7 +203,7 @@ pub async fn accept_provider_webhook_ingress(
 
     let result = state
         .service()
-        .accept_provider_webhook_ingress(provider_code, body, signature)
+        .accept_provider_webhook_ingress(provider_code, body, signature, trace_id.clone())
         .await;
 
     match result {

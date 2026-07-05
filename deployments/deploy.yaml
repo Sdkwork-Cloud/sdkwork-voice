@@ -10,7 +10,8 @@ services:
     crate: sdkwork-voice-standalone-gateway
     bindEnv: VOICE_API_BIND
     defaultBind: "0.0.0.0:18096"
-    healthPath: /health
+    healthPath: /healthz
+    readinessPath: /readyz
     database:
       serviceCode: VOICE
       manifest: database/database.manifest.json
@@ -22,8 +23,8 @@ services:
 runtime:
   corsOriginsEnv: VOICE_API_CORS_ORIGINS
   gracefulShutdown: true
-  requestTimeoutSec: 30
-  requestBodyLimitBytes: 10485760
+  requestTimeoutSec: 60
+  requestBodyLimitBytes: 16777216
   environment:
     voiceDatabaseUrl: VOICE_DATABASE_URL
     webhookSecret: VOICE_WEBHOOK_SECRET
@@ -39,4 +40,4 @@ workers:
     polls: tasks.list?status=queued
   - name: voice-drive-sync-worker
     package: "@sdkwork/voice-drive-sync-worker"
-    polls: artifactDriveSync.list?sync_status=pending_upload
+    polls: artifactDriveSync.list?sync_status=pending_upload,failed

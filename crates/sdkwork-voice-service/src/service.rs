@@ -8,7 +8,8 @@ use serde_json::{json, Value};
 
 use crate::{
     NewVoiceArtifactDriveSync, NewVoiceAudioArtifact, NewVoiceProviderRoute,
-    NewVoiceProviderWebhookEvent, NewVoiceTask, NewVoiceTaskEvent, VoiceArtifactDriveSyncListQuery,
+    NewVoiceProviderWebhookEvent, NewVoiceRequestLog, NewVoiceTask, NewVoiceTaskEvent,
+    VoiceArtifactDriveSyncListQuery,
     VoiceAudioArtifactListQuery, VoiceProviderRouteListQuery, VoiceProviderRouteUpdate,
     VoiceProviderWebhookEventListQuery, VoiceRequestLogListQuery, VoiceRuntimePorts,
     VoiceTaskEventListQuery, VoiceTaskListQuery, VoiceTaskProviderUpdate, VoiceTaskRecord,
@@ -25,7 +26,9 @@ pub async fn handle_voice_app_operation(
     body: Value,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
+    let started = std::time::Instant::now();
     validate_context(context)?;
+    require_operation_permission(context, operation_id)?;
     tracing::info!(
         operation_id,
         tenant_id = %context.tenant_id,
@@ -33,7 +36,7 @@ pub async fn handle_voice_app_operation(
         "voice app operation"
     );
 
-    match operation_id {
+    let result = match operation_id {
         "speech.create" | "transcriptions.create" | "translations.create"
         | "soundEffects.create" | "music.create" => {
             create_voice_task(context, operation_id, body, ports).await
@@ -57,7 +60,9 @@ pub async fn handle_voice_app_operation(
         _ => Err(VoiceServiceError::validation(format!(
             "unsupported voice app operation: {operation_id}"
         ))),
-    }
+    };
+    record_request_log(context, operation_id, started, result.is_ok(), ports).await;
+    result
 }
 
 pub async fn handle_voice_backend_operation(
@@ -67,14 +72,16 @@ pub async fn handle_voice_backend_operation(
     body: Value,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
+    let started = std::time::Instant::now();
     validate_context(context)?;
+    require_operation_permission(context, operation_id)?;
     tracing::info!(
         operation_id,
         tenant_id = %context.tenant_id,
         "voice backend operation"
     );
 
-    match operation_id {
+    let result = match operation_id {
         "providerRoutes.create" => create_provider_route(&body, ports).await,
         "providerRoutes.list" => list_provider_routes(&body, ports).await,
         "providerRoutes.retrieve" => {
@@ -100,16 +107,16 @@ pub async fn handle_voice_backend_operation(
         }
         "tasks.retry" | "tasks.reconcile" => {
             let task_id = parse_task_id(&path_params)?;
-            retry_voice_task(task_id, operation_id, &body, ports).await
+            retry_voice_task(context, task_id, operation_id, &body, ports).await
         }
         "taskEvents.list" => list_voice_task_events(context, &body, ports).await,
         "providerWebhookEvents.list" => list_provider_webhook_events(&body, ports).await,
         "providerWebhookEvents.replay" => {
             let event_id = parse_i64_param(&path_params, "eventId")?;
-            replay_provider_webhook_event(event_id, ports).await
+            replay_provider_webhook_event(context, event_id, ports).await
         }
         "webhookDeliveries.list" => list_webhook_deliveries(&body, ports).await,
-        "requestLogs.list" => list_request_logs(&body, ports).await,
+        "requestLogs.list" => list_request_logs(context, &body, ports).await,
         "artifactDriveSync.list" => list_artifact_drive_sync(context, &body, ports).await,
         "artifactDriveSync.retry" => {
             let sync_id = parse_i64_param(&path_params, "syncId")?;
@@ -122,22 +129,25 @@ pub async fn handle_voice_backend_operation(
         }
         "audioArtifacts.delete" => {
             let artifact_id = parse_i64_param(&path_params, "audioArtifactId")?;
-            delete_audio_artifact(artifact_id, ports).await
+            delete_audio_asset(context, artifact_id, ports).await
         }
         _ => Err(VoiceServiceError::validation(format!(
             "unsupported voice backend operation: {operation_id}"
         ))),
-    }
+    };
+    record_request_log(context, operation_id, started, result.is_ok(), ports).await;
+    result
 }
 
 pub async fn handle_voice_provider_webhook_ingress(
     provider_code: &str,
     body: Value,
     signature_header: Option<&str>,
+    trace_id: &str,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
     verify_provider_webhook_signature(provider_code, &body, signature_header)?;
-    accept_provider_webhook(provider_code, &body, ports).await
+    accept_provider_webhook(provider_code, &body, trace_id, ports).await
 }
 
 fn verify_provider_webhook_signature(
@@ -185,6 +195,9 @@ fn verify_provider_webhook_signature(
 }
 
 fn voice_webhook_dev_mode_enabled() -> bool {
+    if is_production_deploy_env() {
+        return false;
+    }
     matches!(
         std::env::var("VOICE_WEBHOOK_DEV_MODE")
             .unwrap_or_default()
@@ -193,6 +206,101 @@ fn voice_webhook_dev_mode_enabled() -> bool {
             .as_str(),
         "1" | "true" | "yes" | "on"
     )
+}
+
+fn is_production_deploy_env() -> bool {
+    matches!(
+        std::env::var("VOICE_DEPLOY_ENV")
+            .or_else(|_| std::env::var("DEPLOY_ENV"))
+            .unwrap_or_default()
+            .trim()
+            .to_ascii_lowercase()
+            .as_str(),
+        "production" | "prod"
+    )
+}
+
+fn require_permission(
+    context: &VoiceRuntimeContext,
+    required: &str,
+) -> Result<(), VoiceServiceError> {
+    if context.permission_scopes.is_empty() {
+        return Ok(());
+    }
+    if context
+        .permission_scopes
+        .iter()
+        .any(|scope| scope == "voice.*" || scope == required)
+    {
+        return Ok(());
+    }
+    Err(VoiceServiceError::unauthorized(format!(
+        "missing required permission scope: {required}"
+    )))
+}
+
+fn require_operation_permission(
+    context: &VoiceRuntimeContext,
+    operation_id: &str,
+) -> Result<(), VoiceServiceError> {
+    let required = if operation_id.ends_with(".list")
+        || operation_id.ends_with(".retrieve")
+        || matches!(operation_id, "taskEvents.list" | "requestLogs.list")
+    {
+        "voice.tasks.read"
+    } else if operation_id.starts_with("providerRoutes.") {
+        if operation_id.ends_with(".list") || operation_id.ends_with(".retrieve") {
+            "voice.providerRoutes.read"
+        } else {
+            "voice.providerRoutes.write"
+        }
+    } else if operation_id.starts_with("providerRoutes") {
+        "voice.providerRoutes.write"
+    } else {
+        "voice.tasks.write"
+    };
+    require_permission(context, required)
+}
+
+async fn record_request_log(
+    context: &VoiceRuntimeContext,
+    operation_id: &str,
+    started: std::time::Instant,
+    succeeded: bool,
+    ports: &VoiceRuntimePorts<'_>,
+) {
+    let tenant_id = parse_tenant_id(context).unwrap_or(0);
+    let status = if succeeded { "succeeded" } else { "failed" };
+    let log = NewVoiceRequestLog {
+        id: next_voice_id(),
+        request_id: format!("vr-{}", sdkwork_utils_rust::uuid()),
+        trace_id: context.trace_id.clone(),
+        tenant_id,
+        capability: "voice".to_owned(),
+        operation_id: operation_id.to_owned(),
+        consumer: context.user_id.clone(),
+        status: status.to_owned(),
+        latency_ms: Some(started.elapsed().as_millis() as i64),
+    };
+    let _ = ports.repository.insert_request_log(log).await;
+}
+
+fn parse_tenant_id(context: &VoiceRuntimeContext) -> Result<i64, VoiceServiceError> {
+    context
+        .tenant_id
+        .trim()
+        .parse::<i64>()
+        .map_err(|_| VoiceServiceError::unauthenticated("tenant_id must be a numeric identifier"))
+}
+
+fn is_terminal_task_status(status: &str) -> bool {
+    VoiceTaskStatus::from_storage_value(status)
+        .map(|value| value.is_terminal())
+        .unwrap_or(false)
+}
+
+fn parse_i64(value: &str) -> i64 {
+    value.trim().parse().unwrap_or(0)
 }
 
 fn webhook_secret_for_provider(provider_code: &str) -> Option<String> {
@@ -401,25 +509,33 @@ async fn cancel_voice_task(
 }
 
 async fn retry_voice_task(
+    context: &VoiceRuntimeContext,
     task_id: i64,
     operation_id: &str,
     body: &Value,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
+    require_permission(context, "voice.tasks.write")?;
     if operation_id == "tasks.reconcile" {
         if let Some(provider_result) = body
             .get("providerResult")
             .or_else(|| body.get("provider_result"))
         {
-            return apply_task_provider_result(task_id, provider_result, ports).await;
+            return apply_task_provider_result(context, task_id, provider_result, ports).await;
         }
     }
 
+    let tenant_id = parse_tenant_id(context)?;
     let current = ports
         .repository
-        .get_task_by_id(0, task_id)
+        .get_task_by_id(tenant_id, task_id)
         .await?
         .ok_or_else(|| VoiceServiceError::not_found("voice task not found"))?;
+    if is_terminal_task_status(&current.status) {
+        return Err(VoiceServiceError::invalid_state(
+            "voice task is terminal and cannot be retried",
+        ));
+    }
     let updated = ports
         .repository
         .update_task_status(task_id, VoiceTaskStatus::Queued.as_storage_value(), None, None)
@@ -446,13 +562,16 @@ async fn retry_voice_task(
 }
 
 async fn apply_task_provider_result(
+    context: &VoiceRuntimeContext,
     task_id: i64,
     provider_result: &Value,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
+    require_permission(context, "voice.tasks.write")?;
+    let tenant_id = parse_tenant_id(context)?;
     let current = ports
         .repository
-        .get_task_by_id(0, task_id)
+        .get_task_by_id(tenant_id, task_id)
         .await?
         .ok_or_else(|| VoiceServiceError::not_found("voice task not found"))?;
 
@@ -522,24 +641,32 @@ async fn apply_task_provider_result(
                     })
                 });
             let artifact_id = next_voice_id();
-            let inserted = ports
+            let inserted = if let Some(existing) = ports
                 .repository
-                .insert_audio_artifact(NewVoiceAudioArtifact {
-                    id: artifact_id,
-                    artifact_no: format!("va-{}", sdkwork_utils_rust::uuid()),
-                    task_id,
-                    kind: kind.clone(),
-                    artifact_type: string_field(artifact, &["artifactType", "artifact_type"]),
-                    provider_code: string_field(artifact, &["providerCode", "provider_code"])
-                        .or_else(|| Some(current.provider_code.clone())),
-                    provider_asset_id: provider_asset_id.clone(),
-                    artifact_index,
-                    format,
-                    mime_type: mime_type.clone(),
-                    media_resource_json: media_resource.to_string(),
-                    status: "ready".to_owned(),
-                })
-                .await?;
+                .get_audio_artifact_by_task_index(task_id, artifact_index)
+                .await?
+            {
+                existing
+            } else {
+                ports
+                    .repository
+                    .insert_audio_artifact(NewVoiceAudioArtifact {
+                        id: artifact_id,
+                        artifact_no: format!("va-{}", sdkwork_utils_rust::uuid()),
+                        task_id,
+                        kind: kind.clone(),
+                        artifact_type: string_field(artifact, &["artifactType", "artifact_type"]),
+                        provider_code: string_field(artifact, &["providerCode", "provider_code"])
+                            .or_else(|| Some(current.provider_code.clone())),
+                        provider_asset_id: provider_asset_id.clone(),
+                        artifact_index,
+                        format,
+                        mime_type: mime_type.clone(),
+                        media_resource_json: media_resource.to_string(),
+                        status: "ready".to_owned(),
+                    })
+                    .await?
+            };
             let source_hash = source_uri
                 .as_deref()
                 .map(|value| sdkwork_utils_rust::sha256_hash(value.as_bytes()));
@@ -642,23 +769,31 @@ async fn list_audio_assets(
 }
 
 async fn retrieve_audio_asset(
-    _context: &VoiceRuntimeContext,
+    context: &VoiceRuntimeContext,
     artifact_id: i64,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
+    require_permission(context, "voice.tasks.read")?;
+    let tenant_id = parse_tenant_id(context)?;
     let artifact = ports
         .repository
-        .get_audio_artifact_by_id(artifact_id)
+        .get_audio_artifact_by_id(tenant_id, artifact_id)
         .await?
         .ok_or_else(|| VoiceServiceError::not_found("audio artifact not found"))?;
     Ok(json!({ "item": audio_artifact_to_json(&artifact) }))
 }
 
-async fn delete_audio_artifact(
+async fn delete_audio_asset(
+    context: &VoiceRuntimeContext,
     artifact_id: i64,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
-    ports.repository.delete_audio_artifact(artifact_id).await?;
+    require_permission(context, "voice.tasks.write")?;
+    let tenant_id = parse_tenant_id(context)?;
+    ports
+        .repository
+        .delete_audio_artifact(tenant_id, artifact_id)
+        .await?;
     Ok(json!({ "deleted": true }))
 }
 
@@ -850,6 +985,7 @@ async fn delete_provider_route(
 async fn accept_provider_webhook(
     provider_code: &str,
     body: &Value,
+    trace_id: &str,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
     let event_id = string_field(body, &["eventId", "event_id"])
@@ -878,7 +1014,7 @@ async fn accept_provider_webhook(
         })
         .await?;
 
-    let event = match process_provider_webhook_event_record(&event, &payload, ports).await {
+    let event = match process_provider_webhook_event_record(&event, &payload, trace_id, ports).await {
         Ok(()) => ports
             .repository
             .get_provider_webhook_event_by_id(event.id)
@@ -910,6 +1046,7 @@ async fn accept_provider_webhook(
 async fn process_provider_webhook_event_record(
     event: &crate::VoiceProviderWebhookEventRecord,
     payload: &Value,
+    trace_id: &str,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<(), VoiceServiceError> {
     let task_id = resolve_task_id_for_webhook_event(event, payload, ports).await?;
@@ -926,7 +1063,19 @@ async fn process_provider_webhook_event_record(
     };
 
     let provider_result = webhook_payload_to_provider_result(payload);
-    apply_task_provider_result(task_id, &provider_result, ports).await?;
+    let task = ports
+        .repository
+        .get_task_by_id(0, task_id)
+        .await?
+        .ok_or_else(|| VoiceServiceError::not_found("voice task not found"))?;
+    let context = VoiceRuntimeContext {
+        tenant_id: task.tenant_id.to_string(),
+        organization_id: Some(task.organization_id.to_string()),
+        user_id: task.user_id.to_string(),
+        permission_scopes: vec!["voice.tasks.write".to_owned()],
+        trace_id: trace_id.to_owned(),
+    };
+    apply_task_provider_result(&context, task_id, &provider_result, ports).await?;
     ports
         .repository
         .update_provider_webhook_event_processing(event.id, "processed", None)
@@ -1011,6 +1160,7 @@ async fn list_provider_webhook_events(
 }
 
 async fn replay_provider_webhook_event(
+    context: &VoiceRuntimeContext,
     event_id: i64,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
@@ -1023,7 +1173,7 @@ async fn replay_provider_webhook_event(
         VoiceServiceError::validation(format!("invalid provider webhook payload_json: {error}"))
     })?;
 
-    let updated = match process_provider_webhook_event_record(&event, &payload, ports).await {
+    let updated = match process_provider_webhook_event_record(&event, &payload, &context.trace_id, ports).await {
         Ok(()) => ports
             .repository
             .get_provider_webhook_event_by_id(event_id)
@@ -1080,14 +1230,18 @@ async fn list_webhook_deliveries(
 }
 
 async fn list_request_logs(
+    context: &VoiceRuntimeContext,
     body: &Value,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
+    require_permission(context, "voice.tasks.read")?;
+    let tenant_id = parse_tenant_id(context)?;
     let page = page_field(body, "page", 1);
     let page_size = page_size_field(body);
     let page_result = ports
         .repository
         .list_request_logs(VoiceRequestLogListQuery {
+            tenant_id,
             operation_id: string_field(body, &["operationId", "operation_id"]),
             page,
             page_size,
@@ -1113,10 +1267,6 @@ fn validate_context(context: &VoiceRuntimeContext) -> Result<(), VoiceServiceErr
         return Err(VoiceServiceError::unauthenticated("user_id is required"));
     }
     Ok(())
-}
-
-fn parse_i64(value: &str) -> i64 {
-    value.parse().unwrap_or(0)
 }
 
 fn parse_task_id(path_params: &BTreeMap<String, String>) -> Result<i64, VoiceServiceError> {

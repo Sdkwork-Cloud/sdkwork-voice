@@ -14,6 +14,7 @@ export interface VoiceArtifactDriveSync {
   driveUploadItemId?: string;
   driveUploadSessionId?: string;
   driveResource?: Record<string, unknown>;
+  sourceUri?: string;
   status: VoiceArtifactDriveSyncStatus;
   errorCode?: string;
   errorMessage?: string;

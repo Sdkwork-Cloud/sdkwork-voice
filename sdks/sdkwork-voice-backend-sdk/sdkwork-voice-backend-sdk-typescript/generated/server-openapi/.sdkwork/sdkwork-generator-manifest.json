@@ -44,7 +44,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "5f3e4527dbdb0047db9382b42d26dfd4bce73000b16868339bf5b6a6fdc45b12"
+      "sha256": "03e9916dee72310d364e5b026b15842af60803a66946de303f5477985f370010"
     },
     {
       "path": "sdkwork-sdk.json",
@@ -64,7 +64,7 @@
     },
     {
       "path": "src/api/voice.ts",
-      "sha256": "977c64c239572eec06425a7abcbd49a1cd83d6ce408c2d4eb73c8a20bd536378"
+      "sha256": "bf790afc685bda360dede2d17761afd244101285710860ac1629376f77cbd623"
     },
     {
       "path": "src/auth/index.ts",
@@ -96,7 +96,7 @@
     },
     {
       "path": "src/types/index.ts",
-      "sha256": "acb154a58e5e1719bd49c40ff3ad1d1ecfbd38d89f2bdfd5de22dd0f5ca3df76"
+      "sha256": "b0f9a91758c95c933572dfdfc5cbfcc90f62a856df1d6febeef7b088c70fb4de"
     },
     {
       "path": "src/types/media-access.ts",
@@ -168,7 +168,7 @@
     },
     {
       "path": "src/types/voice-artifact-drive-sync.ts",
-      "sha256": "89b32b20a5b67e5da5386c5a91a52e90079e9b297bbacdd2d9b61e303fc83701"
+      "sha256": "5a17e5df7e8082411cb85504c15e968b63e326618721d3f0eab2b462ab6a0bbc"
     },
     {
       "path": "src/types/voice-artifact.ts",
@@ -205,6 +205,10 @@
     {
       "path": "src/types/voice-task-event.ts",
       "sha256": "c07cc70dbed647c503300954358e62f9e2ba7c9381282f952dd87d36c199317a"
+    },
+    {
+      "path": "src/types/voice-task-reconcile-command.ts",
+      "sha256": "7e891feffc7a6e3dd59dbe1e1be4d7f5e294eafdef63012f05c025436f59aefa"
     },
     {
       "path": "src/types/voice-task-status.ts",

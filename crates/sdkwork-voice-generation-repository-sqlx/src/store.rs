@@ -10,7 +10,7 @@ use sdkwork_voice_service::{
     VoiceProviderRouteListQuery, VoiceProviderRouteRecord, VoiceProviderRouteUpdate,
     VoiceProviderWebhookEventListPage, VoiceProviderWebhookEventListQuery,
     VoiceProviderWebhookEventRecord, VoiceRepositoryPort, VoiceRequestLogListPage,
-    VoiceRequestLogListQuery, VoiceRequestLogRecord, VoiceTaskEventListPage,
+    VoiceRequestLogListQuery, VoiceRequestLogRecord, NewVoiceRequestLog, VoiceTaskEventListPage,
     VoiceTaskEventListQuery, VoiceTaskEventRecord, VoiceTaskListPage, VoiceTaskListQuery,
     VoiceTaskProviderUpdate, VoiceTaskRecord, VoiceWebhookDeliveryListPage,
     VoiceWebhookDeliveryListQuery, VoiceWebhookDeliveryRecord,
@@ -238,7 +238,7 @@ impl VoiceRepositoryPort for SqlVoiceStore {
         .execute(&self.pool)
         .await
         .map_err(store_error("failed to insert voice audio artifact"))?;
-        self.get_audio_artifact_by_id(artifact.id)
+        self.get_audio_artifact_by_id(0, artifact.id)
             .await?
             .ok_or_else(|| VoiceServiceError::storage("inserted voice audio artifact not found"))
     }
@@ -321,6 +321,7 @@ impl VoiceRepositoryPort for SqlVoiceStore {
         let limit = list_limit(query.page, query.page_size);
         let offset = list_offset(query.page, query.page_size);
         let rows = sqlx::query(TASK_EVENT_LIST_SQL)
+            .bind(query.tenant_id)
             .bind(query.task_id)
             .bind(limit)
             .bind(offset)
@@ -454,6 +455,7 @@ impl VoiceRepositoryPort for SqlVoiceStore {
         let limit = list_limit(query.page, query.page_size);
         let offset = list_offset(query.page, query.page_size);
         let rows = sqlx::query(AUDIO_ARTIFACT_LIST_SQL)
+            .bind(query.tenant_id)
             .bind(query.task_id)
             .bind(limit)
             .bind(offset)
@@ -471,17 +473,50 @@ impl VoiceRepositoryPort for SqlVoiceStore {
 
     async fn get_audio_artifact_by_id(
         &self,
+        tenant_id: i64,
         artifact_id: i64,
     ) -> Result<Option<VoiceAudioArtifactRecord>, VoiceServiceError> {
-        let row = sqlx::query(AUDIO_ARTIFACT_SELECT_SQL)
-            .bind(artifact_id)
-            .fetch_optional(&self.pool)
-            .await
-            .map_err(store_error("failed to get audio artifact"))?;
+        let row = if tenant_id == 0 {
+            sqlx::query(AUDIO_ARTIFACT_SELECT_SQL)
+                .bind(artifact_id)
+                .fetch_optional(&self.pool)
+                .await
+                .map_err(store_error("failed to get audio artifact"))?
+        } else {
+            sqlx::query(AUDIO_ARTIFACT_SELECT_BY_TENANT_SQL)
+                .bind(artifact_id)
+                .bind(tenant_id)
+                .fetch_optional(&self.pool)
+                .await
+                .map_err(store_error("failed to get audio artifact"))?
+        };
         row.as_ref().map(map_audio_artifact_row).transpose()
     }
 
-    async fn delete_audio_artifact(&self, artifact_id: i64) -> Result<(), VoiceServiceError> {
+    async fn get_audio_artifact_by_task_index(
+        &self,
+        task_id: i64,
+        artifact_index: i32,
+    ) -> Result<Option<VoiceAudioArtifactRecord>, VoiceServiceError> {
+        let row = sqlx::query(AUDIO_ARTIFACT_SELECT_BY_TASK_INDEX_SQL)
+            .bind(task_id)
+            .bind(artifact_index)
+            .fetch_optional(&self.pool)
+            .await
+            .map_err(store_error("failed to get audio artifact by task index"))?;
+        row.as_ref().map(map_audio_artifact_row).transpose()
+    }
+
+    async fn delete_audio_artifact(
+        &self,
+        tenant_id: i64,
+        artifact_id: i64,
+    ) -> Result<(), VoiceServiceError> {
+        let existing = self
+            .get_audio_artifact_by_id(tenant_id, artifact_id)
+            .await?
+            .ok_or_else(|| VoiceServiceError::not_found("audio artifact not found"))?;
+        let _ = existing;
         let updated_at = now_text();
         sqlx::query(
             "UPDATE voice_audio_artifact
@@ -567,7 +602,8 @@ impl VoiceRepositoryPort for SqlVoiceStore {
                  error_message=NULL,
                  updated_at=$3,
                  version=version+1
-             WHERE id=$1 AND deleted=FALSE",
+             WHERE id=$1 AND deleted=FALSE
+               AND sync_status IN ('pending_upload', 'failed')",
         )
         .bind(sync_id)
         .bind(drive_space_id)
@@ -659,7 +695,7 @@ impl VoiceRepositoryPort for SqlVoiceStore {
         .execute(&self.pool)
         .await
         .map_err(store_error("failed to update audio artifact media resource"))?;
-        self.get_audio_artifact_by_id(artifact_id)
+        self.get_audio_artifact_by_id(0, artifact_id)
             .await?
             .ok_or_else(|| VoiceServiceError::not_found("audio artifact not found"))
     }
@@ -811,6 +847,7 @@ impl VoiceRepositoryPort for SqlVoiceStore {
         let limit = list_limit(query.page, query.page_size);
         let offset = list_offset(query.page, query.page_size);
         let rows = sqlx::query(REQUEST_LOG_LIST_SQL)
+            .bind(query.tenant_id)
             .bind(query.operation_id.as_deref())
             .bind(limit)
             .bind(offset)
@@ -824,6 +861,44 @@ impl VoiceRepositoryPort for SqlVoiceStore {
             .map(map_request_log_row)
             .collect::<Result<Vec<_>, _>>()?;
         Ok(VoiceRequestLogListPage { items, has_more })
+    }
+
+    async fn insert_request_log(
+        &self,
+        log: NewVoiceRequestLog,
+    ) -> Result<VoiceRequestLogRecord, VoiceServiceError> {
+        let created_at = now_text();
+        sqlx::query(
+            "INSERT INTO voice_request_log (
+                id, request_id, trace_id, tenant_id, capability, operation_id, consumer,
+                status, latency_ms, created_at
+             ) VALUES (
+                $1, $2, $3, $4, $5, $6, $7,
+                $8, $9, $10
+             )",
+        )
+        .bind(log.id)
+        .bind(&log.request_id)
+        .bind(&log.trace_id)
+        .bind(log.tenant_id)
+        .bind(&log.capability)
+        .bind(&log.operation_id)
+        .bind(&log.consumer)
+        .bind(&log.status)
+        .bind(log.latency_ms)
+        .bind(&created_at)
+        .execute(&self.pool)
+        .await
+        .map_err(store_error("failed to insert request log"))?;
+        let row = sqlx::query(REQUEST_LOG_SELECT_SQL)
+            .bind(log.id)
+            .fetch_optional(&self.pool)
+            .await
+            .map_err(store_error("failed to read inserted request log"))?;
+        row.as_ref()
+            .map(map_request_log_row)
+            .transpose()?
+            .ok_or_else(|| VoiceServiceError::storage("inserted request log not found"))
     }
 }
 
@@ -920,14 +995,16 @@ const TASK_EVENT_SELECT_SQL: &str = "
     LIMIT 1";
 
 const TASK_EVENT_LIST_SQL: &str = "
-    SELECT id, event_no, task_id, event_type, from_status, to_status,
-           payload_json, status, CAST(received_at AS TEXT) AS received_at,
-           CAST(created_at AS TEXT) AS created_at
-    FROM voice_task_event
-    WHERE ($1 IS NULL OR task_id=$1)
-      AND deleted=FALSE
-    ORDER BY created_at DESC, id DESC
-    LIMIT $2 OFFSET $3";
+    SELECT e.id, e.event_no, e.task_id, e.event_type, e.from_status, e.to_status,
+           e.payload_json, e.status, CAST(e.received_at AS TEXT) AS received_at,
+           CAST(e.created_at AS TEXT) AS created_at
+    FROM voice_task_event e
+    INNER JOIN voice_generation_task t ON t.id = e.task_id AND t.deleted = FALSE
+    WHERE t.tenant_id = $1
+      AND ($2 IS NULL OR e.task_id = $2)
+      AND e.deleted = FALSE
+    ORDER BY e.created_at DESC, e.id DESC
+    LIMIT $3 OFFSET $4";
 
 const PROVIDER_ROUTE_SELECT_SQL: &str = "
     SELECT id, route_key, route_name, provider_id, client_protocol, upstream_protocol,
@@ -956,14 +1033,33 @@ const AUDIO_ARTIFACT_SELECT_SQL: &str = "
     LIMIT 1";
 
 const AUDIO_ARTIFACT_LIST_SQL: &str = "
+    SELECT a.id, a.artifact_no, a.task_id, a.request_id, a.kind, a.artifact_type, a.title, a.voice_id,
+           a.provider_code, a.format, a.mime_type, a.duration_seconds, a.media_resource_json, a.status,
+           CAST(a.created_at AS TEXT) AS created_at, CAST(a.updated_at AS TEXT) AS updated_at
+    FROM voice_audio_artifact a
+    INNER JOIN voice_generation_task t ON t.id = a.task_id AND t.deleted = FALSE
+    WHERE t.tenant_id = $1
+      AND ($2 IS NULL OR a.task_id = $2)
+      AND a.deleted = FALSE
+    ORDER BY a.created_at DESC, a.id DESC
+    LIMIT $3 OFFSET $4";
+
+const AUDIO_ARTIFACT_SELECT_BY_TENANT_SQL: &str = "
+    SELECT a.id, a.artifact_no, a.task_id, a.request_id, a.kind, a.artifact_type, a.title, a.voice_id,
+           a.provider_code, a.format, a.mime_type, a.duration_seconds, a.media_resource_json, a.status,
+           CAST(a.created_at AS TEXT) AS created_at, CAST(a.updated_at AS TEXT) AS updated_at
+    FROM voice_audio_artifact a
+    INNER JOIN voice_generation_task t ON t.id = a.task_id AND t.deleted = FALSE
+    WHERE a.id = $1 AND t.tenant_id = $2 AND a.deleted = FALSE
+    LIMIT 1";
+
+const AUDIO_ARTIFACT_SELECT_BY_TASK_INDEX_SQL: &str = "
     SELECT id, artifact_no, task_id, request_id, kind, artifact_type, title, voice_id,
            provider_code, format, mime_type, duration_seconds, media_resource_json, status,
            CAST(created_at AS TEXT) AS created_at, CAST(updated_at AS TEXT) AS updated_at
     FROM voice_audio_artifact
-    WHERE ($1 IS NULL OR task_id=$1)
-      AND deleted=FALSE
-    ORDER BY created_at DESC, id DESC
-    LIMIT $2 OFFSET $3";
+    WHERE task_id = $1 AND artifact_index = $2 AND deleted = FALSE
+    LIMIT 1";
 
 const ARTIFACT_DRIVE_SYNC_SELECT_SQL: &str = "
     SELECT id, sync_no, task_id, artifact_id, artifact_index, tenant_id, organization_id, user_id,
@@ -1020,10 +1116,18 @@ const REQUEST_LOG_LIST_SQL: &str = "
     SELECT id, request_id, trace_id, capability, operation_id, consumer, status,
            latency_ms, CAST(created_at AS TEXT) AS created_at
     FROM voice_request_log
-    WHERE ($1 IS NULL OR operation_id=$1)
-      AND deleted=FALSE
+    WHERE tenant_id = $1
+      AND ($2 IS NULL OR operation_id = $2)
+      AND deleted = FALSE
     ORDER BY created_at DESC, id DESC
-    LIMIT $2 OFFSET $3";
+    LIMIT $3 OFFSET $4";
+
+const REQUEST_LOG_SELECT_SQL: &str = "
+    SELECT id, request_id, trace_id, capability, operation_id, consumer, status,
+           latency_ms, CAST(created_at AS TEXT) AS created_at
+    FROM voice_request_log
+    WHERE id = $1 AND deleted = FALSE
+    LIMIT 1";
 
 fn map_task_row(row: &sqlx::any::AnyRow) -> Result<VoiceTaskRecord, VoiceServiceError> {
     Ok(VoiceTaskRecord {

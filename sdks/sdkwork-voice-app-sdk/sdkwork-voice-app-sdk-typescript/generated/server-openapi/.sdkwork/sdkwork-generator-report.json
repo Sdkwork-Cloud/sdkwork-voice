@@ -12,7 +12,7 @@
   "mode": "apply",
   "hasChanges": true,
   "hasDestructiveChanges": false,
-  "changeFingerprint": "1f6b4e46ace63eff0104bcb107cb1b5ea2f2748cd3cab705d9a52a58ec7562ae",
+  "changeFingerprint": "6a3e110060502f92c133c6e7ff3390c242da35544330ac809a0574406b3b1428",
   "changeImpact": {
     "schemaVersion": 1,
     "areas": [
@@ -70,6 +70,7 @@
           "src/types/voice-sound-effect-create-command.ts",
           "src/types/voice-speech-create-command.ts",
           "src/types/voice-task-event.ts",
+          "src/types/voice-task-reconcile-command.ts",
           "src/types/voice-task-status.ts",
           "src/types/voice-task.ts",
           "src/types/voice-transcription-create-command.ts",
@@ -241,21 +242,21 @@
     "localVersions": []
   },
   "stats": {
-    "totalFiles": 56,
-    "models": 32,
+    "totalFiles": 57,
+    "models": 33,
     "apis": 1,
-    "types": 34
+    "types": 35
   },
   "warnings": [],
   "syncSummary": {
     "dryRun": false,
     "controlPlaneEnabled": true,
-    "writtenFiles": 56,
+    "writtenFiles": 57,
     "skippedScaffoldFiles": 0,
     "skippedUnchangedGeneratedFiles": 0,
     "deletedGeneratedFiles": 0,
     "changeSummaryPath": ".sdkwork/sdkwork-generator-changes.json",
-    "changeFingerprint": "1f6b4e46ace63eff0104bcb107cb1b5ea2f2748cd3cab705d9a52a58ec7562ae",
+    "changeFingerprint": "6a3e110060502f92c133c6e7ff3390c242da35544330ac809a0574406b3b1428",
     "changes": {
       "createdGeneratedFiles": [
         "bin/publish-core.mjs",
@@ -307,6 +308,7 @@
         "src/types/voice-sound-effect-create-command.ts",
         "src/types/voice-speech-create-command.ts",
         "src/types/voice-task-event.ts",
+        "src/types/voice-task-reconcile-command.ts",
         "src/types/voice-task-status.ts",
         "src/types/voice-task.ts",
         "src/types/voice-transcription-create-command.ts",
@@ -380,6 +382,7 @@
             "src/types/voice-sound-effect-create-command.ts",
             "src/types/voice-speech-create-command.ts",
             "src/types/voice-task-event.ts",
+            "src/types/voice-task-reconcile-command.ts",
             "src/types/voice-task-status.ts",
             "src/types/voice-task.ts",
             "src/types/voice-transcription-create-command.ts",

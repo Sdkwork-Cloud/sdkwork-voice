@@ -15,7 +15,8 @@ tokio = { version = "1.48", features = ["macros", "rt-multi-thread"] }
 sdkwork-routes-voice-app-api.workspace = true
 sdkwork-routes-voice-backend-api.workspace = true
 sdkwork-voice-embedded-bootstrap.workspace = true
-sdkwork-web-bootstrap.workspace = true
+sdkwork-database-sqlx.workspace = true
+sdkwork-web-bootstrap = { workspace = true, features = ["sqlx"] }
 sdkwork_routes_voice_app_api = { package = "sdkwork-routes-voice-app-api", path = "../sdkwork-routes-voice-app-api" }
 sdkwork_routes_voice_backend_api = { package = "sdkwork-routes-voice-backend-api", path = "../sdkwork-routes-voice-backend-api" }
 sdkwork_routes_voice_http_auth = { package = "sdkwork-routes-voice-http-auth", path = "../sdkwork-routes-voice-http-auth" }

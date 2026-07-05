@@ -127,7 +127,8 @@ CREATE TABLE IF NOT EXISTS voice_audio_artifact (
   updated_at TIMESTAMP NOT NULL,
   deleted BOOLEAN NOT NULL DEFAULT FALSE,
   version BIGINT NOT NULL DEFAULT 0,
-  CONSTRAINT uk_voice_audio_artifact_no UNIQUE (artifact_no)
+  CONSTRAINT uk_voice_audio_artifact_no UNIQUE (artifact_no),
+  CONSTRAINT uk_voice_audio_artifact_task_index UNIQUE (task_id, artifact_index)
 );
 
 CREATE TABLE IF NOT EXISTS voice_artifact_drive_sync (
@@ -212,6 +213,7 @@ CREATE TABLE IF NOT EXISTS voice_request_log (
   id BIGINT PRIMARY KEY,
   request_id VARCHAR(64) NOT NULL,
   trace_id VARCHAR(64) NOT NULL,
+  tenant_id BIGINT NOT NULL DEFAULT 0,
   route_id BIGINT,
   capability VARCHAR(64) NOT NULL,
   operation_id VARCHAR(128) NOT NULL,
@@ -243,5 +245,6 @@ CREATE INDEX IF NOT EXISTS idx_voice_artifact_drive_sync_task ON voice_artifact_
 CREATE INDEX IF NOT EXISTS idx_voice_artifact_drive_sync_drive_node ON voice_artifact_drive_sync (drive_space_id, drive_node_id);
 CREATE INDEX IF NOT EXISTS idx_voice_provider_webhook_event_status ON voice_provider_webhook_event (provider_code, processing_status, received_at);
 CREATE INDEX IF NOT EXISTS idx_voice_webhook_delivery_due ON voice_webhook_delivery (delivery_status, next_retry_at);
+CREATE INDEX IF NOT EXISTS idx_voice_request_log_tenant_created ON voice_request_log (tenant_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_voice_request_log_route_created ON voice_request_log (route_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_voice_request_log_capability_created ON voice_request_log (capability, created_at);

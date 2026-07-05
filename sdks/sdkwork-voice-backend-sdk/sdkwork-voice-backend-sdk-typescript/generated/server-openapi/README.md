@@ -34,7 +34,7 @@ const params = {
   sort: 'sort',
   q: 'q',
 };
-const result = await client.voice.artifactDriveSync.list(params);
+const result = await client.voice.providerRoutes.list(params);
 ```
 
 ## Authentication
@@ -68,7 +68,7 @@ const client = new SdkworkBackendClient({
 ### voice
 
 ```typescript
-// Artifact Drive Sync list.
+// Provider Routes list.
 const params = {
   page: 1,
   page_size: 2,
@@ -76,7 +76,7 @@ const params = {
   sort: 'sort',
   q: 'q',
 };
-const result = await client.voice.artifactDriveSync.list(params);
+const result = await client.voice.providerRoutes.list(params);
 ```
 
 ## Error Handling
@@ -92,7 +92,7 @@ try {
     sort: 'sort',
     q: 'q',
   };
-  const result = await client.voice.artifactDriveSync.list(params);
+  const result = await client.voice.providerRoutes.list(params);
 } catch (error) {
   if (error instanceof AuthenticationError) {
     console.error('Authentication failed:', error.message);

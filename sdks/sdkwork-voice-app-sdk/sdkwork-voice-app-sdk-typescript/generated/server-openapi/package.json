@@ -1,5 +1,5 @@
 {
-  "name": "@sdkwork/voice-app-sdk",
+  "name": "sdkwork-voice-app-sdk-generated-typescript",
   "version": "1.0.0",
   "private": true,
   "description": "Generator-owned TypeScript transport SDK for sdkwork-voice-app-sdk.",
@@ -37,5 +37,6 @@
     "api",
     "app",
     "sdkwork"
-  ]
+  ],
+  "sdkworkRole": "transport"
 }

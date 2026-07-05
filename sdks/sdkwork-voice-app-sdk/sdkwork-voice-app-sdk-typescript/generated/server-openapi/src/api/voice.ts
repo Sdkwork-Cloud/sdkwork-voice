@@ -38,6 +38,9 @@ export interface VoiceTasksListParams {
   cursor?: string;
   sort?: string;
   q?: string;
+  status?: string;
+  operationType?: string;
+  providerCode?: string;
 }
 
 export class VoiceTasksApi {
@@ -56,6 +59,9 @@ export class VoiceTasksApi {
       { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
       { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'status', value: params?.status, style: 'form', explode: true, allowReserved: false },
+      { name: 'operation_type', value: params?.operationType, style: 'form', explode: true, allowReserved: false },
+      { name: 'provider_code', value: params?.providerCode, style: 'form', explode: true, allowReserved: false },
     ]);
     return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/tasks`), query));
   }
@@ -77,6 +83,7 @@ export interface VoiceTaskEventsListParams {
   cursor?: string;
   sort?: string;
   q?: string;
+  taskId?: string;
 }
 
 export class VoiceTaskEventsApi {
@@ -95,6 +102,7 @@ export class VoiceTaskEventsApi {
       { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
       { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'task_id', value: params?.taskId, style: 'form', explode: true, allowReserved: false },
     ]);
     return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/task_events`), query));
   }
@@ -148,6 +156,7 @@ export interface VoiceAudioAssetsListParams {
   cursor?: string;
   sort?: string;
   q?: string;
+  taskId?: string;
 }
 
 export class VoiceAudioAssetsApi {
@@ -166,6 +175,7 @@ export class VoiceAudioAssetsApi {
       { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
       { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'task_id', value: params?.taskId, style: 'form', explode: true, allowReserved: false },
     ]);
     return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/audio_assets`), query));
   }
@@ -182,6 +192,8 @@ export interface VoiceArtifactDriveSyncListParams {
   cursor?: string;
   sort?: string;
   q?: string;
+  syncStatus?: string;
+  taskId?: string;
 }
 
 export class VoiceArtifactDriveSyncApi {
@@ -200,6 +212,8 @@ export class VoiceArtifactDriveSyncApi {
       { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
       { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'sync_status', value: params?.syncStatus, style: 'form', explode: true, allowReserved: false },
+      { name: 'task_id', value: params?.taskId, style: 'form', explode: true, allowReserved: false },
     ]);
     return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/artifact_drive_sync`), query));
   }

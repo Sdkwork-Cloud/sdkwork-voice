@@ -22,6 +22,7 @@ pub trait VoiceBackendApiServicePort: Send + Sync {
         provider_code: String,
         body: Value,
         signature_header: Option<String>,
+        trace_id: String,
     ) -> Result<Value, VoiceRouteError>;
 }
 

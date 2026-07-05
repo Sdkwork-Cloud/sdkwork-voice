@@ -224,7 +224,7 @@ export function buildOpenApi(surface, routes) {
     },
     servers: [
       {
-        url: "http://localhost:8080",
+        url: "http://localhost:18096",
         description: "Local sdkwork-voice runtime",
       },
     ],
@@ -594,6 +594,29 @@ function buildSchemas() {
         payload: { type: "object", additionalProperties: true },
       },
     },
+    VoiceTaskReconcileCommand: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        providerResult: {
+          type: "object",
+          additionalProperties: true,
+          description: "Normalized provider invocation output from the generation worker or webhook replay.",
+          properties: {
+            status: { $ref: "#/components/schemas/VoiceTaskStatus" },
+            providerTaskId: { type: "string" },
+            providerResponse: { type: "object", additionalProperties: true },
+            generatedArtifacts: {
+              type: "array",
+              items: { type: "object", additionalProperties: true },
+            },
+            result: { type: "object", additionalProperties: true },
+            errorCode: { type: "string" },
+            errorMessage: { type: "string" },
+          },
+        },
+      },
+    },
     VoiceTask: {
       type: "object",
       additionalProperties: false,
@@ -849,6 +872,8 @@ function requestSchemaRefForOperation(operationId) {
       return "#/components/schemas/VoiceMusicCreateCommand";
     case "providerWebhooks.accept":
       return "#/components/schemas/VoiceProviderWebhookEventCommand";
+    case "tasks.reconcile":
+      return "#/components/schemas/VoiceTaskReconcileCommand";
     default:
       return "#/components/schemas/VoiceOperationCommand";
   }

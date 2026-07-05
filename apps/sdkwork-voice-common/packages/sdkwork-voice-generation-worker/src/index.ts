@@ -1,3 +1,4 @@
+import type { VoiceTaskReconcileCommand } from "@sdkwork/voice-backend-sdk";
 import type {
   SdkworkVoiceOperationType,
   SdkworkVoiceProviderInvocationResult,
@@ -9,7 +10,7 @@ export interface VoiceGenerationWorkerBackend {
   voice: {
     tasks: {
       list(params?: { page?: number; pageSize?: number; status?: string }): Promise<{ items?: unknown[] }>;
-      reconcile(taskId: string, body: Record<string, unknown>): Promise<unknown>;
+      reconcile(taskId: string, body: VoiceTaskReconcileCommand): Promise<unknown>;
     };
   };
 }
@@ -20,6 +21,7 @@ export interface VoiceGenerationWorkerOptions {
   pollIntervalMs?: number;
   pageSize?: number;
   signal?: AbortSignal;
+  onTaskError?: (error: unknown, task: BackendTaskItem) => void;
 }
 
 export interface VoiceGenerationWorker {
@@ -44,13 +46,13 @@ function parseRequestJson(task: BackendTaskItem): Record<string, unknown> {
       ? (parsed as Record<string, unknown>)
       : {};
   } catch {
-    return {};
+    throw new Error(`invalid requestJson for task ${String(task.id ?? "")}`);
   }
 }
 
 function mapInvocationToProviderResult(
   invocation: SdkworkVoiceProviderInvocationResult,
-): Record<string, unknown> {
+): VoiceTaskReconcileCommand["providerResult"] {
   const status =
     invocation.status === "completed"
       ? "succeeded"
@@ -109,25 +111,45 @@ export function createVoiceGenerationWorker(
     const invocation = await invokeProviderForTask(options.providerAdapter, task);
     await options.backendClient.voice.tasks.reconcile(taskId, {
       providerResult: mapInvocationToProviderResult(invocation),
-    } as never);
+    });
   }
 
   async function runOnce(): Promise<number> {
-    const page = await options.backendClient.voice.tasks.list({
-      page: 1,
-      pageSize,
-      status: "queued",
-    });
-    const items = ((page.items ?? []) as BackendTaskItem[]).filter(
-      (task) => !task.status || task.status === "queued",
-    );
-    for (const task of items) {
-      if (options.signal?.aborted) {
+    let page = 1;
+    let processed = 0;
+
+    while (!options.signal?.aborted) {
+      const response = await options.backendClient.voice.tasks.list({
+        page,
+        pageSize,
+        status: "queued",
+      });
+      const items = ((response.items ?? []) as BackendTaskItem[]).filter(
+        (task) => !task.status || task.status === "queued",
+      );
+      if (items.length === 0) {
         break;
       }
-      await processTask(task);
+
+      for (const task of items) {
+        if (options.signal?.aborted) {
+          return processed;
+        }
+        try {
+          await processTask(task);
+          processed += 1;
+        } catch (error) {
+          options.onTaskError?.(error, task);
+        }
+      }
+
+      if (items.length < pageSize) {
+        break;
+      }
+      page += 1;
     }
-    return items.length;
+
+    return processed;
   }
 
   async function runLoop(): Promise<void> {

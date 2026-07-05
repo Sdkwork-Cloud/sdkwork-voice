@@ -50,6 +50,8 @@ fn runtime_context_from_route(context: VoiceRequestContext) -> VoiceRuntimeConte
         tenant_id: context.tenant_id,
         organization_id: context.organization_id,
         user_id: context.user_id,
+        permission_scopes: context.permission_scopes,
+        trace_id: context.trace_id,
     }
 }
 

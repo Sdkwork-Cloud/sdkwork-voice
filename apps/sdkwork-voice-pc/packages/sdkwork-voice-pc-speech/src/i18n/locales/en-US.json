@@ -1,12 +1,15 @@
 {
   "title": "AI Voice Synthesis",
-  "desc": "Submit text-to-speech jobs through sdkwork-voice-app-sdk.",
+  "desc": "Submit text-to-speech jobs through sdkwork-voice-app-sdk and preview generated audio when ready.",
   "textLabel": "Text",
   "textPlaceholder": "Enter text to synthesize…",
   "modelLabel": "Model",
   "voiceLabel": "Voice",
   "button": "Generate speech",
-  "submitting": "Submitting…",
-  "success": "Speech synthesis task accepted.",
-  "successWithTask": "Speech synthesis task accepted (taskId: {{taskId}})."
+  "submitting": "Synthesizing…",
+  "success": "Speech synthesis completed.",
+  "successWithTask": "Speech synthesis completed (taskId: {{taskId}}).",
+  "previewLabel": "Preview",
+  "voiceLoadFailed": "Unable to load voice catalog.",
+  "audioPending": "Task completed but audio is not ready yet. Check artifact drive sync status."
 }

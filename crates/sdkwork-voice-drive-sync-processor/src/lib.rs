@@ -96,7 +96,7 @@ impl VoiceArtifactDriveSyncProcessorPort for VoiceDriveSyncProcessor {
 
         let artifact = ports
             .repository
-            .get_audio_artifact_by_id(sync.artifact_id)
+            .get_audio_artifact_by_id(sync.tenant_id, sync.artifact_id)
             .await?
             .ok_or_else(|| VoiceServiceError::not_found("audio artifact not found"))?;
         let task = ports
@@ -269,6 +269,7 @@ async fn fetch_source_bytes(
     }
 
     if source_uri.starts_with("http://") || source_uri.starts_with("https://") {
+        validate_fetch_url(source_uri)?;
         let response = client
             .get(source_uri)
             .send()
@@ -280,16 +281,60 @@ async fn fetch_source_bytes(
                 response.status()
             )));
         }
-        return response
+        let content_length = response.content_length().unwrap_or(0);
+        const MAX_SOURCE_BYTES: u64 = 100 * 1024 * 1024;
+        if content_length > MAX_SOURCE_BYTES {
+            return Err(VoiceServiceError::validation(format!(
+                "source payload exceeds {MAX_SOURCE_BYTES} bytes"
+            )));
+        }
+        let bytes = response
             .bytes()
             .await
-            .map(|bytes| bytes.to_vec())
-            .map_err(|error| VoiceServiceError::transport(format!("source read failed: {error}")));
+            .map_err(|error| VoiceServiceError::transport(format!("source read failed: {error}")))?;
+        if bytes.len() as u64 > MAX_SOURCE_BYTES {
+            return Err(VoiceServiceError::validation(format!(
+                "source payload exceeds {MAX_SOURCE_BYTES} bytes"
+            )));
+        }
+        return Ok(bytes.to_vec());
     }
 
     Err(VoiceServiceError::invalid_state(format!(
         "unsupported artifact source_uri scheme: {source_uri}"
     )))
+}
+
+fn validate_fetch_url(source_uri: &str) -> Result<(), VoiceServiceError> {
+    let parsed = reqwest::Url::parse(source_uri)
+        .map_err(|error| VoiceServiceError::validation(format!("invalid source_uri: {error}")))?;
+    let host = parsed
+        .host_str()
+        .ok_or_else(|| VoiceServiceError::validation("source_uri host is required"))?;
+    if host.eq_ignore_ascii_case("localhost") {
+        return Ok(());
+    }
+    if let Ok(address) = host.parse::<std::net::IpAddr>() {
+        if is_private_or_loopback_ip(address) {
+            return Err(VoiceServiceError::validation(
+                "source_uri must not target private or loopback addresses",
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn is_private_or_loopback_ip(address: std::net::IpAddr) -> bool {
+    match address {
+        std::net::IpAddr::V4(ipv4) => {
+            ipv4.is_private()
+                || ipv4.is_loopback()
+                || ipv4.is_link_local()
+                || ipv4.is_unspecified()
+                || ipv4.octets()[0] == 127
+        }
+        std::net::IpAddr::V6(ipv6) => ipv6.is_loopback() || ipv6.is_unspecified(),
+    }
 }
 
 fn decode_data_url(payload: &str) -> Result<Vec<u8>, VoiceServiceError> {

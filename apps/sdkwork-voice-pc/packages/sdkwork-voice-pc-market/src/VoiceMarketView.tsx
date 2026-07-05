@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Mic, Radio, Speaker, Headphones, User, Music, Search, Globe, Compass, Play, Plus, X, UploadCloud, CheckCircle, ChevronRight, AlertCircle, FileAudio, ShieldCheck } from 'lucide-react';
+import { useTranslation, I18nextProvider, Trans } from 'react-i18next';
+import i18n from './i18n';
 import { cn } from 'sdkwork-voice-pc-commons';
 import { voiceMarketService, VoiceConfig, isVoiceMarketPilotEnabled, voiceMarketPilotBannerMessage, voiceMarketUnavailableMessage } from './services/voiceMarketService';
 
@@ -18,7 +20,8 @@ interface VoiceMarketViewProps {
   onCreateVoice?: () => void;
 }
 
-export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice, onCreateVoice }) => {
+export const VoiceMarketViewComponent: React.FC<VoiceMarketViewProps> = ({ onSelectVoice, onCreateVoice }) => {
+  const { t } = useTranslation('voice');
   const [activeCategory, setActiveCategory] = useState<string>('market');
   const [marketVoices, setMarketVoices] = useState<VoiceConfig[]>([]);
   const [myVoices, setMyVoices] = useState<VoiceConfig[]>([]);
@@ -37,12 +40,14 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
   const [recordTime, setRecordTime] = useState(0);
   const [audioReady, setAudioReady] = useState(false);
   const timerRef = useRef<number | null>(null);
+  const previewAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     return () => {
       if (timerRef.current !== null) {
         window.clearInterval(timerRef.current);
       }
+      previewAudioRef.current?.pause();
     };
   }, []);
 
@@ -92,6 +97,17 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
+  const handlePreviewVoice = (event: React.MouseEvent, config: VoiceConfig) => {
+    event.stopPropagation();
+    if (!config.audioPreview) {
+      return;
+    }
+    previewAudioRef.current?.pause();
+    const audio = new Audio(config.audioPreview);
+    previewAudioRef.current = audio;
+    void audio.play().catch(() => undefined);
+  };
+
   const submitTraining = () => {
     setCloneStep('training');
     setTimeout(() => {
@@ -103,12 +119,12 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
           ...prev, 
           {
             id: `voice-my-${Date.now()}`,
-            name: cloneName || '自定义声音',
-            description: cloneDesc || '新克隆的声音模型',
+            name: cloneName || t('default.customVoice'),
+            description: cloneDesc || t('default.newCloneDesc'),
             categoryId: 'custom',
             iconName: 'User',
             color: 'bg-indigo-500',
-            author: '我',
+            author: t('default.me'),
             users: '1'
           }
         ]);
@@ -118,12 +134,12 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
   };
 
   const categories = [
-    { id: 'all', name: '全部声音' },
-    { id: 'reading', name: '有声阅读' },
-    { id: 'news', name: '新闻播报' },
-    { id: 'anime', name: '二次元动漫' },
-    { id: 'business', name: '商业客服' },
-    { id: 'custom', name: '声音克隆' }
+    { id: 'all', name: t('market.allVoices') },
+    { id: 'reading', name: t('market.reading') },
+    { id: 'news', name: t('market.news') },
+    { id: 'anime', name: t('market.anime') },
+    { id: 'business', name: t('market.business') },
+    { id: 'custom', name: t('market.custom') },
   ];
   const [selectedMarketCategory, setSelectedMarketCategory] = useState<string>('all');
 
@@ -166,7 +182,7 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
     desc: config.description,
     icon: getIcon(config.iconName),
     color: config.color || 'bg-purple-500',
-    author: config.author || '我',
+    author: config.author || t('default.me'),
     users: config.users || '0',
   });
 
@@ -181,7 +197,7 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
       {/* Left Category List */}
       <div className="flex w-[280px] shrink-0 flex-col bg-[#202020] border-r border-white/5 min-h-0">
         <div className="flex-1 overflow-y-auto custom-scrollbar py-2">
-          <div className="px-4 py-2 text-xs text-gray-500 font-medium tracking-wide">发现</div>
+          <div className="px-4 py-2 text-xs text-gray-500 font-medium tracking-wide">{t('sidebar.discover')}</div>
           <div 
             onClick={() => setActiveCategory('market')}
             className={cn(
@@ -192,12 +208,12 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
             <div className={cn("w-[28px] h-[28px] flex items-center justify-center shrink-0 mr-3", activeCategory === 'market' ? 'text-purple-500' : 'text-gray-400')}>
               <Compass size={18} />
             </div>
-            <span className={cn("text-[14px]", activeCategory === 'market' ? 'font-semibold text-purple-400' : 'text-gray-300 font-medium')}>发现好声音</span>
+            <span className={cn("text-[14px]", activeCategory === 'market' ? 'font-semibold text-purple-400' : 'text-gray-300 font-medium')}>{t('sidebar.discoverVoices')}</span>
           </div>
 
-          <div className="px-4 py-2 mt-6 text-xs text-gray-500 font-medium tracking-wide">我的声音库</div>
+          <div className="px-4 py-2 mt-6 text-xs text-gray-500 font-medium tracking-wide">{t('sidebar.myVoices')}</div>
           {loading ? (
-            <div className="px-4 py-3 text-sm text-gray-500">加载中...</div>
+            <div className="px-4 py-3 text-sm text-gray-500">{t('sidebar.loading')}</div>
           ) : myVoices.map(config => {
             const voice = mapToVoice(config);
             return (
@@ -232,14 +248,14 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
           <div className="flex flex-col gap-6 mb-8 shrink-0">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-gray-100 mb-2">发音人声音市场</h2>
-                <p className="text-gray-500 text-sm">海量高品质声音模型，让你的文本焕发声机。</p>
+                <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('market.title')}</h2>
+                <p className="text-gray-500 text-sm">{t('market.desc')}</p>
               </div>
               <div className="flex items-center gap-4">
                 <div className="relative hidden md:block">
                   <input 
                     type="text" 
-                    placeholder="搜索声音类型、名称..." 
+                    placeholder={t('market.searchPlaceholder')} 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-72 bg-[#141414] border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-200 outline-none focus:border-purple-500 focus:bg-[#181818] transition-all shadow-inner"
@@ -252,7 +268,7 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                   className="flex items-center gap-2 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl transition-colors text-sm font-semibold shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40"
                 >
                   <Plus size={18} />
-                  克隆我的声音
+                  {t('market.cloneMyVoice')}
                 </button>
               </div>
             </div>
@@ -278,11 +294,11 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 pb-20">
             {loading ? (
-              <div className="text-gray-500 text-sm col-span-full py-20 text-center">正在加载声音数据...</div>
+              <div className="text-gray-500 text-sm col-span-full py-20 text-center">{t('market.loading')}</div>
             ) : loadError ? (
               <div className="text-gray-400 text-sm col-span-full py-20 text-center">{loadError}</div>
             ) : filteredMarketVoices.length === 0 ? (
-              <div className="text-gray-500 text-sm col-span-full py-20 text-center">未找到符合条件的声音</div>
+              <div className="text-gray-500 text-sm col-span-full py-20 text-center">{t('market.noMatch')}</div>
             ) : filteredMarketVoices.map(config => {
               const voice = mapToVoice(config);
               return (
@@ -297,8 +313,16 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                     <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg ring-1 ring-white/10 group-hover:scale-105 transition-transform", voice.color)}>
                       {React.isValidElement(voice.icon) ? React.cloneElement(voice.icon as React.ReactElement<any>, { size: 28 }) : voice.icon}
                     </div>
-                    <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1e1e1e] hover:bg-purple-500 hover:text-white text-gray-300 text-xs font-semibold transition-all opacity-0 group-hover:opacity-100 border border-white/5 shadow-sm">
-                      <Play size={14} /> 试听
+                    <button
+                      type="button"
+                      disabled={!config.audioPreview}
+                      onClick={(event) => handlePreviewVoice(event, config)}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1e1e1e] hover:bg-purple-500 hover:text-white text-gray-300 text-xs font-semibold transition-all border border-white/5 shadow-sm",
+                        config.audioPreview ? "opacity-0 group-hover:opacity-100" : "opacity-30 cursor-not-allowed",
+                      )}
+                    >
+                      <Play size={14} /> {t('market.preview')}
                     </button>
                   </div>
                   <h3 className="text-lg font-bold text-gray-100 mb-2 group-hover:text-purple-400 transition-colors tracking-wide relative z-10">{voice.name}</h3>
@@ -323,7 +347,7 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
             <div className="flex items-center justify-between px-8 py-5 border-b border-white/5 bg-[#1e1e1e]/50 relative">
               <h3 className="text-gray-100 font-bold text-lg flex items-center gap-2">
                 <Mic size={20} className="text-purple-400" />
-                克隆声音
+                {t('clone.title')}
               </h3>
               <button 
                 onClick={handleCloseClone} 
@@ -344,16 +368,16 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
               {cloneStep === 'info' && (
                 <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-4 duration-300">
                   <div className="mb-8">
-                    <h4 className="text-2xl font-bold text-gray-100 mb-2">配置声音模型</h4>
-                    <p className="text-gray-400 text-sm">为你的专属语音模型设置基础信息。这些信息有助于后续在声音库中快速找到它。</p>
+                    <h4 className="text-2xl font-bold text-gray-100 mb-2">{t('clone.stepInfoTitle')}</h4>
+                    <p className="text-gray-400 text-sm">{t('clone.stepInfoDesc')}</p>
                   </div>
                   
                   <div className="flex flex-col gap-6 flex-1">
                     <div className="flex flex-col gap-2.5">
-                      <label className="text-sm font-semibold text-gray-300">声音名称<span className="text-red-400 ml-1">*</span></label>
+                      <label className="text-sm font-semibold text-gray-300">{t('clone.voiceName')}<span className="text-red-400 ml-1">*</span></label>
                       <input 
                         type="text" 
-                        placeholder="例如：我的专属AI助手" 
+                        placeholder={t('clone.voiceNamePlaceholder')} 
                         value={cloneName}
                         onChange={e => setCloneName(e.target.value)}
                         className="w-full bg-[#18181A] border border-white/10 rounded-xl px-4 py-3.5 text-base text-gray-200 outline-none focus:border-purple-500/80 transition-colors focus:ring-4 focus:ring-purple-500/10 placeholder:text-gray-600"
@@ -361,9 +385,9 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                     </div>
                     
                     <div className="flex flex-col gap-2.5 flex-1">
-                      <label className="text-sm font-semibold text-gray-300">声音描述 <span className="text-gray-600 font-normal ml-1">(可选)</span></label>
+                      <label className="text-sm font-semibold text-gray-300">{t('clone.voiceDesc')} <span className="text-gray-600 font-normal ml-1">({t('clone.optional')})</span></label>
                       <textarea 
-                        placeholder="描述一下这个声音的特质，例如：温柔、稳重、专业..." 
+                        placeholder={t('clone.voiceDescPlaceholder')} 
                         value={cloneDesc}
                         onChange={e => setCloneDesc(e.target.value)}
                         className="w-full h-28 resize-none bg-[#18181A] border border-white/10 rounded-xl px-4 py-3.5 text-base text-gray-200 outline-none focus:border-purple-500/80 transition-colors focus:ring-4 focus:ring-purple-500/10 placeholder:text-gray-600"
@@ -373,9 +397,9 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                     <div className="mt-auto bg-purple-500/5 hover:bg-purple-500/10 transition-colors border border-purple-500/20 rounded-xl p-5 flex gap-4 items-start cursor-pointer group" onClick={() => setConsentChecked(!consentChecked)}>
                       <ShieldCheck className={cn("shrink-0 mt-0.5 transition-colors", consentChecked ? "text-purple-400" : "text-gray-500 group-hover:text-purple-400/50")} size={22} />
                       <div className="flex flex-col gap-2 flex-1">
-                        <h5 className="text-sm font-bold text-gray-200">法律与授权承诺</h5>
+                        <h5 className="text-sm font-bold text-gray-200">{t('clone.legalTitle')}</h5>
                         <p className="text-xs text-gray-400 leading-relaxed">
-                          本人确认将使用本人的真实声音进行克隆，或已获得声音所有者的明确合法授权。平台严禁将此功能用于造假、欺诈等非法用途。上传非本人授权声音将导致账号封禁。
+                          {t('clone.legalDesc')}
                         </p>
                         <div className="flex items-center gap-2 mt-2">
                           <input 
@@ -385,7 +409,7 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                             className="w-4 h-4 rounded border-gray-600 text-purple-500 focus:ring-purple-500 focus:ring-offset-gray-900 bg-gray-700 cursor-pointer"
                             onClick={(e) => e.stopPropagation()}
                           />
-                          <span className={cn("text-sm font-semibold select-none transition-colors", consentChecked ? "text-purple-400" : "text-gray-500 group-hover:text-gray-400")}>我已阅读并完全同意上述条款</span>
+                          <span className={cn("text-sm font-semibold select-none transition-colors", consentChecked ? "text-purple-400" : "text-gray-500 group-hover:text-gray-400")}>{t('clone.agree')}</span>
                         </div>
                       </div>
                     </div>
@@ -397,8 +421,8 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
               {cloneStep === 'method' && (
                 <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-4 duration-300">
                   <div className="mb-8">
-                    <h4 className="text-2xl font-bold text-gray-100 mb-2">选择音频输入方式</h4>
-                    <p className="text-gray-400 text-sm">提供高质量的音频样本是生成逼真声音克隆的关键。</p>
+                    <h4 className="text-2xl font-bold text-gray-100 mb-2">{t('clone.stepMethodTitle')}</h4>
+                    <p className="text-gray-400 text-sm">{t('clone.stepMethodDesc')}</p>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-6 flex-1 items-center">
@@ -410,8 +434,8 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                       <div className="w-20 h-20 bg-purple-500/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-purple-500 group-hover:scale-110 transition-all text-purple-400 group-hover:text-white shadow-inner z-10">
                         <Mic size={36} />
                       </div>
-                      <h5 className="text-xl font-bold text-gray-200 mb-3 z-10">在线实时录音</h5>
-                      <p className="text-sm text-center text-gray-500 leading-relaxed z-10">提供定制标准朗读文本<br/>推荐在安静、无回音的环境中进行</p>
+                      <h5 className="text-xl font-bold text-gray-200 mb-3 z-10">{t('clone.recordOnline')}</h5>
+                      <p className="text-sm text-center text-gray-500 leading-relaxed z-10"><Trans ns="voice" i18nKey="clone.recordDesc" /></p>
                     </div>
 
                     <div 
@@ -422,8 +446,8 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                       <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-blue-500 group-hover:scale-110 transition-all text-blue-400 group-hover:text-white shadow-inner z-10">
                         <FileAudio size={36} />
                       </div>
-                      <h5 className="text-xl font-bold text-gray-200 mb-3 z-10">上传音频文件</h5>
-                      <p className="text-sm text-center text-gray-500 leading-relaxed z-10">已录制好的高质量干音文件<br/>支持 MP3, WAV 格式 (1-5分钟)</p>
+                      <h5 className="text-xl font-bold text-gray-200 mb-3 z-10">{t('clone.uploadAudio')}</h5>
+                      <p className="text-sm text-center text-gray-500 leading-relaxed z-10"><Trans ns="voice" i18nKey="clone.uploadDesc" /></p>
                     </div>
                   </div>
                 </div>
@@ -434,8 +458,8 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                 <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-4 duration-300">
                   <div className="flex items-center justify-between mb-6">
                     <div>
-                      <h4 className="text-2xl font-bold text-gray-100 mb-1">开始在线录制</h4>
-                      <p className="text-sm text-gray-400 flex items-center gap-1.5"><AlertCircle size={14}/> 请以自然、平稳的语调朗读以下文本：</p>
+                      <h4 className="text-2xl font-bold text-gray-100 mb-1">{t('clone.stepRecordTitle')}</h4>
+                      <p className="text-sm text-gray-400 flex items-center gap-1.5"><AlertCircle size={14}/> {t('clone.recordHint')}</p>
                     </div>
                     <div className={cn("px-4 py-1.5 rounded-full font-mono font-bold text-lg tracking-wider border", isRecording ? "text-red-400 border-red-500/30 bg-red-500/10 animate-pulse" : "text-gray-400 border-white/10 bg-white/5")}>
                       {formatTime(recordTime)}
@@ -447,7 +471,7 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                      <div className="relative z-10 h-full flex flex-col justify-center">
                        <div className="text-xl text-gray-200 leading-[2.2] tracking-wide font-medium">
                          <span className="text-purple-500 font-serif text-3xl leading-none -ml-2 mr-1">"</span>
-                         春天来了，万物复苏。在这个美丽的季节里，大自然展现出它最迷人的生机。我们可以听到鸟儿在枝头欢快地歌唱，看到花朵在微风中摇曳生姿。技术的进步让我们能够保存这些美好的瞬间，甚至将我们的声音化作数字的记忆，永远流传。请用心感受这段文字带给你的温暖，用你最真实的声音读出它的韵味。
+                         {t('readingText')}
                          <span className="text-purple-500 font-serif text-3xl leading-none ml-1">"</span>
                        </div>
                      </div>
@@ -460,10 +484,10 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                           onClick={handleRerecord}
                           className="px-6 py-3 rounded-full border border-gray-600 text-gray-300 font-bold hover:bg-white/5 transition-colors shadow-sm"
                         >
-                          不满意，重新录制
+                          {t('clone.rerecord')}
                         </button>
                         <div className="flex items-center gap-2 text-green-400 bg-green-500/10 border border-green-500/20 px-8 py-3 rounded-full font-bold shadow-sm">
-                          <CheckCircle size={20} /> 录制完成，质量达标
+                          <CheckCircle size={20} /> {t('clone.recordDone')}
                         </div>
                       </>
                     ) : (
@@ -500,7 +524,7 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                           </button>
                         )}
                         <span className="text-sm font-medium text-gray-400 absolute top-full mt-3 whitespace-nowrap">
-                          {isRecording ? "点击结束录制" : "点击开始录制"}
+                          {isRecording ? t('clone.clickToStop') : t('clone.clickToRecord')}
                         </span>
                       </div>
                     )}
@@ -512,8 +536,8 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
               {cloneStep === 'upload' && (
                 <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-4 duration-300">
                   <div className="mb-6">
-                    <h4 className="text-2xl font-bold text-gray-100 mb-1">上传音频文件</h4>
-                    <p className="text-sm text-gray-400">为了获得最佳克隆效果，请上传无背景音、高质量的人声干音音频。</p>
+                    <h4 className="text-2xl font-bold text-gray-100 mb-1">{t('clone.stepUploadTitle')}</h4>
+                    <p className="text-sm text-gray-400">{t('clone.uploadHint')}</p>
                   </div>
                   
                   <div className="border-2 border-dashed border-white/20 hover:border-purple-500/80 rounded-2xl flex-1 flex flex-col items-center justify-center bg-[#151516] transition-colors group cursor-pointer relative overflow-hidden">
@@ -524,16 +548,15 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                         <div className="w-24 h-24 bg-purple-500/10 text-purple-400 rounded-full flex items-center justify-center mb-6 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300 shadow-xl group-hover:shadow-purple-500/20 z-10">
                           <UploadCloud size={40} className="group-hover:-translate-y-1.5 transition-transform duration-300" />
                         </div>
-                        <h5 className="text-xl font-bold text-gray-200 mb-2 z-10">点击或拖拽文件到这里上传</h5>
+                        <h5 className="text-xl font-bold text-gray-200 mb-2 z-10">{t('clone.dropHere')}</h5>
                         <p className="text-sm text-gray-500 text-center leading-relaxed z-10">
-                          支持的格式: MP3, WAV, M4A, FLAC<br/>
-                          建议时长: 1~5分钟 | 最大文件: 50MB
+                          <Trans ns="voice" i18nKey="clone.supportedFormats" />
                         </p>
                         
                         {/* Mock hidden file input */}
                         <input type="file" className="hidden" accept="audio/*" onChange={() => setAudioReady(true)} id="audio-upload" />
                         <label htmlFor="audio-upload" className="mt-8 px-8 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-bold transition-colors cursor-pointer border border-white/5 shadow-sm inline-block z-10">
-                          浏览文件
+                          {t('clone.browseFiles')}
                         </label>
                       </>
                     ) : (
@@ -541,13 +564,13 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                         <div className="w-20 h-20 bg-green-500/10 text-green-400 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-green-500/10">
                           <FileAudio size={36} />
                         </div>
-                        <h5 className="text-xl font-bold text-gray-100 mb-2">音频已就绪</h5>
+                        <h5 className="text-xl font-bold text-gray-100 mb-2">{t('clone.audioReady')}</h5>
                         <p className="text-sm text-gray-400 mb-8">my_voice_sample_high_quality.wav</p>
                         <button 
                           onClick={(e) => { e.stopPropagation(); setAudioReady(false); }}
                           className="text-sm text-purple-400 hover:text-purple-300 font-semibold underline underline-offset-4"
                         >
-                          重新上传
+                          {t('clone.reupload')}
                         </button>
                       </div>
                     )}
@@ -567,9 +590,9 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                     <div className="absolute inset-6 border-[6px] border-teal-500 border-l-transparent border-b-transparent rounded-full animate-spin [animation-duration:3s]"></div>
                     <Mic size={48} className="text-purple-400 animate-pulse relative z-10 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]" />
                   </div>
-                  <h4 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 mb-4 tracking-wide">正在训练专属模型...</h4>
+                  <h4 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 mb-4 tracking-wide">{t('clone.training')}</h4>
                   <p className="text-gray-400 text-base max-w-md text-center leading-relaxed font-medium">
-                    深度学习算法正在分析您的声音特征，构建高精度声纹参数。请耐心等待，这通常需要大约 1-2 分钟。
+                    {t('clone.trainingDesc')}
                   </p>
                 </div>
               )}
@@ -581,8 +604,8 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                     <div className="absolute inset-0 rounded-full border border-green-500/30 animate-ping [animation-duration:2s]"></div>
                     <CheckCircle size={56} className="animate-in zoom-in spin-in-12 duration-700" />
                   </div>
-                  <h4 className="text-3xl font-extrabold text-white mb-3">克隆成功！</h4>
-                  <p className="text-gray-400 text-lg">你的专属声音 <span className="text-white font-bold px-2 py-1 bg-white/10 rounded-md mx-1">{cloneName || '自定义声音'}</span> 已就绪</p>
+                  <h4 className="text-3xl font-extrabold text-white mb-3">{t('clone.success')}</h4>
+                  <p className="text-gray-400 text-lg">{t('clone.successDesc', { name: cloneName || t('default.customVoice') })}</p>
                 </div>
               )}
             </div>
@@ -598,7 +621,7 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                     }}
                     className="px-6 py-2.5 text-sm font-bold text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
                   >
-                    返回上一步
+                    {t('clone.back')}
                   </button>
                 ) : (
                   <div/>
@@ -609,7 +632,7 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                     onClick={handleCloseClone}
                     className="px-6 py-2.5 text-sm font-bold text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
                   >
-                    取消
+                    {t('clone.cancel')}
                   </button>
 
                   <button 
@@ -624,7 +647,7 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
                     }
                     className="px-8 py-2.5 text-sm font-bold bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-purple-500/20 active:scale-95 flex items-center gap-2"
                   >
-                    {(cloneStep === 'info') ? '下一步' : '开始克隆'}
+                    {(cloneStep === 'info') ? t('clone.next') : t('clone.startClone')}
                     {(cloneStep === 'info') && <ChevronRight size={18} className="ml-1 -mr-1" />}
                   </button>
                 </div>
@@ -636,3 +659,9 @@ export const VoiceMarketView: React.FC<VoiceMarketViewProps> = ({ onSelectVoice,
     </div>
   );
 };
+
+export const VoiceMarketView: React.FC<VoiceMarketViewProps> = (props) => (
+  <I18nextProvider i18n={i18n}>
+    <VoiceMarketViewComponent {...props} />
+  </I18nextProvider>
+);

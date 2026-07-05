@@ -22,10 +22,10 @@
         "apps/sdkwork-voice-pc/packages/sdkwork-voice-local-api-proxy/src/index.ts"
       ],
       "@sdkwork/voice-app-sdk": [
-        "sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/generated/server-openapi/src/index.ts"
+        "sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/src/index.ts"
       ],
       "@sdkwork/voice-backend-sdk": [
-        "sdks/sdkwork-voice-backend-sdk/sdkwork-voice-backend-sdk-typescript/generated/server-openapi/src/index.ts"
+        "sdks/sdkwork-voice-backend-sdk/sdkwork-voice-backend-sdk-typescript/src/index.ts"
       ],
       "react": [
         "node_modules/@types/react"

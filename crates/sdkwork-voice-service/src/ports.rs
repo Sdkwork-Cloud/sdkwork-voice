@@ -364,9 +364,23 @@ pub struct VoiceWebhookDeliveryListPage {
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct VoiceRequestLogListQuery {
+    pub tenant_id: i64,
     pub operation_id: Option<String>,
     pub page: i32,
     pub page_size: i32,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct NewVoiceRequestLog {
+    pub id: i64,
+    pub request_id: String,
+    pub trace_id: String,
+    pub tenant_id: i64,
+    pub capability: String,
+    pub operation_id: String,
+    pub consumer: String,
+    pub status: String,
+    pub latency_ms: Option<i64>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -473,7 +487,14 @@ pub trait VoiceRepositoryPort: Send + Sync {
 
     async fn get_audio_artifact_by_id(
         &self,
+        tenant_id: i64,
         artifact_id: i64,
+    ) -> Result<Option<VoiceAudioArtifactRecord>, VoiceServiceError>;
+
+    async fn get_audio_artifact_by_task_index(
+        &self,
+        task_id: i64,
+        artifact_index: i32,
     ) -> Result<Option<VoiceAudioArtifactRecord>, VoiceServiceError>;
 
     async fn update_audio_artifact_media_resource(
@@ -482,7 +503,11 @@ pub trait VoiceRepositoryPort: Send + Sync {
         media_resource_json: &str,
     ) -> Result<VoiceAudioArtifactRecord, VoiceServiceError>;
 
-    async fn delete_audio_artifact(&self, artifact_id: i64) -> Result<(), VoiceServiceError>;
+    async fn delete_audio_artifact(
+        &self,
+        tenant_id: i64,
+        artifact_id: i64,
+    ) -> Result<(), VoiceServiceError>;
 
     async fn list_artifact_drive_sync(
         &self,
@@ -554,4 +579,9 @@ pub trait VoiceRepositoryPort: Send + Sync {
         &self,
         query: VoiceRequestLogListQuery,
     ) -> Result<VoiceRequestLogListPage, VoiceServiceError>;
+
+    async fn insert_request_log(
+        &self,
+        log: NewVoiceRequestLog,
+    ) -> Result<VoiceRequestLogRecord, VoiceServiceError>;
 }

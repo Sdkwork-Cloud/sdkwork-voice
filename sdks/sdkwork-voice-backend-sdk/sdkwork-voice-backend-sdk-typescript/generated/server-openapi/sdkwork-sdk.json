@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "language": "typescript",
   "sdkType": "backend",
-  "packageName": "@sdkwork/voice-backend-sdk",
+  "packageName": "sdkwork-voice-backend-sdk-generated-typescript",
   "generator": "@sdkwork/sdk-generator",
   "capabilities": {
     "supportsGeneratedTests": true,
@@ -26,5 +26,7 @@
     "stateRoots": [
       ".sdkwork/"
     ]
-  }
+  },
+  "transportPackageName": "sdkwork-voice-backend-sdk-generated-typescript",
+  "consumerPackageName": "@sdkwork/voice-backend-sdk"
 }

@@ -9,7 +9,7 @@
     "materialize:openapi": "node sdks/materialize-voice-v3-openapi-boundaries.mjs",
     "check:api-envelope": "node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace .",
     "check:docs": "node ../sdkwork-specs/tools/check-repository-docs-standard.mjs --root .",
-    "verify": "pnpm typecheck && pnpm --filter @sdkwork/voice-contracts typecheck && pnpm --filter @sdkwork/voice-provider-adapter typecheck && pnpm --filter @sdkwork/voice-generation-worker typecheck && pnpm --filter @sdkwork/voice-drive-sync-worker typecheck && pnpm test -- --run && pnpm run db:validate && pnpm run check:api-envelope && pnpm run check:docs && pnpm run check:app-composition && pnpm run gateway:assembly:validate && cargo test --workspace && pnpm audit:appbase",
+    "verify": "pnpm typecheck && pnpm --filter @sdkwork/voice-contracts typecheck && pnpm --filter @sdkwork/voice-provider-adapter typecheck && pnpm --filter @sdkwork/voice-generation-worker typecheck && pnpm --filter @sdkwork/voice-drive-sync-worker typecheck && pnpm --filter sdkwork-voice-pc typecheck && pnpm test -- --run && pnpm run db:validate && pnpm run check:api-envelope && pnpm run check:docs && pnpm run check:app-composition && pnpm run gateway:assembly:validate && cargo test --workspace && pnpm audit:appbase",
     "test": "vitest",
     "test:rust": "cargo test --workspace",
     "typecheck": "tsc --noEmit",
@@ -44,5 +44,12 @@
     "typescript": "^6.0.2",
     "vite": "^8.0.3",
     "vitest": "^4.1.2"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
   }
 }

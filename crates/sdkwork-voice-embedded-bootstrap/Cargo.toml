@@ -19,5 +19,6 @@ sdkwork-routes-voice-backend-api.workspace = true
 sdkwork-voice-generation-repository-sqlx.workspace = true
 sdkwork-voice-drive-sync-processor.workspace = true
 sdkwork-voice-service.workspace = true
+sdkwork-web-bootstrap = { workspace = true, features = ["sqlx"] }
 tracing.workspace = true
 tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

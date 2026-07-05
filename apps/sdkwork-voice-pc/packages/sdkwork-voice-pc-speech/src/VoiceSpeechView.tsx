@@ -18,6 +18,7 @@ const VoiceSpeechViewComponent: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -34,9 +35,12 @@ const VoiceSpeechViewComponent: React.FC = () => {
             options.some((option) => option.id === current) ? current : options[0].id
           ));
         }
-      } catch {
+      } catch (loadError) {
         if (!cancelled) {
           setVoiceOptions([]);
+          setError(
+            loadError instanceof Error ? loadError.message : t('voiceLoadFailed'),
+          );
         }
       } finally {
         if (!cancelled) {
@@ -48,20 +52,21 @@ const VoiceSpeechViewComponent: React.FC = () => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [t]);
 
   const handleGenerate = async () => {
     setError(null);
     setSuccess(null);
+    setAudioUrl(null);
     setSubmitting(true);
     try {
-      const result = await voiceSpeechService.generate({ text, model, voice });
-      const taskId = typeof result.taskId === 'string'
-        ? result.taskId
-        : typeof result.id === 'string'
-          ? result.id
-          : null;
-      setSuccess(taskId ? t('successWithTask', { taskId }) : t('success'));
+      const result = await voiceSpeechService.generateAndWait({ text, model, voice });
+      setSuccess(t('successWithTask', { taskId: result.taskId }));
+      if (result.audioUrl) {
+        setAudioUrl(result.audioUrl);
+      } else {
+        setError(t('audioPending'));
+      }
     } catch (generateError) {
       setError(
         generateError instanceof Error
@@ -124,6 +129,15 @@ const VoiceSpeechViewComponent: React.FC = () => {
         ) : null}
         {success ? (
           <p className="text-green-400 text-center text-sm mb-4">{success}</p>
+        ) : null}
+
+        {audioUrl ? (
+          <div className="mb-4 rounded-xl bg-[#141414] border border-white/10 p-4">
+            <p className="text-xs text-gray-400 mb-2">{t('previewLabel')}</p>
+            <audio controls src={audioUrl} className="w-full">
+              <track kind="captions" />
+            </audio>
+          </div>
         ) : null}
 
         <button

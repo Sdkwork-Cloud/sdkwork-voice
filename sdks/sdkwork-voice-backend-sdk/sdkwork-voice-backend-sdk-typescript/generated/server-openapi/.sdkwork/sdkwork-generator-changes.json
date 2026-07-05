@@ -9,7 +9,7 @@
     "protocol": "http",
     "packageName": "@sdkwork/voice-backend-sdk"
   },
-  "changeFingerprint": "dba3730e0b98fb9a655a6cfe1b88e86140ebe6e9ddbf520043664dff129e1b27",
+  "changeFingerprint": "8f20d1b35455d2d07c8d0fc9a50998113eaaac1cf29bfbcfa8e8f2d49e00e798",
   "changes": {
     "createdGeneratedFiles": [
       "bin/publish-core.mjs",
@@ -61,6 +61,7 @@
       "src/types/voice-sound-effect-create-command.ts",
       "src/types/voice-speech-create-command.ts",
       "src/types/voice-task-event.ts",
+      "src/types/voice-task-reconcile-command.ts",
       "src/types/voice-task-status.ts",
       "src/types/voice-task.ts",
       "src/types/voice-transcription-create-command.ts",
@@ -134,6 +135,7 @@
           "src/types/voice-sound-effect-create-command.ts",
           "src/types/voice-speech-create-command.ts",
           "src/types/voice-task-event.ts",
+          "src/types/voice-task-reconcile-command.ts",
           "src/types/voice-task-status.ts",
           "src/types/voice-task.ts",
           "src/types/voice-transcription-create-command.ts",

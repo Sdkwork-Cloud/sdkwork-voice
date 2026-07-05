@@ -33,8 +33,9 @@ const params = {
   cursor: 'cursor',
   sort: 'sort',
   q: 'q',
+  task_id: 'task_id',
 };
-const result = await client.voice.artifactDriveSync.list(params);
+const result = await client.voice.audioAssets.list(params);
 ```
 
 ## Authentication
@@ -68,15 +69,16 @@ const client = new SdkworkAppClient({
 ### voice
 
 ```typescript
-// Artifact Drive Sync list.
+// Audio Assets list.
 const params = {
   page: 1,
   page_size: 2,
   cursor: 'cursor',
   sort: 'sort',
   q: 'q',
+  task_id: 'task_id',
 };
-const result = await client.voice.artifactDriveSync.list(params);
+const result = await client.voice.audioAssets.list(params);
 ```
 
 ## Error Handling
@@ -91,8 +93,9 @@ try {
     cursor: 'cursor',
     sort: 'sort',
     q: 'q',
+    task_id: 'task_id',
   };
-  const result = await client.voice.artifactDriveSync.list(params);
+  const result = await client.voice.audioAssets.list(params);
 } catch (error) {
   if (error instanceof AuthenticationError) {
     console.error('Authentication failed:', error.message);

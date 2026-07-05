@@ -12,6 +12,7 @@ use sdkwork_voice_service::VoiceArtifactDriveSyncProcessorPort;
 
 pub struct EmbeddedVoiceAssembly {
     pub router: Router,
+    pub voice_pool: DatabasePool,
 }
 
 pub async fn assemble_embedded_voice_application_router_from_env(
@@ -52,5 +53,6 @@ pub async fn assemble_embedded_voice_application_router(
     Ok(EmbeddedVoiceAssembly {
         router: sdkwork_routes_voice_app_api::gateway_mount(app_service)
             .merge(sdkwork_routes_voice_backend_api::gateway_mount(backend_service)),
+        voice_pool,
     })
 }

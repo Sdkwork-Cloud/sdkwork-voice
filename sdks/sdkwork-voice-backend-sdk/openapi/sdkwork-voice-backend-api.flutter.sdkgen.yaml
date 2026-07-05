@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
+      "url": "http://localhost:18096",
       "description": "Local sdkwork-voice runtime"
     }
   ],
@@ -2429,7 +2429,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/VoiceOperationCommand"
+                "$ref": "#/components/schemas/VoiceTaskReconcileCommand"
               }
             }
           }
@@ -3343,6 +3343,46 @@
           "payload": {
             "type": "object",
             "additionalProperties": true
+          }
+        }
+      },
+      "VoiceTaskReconcileCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "providerResult": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Normalized provider invocation output from the generation worker or webhook replay.",
+            "properties": {
+              "status": {
+                "$ref": "#/components/schemas/VoiceTaskStatus"
+              },
+              "providerTaskId": {
+                "type": "string"
+              },
+              "providerResponse": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "generatedArtifacts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              },
+              "result": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "errorCode": {
+                "type": "string"
+              },
+              "errorMessage": {
+                "type": "string"
+              }
+            }
           }
         }
       },

@@ -6,15 +6,33 @@ license.workspace = true
 publish = false
 description = "Standalone HTTP gateway for SDKWork Voice APIs."
 
+[features]
+default = []
+otel = [
+    "dep:tracing-opentelemetry",
+    "dep:opentelemetry",
+    "dep:opentelemetry_sdk",
+    "dep:opentelemetry-otlp",
+]
+
+[lib]
+name = "sdkwork_voice_standalone_gateway"
+path = "src/lib.rs"
+
 [[bin]]
 name = "sdkwork-voice-standalone-gateway"
 path = "src/main.rs"
 
 [dependencies]
 axum.workspace = true
+sdkwork-voice-database-host.workspace = true
 sdkwork-voice-gateway-assembly.workspace = true
-sdkwork-web-bootstrap.workspace = true
+sdkwork-web-bootstrap = { workspace = true, features = ["sqlx"] }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "signal"] }
 tower-http = { workspace = true, features = ["cors", "trace", "timeout", "limit"] }
 tracing.workspace = true
-tracing-subscriber.workspace = true
+tracing-subscriber = { workspace = true, features = ["env-filter", "json", "registry"] }
+tracing-opentelemetry = { version = "0.28", optional = true }
+opentelemetry = { version = "0.27", optional = true }
+opentelemetry_sdk = { version = "0.27", features = ["rt-tokio"], optional = true }
+opentelemetry-otlp = { version = "0.27", features = ["http-proto", "reqwest-client"], optional = true }

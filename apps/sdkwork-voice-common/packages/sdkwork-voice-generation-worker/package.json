@@ -15,6 +15,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@sdkwork/voice-backend-sdk": "workspace:*",
     "@sdkwork/voice-contracts": "workspace:*",
     "@sdkwork/voice-provider-adapter": "workspace:*"
   },

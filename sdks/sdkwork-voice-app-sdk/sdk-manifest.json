@@ -1,4 +1,15 @@
 {
+  "schemaVersion": 1,
+  "sdkFamily": "sdkwork-voice-app-sdk",
+  "sdkName": "sdkwork-voice-app-sdk",
+  "packageName": "@sdkwork/voice-app-sdk",
+  "transportPackageName": "sdkwork-voice-app-sdk-generated-typescript",
+  "typescript": {
+    "composedRoot": "sdkwork-voice-app-sdk-typescript",
+    "composedEntry": "sdkwork-voice-app-sdk-typescript/src/index.ts",
+    "transportRoot": "sdkwork-voice-app-sdk-typescript/generated/server-openapi",
+    "transportEntry": "sdkwork-voice-app-sdk-typescript/generated/server-openapi/src/index.ts"
+  },
   "workspace": "sdkwork-voice-app-sdk",
   "title": "SDKWork Voice App API SDK",
   "apiVersion": "1.0.0",
@@ -20,6 +31,11 @@
     ],
     "manualTransports": []
   },
+  "sdkDependencies": [],
+  "metadata": {
+    "managedBy": "sdks/materialize-voice-v3-openapi-boundaries.mjs",
+    "standardVersion": "2026-06-06"
+  },
   "languages": [
     {
       "language": "typescript",
@@ -28,10 +44,11 @@
       "releaseState": "not_published",
       "packagePath": "sdkwork-voice-app-sdk-typescript/generated/server-openapi",
       "manifestPath": "sdkwork-voice-app-sdk-typescript/generated/server-openapi/package.json",
-      "name": "@sdkwork/voice-app-sdk",
       "version": "1.0.0",
       "description": "Generator-owned TypeScript transport SDK for SDKWork Voice App API.",
-      "generatedPath": "sdkwork-voice-app-sdk-typescript/generated/server-openapi"
+      "generatedPath": "sdkwork-voice-app-sdk-typescript/generated/server-openapi",
+      "consumerPackageName": "@sdkwork/voice-app-sdk",
+      "transportPackageName": "sdkwork-voice-app-sdk-generated-typescript"
     },
     {
       "language": "dart",
@@ -165,10 +182,5 @@
       "description": "Generator-owned Ruby transport SDK for SDKWork Voice App API.",
       "generatedPath": "sdkwork-voice-app-sdk-ruby/generated/server-openapi"
     }
-  ],
-  "sdkDependencies": [],
-  "metadata": {
-    "managedBy": "sdks/materialize-voice-v3-openapi-boundaries.mjs",
-    "standardVersion": "2026-06-06"
-  }
+  ]
 }

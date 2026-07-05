@@ -8,12 +8,15 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "jsx": "react-jsx",
+    "strict": true,
+    "allowImportingTsExtensions": true,
+    "types": ["vite/client"],
+    "noEmit": true,
     "paths": {
       "sdkwork-voice-pc-commons": ["./packages/sdkwork-voice-pc-commons/src"],
-      "sdkwork-voice-pc-core": ["./packages/sdkwork-voice-pc-core/src"]
-    },
-    "allowImportingTsExtensions": true,
-    "noEmit": true
+      "sdkwork-voice-pc-core": ["./packages/sdkwork-voice-pc-core/src"],
+      "@sdkwork/voice-app-sdk": ["../../sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }

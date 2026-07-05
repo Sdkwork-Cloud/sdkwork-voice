@@ -16,6 +16,7 @@ export interface VoiceDriveSyncWorkerOptions {
   pollIntervalMs?: number;
   pageSize?: number;
   signal?: AbortSignal;
+  onSyncError?: (error: unknown, sync: DriveSyncItem) => void;
 }
 
 export interface VoiceDriveSyncWorker {
@@ -28,6 +29,8 @@ type DriveSyncItem = {
   syncStatus?: string;
   sourceUri?: string;
 };
+
+const RETRYABLE_SYNC_STATUSES = ["pending_upload", "failed"] as const;
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => {
@@ -49,24 +52,60 @@ export function createVoiceDriveSyncWorker(
     await options.backendClient.voice.artifactDriveSync.retry(syncId, {});
   }
 
-  async function runOnce(): Promise<number> {
-    const page = await options.backendClient.voice.artifactDriveSync.list({
-      page: 1,
-      pageSize,
-      syncStatus: "pending_upload",
-    });
-    const items = ((page.items ?? []) as DriveSyncItem[]).filter(
-      (sync) =>
-        sync.syncStatus === "pending_upload" ||
-        sync.syncStatus === "failed",
+  async function listRetryableRows(page: number): Promise<DriveSyncItem[]> {
+    const merged = new Map<string, DriveSyncItem>();
+
+    for (const syncStatus of RETRYABLE_SYNC_STATUSES) {
+      const pageResult = await options.backendClient.voice.artifactDriveSync.list({
+        page,
+        pageSize,
+        syncStatus,
+      });
+      for (const sync of (pageResult.items ?? []) as DriveSyncItem[]) {
+        const syncId = String(sync.id ?? "");
+        if (!syncId) {
+          continue;
+        }
+        merged.set(syncId, sync);
+      }
+    }
+
+    return Array.from(merged.values()).filter((sync) =>
+      RETRYABLE_SYNC_STATUSES.includes(
+        (sync.syncStatus ?? "") as (typeof RETRYABLE_SYNC_STATUSES)[number],
+      ),
     );
-    for (const sync of items) {
-      if (options.signal?.aborted) {
+  }
+
+  async function runOnce(): Promise<number> {
+    let page = 1;
+    let processed = 0;
+
+    while (!options.signal?.aborted) {
+      const items = await listRetryableRows(page);
+      if (items.length === 0) {
         break;
       }
-      await processSyncRow(sync);
+
+      for (const sync of items) {
+        if (options.signal?.aborted) {
+          return processed;
+        }
+        try {
+          await processSyncRow(sync);
+          processed += 1;
+        } catch (error) {
+          options.onSyncError?.(error, sync);
+        }
+      }
+
+      if (items.length < pageSize) {
+        break;
+      }
+      page += 1;
     }
-    return items.length;
+
+    return processed;
   }
 
   async function runLoop(): Promise<void> {

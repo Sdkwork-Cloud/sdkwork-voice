@@ -15,7 +15,9 @@
   },
   "dependencies": {
     "@sdkwork/voice-app-sdk": "workspace:*",
+    "i18next": "^25.8.13",
     "lucide-react": "^1.7.0",
+    "react-i18next": "^16.5.4",
     "sdkwork-voice-pc-commons": "workspace:*",
     "sdkwork-voice-pc-core": "workspace:*"
   },

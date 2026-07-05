@@ -20,6 +20,7 @@ export type { VoiceTranslationCreateCommand } from './voice-translation-create-c
 export type { VoiceSoundEffectCreateCommand } from './voice-sound-effect-create-command';
 export type { VoiceMusicCreateCommand } from './voice-music-create-command';
 export type { VoiceProviderWebhookEventCommand } from './voice-provider-webhook-event-command';
+export type { VoiceTaskReconcileCommand } from './voice-task-reconcile-command';
 export type { VoiceTask } from './voice-task';
 export type { VoiceTaskEvent } from './voice-task-event';
 export type { VoiceArtifact } from './voice-artifact';

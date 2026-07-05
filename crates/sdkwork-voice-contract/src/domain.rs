@@ -3,6 +3,8 @@ pub struct VoiceRuntimeContext {
     pub tenant_id: String,
     pub organization_id: Option<String>,
     pub user_id: String,
+    pub permission_scopes: Vec<String>,
+    pub trace_id: String,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]

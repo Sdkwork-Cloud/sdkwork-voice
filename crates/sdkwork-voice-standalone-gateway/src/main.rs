@@ -1,20 +1,39 @@
 use axum::http::HeaderValue;
-use sdkwork_voice_gateway_assembly::{assemble_application_router, gateway_contract_fallback_config};
+use sdkwork_voice_gateway_assembly::{
+    assemble_application_router, gateway_contract_fallback_config, voice_database_readiness_check,
+};
+use sdkwork_voice_standalone_gateway::{init_tracing, run_database_migrate_only};
 use sdkwork_web_bootstrap::{service_router, ServiceRouterConfig};
+use std::process;
 use std::time::Duration;
 use tower_http::cors::{AllowOrigin, CorsLayer};
 use tower_http::limit::RequestBodyLimitLayer;
 use tower_http::timeout::TimeoutLayer;
 use tower_http::trace::TraceLayer;
 
+fn exit_with_error(context: &str, message: impl std::fmt::Display) -> ! {
+    tracing::error!(context, error = %message, "fatal startup failure");
+    eprintln!("FATAL [{context}]: {message}");
+    process::exit(1);
+}
+
 #[tokio::main]
 async fn main() {
-    tracing_subscriber::fmt::init();
+    init_tracing();
+
+    if matches!(std::env::args().nth(1).as_deref(), Some("db-migrate")) {
+        if let Err(error) = run_database_migrate_only().await {
+            exit_with_error("db-migrate", error);
+        }
+        return;
+    }
 
     let cors_layer = build_cors_layer_from_env();
-    let business = assemble_application_router()
-        .await
-        .expect("assemble voice application router")
+    let assembly = match assemble_application_router().await {
+        Ok(assembly) => assembly,
+        Err(error) => exit_with_error("bootstrap", error),
+    };
+    let business = assembly
         .router
         .layer(cors_layer)
         .layer(RequestBodyLimitLayer::new(16 * 1024 * 1024))
@@ -22,11 +41,14 @@ async fn main() {
         .layer(TraceLayer::new_for_http());
 
     let service_config = ServiceRouterConfig::default()
-        .with_always_ready()
+        .with_readiness_check(voice_database_readiness_check(&assembly.voice_pool))
         .with_contract_fallback(gateway_contract_fallback_config());
     let app = service_router(business, service_config);
     let addr = std::env::var("VOICE_API_BIND").unwrap_or_else(|_| "0.0.0.0:18096".to_owned());
-    let listener = tokio::net::TcpListener::bind(&addr).await.expect("bind");
+    let listener = match tokio::net::TcpListener::bind(&addr).await {
+        Ok(listener) => listener,
+        Err(error) => exit_with_error("bind", format!("{addr}: {error}")),
+    };
 
     tracing::info!(bind = %addr, "voice api server starting");
 
@@ -56,10 +78,12 @@ async fn main() {
         tracing::info!("voice api server shutdown signal received, draining in-flight requests");
     };
 
-    axum::serve(listener, app)
+    if let Err(error) = axum::serve(listener, app)
         .with_graceful_shutdown(shutdown)
         .await
-        .expect("serve");
+    {
+        exit_with_error("serve", error);
+    }
 }
 
 fn build_cors_layer_from_env() -> CorsLayer {

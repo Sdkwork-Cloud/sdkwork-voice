@@ -2,7 +2,7 @@
 
 Status: active
 Owner: voice-platform
-Updated: 2026-06-30
+Updated: 2026-07-04
 Specs: `ARCHITECTURE_DECISION_SPEC.md`, `DOCUMENTATION_SPEC.md`, `API_SPEC.md`, `WEB_FRAMEWORK_SPEC.md`, `DATABASE_FRAMEWORK_SPEC.md`, `DRIVE_SPEC.md`
 
 ## 1. Architecture Overview
@@ -60,8 +60,11 @@ deployments/                       deploy.yaml for standalone/cloud parity
 ## 6. Security
 
 - App/backend surfaces: dual-token (`Authorization` + `Access-Token`)
-- Provider webhooks: public ingress with HMAC signature (`X-Voice-Webhook-Signature`, `VOICE_WEBHOOK_SECRET`, `VOICE_WEBHOOK_DEV_MODE`)
-- Webhook events: persisted, processed into task state, replayable through backend API
+- Permission scopes: `voice.tasks.read/write`, `voice.providerRoutes.read/write` enforced when IAM emits scopes
+- Tenant isolation: task events, audio artifacts, and request logs are scoped by `tenant_id` (join through `voice_generation_task` where applicable)
+- Provider webhooks: public ingress with HMAC signature (`X-Voice-Webhook-Signature`, `VOICE_WEBHOOK_SECRET`, `VOICE_WEBHOOK_DEV_MODE` blocked in production deploy env)
+- Webhook events: persisted, processed into task state with idempotent artifact upsert by `(task_id, artifact_index)`, replayable through backend API
+- Drive sync fetch: blocks private/loopback URLs and caps downloaded source payloads (100 MiB)
 - CORS: `VOICE_API_CORS_ORIGINS` allowlist; wildcard denied
 - Secrets: environment / runtime directory only; never in repository
 
@@ -77,13 +80,15 @@ deployments/                       deploy.yaml for standalone/cloud parity
 ## 8. Deployment
 
 - Standalone: `cargo run -p sdkwork-voice-standalone-gateway` after `pnpm db:bootstrap`
+- Infra routes (mounted once on gateway): `/healthz` (liveness), `/readyz` (DB readiness), `/metrics` (Prometheus)
 - Workers: run generation and drive-sync workers as separate processes with backend SDK credentials
 - Drive sync processor env:
   - `VOICE_DRIVE_SYNC_ENABLED` (default `true`)
   - `DRIVE_DATABASE_URL` / `SDKWORK_DRIVE_DATABASE_URL`
   - `VOICE_DRIVE_OBJECT_STORE_ROOT` (default `.data/voice-drive-objects`)
   - `VOICE_DRIVE_OBJECT_STORE_BUCKET` (default `voice-generated`)
-- Container: image from `sdkwork-voice-standalone-gateway` binary
+- Container: `deployments/docker/Dockerfile` → `sdkwork-voice-standalone-gateway` binary + `/app/database`; optional `otel` feature + `OTEL_EXPORTER_OTLP_ENDPOINT`
+- Request audit: `voice_request_log.trace_id` aligned with HTTP `traceId` from `sdkwork-web-framework`
 - Config: `sdkwork.app.config.json`, `deployments/deploy.yaml`, `VOICE_DATABASE_URL`
 
 ## 9. Verification

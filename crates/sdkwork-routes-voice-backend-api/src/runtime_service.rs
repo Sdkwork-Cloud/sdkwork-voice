@@ -74,11 +74,13 @@ where
         provider_code: String,
         body: Value,
         signature_header: Option<String>,
+        trace_id: String,
     ) -> Result<Value, VoiceRouteError> {
         sdkwork_voice_service::handle_voice_provider_webhook_ingress(
             &provider_code,
             body,
             signature_header.as_deref(),
+            &trace_id,
             &self.runtime_ports(),
         )
         .await
@@ -91,6 +93,8 @@ fn runtime_context_from_route(context: VoiceRequestContext) -> VoiceRuntimeConte
         tenant_id: context.tenant_id,
         organization_id: context.organization_id,
         user_id: context.user_id,
+        permission_scopes: context.permission_scopes,
+        trace_id: context.trace_id,
     }
 }
 

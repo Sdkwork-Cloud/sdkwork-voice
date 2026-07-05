@@ -6,6 +6,7 @@ use sdkwork_web_bootstrap::ContractFallbackConfig;
 
 pub struct ApplicationAssembly {
     pub router: Router,
+    pub voice_pool: sdkwork_database_sqlx::DatabasePool,
 }
 
 pub async fn assemble_application_router() -> Result<ApplicationAssembly, String> {
@@ -14,6 +15,7 @@ pub async fn assemble_application_router() -> Result<ApplicationAssembly, String
             .await?;
     Ok(ApplicationAssembly {
         router: assembly.router,
+        voice_pool: assembly.voice_pool,
     })
 }
 

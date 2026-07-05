@@ -11,6 +11,7 @@ pub struct VoiceRequestContext {
     pub session_id: String,
     pub app_id: String,
     pub permission_scopes: Vec<String>,
+    pub trace_id: String,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -48,6 +49,7 @@ pub fn voice_request_context_from_web(
             .unwrap_or_else(|| format!("{}:{}", principal.app_id(), principal.user_id())),
         app_id: principal.app_id().to_owned(),
         permission_scopes: extract_permission_scopes(principal),
+        trace_id: app_ctx.resolved_trace_id(),
     })
 }
 
