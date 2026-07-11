@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.iam.module",
+  "moduleId": "voice",
+  "domain": "voice",
+  "permissions": {
+    "catalog": []
+  }
+}

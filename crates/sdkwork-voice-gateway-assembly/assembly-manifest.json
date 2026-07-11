@@ -4,7 +4,7 @@
   "applicationCode": "voice",
   "packageName": "sdkwork-voice-gateway-assembly",
   "crateDir": "crates/sdkwork-voice-gateway-assembly",
-  "generatedAt": "2026-06-30T03:18:53.586Z",
+  "generatedAt": "2026-07-08T01:34:22.916Z",
   "routeCrates": [
     {
       "packageName": "sdkwork-routes-voice-app-api",
