@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "SDKWork sdkwork-voice-app-sdk composed consumer facade.",
   "type": "module",
-  "private": true,
+  "private": false,
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "types": "./src/index.ts",
@@ -16,5 +16,26 @@
   },
   "dependencies": {
     "@sdkwork/sdk-common": "workspace:*"
-  }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "src",
+    "dist",
+    "composed",
+    "generated/server-openapi/dist",
+    "generated/server-openapi/src",
+    "generated/server-openapi/sdkwork-sdk.json",
+    "generated/server-openapi/README.md",
+    "generated/server-openapi/LICENSE",
+    "generated/domains/server-openapi/dist",
+    "generated/domains/server-openapi/src",
+    "generated/domains/server-openapi/sdkwork-sdk.json",
+    "generated/domains/server-openapi/README.md",
+    "generated/domains/server-openapi/LICENSE",
+    "README.md",
+    "LICENSE"
+  ]
 }

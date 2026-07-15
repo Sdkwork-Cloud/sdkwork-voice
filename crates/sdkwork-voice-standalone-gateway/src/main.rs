@@ -1,4 +1,3 @@
-use axum::http::HeaderValue;
 use sdkwork_voice_gateway_assembly::{
     assemble_application_router, gateway_contract_fallback_config, voice_database_readiness_check,
 };
@@ -6,7 +5,6 @@ use sdkwork_voice_standalone_gateway::{init_tracing, run_database_migrate_only};
 use sdkwork_web_bootstrap::{service_router, ServiceRouterConfig};
 use std::process;
 use std::time::Duration;
-use tower_http::cors::{AllowOrigin, CorsLayer};
 use tower_http::limit::RequestBodyLimitLayer;
 use tower_http::timeout::TimeoutLayer;
 use tower_http::trace::TraceLayer;
@@ -28,7 +26,14 @@ async fn main() {
         return;
     }
 
-    let cors_layer = build_cors_layer_from_env();
+    let cors_layer = sdkwork_web_bootstrap::application_cors_layer_from_env(
+        &["SDKWORK_VOICE_ENVIRONMENT", "VOICE_ENVIRONMENT"],
+        &[
+            "VOICE_API_CORS_ORIGINS",
+            "SDKWORK_VOICE_CORS_ALLOWED_ORIGINS",
+            "SDKWORK_CORS_ALLOWED_ORIGINS",
+        ],
+    );
     let assembly = match assemble_application_router().await {
         Ok(assembly) => assembly,
         Err(error) => exit_with_error("bootstrap", error),
@@ -84,55 +89,4 @@ async fn main() {
     {
         exit_with_error("serve", error);
     }
-}
-
-fn build_cors_layer_from_env() -> CorsLayer {
-    let raw = std::env::var("VOICE_API_CORS_ORIGINS").unwrap_or_default();
-    let origins: Vec<&str> = raw
-        .split(',')
-        .map(str::trim)
-        .filter(|value| !value.is_empty())
-        .collect();
-
-    if origins.is_empty() {
-        tracing::warn!("VOICE_API_CORS_ORIGINS not set; CORS will deny all cross-origin requests");
-        return CorsLayer::new();
-    }
-
-    if origins.iter().any(|origin| *origin == "*") {
-        tracing::error!(
-            "VOICE_API_CORS_ORIGINS contains wildcard '*'; denying all cross-origin requests"
-        );
-        return CorsLayer::new();
-    }
-
-    let parsed: Vec<HeaderValue> = origins
-        .iter()
-        .filter_map(|origin| match HeaderValue::try_from(*origin) {
-            Ok(value) => Some(value),
-            Err(error) => {
-                tracing::warn!(origin = *origin, error = %error, "invalid CORS origin skipped");
-                None
-            }
-        })
-        .collect();
-
-    if parsed.is_empty() {
-        tracing::error!("no valid CORS origins parsed; denying all cross-origin requests");
-        return CorsLayer::new();
-    }
-
-    tracing::info!(origins = ?origins, "CORS allowlist configured");
-    CorsLayer::new()
-        .allow_origin(AllowOrigin::list(parsed))
-        .allow_credentials(true)
-        .allow_methods([
-            axum::http::Method::GET,
-            axum::http::Method::POST,
-            axum::http::Method::PUT,
-            axum::http::Method::PATCH,
-            axum::http::Method::DELETE,
-            axum::http::Method::OPTIONS,
-        ])
-        .allow_headers(tower_http::cors::Any)
 }
