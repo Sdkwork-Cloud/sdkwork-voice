@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "audit:appbase": "node scripts/audit-appbase-voice-migration.mjs",
+    "stop": "node ../sdkwork-specs/tools/stop-sdkwork-workspace-processes.mjs --workspace .",    "audit:appbase": "node scripts/audit-appbase-voice-migration.mjs",
     "materialize:openapi": "node sdks/materialize-voice-v3-openapi-boundaries.mjs",
     "check:api-envelope": "node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace .",
     "check:docs": "node ../sdkwork-specs/tools/check-repository-docs-standard.mjs --root .",
