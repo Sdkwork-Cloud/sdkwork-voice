@@ -4,7 +4,8 @@ mod bootstrap;
 mod readiness;
 
 pub use bootstrap::{
-    assemble_embedded_voice_application_router, assemble_embedded_voice_application_router_from_env,
+    assemble_embedded_voice_application_router,
+    assemble_embedded_voice_application_router_from_env, build_voice_generation_service_from_env,
     EmbeddedVoiceAssembly,
 };
 pub use readiness::voice_database_readiness_check;

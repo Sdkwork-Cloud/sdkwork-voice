@@ -11,6 +11,7 @@ pub const TEST_APP_ID: &str = "sdkwork-im-pc";
 
 pub fn test_web_request_context() -> WebRequestContext {
     WebRequestContext {
+        idempotency_key: None,
         request_id: ServerRequestId("req-test".to_owned()),
         api_surface: WebApiSurface::AppApi,
         auth_mode: WebAuthMode::DualToken,

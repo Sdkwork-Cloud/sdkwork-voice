@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": { "name": "sdkwork-voice-generation-mcp-service", "displayName": "SDKWork Voice Generation MCP Service", "version": "0.1.0", "type": "rust-crate", "root": "sdkwork-voice/crates/sdkwork-voice-generation-mcp-service", "domain": "communication", "capability": "voice-generation-mcp", "surface": "agent", "languages": ["rust"], "generated": false, "manifests": ["Cargo.toml"] },
+  "canonicalSpecs": [
+    { "file": "COMPONENT_SPEC.md", "path": "../../../sdkwork-specs/COMPONENT_SPEC.md", "purpose": "Component contract." },
+    { "file": "CODE_STYLE_SPEC.md", "path": "../../../sdkwork-specs/CODE_STYLE_SPEC.md", "purpose": "Authored source boundaries." },
+    { "file": "NAMING_SPEC.md", "path": "../../../sdkwork-specs/NAMING_SPEC.md", "purpose": "Canonical naming." },
+    { "file": "MODULE_SPEC.md", "path": "../../../sdkwork-specs/MODULE_SPEC.md", "purpose": "Reusable module boundaries." },
+    { "file": "RUST_CODE_SPEC.md", "path": "../../../sdkwork-specs/RUST_CODE_SPEC.md", "purpose": "Rust implementation rules." },
+    { "file": "APPLICATION_LAYERED_ARCHITECTURE_SPEC.md", "path": "../../../sdkwork-specs/APPLICATION_LAYERED_ARCHITECTURE_SPEC.md", "purpose": "Protocol adapter dependency direction." },
+    { "file": "COMPOSABLE_ARCHITECTURE_SPEC.md", "path": "../../../sdkwork-specs/COMPOSABLE_ARCHITECTURE_SPEC.md", "purpose": "Port composition." },
+    { "file": "TEST_SPEC.md", "path": "../../../sdkwork-specs/TEST_SPEC.md", "purpose": "Verification." }
+  ],
+  "contracts": { "layerRole": "backend-route", "publicExports": ["."], "providedPorts": [{ "name": "voiceGenerationMcpService", "export": "." }, { "name": "voiceGenerationMcpTransports", "export": "." }], "requiredPorts": [{ "name": "voiceGenerationService", "export": "." }, { "name": "voiceGenerationMcpTaskStore", "export": "." }], "runtimeEntrypoints": ["serve_stdio", "streamable_http_service"], "routeManifest": null, "sdkClients": [], "sdkDependencies": [], "dependencyApiExports": [], "dependencyApiSurfaces": [], "events": [], "configKeys": [] },
+  "verification": { "commands": ["cargo test -p sdkwork-voice-generation-mcp-service"] }
+}

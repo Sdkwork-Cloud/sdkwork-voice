@@ -12,6 +12,7 @@ name = "sdkwork_voice_embedded_bootstrap"
 [dependencies]
 axum.workspace = true
 dotenvy.workspace = true
+clawrouter-open-sdk.workspace = true
 sdkwork-database-config.workspace = true
 sdkwork-database-sqlx.workspace = true
 sdkwork-routes-voice-app-api.workspace = true
@@ -19,6 +20,8 @@ sdkwork-routes-voice-backend-api.workspace = true
 sdkwork-voice-generation-repository-sqlx.workspace = true
 sdkwork-voice-drive-sync-processor.workspace = true
 sdkwork-voice-service.workspace = true
+sdkwork-voice-generation-provider-adapter.workspace = true
+sdkwork-voice-generation-provider-spi.workspace = true
 sdkwork-web-bootstrap = { workspace = true, features = ["sqlx"] }
 tracing.workspace = true
 tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

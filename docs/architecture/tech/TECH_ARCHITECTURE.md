@@ -15,6 +15,7 @@ Runtime layers:
 | --- | --- | --- |
 | HTTP plane | `sdkwork-routes-voice-*-api`, `sdkwork-routes-voice-http-auth` | App/backend API handlers via `sdkwork-web-framework` |
 | Service | `sdkwork-voice-service` | Operation dispatch, validation, orchestration |
+| Agent protocol | `sdkwork-voice-generation-mcp-service` | Provider-neutral MCP tools, resources, prompts, stdio, and Streamable HTTP/SSE |
 | Persistence | `sdkwork-voice-generation-repository-sqlx`, `sdkwork-voice-database-host` | SQL repositories via `sdkwork-database` |
 | Drive | `sdkwork-voice-artifact-drive-service`, `sdkwork-voice-drive-sync-processor` | AI-generated artifact upload through `sdkwork-drive` |
 | Assembly | `sdkwork-voice-embedded-bootstrap`, `sdkwork-voice-gateway-assembly` | Router composition for platform consumers |
@@ -29,13 +30,22 @@ Runtime layers:
 - **Database:** PostgreSQL via `sdkwork-database` lifecycle (`database/` module, `VOICE_*` env)
 - **File storage:** `sdkwork-drive-workspace-service` only; no app-local upload APIs
 - **Utilities:** `sdkwork-utils-rust` for HTTP envelope, IDs, datetime, HMAC, SHA-256
-- **Provider routing:** `@sdkwork/voice-provider-adapter` + claw-router (generation worker boundary)
+- **Provider routing:** injected provider SPI implementations; generated SDK and vendor DTO mapping remain private to L4 adapters
 - **Discovery:** Not used until RPC services are introduced
 
 ## 3. System Boundaries
 
+Rust speech generation follows L2 service -> L3 provider SPI -> L4 generated-SDK adapter. The
+embedded bootstrap is the L5 SDK-client construction boundary. See
+`../decisions/ADR-20260719-voice-generation-provider-spi.md`.
+
 - **Owns:** voice app/backend APIs, task lifecycle, artifacts, Drive sync, provider routes, webhooks, SDK families, generation/drive workers
-- **Does not own:** IAM, generic Drive platform, claw-router provider implementations, non-voice appbase features
+- **Does not own:** IAM, generic Drive platform, provider runtime implementations, non-voice appbase features
+
+The MCP crate depends only on `VoiceGenerationServicePort` and its task-context store port. It does
+not construct provider adapters, SDK clients, repositories, gateways, or credentials. The MCP host
+owns authentication, authorization, allowed host/origin policy, limits, observability, graceful
+shutdown, and any durable task-context store.
 
 ## 4. Directory Layout
 
@@ -96,5 +106,7 @@ deployments/                       deploy.yaml for standalone/cloud parity
 ```powershell
 pnpm verify
 cargo run -p sdkwork-voice-standalone-gateway
+cargo test -p sdkwork-voice-generation-mcp-service
+cargo clippy -p sdkwork-voice-generation-mcp-service --all-targets -- -D warnings
 node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace .
 ```

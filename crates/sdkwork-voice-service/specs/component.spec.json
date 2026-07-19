@@ -42,7 +42,10 @@
     }
   ],
   "contracts": {
+    "layerRole": "backend-service",
     "publicExports": ["."],
+    "providedPorts": [{ "name": "voiceGenerationService", "export": "." }],
+    "requiredPorts": [{ "name": "voiceGenerationProvider", "export": "." }],
     "runtimeEntrypoints": [
       "sdkwork_voice_service::handle_voice_app_operation",
       "sdkwork_voice_service::handle_voice_backend_operation",

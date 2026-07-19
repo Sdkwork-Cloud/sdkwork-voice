@@ -1,14 +1,19 @@
 use std::sync::Arc;
 
 use axum::Router;
+use clawrouter_open_sdk::{SdkworkAiClient, SdkworkConfig};
 use sdkwork_database_sqlx::{create_any_pool_from_config, DatabasePool};
 use sdkwork_routes_voice_app_api::{VoiceAppApiServicePort, VoiceAppRuntimeService};
 use sdkwork_routes_voice_backend_api::{VoiceBackendApiServicePort, VoiceBackendRuntimeService};
 use sdkwork_voice_drive_sync_processor::VoiceDriveSyncProcessor;
+use sdkwork_voice_generation_provider_adapter::{
+    VoiceGenerationProviderAdapter, VOICE_GENERATION_PROVIDER_ADAPTER_ID,
+};
+use sdkwork_voice_generation_provider_spi::VoiceGenerationProviderRegistry;
 use sdkwork_voice_generation_repository_sqlx::{
     bootstrap_voice_database, connect_voice_database_pool_from_env, SqlVoiceStore,
 };
-use sdkwork_voice_service::VoiceArtifactDriveSyncProcessorPort;
+use sdkwork_voice_service::{VoiceArtifactDriveSyncProcessorPort, VoiceGenerationService};
 
 pub struct EmbeddedVoiceAssembly {
     pub router: Router,
@@ -51,8 +56,32 @@ pub async fn assemble_embedded_voice_application_router(
     let backend_service: Arc<dyn VoiceBackendApiServicePort> = Arc::new(backend_runtime);
 
     Ok(EmbeddedVoiceAssembly {
-        router: sdkwork_routes_voice_app_api::gateway_mount(app_service)
-            .merge(sdkwork_routes_voice_backend_api::gateway_mount(backend_service)),
+        router: sdkwork_routes_voice_app_api::gateway_mount(app_service).merge(
+            sdkwork_routes_voice_backend_api::gateway_mount(backend_service),
+        ),
         voice_pool,
     })
+}
+
+pub fn build_voice_generation_service_from_env() -> Result<Arc<VoiceGenerationService>, String> {
+    let base_url = std::env::var("SDKWORK_CLAWROUTER_OPEN_API_BASE_URL")
+        .or_else(|_| std::env::var("CLAWROUTER_OPEN_API_BASE_URL"))
+        .map_err(|_| {
+            "SDKWORK_CLAWROUTER_OPEN_API_BASE_URL (or CLAWROUTER_OPEN_API_BASE_URL) is required"
+                .to_string()
+        })?;
+    let client = SdkworkAiClient::new(SdkworkConfig::new(base_url.trim()))
+        .map_err(|error| format!("speech generation SDK client init failed: {error}"))?;
+    if let Ok(api_key) = std::env::var("SDKWORK_CLAWROUTER_OPEN_API_KEY") {
+        if !api_key.trim().is_empty() {
+            client.set_api_key(api_key.trim());
+        }
+    }
+    let registry = VoiceGenerationProviderRegistry::builder()
+        .register(Arc::new(VoiceGenerationProviderAdapter::new(client)))
+        .map_err(|error| format!("voice provider registration failed: {error}"))?
+        .default_provider(VOICE_GENERATION_PROVIDER_ADAPTER_ID)
+        .build()
+        .map_err(|error| format!("voice provider registry failed: {error}"))?;
+    Ok(Arc::new(VoiceGenerationService::new(registry)))
 }

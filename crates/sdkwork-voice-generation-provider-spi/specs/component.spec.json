@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-voice-generation-provider-spi",
+    "displayName": "SDKWork Voice Generation Provider SPI",
+    "version": "0.1.0",
+    "type": "rust-crate",
+    "root": "crates/sdkwork-voice-generation-provider-spi",
+    "domain": "voice",
+    "capability": "speech-generation-provider-spi",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    { "file": "APPLICATION_LAYERED_ARCHITECTURE_SPEC.md", "path": "../../../sdkwork-specs/APPLICATION_LAYERED_ARCHITECTURE_SPEC.md", "purpose": "L3 provider port ownership." },
+    { "file": "RUST_CODE_SPEC.md", "path": "../../../sdkwork-specs/RUST_CODE_SPEC.md", "purpose": "Rust boundary rules." }
+  ],
+  "contracts": {
+    "layerRole": "backend-domain",
+    "publicExports": ["."],
+    "providedPorts": [{ "name": "voiceGenerationProvider", "export": "." }],
+    "requiredPorts": [],
+    "runtimeEntrypoints": [],
+    "routeManifest": null,
+    "sdkClients": [],
+    "events": [],
+    "configKeys": []
+  },
+  "verification": { "commands": ["cargo test -p sdkwork-voice-generation-provider-spi"] }
+}

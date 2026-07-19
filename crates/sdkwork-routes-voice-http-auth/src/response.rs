@@ -150,6 +150,7 @@ mod tests {
             locale: None,
             client_kind: None,
             operation: None,
+            idempotency_key: None,
             trace_id: Some("trace-voice-test".to_owned()),
         }
     }

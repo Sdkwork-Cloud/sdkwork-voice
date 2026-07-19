@@ -3,6 +3,9 @@ resolver = "2"
 members = [
     "crates/sdkwork-voice-contract",
     "crates/sdkwork-voice-service",
+    "crates/sdkwork-voice-generation-provider-spi",
+    "crates/sdkwork-voice-generation-provider-adapter",
+    "crates/sdkwork-voice-generation-mcp-service",
     "crates/sdkwork-voice-embedded-bootstrap",
     "crates/sdkwork-voice-standalone-gateway",
     "crates/sdkwork-voice-gateway-assembly",
@@ -23,6 +26,8 @@ license = "UNLICENSED"
 publish = false
 
 [workspace.dependencies]
+rmcp = { version = "2.2.0", default-features = false, features = ["server", "macros", "schemars", "transport-io", "transport-streamable-http-server"] }
+schemars = "1"
 async-trait = "0.1"
 axum = "0.8"
 http = "1.3"
@@ -41,6 +46,7 @@ tokio = { version = "1.48", features = ["macros", "rt-multi-thread", "net", "syn
 uuid = { version = "1", features = ["v4"] }
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
 base64 = "0.22"
+clawrouter-open-sdk = { path = "../sdkwork-clawrouter/sdks/clawrouter-open-sdk/clawrouter-open-sdk-rust/generated/server-openapi" }
 sdkwork-drive-config = { path = "../sdkwork-drive/crates/sdkwork-drive-config" }
 sdkwork-drive-storage-contract = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-contract" }
 sdkwork-drive-storage-local = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-local" }
@@ -57,6 +63,9 @@ sdkwork-database-spi = { path = "../sdkwork-database/crates/sdkwork-database-spi
 sdkwork-database-sqlx = { path = "../sdkwork-database/crates/sdkwork-database-sqlx", package = "sdkwork-database-sqlx" }
 sdkwork-voice-contract = { path = "crates/sdkwork-voice-contract" }
 sdkwork-voice-service = { path = "crates/sdkwork-voice-service" }
+sdkwork-voice-generation-provider-spi = { path = "crates/sdkwork-voice-generation-provider-spi" }
+sdkwork-voice-generation-provider-adapter = { path = "crates/sdkwork-voice-generation-provider-adapter" }
+sdkwork-voice-generation-mcp-service = { path = "crates/sdkwork-voice-generation-mcp-service" }
 sdkwork-voice-embedded-bootstrap = { path = "crates/sdkwork-voice-embedded-bootstrap" }
 sdkwork-voice-database-host = { path = "crates/sdkwork-voice-database-host" }
 sdkwork-voice-generation-repository-sqlx = { path = "crates/sdkwork-voice-generation-repository-sqlx" }

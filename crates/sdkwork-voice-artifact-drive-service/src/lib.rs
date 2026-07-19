@@ -438,6 +438,9 @@ where
             tenant_id: tenant_id.to_string(),
             owner_subject_type: Some(owner_subject_type.to_string()),
             owner_subject_id: Some(owner_subject_id.to_string()),
+            space_type: Some(DriveSpaceType::AiGenerated.as_str().to_string()),
+            offset: 0,
+            limit: 1,
         })
         .await?
         .into_iter()
@@ -467,6 +470,9 @@ where
                 tenant_id: tenant_id.to_string(),
                 owner_subject_type: Some(owner_subject_type.to_string()),
                 owner_subject_id: Some(owner_subject_id.to_string()),
+                space_type: Some(DriveSpaceType::AiGenerated.as_str().to_string()),
+                offset: 0,
+                limit: 1,
             })
             .await?
             .into_iter()
@@ -497,6 +503,9 @@ where
                 tenant_id: tenant_id.to_string(),
                 owner_subject_type: Some(owner_subject_type.to_string()),
                 owner_subject_id: Some(owner_subject_id.to_string()),
+                space_type: Some(DriveSpaceType::AiGenerated.as_str().to_string()),
+                offset: 0,
+                limit: 1,
             })
             .await?
             .into_iter()
@@ -528,6 +537,9 @@ where
                     tenant_id: tenant_id.to_string(),
                     owner_subject_type: Some(owner_subject_type.to_string()),
                     owner_subject_id: Some(owner_subject_id.to_string()),
+                    space_type: Some(DriveSpaceType::AiGenerated.as_str().to_string()),
+                    offset: 0,
+                    limit: 1,
                 })
                 .await?
                 .into_iter()

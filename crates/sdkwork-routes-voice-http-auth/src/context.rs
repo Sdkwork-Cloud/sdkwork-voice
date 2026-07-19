@@ -65,6 +65,7 @@ fn extract_permission_scopes(principal: &sdkwork_web_core::WebRequestPrincipal) 
 
 pub fn webhook_ingress_web_request_context(trace_id: String) -> WebRequestContext {
     WebRequestContext {
+        idempotency_key: None,
         request_id: ServerRequestId(trace_id.clone()),
         api_surface: WebApiSurface::BackendApi,
         auth_mode: WebAuthMode::Public,

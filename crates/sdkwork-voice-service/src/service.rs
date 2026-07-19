@@ -9,11 +9,10 @@ use serde_json::{json, Value};
 use crate::{
     NewVoiceArtifactDriveSync, NewVoiceAudioArtifact, NewVoiceProviderRoute,
     NewVoiceProviderWebhookEvent, NewVoiceRequestLog, NewVoiceTask, NewVoiceTaskEvent,
-    VoiceArtifactDriveSyncListQuery,
-    VoiceAudioArtifactListQuery, VoiceProviderRouteListQuery, VoiceProviderRouteUpdate,
-    VoiceProviderWebhookEventListQuery, VoiceRequestLogListQuery, VoiceRuntimePorts,
-    VoiceTaskEventListQuery, VoiceTaskListQuery, VoiceTaskProviderUpdate, VoiceTaskRecord,
-    VoiceWebhookDeliveryListQuery,
+    VoiceArtifactDriveSyncListQuery, VoiceAudioArtifactListQuery, VoiceProviderRouteListQuery,
+    VoiceProviderRouteUpdate, VoiceProviderWebhookEventListQuery, VoiceRequestLogListQuery,
+    VoiceRuntimePorts, VoiceTaskEventListQuery, VoiceTaskListQuery, VoiceTaskProviderUpdate,
+    VoiceTaskRecord, VoiceWebhookDeliveryListQuery,
 };
 
 const DEFAULT_PAGE_SIZE: i32 = 20;
@@ -37,10 +36,11 @@ pub async fn handle_voice_app_operation(
     );
 
     let result = match operation_id {
-        "speech.create" | "transcriptions.create" | "translations.create"
-        | "soundEffects.create" | "music.create" => {
-            create_voice_task(context, operation_id, body, ports).await
-        }
+        "speech.create"
+        | "transcriptions.create"
+        | "translations.create"
+        | "soundEffects.create"
+        | "music.create" => create_voice_task(context, operation_id, body, ports).await,
         "tasks.list" => list_voice_tasks(context, &body, false, ports).await,
         "tasks.retrieve" => {
             let task_id = parse_task_id(&path_params)?;
@@ -180,10 +180,7 @@ fn verify_provider_webhook_signature(
             )
         })?;
 
-    let payload = body
-        .get("payload")
-        .cloned()
-        .unwrap_or_else(|| body.clone());
+    let payload = body.get("payload").cloned().unwrap_or_else(|| body.clone());
     let payload_bytes = payload.to_string();
     let expected = sdkwork_utils_rust::hmac_sha256(payload_bytes.as_bytes(), secret.as_bytes());
     if !constant_time_eq(signature.as_bytes(), expected.as_bytes()) {
@@ -334,9 +331,10 @@ async fn create_voice_task(
     body: Value,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
-    let operation_type = VoiceOperationType::from_create_operation_id(operation_id).ok_or_else(
-        || VoiceServiceError::validation(format!("unsupported create operation: {operation_id}")),
-    )?;
+    let operation_type =
+        VoiceOperationType::from_create_operation_id(operation_id).ok_or_else(|| {
+            VoiceServiceError::validation(format!("unsupported create operation: {operation_id}"))
+        })?;
     let tenant_id = parse_i64(&context.tenant_id);
     let organization_id = context
         .organization_id
@@ -427,13 +425,15 @@ async fn list_voice_tasks(
         .repository
         .list_tasks(VoiceTaskListQuery {
             tenant_id,
-            organization_id: i64_field(body, &["organizationId", "organization_id"]).or_else(|| {
-                context
-                    .organization_id
-                    .as_deref()
-                    .map(parse_i64)
-                    .filter(|_| !admin)
-            }),
+            organization_id: i64_field(body, &["organizationId", "organization_id"]).or_else(
+                || {
+                    context
+                        .organization_id
+                        .as_deref()
+                        .map(parse_i64)
+                        .filter(|_| !admin)
+                },
+            ),
             user_id,
             operation_type: string_field(body, &["operationType", "operation_type"]),
             status: string_field(body, &["status"]),
@@ -443,11 +443,7 @@ async fn list_voice_tasks(
         .await?;
 
     Ok(list_payload(
-        page_result
-            .items
-            .iter()
-            .map(task_to_json)
-            .collect(),
+        page_result.items.iter().map(task_to_json).collect(),
         page,
         page_size,
         page_result.has_more,
@@ -489,7 +485,12 @@ async fn cancel_voice_task(
     }
     let updated = ports
         .repository
-        .update_task_status(task_id, VoiceTaskStatus::Cancelled.as_storage_value(), None, None)
+        .update_task_status(
+            task_id,
+            VoiceTaskStatus::Cancelled.as_storage_value(),
+            None,
+            None,
+        )
         .await?;
     let now_text = format_datetime(now(), None);
     ports
@@ -538,7 +539,12 @@ async fn retry_voice_task(
     }
     let updated = ports
         .repository
-        .update_task_status(task_id, VoiceTaskStatus::Queued.as_storage_value(), None, None)
+        .update_task_status(
+            task_id,
+            VoiceTaskStatus::Queued.as_storage_value(),
+            None,
+            None,
+        )
         .await?;
     let event_type = if operation_id == "tasks.reconcile" {
         "voice.task.reconciled"
@@ -602,9 +608,7 @@ async fn apply_task_provider_result(
             task_id,
             status: status.clone(),
             provider_task_id: provider_task_id.clone(),
-            provider_response_json: provider_response
-                .as_ref()
-                .map(|value| value.to_string()),
+            provider_response_json: provider_response.as_ref().map(|value| value.to_string()),
             result_json: result_json.as_ref().map(|value| value.to_string()),
             error_code: error_code.clone(),
             error_message: error_message.clone(),
@@ -728,11 +732,7 @@ async fn list_voice_task_events(
         })
         .await?;
     Ok(list_payload(
-        page_result
-            .items
-            .iter()
-            .map(task_event_to_json)
-            .collect(),
+        page_result.items.iter().map(task_event_to_json).collect(),
         page,
         page_size,
         page_result.has_more,
@@ -859,11 +859,7 @@ async fn retry_artifact_drive_sync(
             Err(error) => {
                 let _ = ports
                     .repository
-                    .mark_artifact_drive_sync_failed(
-                        sync_id,
-                        error.code(),
-                        error.message(),
-                    )
+                    .mark_artifact_drive_sync_failed(sync_id, error.code(), error.message())
                     .await;
                 return Err(error);
             }
@@ -882,8 +878,8 @@ async fn create_provider_route(
     let route_key = required_string(body, &["routeKey", "route_key"])?;
     let route_name = required_string(body, &["routeName", "route_name"])?;
     let provider_id = required_string(body, &["providerId", "provider_id"])?;
-    let client_protocol =
-        string_field(body, &["clientProtocol", "client_protocol"]).unwrap_or_else(|| "http".to_owned());
+    let client_protocol = string_field(body, &["clientProtocol", "client_protocol"])
+        .unwrap_or_else(|| "http".to_owned());
     let upstream_protocol = string_field(body, &["upstreamProtocol", "upstream_protocol"])
         .unwrap_or_else(|| "http".to_owned());
     let upstream_config_json = body
@@ -891,12 +887,9 @@ async fn create_provider_route(
         .or_else(|| body.get("upstream_config"))
         .map(|value| value.to_string())
         .unwrap_or_else(|| "{}".to_owned());
-    let enabled = body
-        .get("enabled")
-        .and_then(Value::as_bool)
-        .unwrap_or(true);
-    let managed_by = string_field(body, &["managedBy", "managed_by"])
-        .unwrap_or_else(|| "backend".to_owned());
+    let enabled = body.get("enabled").and_then(Value::as_bool).unwrap_or(true);
+    let managed_by =
+        string_field(body, &["managedBy", "managed_by"]).unwrap_or_else(|| "backend".to_owned());
     let route = ports
         .repository
         .insert_provider_route(NewVoiceProviderRoute {
@@ -988,13 +981,10 @@ async fn accept_provider_webhook(
     trace_id: &str,
     ports: &VoiceRuntimePorts<'_>,
 ) -> Result<Value, VoiceServiceError> {
-    let event_id = string_field(body, &["eventId", "event_id"])
-        .unwrap_or_else(|| sdkwork_utils_rust::uuid());
+    let event_id =
+        string_field(body, &["eventId", "event_id"]).unwrap_or_else(sdkwork_utils_rust::uuid);
     let provider_task_id = string_field(body, &["providerTaskId", "provider_task_id"]);
-    let payload = body
-        .get("payload")
-        .cloned()
-        .unwrap_or_else(|| body.clone());
+    let payload = body.get("payload").cloned().unwrap_or_else(|| body.clone());
     let payload_json = payload.to_string();
     let payload_hash = sdkwork_utils_rust::sha256_hash(payload_json.as_bytes());
     let received_at = format_datetime(now(), None);
@@ -1014,7 +1004,8 @@ async fn accept_provider_webhook(
         })
         .await?;
 
-    let event = match process_provider_webhook_event_record(&event, &payload, trace_id, ports).await {
+    let event = match process_provider_webhook_event_record(&event, &payload, trace_id, ports).await
+    {
         Ok(()) => ports
             .repository
             .get_provider_webhook_event_by_id(event.id)
@@ -1023,11 +1014,7 @@ async fn accept_provider_webhook(
         Err(error) => {
             let _ = ports
                 .repository
-                .update_provider_webhook_event_processing(
-                    event.id,
-                    "failed",
-                    Some(error.message()),
-                )
+                .update_provider_webhook_event_processing(event.id, "failed", Some(error.message()))
                 .await;
             ports
                 .repository
@@ -1173,28 +1160,31 @@ async fn replay_provider_webhook_event(
         VoiceServiceError::validation(format!("invalid provider webhook payload_json: {error}"))
     })?;
 
-    let updated = match process_provider_webhook_event_record(&event, &payload, &context.trace_id, ports).await {
-        Ok(()) => ports
-            .repository
-            .get_provider_webhook_event_by_id(event_id)
-            .await?
-            .unwrap_or(event),
-        Err(error) => {
-            let _ = ports
-                .repository
-                .update_provider_webhook_event_processing(
-                    event_id,
-                    "failed",
-                    Some(error.message()),
-                )
-                .await;
-            ports
+    let updated =
+        match process_provider_webhook_event_record(&event, &payload, &context.trace_id, ports)
+            .await
+        {
+            Ok(()) => ports
                 .repository
                 .get_provider_webhook_event_by_id(event_id)
                 .await?
-                .unwrap_or(event)
-        }
-    };
+                .unwrap_or(event),
+            Err(error) => {
+                let _ = ports
+                    .repository
+                    .update_provider_webhook_event_processing(
+                        event_id,
+                        "failed",
+                        Some(error.message()),
+                    )
+                    .await;
+                ports
+                    .repository
+                    .get_provider_webhook_event_by_id(event_id)
+                    .await?
+                    .unwrap_or(event)
+            }
+        };
 
     Ok(json!({
         "accepted": true,
@@ -1248,11 +1238,7 @@ async fn list_request_logs(
         })
         .await?;
     Ok(list_payload(
-        page_result
-            .items
-            .iter()
-            .map(request_log_to_json)
-            .collect(),
+        page_result.items.iter().map(request_log_to_json).collect(),
         page,
         page_size,
         page_result.has_more,
@@ -1271,9 +1257,8 @@ fn validate_context(context: &VoiceRuntimeContext) -> Result<(), VoiceServiceErr
 
 fn parse_task_id(path_params: &BTreeMap<String, String>) -> Result<i64, VoiceServiceError> {
     let raw = path_param(path_params, "taskId")?;
-    raw.parse::<i64>().map_err(|_| {
-        VoiceServiceError::validation(format!("invalid taskId: {raw}"))
-    })
+    raw.parse::<i64>()
+        .map_err(|_| VoiceServiceError::validation(format!("invalid taskId: {raw}")))
 }
 
 fn parse_i64_param(
@@ -1334,8 +1319,7 @@ fn page_size_field(body: &Value) -> i32 {
             string_field(body, &["pageSize", "page_size"]).and_then(|value| value.parse().ok())
         })
         .unwrap_or(DEFAULT_PAGE_SIZE)
-        .max(1)
-        .min(MAX_PAGE_SIZE)
+        .clamp(1, MAX_PAGE_SIZE)
 }
 
 fn list_payload(items: Vec<Value>, page: i32, page_size: i32, has_more: bool) -> Value {
@@ -1360,9 +1344,9 @@ fn offset_page_info(page: i32, page_size: i32, has_more: bool) -> PageInfo {
 fn next_voice_id() -> i64 {
     let millis = now().timestamp_millis();
     let suffix = sdkwork_utils_rust::uuid();
-    let hash = suffix
-        .bytes()
-        .fold(0u64, |acc, byte| acc.wrapping_mul(31).wrapping_add(u64::from(byte)));
+    let hash = suffix.bytes().fold(0u64, |acc, byte| {
+        acc.wrapping_mul(31).wrapping_add(u64::from(byte))
+    });
     millis
         .saturating_mul(1000)
         .saturating_add((hash % 1000) as i64)

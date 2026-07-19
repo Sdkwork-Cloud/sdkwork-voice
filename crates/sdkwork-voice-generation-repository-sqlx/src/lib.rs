@@ -384,8 +384,8 @@ pub fn voice_initial_migration_sql() -> &'static str {
     VOICE_INITIAL_MIGRATION_SQL
 }
 
-// Legacy migration SQL retained for contract tests. Runtime PostgreSQL bootstrap uses
-// application-root `database/` via `sdkwork-voice-database-host`.
+// Crate-local migration SQL remains executable repository contract coverage. Runtime PostgreSQL
+// bootstrap uses application-root `database/` via `sdkwork-voice-database-host`.
 
 pub fn voice_storage_capability_manifest() -> VoiceStorageCapabilityManifest {
     VoiceStorageCapabilityManifest {

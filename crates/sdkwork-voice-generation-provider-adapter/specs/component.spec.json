@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-voice-generation-provider-adapter",
+    "displayName": "SDKWork Voice Generation Provider Adapter",
+    "version": "0.1.0",
+    "type": "rust-crate",
+    "root": "crates/sdkwork-voice-generation-provider-adapter",
+    "domain": "voice",
+    "capability": "speech-generation-provider-adapter",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    { "file": "APPLICATION_LAYERED_ARCHITECTURE_SPEC.md", "path": "../../../sdkwork-specs/APPLICATION_LAYERED_ARCHITECTURE_SPEC.md", "purpose": "L4 provider adapter ownership." },
+    { "file": "SDK_SPEC.md", "path": "../../../sdkwork-specs/SDK_SPEC.md", "purpose": "Generated SDK boundary." }
+  ],
+  "contracts": {
+    "layerRole": "backend-provider",
+    "publicExports": ["."],
+    "providedPorts": [{ "name": "voiceGenerationProviderAdapter", "export": "." }],
+    "requiredPorts": [{ "name": "voiceGenerationProvider", "export": "." }],
+    "runtimeEntrypoints": [],
+    "routeManifest": null,
+    "sdkClients": ["clawrouter-open-sdk"],
+    "events": [],
+    "configKeys": []
+  },
+  "verification": { "commands": ["cargo test -p sdkwork-voice-generation-provider-adapter"] }
+}
