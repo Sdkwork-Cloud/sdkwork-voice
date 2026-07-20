@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.deployment-index",
+  "application": "sdkwork-voice",
+  "defaultProfile": "standalone.development",
+  "profiles": {
+    "cloud.development": {
+      "config": "topology/cloud.development.env"
+    },
+    "cloud.production": {
+      "config": "topology/cloud.production.env"
+    },
+    "standalone.development": {
+      "config": "topology/standalone.development.env"
+    },
+    "standalone.production": {
+      "config": "topology/standalone.production.env"
+    }
+  }
+}
