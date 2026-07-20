@@ -2,4 +2,4 @@
 
 Component root: `crates/sdkwork-api-voice-assembly`
 
-API assembly manifest, business-router composition, and verification contract.
+Gateway assembly manifest and generated route composition for platform consumers.

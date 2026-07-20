@@ -22,7 +22,7 @@
       "profile": "server",
       "formats": ["tar.gz"],
       "runner": "ubuntu-latest",
-      "outputGlobs": ["target/release/sdkwork-voice-standalone-gateway"]
+      "outputGlobs": ["target/release/sdkwork-api-voice-standalone-gateway"]
     },
     {
       "id": "container-x64-cloud-container-oci",

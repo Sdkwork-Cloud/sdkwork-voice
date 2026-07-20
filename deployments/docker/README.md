@@ -23,13 +23,13 @@ The image ships `/app/database` lifecycle assets, binds `VOICE_API_BIND` (defaul
 Database-only migration entrypoint:
 
 ```powershell
-sdkwork-voice-standalone-gateway db-migrate
+sdkwork-api-voice-standalone-gateway db-migrate
 ```
 
 Build with OpenTelemetry export (optional):
 
 ```powershell
-cargo build --release -p sdkwork-voice-standalone-gateway --features otel
+cargo build --release -p sdkwork-api-voice-standalone-gateway --features otel
 ```
 
 ## Workers

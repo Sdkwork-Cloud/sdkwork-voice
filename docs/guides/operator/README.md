@@ -6,7 +6,7 @@ Deployment, monitoring, and incident response for SDKWork Voice.
 
 | Profile | Entry | Config |
 | --- | --- | --- |
-| Standalone server | `cargo run -p sdkwork-voice-standalone-gateway` | `deployments/deploy.yaml`, `sdkwork.app.config.json` |
+| Standalone server | `cargo run -p sdkwork-api-voice-standalone-gateway` | `deployments/deploy.yaml`, `sdkwork.app.config.json` |
 | Container | `deployments/docker/Dockerfile` | `SDKWORK_VOICE_APP_ROOT=/app`, `VOICE_DATABASE_URL` |
 | Embedded | `sdkwork-voice-embedded-bootstrap` router merge | Platform consumer wires IAM + database pools |
 | Workers | `@sdkwork/voice-generation-worker`, `@sdkwork/voice-drive-sync-worker` | Backend SDK credentials, poll intervals |
@@ -36,7 +36,7 @@ Database lifecycle: `pnpm db:status` / `pnpm db:drift:check`
 Container migration-only entrypoint:
 
 ```powershell
-sdkwork-voice-standalone-gateway db-migrate
+sdkwork-api-voice-standalone-gateway db-migrate
 ```
 
 Full verification gate: `pnpm verify`

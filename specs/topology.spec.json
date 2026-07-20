@@ -72,8 +72,8 @@
   },
   "components": {
     "applicationServer": {
-      "crate": "sdkwork-voice-standalone-gateway",
-      "binary": "sdkwork-voice-standalone-gateway"
+      "crate": "sdkwork-api-voice-standalone-gateway",
+      "binary": "sdkwork-api-voice-standalone-gateway"
     }
   },
   "orchestration": {
@@ -82,8 +82,8 @@
         "processes": [
           {
             "id": "application.public-ingress",
-            "crate": "sdkwork-voice-standalone-gateway",
-            "binary": "sdkwork-voice-standalone-gateway",
+            "crate": "sdkwork-api-voice-standalone-gateway",
+            "binary": "sdkwork-api-voice-standalone-gateway",
             "required": true,
             "role": "api-standalone-gateway"
           }
@@ -103,8 +103,8 @@
         "processes": [
           {
             "id": "application.public-ingress",
-            "crate": "sdkwork-voice-standalone-gateway",
-            "binary": "sdkwork-voice-standalone-gateway",
+            "crate": "sdkwork-api-voice-standalone-gateway",
+            "binary": "sdkwork-api-voice-standalone-gateway",
             "required": true,
             "role": "api-standalone-gateway"
           }
@@ -117,8 +117,8 @@
         "processes": [
           {
             "id": "application.public-ingress",
-            "crate": "sdkwork-voice-standalone-gateway",
-            "binary": "sdkwork-voice-standalone-gateway",
+            "crate": "sdkwork-api-voice-standalone-gateway",
+            "binary": "sdkwork-api-voice-standalone-gateway",
             "required": true,
             "role": "api-standalone-gateway"
           }

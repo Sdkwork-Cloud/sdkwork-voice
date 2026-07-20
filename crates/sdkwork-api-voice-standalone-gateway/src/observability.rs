@@ -1,4 +1,4 @@
-//! Tracing bootstrap for `sdkwork-voice-standalone-gateway`.
+//! Tracing bootstrap for `sdkwork-api-voice-standalone-gateway`.
 
 pub fn init_tracing() {
     #[cfg(feature = "otel")]
@@ -6,11 +6,11 @@ pub fn init_tracing() {
         .ok()
         .is_some_and(|value| !value.trim().is_empty())
     {
-        match init_otel_tracing("sdkwork-voice-standalone-gateway") {
+        match init_otel_tracing("sdkwork-api-voice-standalone-gateway") {
             Ok(()) => return,
             Err(error) => {
                 eprintln!(
-                    "sdkwork-voice-standalone-gateway OTLP tracing init failed ({error}); falling back to fmt subscriber"
+                    "sdkwork-api-voice-standalone-gateway OTLP tracing init failed ({error}); falling back to fmt subscriber"
                 );
             }
         }

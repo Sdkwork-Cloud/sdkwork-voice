@@ -7,7 +7,7 @@ deploymentProfile: standalone
 services:
   - name: voice-api
     kind: http
-    crate: sdkwork-voice-standalone-gateway
+    crate: sdkwork-api-voice-standalone-gateway
     bindEnv: VOICE_API_BIND
     defaultBind: "0.0.0.0:18096"
     healthPath: /healthz

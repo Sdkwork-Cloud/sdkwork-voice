@@ -7,7 +7,7 @@ Updated: 2026-07-04
 ## Startup Order
 
 1. Bootstrap voice database: `pnpm db:bootstrap`
-2. Start API gateway: `cargo run -p sdkwork-voice-standalone-gateway`
+2. Start API gateway: `cargo run -p sdkwork-api-voice-standalone-gateway`
 3. Start generation worker (`@sdkwork/voice-generation-worker`)
 4. Start drive sync worker (`@sdkwork/voice-drive-sync-worker`) when Drive DB is configured
 
@@ -59,7 +59,7 @@ Build and run from repository root — see [deployments/docker/README.md](../../
 Run migrations before first serve (or rely on `VOICE_DATABASE_AUTO_MIGRATE=true` at bootstrap):
 
 ```powershell
-sdkwork-voice-standalone-gateway db-migrate
+sdkwork-api-voice-standalone-gateway db-migrate
 ```
 
 ## Verification Before Release

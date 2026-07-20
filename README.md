@@ -358,14 +358,14 @@ The app API exposes sync lookup for client progress and Drive resource rendering
 
 ### Rust HTTP Service Plane
 
-Crates: `sdkwork-voice-service`, `sdkwork-routes-voice-http-auth`, `sdkwork-voice-embedded-bootstrap`, `sdkwork-voice-drive-sync-processor`, `sdkwork-voice-standalone-gateway`
+Crates: `sdkwork-voice-service`, `sdkwork-routes-voice-http-auth`, `sdkwork-voice-embedded-bootstrap`, `sdkwork-voice-drive-sync-processor`, `sdkwork-api-voice-standalone-gateway`
 
 The voice HTTP plane integrates `sdkwork-web-framework` for dual-token auth, request context, and SdkWork v3 response mapping. Handlers dispatch through `sdkwork-voice-service` into SQL repositories and Drive artifact services.
 
 Standalone server:
 
 ```powershell
-cargo run -p sdkwork-voice-standalone-gateway
+cargo run -p sdkwork-api-voice-standalone-gateway
 ```
 
 Default bind: `0.0.0.0:18096` (`VOICE_API_BIND`).
@@ -493,7 +493,7 @@ crates/
   sdkwork-voice-generation-repository-sqlx/
   sdkwork-voice-local-api-proxy-native-host/
   sdkwork-voice-service/
-  sdkwork-voice-standalone-gateway/
+  sdkwork-api-voice-standalone-gateway/
 sdks/
   materialize-voice-v3-openapi-boundaries.mjs
   _route-manifests/

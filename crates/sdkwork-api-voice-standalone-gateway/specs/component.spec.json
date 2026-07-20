@@ -2,17 +2,21 @@
   "schemaVersion": 1,
   "kind": "sdkwork.component.spec",
   "component": {
-    "name": "sdkwork-voice-standalone-gateway",
+    "name": "sdkwork-api-voice-standalone-gateway",
     "displayName": "SDKWork Voice Standalone Gateway",
     "version": "0.1.0",
-    "type": "rust-binary",
-    "root": "sdkwork-voice/crates/sdkwork-voice-standalone-gateway",
+    "type": "rust-api-standalone-gateway",
+    "root": "crates/sdkwork-api-voice-standalone-gateway",
     "domain": "communication",
-    "capability": "voice-standalone-gateway",
-    "surface": "server",
-    "languages": ["rust"],
+    "capability": "api-gateway",
+    "surface": "gateway-api",
+    "languages": [
+      "rust"
+    ],
     "generated": false,
-    "manifests": ["Cargo.toml"]
+    "manifests": [
+      "Cargo.toml"
+    ]
   },
   "canonicalSpecs": [
     {
@@ -23,16 +27,24 @@
   ],
   "contracts": {
     "publicExports": [],
-    "runtimeEntrypoints": ["sdkwork-voice-standalone-gateway"],
+    "runtimeEntrypoints": [
+      "sdkwork-api-voice-standalone-gateway"
+    ],
     "routeManifest": null,
     "sdkClients": [],
     "sdkDependencies": [],
     "dependencyApiExports": [],
     "dependencyApiSurfaces": [],
     "events": [],
-    "configKeys": ["VOICE_API_BIND", "VOICE_API_CORS_ORIGINS"]
+    "configKeys": [
+      "VOICE_API_BIND",
+      "VOICE_API_CORS_ORIGINS"
+    ],
+    "layerRole": "runtime-gateway"
   },
   "verification": {
-    "commands": ["cargo test -p sdkwork-voice-standalone-gateway"]
+    "commands": [
+      "cargo test -p sdkwork-api-voice-standalone-gateway"
+    ]
   }
 }

@@ -18,8 +18,8 @@ Runtime layers:
 | Agent protocol | `sdkwork-voice-generation-mcp-service` | Provider-neutral MCP tools, resources, prompts, stdio, and Streamable HTTP/SSE |
 | Persistence | `sdkwork-voice-generation-repository-sqlx`, `sdkwork-voice-database-host` | SQL repositories via `sdkwork-database` |
 | Drive | `sdkwork-voice-artifact-drive-service`, `sdkwork-voice-drive-sync-processor` | AI-generated artifact upload through `sdkwork-drive` |
-| Assembly | `sdkwork-voice-embedded-bootstrap`, `sdkwork-voice-gateway-assembly` | Router composition for platform consumers |
-| Standalone server | `sdkwork-voice-standalone-gateway` | Production HTTP entry (`VOICE_API_BIND`, default `0.0.0.0:18096`) |
+| Assembly | `sdkwork-voice-embedded-bootstrap`, `sdkwork-api-voice-assembly` | Router composition for platform consumers |
+| Standalone server | `sdkwork-api-voice-standalone-gateway` | Production HTTP entry (`VOICE_API_BIND`, default `0.0.0.0:18096`) |
 | Contracts | OpenAPI authorities, `@sdkwork/voice-app-sdk`, `@sdkwork/voice-backend-sdk` | SDKWork v3 envelope (`SdkWorkApiResponse`, `ProblemDetail`) |
 | Workers | `@sdkwork/voice-generation-worker`, `@sdkwork/voice-drive-sync-worker` | Queued task dispatch and Drive sync retry orchestration |
 | Frontend embed | `apps/sdkwork-voice-pc/*` | IM PC speech/market embed surfaces |
@@ -89,7 +89,7 @@ deployments/                       deploy.yaml for standalone/cloud parity
 
 ## 8. Deployment
 
-- Standalone: `cargo run -p sdkwork-voice-standalone-gateway` after `pnpm db:bootstrap`
+- Standalone: `cargo run -p sdkwork-api-voice-standalone-gateway` after `pnpm db:bootstrap`
 - Infra routes (mounted once on gateway): `/healthz` (liveness), `/readyz` (DB readiness), `/metrics` (Prometheus)
 - Workers: run generation and drive-sync workers as separate processes with backend SDK credentials
 - Drive sync processor env:
@@ -97,7 +97,7 @@ deployments/                       deploy.yaml for standalone/cloud parity
   - `DRIVE_DATABASE_URL` / `SDKWORK_DRIVE_DATABASE_URL`
   - `VOICE_DRIVE_OBJECT_STORE_ROOT` (default `.data/voice-drive-objects`)
   - `VOICE_DRIVE_OBJECT_STORE_BUCKET` (default `voice-generated`)
-- Container: `deployments/docker/Dockerfile` → `sdkwork-voice-standalone-gateway` binary + `/app/database`; optional `otel` feature + `OTEL_EXPORTER_OTLP_ENDPOINT`
+- Container: `deployments/docker/Dockerfile` → `sdkwork-api-voice-standalone-gateway` binary + `/app/database`; optional `otel` feature + `OTEL_EXPORTER_OTLP_ENDPOINT`
 - Request audit: `voice_request_log.trace_id` aligned with HTTP `traceId` from `sdkwork-web-framework`
 - Config: `sdkwork.app.config.json`, `deployments/deploy.yaml`, `VOICE_DATABASE_URL`
 
@@ -105,7 +105,7 @@ deployments/                       deploy.yaml for standalone/cloud parity
 
 ```powershell
 pnpm verify
-cargo run -p sdkwork-voice-standalone-gateway
+cargo run -p sdkwork-api-voice-standalone-gateway
 cargo test -p sdkwork-voice-generation-mcp-service
 cargo clippy -p sdkwork-voice-generation-mcp-service --all-targets -- -D warnings
 node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace .

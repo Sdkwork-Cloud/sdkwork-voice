@@ -3,11 +3,11 @@
   "kind": "sdkwork.component.spec",
   "component": {
     "name": "sdkwork-api-voice-assembly",
-    "displayName": "SDKWork voice API Assembly",
+    "displayName": "SDKWork Voice Gateway Assembly",
     "version": "0.1.0",
     "type": "rust-api-assembly",
-    "root": "sdkwork-voice/crates/sdkwork-api-voice-assembly",
-    "domain": "application",
+    "root": "crates/sdkwork-api-voice-assembly",
+    "domain": "communication",
     "capability": "api-assembly",
     "surface": "api-assembly",
     "languages": [
@@ -21,24 +21,9 @@
   },
   "canonicalSpecs": [
     {
-      "file": "API_ASSEMBLY_SPEC.md",
-      "path": "../../../sdkwork-specs/API_ASSEMBLY_SPEC.md",
-      "purpose": "API ownership, host-neutral composition, and verification rules."
-    },
-    {
-      "file": "APPLICATION_GATEWAY_SPEC.md",
-      "path": "../../../sdkwork-specs/APPLICATION_GATEWAY_SPEC.md",
-      "purpose": "Standalone and cloud gateway host boundaries."
-    },
-    {
       "file": "WEB_FRAMEWORK_SPEC.md",
       "path": "../../../sdkwork-specs/WEB_FRAMEWORK_SPEC.md",
-      "purpose": "Typed request context and HTTP framework composition rules."
-    },
-    {
-      "file": "DATABASE_FRAMEWORK_SPEC.md",
-      "path": "../../../sdkwork-specs/DATABASE_FRAMEWORK_SPEC.md",
-      "purpose": "Database lifecycle bootstrap ownership for embedded assemblies."
+      "purpose": "Gateway assembly and route mounting rules."
     }
   ],
   "contracts": {
@@ -52,12 +37,13 @@
     "dependencyApiExports": [],
     "dependencyApiSurfaces": [],
     "events": [],
-    "configKeys": []
+    "configKeys": [],
+    "layerRole": "runtime-composition"
   },
   "verification": {
     "commands": [
       "pnpm run api:assembly:validate",
-      "cargo check -p sdkwork-api-voice-assembly"
+      "cargo test -p sdkwork-api-voice-assembly"
     ]
   }
 }

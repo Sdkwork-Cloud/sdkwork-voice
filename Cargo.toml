@@ -8,8 +8,8 @@ members = [
     "crates/sdkwork-voice-generation-provider-adapter",
     "crates/sdkwork-voice-generation-mcp-service",
     "crates/sdkwork-voice-embedded-bootstrap",
-    "crates/sdkwork-voice-standalone-gateway",
-    "crates/sdkwork-voice-gateway-assembly",
+    "crates/sdkwork-api-voice-standalone-gateway",
+    "crates/sdkwork-api-voice-assembly",
     "crates/sdkwork-voice-database-host",
     "crates/sdkwork-routes-voice-http-auth",
     "crates/sdkwork-routes-voice-app-api",
@@ -75,4 +75,4 @@ sdkwork-voice-drive-sync-processor = { path = "crates/sdkwork-voice-drive-sync-p
 sdkwork-routes-voice-http-auth = { path = "crates/sdkwork-routes-voice-http-auth" }
 sdkwork-routes-voice-app-api = { path = "crates/sdkwork-routes-voice-app-api" }
 sdkwork-routes-voice-backend-api = { path = "crates/sdkwork-routes-voice-backend-api" }
-sdkwork-voice-gateway-assembly = { path = "crates/sdkwork-voice-gateway-assembly" }
+sdkwork-api-voice-assembly = { path = "crates/sdkwork-api-voice-assembly" }

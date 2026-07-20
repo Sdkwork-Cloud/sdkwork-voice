@@ -12,5 +12,9 @@ path = "src/lib.rs"
 [dependencies]
 axum.workspace = true
 tokio.workspace = true
+sdkwork-voice-embedded-bootstrap.workspace = true
+sdkwork-database-sqlx.workspace = true
+sdkwork-web-bootstrap = { workspace = true, features = ["sqlx"] }
+sdkwork_routes_voice_http_auth = { package = "sdkwork-routes-voice-http-auth", path = "../sdkwork-routes-voice-http-auth" }
 sdkwork-routes-voice-app-api.workspace = true
 sdkwork-routes-voice-backend-api.workspace = true

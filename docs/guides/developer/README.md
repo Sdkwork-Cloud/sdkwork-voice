@@ -28,7 +28,7 @@ node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace .
 ## Run Standalone API
 
 ```powershell
-cargo run -p sdkwork-voice-standalone-gateway
+cargo run -p sdkwork-api-voice-standalone-gateway
 ```
 
 Default bind: `0.0.0.0:18096` (`VOICE_API_BIND`).

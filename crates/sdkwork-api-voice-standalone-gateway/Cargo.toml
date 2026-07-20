@@ -1,5 +1,5 @@
 [package]
-name = "sdkwork-voice-standalone-gateway"
+name = "sdkwork-api-voice-standalone-gateway"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -16,17 +16,17 @@ otel = [
 ]
 
 [lib]
-name = "sdkwork_voice_standalone_gateway"
+name = "sdkwork_api_voice_standalone_gateway"
 path = "src/lib.rs"
 
 [[bin]]
-name = "sdkwork-voice-standalone-gateway"
+name = "sdkwork-api-voice-standalone-gateway"
 path = "src/main.rs"
 
 [dependencies]
 axum.workspace = true
 sdkwork-voice-database-host.workspace = true
-sdkwork-voice-gateway-assembly.workspace = true
+sdkwork-api-voice-assembly.workspace = true
 sdkwork-web-bootstrap = { workspace = true, features = ["sqlx"] }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "signal"] }
 tower-http = { workspace = true, features = ["cors", "trace", "timeout", "limit"] }

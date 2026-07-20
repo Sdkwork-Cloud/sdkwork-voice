@@ -1,7 +1,7 @@
-use sdkwork_voice_gateway_assembly::{
-    assemble_application_router, gateway_contract_fallback_config, voice_database_readiness_check,
+use sdkwork_api_voice_assembly::{
+    assemble_api_router, gateway_contract_fallback_config, voice_database_readiness_check,
 };
-use sdkwork_voice_standalone_gateway::{init_tracing, run_database_migrate_only};
+use sdkwork_api_voice_standalone_gateway::{init_tracing, run_database_migrate_only};
 use sdkwork_web_bootstrap::{service_router, ServiceRouterConfig};
 use std::process;
 use std::time::Duration;
@@ -34,7 +34,7 @@ async fn main() {
             "SDKWORK_CORS_ALLOWED_ORIGINS",
         ],
     );
-    let assembly = match assemble_application_router().await {
+    let assembly = match assemble_api_router().await {
         Ok(assembly) => assembly,
         Err(error) => exit_with_error("bootstrap", error),
     };
