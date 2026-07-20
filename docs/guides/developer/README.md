@@ -13,7 +13,7 @@ Local development for SDKWork Voice starts from the repository root.
 
 ```powershell
 pnpm install
-pnpm ci:prepare-deps    # optional in monorepo checkout; required in isolated CI
+pnpm install:ci-dependencies    # optional in monorepo checkout; required in isolated CI
 pnpm db:bootstrap
 ```
 
@@ -21,7 +21,7 @@ pnpm db:bootstrap
 
 ```powershell
 pnpm verify
-pnpm materialize:openapi
+pnpm api:materialize
 node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace .
 ```
 

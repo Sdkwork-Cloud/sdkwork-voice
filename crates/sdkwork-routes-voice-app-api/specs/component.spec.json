@@ -10,9 +10,13 @@
     "domain": "communication",
     "capability": "voice",
     "surface": "app-api",
-    "languages": ["rust"],
+    "languages": [
+      "rust"
+    ],
     "generated": false,
-    "manifests": ["Cargo.toml"]
+    "manifests": [
+      "Cargo.toml"
+    ]
   },
   "canonicalSpecs": [
     {
@@ -67,7 +71,9 @@
     }
   ],
   "contracts": {
-    "publicExports": ["."],
+    "publicExports": [
+      "."
+    ],
     "runtimeEntrypoints": [],
     "routeManifest": "src/manifest.rs",
     "sdkClients": [],
@@ -80,7 +86,7 @@
   "verification": {
     "commands": [
       "cargo test -p sdkwork-routes-voice-app-api",
-      "pnpm run materialize:openapi"
+      "pnpm run api:materialize"
     ]
   }
 }

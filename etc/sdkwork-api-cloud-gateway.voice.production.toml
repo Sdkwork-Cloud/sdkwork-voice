@@ -1,0 +1,90 @@
+mode = "embedded"
+
+[service]
+name = "sdkwork-api-cloud-gateway"
+environment = "production"
+
+[server]
+bind = "127.0.0.1:3900"
+
+[[dependencySurfaces]]
+serviceId = "sdkwork-voice-app-api"
+workspace = "sdkwork-voice"
+sdkFamily = "sdkwork-voice-app-sdk"
+apiAuthority = "sdkwork-voice-standalone-gateway"
+surface = "app"
+apiPrefix = "/app/v3/api/voice"
+runtimeMode = "gateway"
+sameOriginAllowed = true
+requiredBaseUrlKey = "SDKWORK_VOICE_APPLICATION_PUBLIC_HTTP_URL"
+coverage = "voice-app-api-upstream-routes"
+
+[[upstreams]]
+serviceId = "sdkwork-voice-app-api"
+baseUrl = "http://127.0.0.1:8080"
+
+[cors]
+allowAnyOrigin = true
+allowedOrigins = []
+
+[request]
+maxBodyBytes = 33554432
+timeoutMs = 0
+
+[readiness]
+checkUpstreams = false
+timeoutMs = 1000
+
+[observability]
+accessLogEnabled = true
+auditLogEnabled = true
+accessLogSampleRateBasisPoints = 10000
+auditLogSampleRateBasisPoints = 10000
+metricsEnabled = false
+metricsPath = "/metrics"
+tracingEnabled = false
+redactHeaders = ["authorization", "access-token", "cookie", "x-api-key", "set-cookie"]
+
+[diagnostics]
+enabled = false
+path = "/internal/gateway/diagnostics"
+includePolicyInventory = true
+includeRouteInventory = true
+
+[security]
+allowedHosts = []
+trustedProxyCidrs = []
+secureHeadersEnabled = true
+maxHeaderBytes = 65536
+maxHeaderCount = 128
+rejectCredentialHeadersOnAnonymousAuthRoutes = true
+csrfGuardEnabled = false
+
+[security.waf]
+enabled = false
+mode = "monitor"
+inspectQuery = true
+inspectHeaders = true
+inspectJsonBody = false
+
+[traffic]
+rateLimitEnabled = false
+compatXRateLimitHeaders = true
+globalMaxInFlight = 1024
+rateLimits = []
+concurrencyLimits = []
+
+[policy]
+enabled = true
+dryRun = false
+rules = []
+
+[resilience]
+retryEnabled = false
+maxAttempts = 1
+retryStatuses = [502, 503, 504]
+retryBackoffMs = 0
+circuitBreakerEnabled = false
+failureThreshold = 5
+openSeconds = 30
+halfOpenMaxAttempts = 1

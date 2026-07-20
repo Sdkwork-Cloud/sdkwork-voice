@@ -6,7 +6,7 @@ import { validateGatewayAssembly } from '../../../sdkwork-specs/tools/validate-g
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const result = validateGatewayAssembly(root);
 if (result.skipped) {
-  console.log('gateway:assembly:validate skipped (' + result.message + ')');
+  console.log('api:assembly:validate skipped (' + result.message + ')');
   process.exit(0);
 }
 for (const warning of result.warnings) {
@@ -18,4 +18,4 @@ if (!result.ok) {
   }
   process.exit(1);
 }
-console.log('gateway:assembly:validate passed for sdkwork-' + result.applicationCode + ' (' + result.routeCrates + ' route crates)');
+console.log('api:assembly:validate passed for sdkwork-' + result.applicationCode + ' (' + result.routeCrates + ' route crates)');

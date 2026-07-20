@@ -511,7 +511,7 @@ tests/
 Materialize OpenAPI from the Rust route catalog:
 
 ```powershell
-pnpm materialize:openapi
+pnpm api:materialize
 ```
 
 Generate the TypeScript app SDK:
@@ -567,13 +567,13 @@ pnpm test:rust
 Run the appbase migration audit:
 
 ```powershell
-pnpm audit:appbase
+pnpm check:appbase
 ```
 
 Run OpenAPI materialization:
 
 ```powershell
-pnpm materialize:openapi
+pnpm api:materialize
 ```
 
 ## Migration Guardrails

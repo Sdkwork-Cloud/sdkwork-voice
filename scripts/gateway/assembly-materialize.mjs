@@ -6,7 +6,7 @@ import { materializeGatewayAssembly } from '../../../sdkwork-specs/tools/materia
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const result = materializeGatewayAssembly(root);
 if (!result.ok) {
-  console.error('gateway:assembly:materialize failed: ' + result.message);
+  console.error('api:assembly:materialize failed: ' + result.message);
   process.exit(1);
 }
-console.log('gateway:assembly:materialize wrote ' + result.crateDir + ' (' + result.routeCrates + ' route crates)');
+console.log('api:assembly:materialize wrote ' + result.crateDir + ' (' + result.routeCrates + ' route crates)');

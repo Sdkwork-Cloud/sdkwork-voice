@@ -10,9 +10,14 @@
     "domain": "communication",
     "capability": "voice-gateway-assembly",
     "surface": "assembly",
-    "languages": ["rust"],
+    "languages": [
+      "rust"
+    ],
     "generated": false,
-    "manifests": ["Cargo.toml", "assembly-manifest.json"]
+    "manifests": [
+      "Cargo.toml",
+      "assembly-manifest.json"
+    ]
   },
   "canonicalSpecs": [
     {
@@ -22,7 +27,9 @@
     }
   ],
   "contracts": {
-    "publicExports": ["."],
+    "publicExports": [
+      "."
+    ],
     "runtimeEntrypoints": [],
     "routeManifest": "assembly-manifest.json",
     "sdkClients": [],
@@ -34,7 +41,7 @@
   },
   "verification": {
     "commands": [
-      "pnpm run gateway:assembly:validate",
+      "pnpm run api:assembly:validate",
       "cargo test -p sdkwork-voice-gateway-assembly"
     ]
   }
