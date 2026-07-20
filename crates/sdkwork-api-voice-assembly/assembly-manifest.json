@@ -1,0 +1,32 @@
+{
+  "kind": "sdkwork.api.assembly",
+  "schemaVersion": 1,
+  "applicationCode": "voice",
+  "apiMode": "served",
+  "packageName": "sdkwork-api-voice-assembly",
+  "crateDir": "crates/sdkwork-api-voice-assembly",
+  "routeCrates": [
+    {
+      "packageName": "sdkwork-routes-voice-app-api",
+      "memberDir": "crates/sdkwork-routes-voice-app-api",
+      "libName": "sdkwork_routes_voice_app_api",
+      "surface": "app-api",
+      "pathPrefix": null,
+      "mountOrder": 0,
+      "componentRef": "crates/sdkwork-routes-voice-app-api/specs/component.spec.json",
+      "routeManifestRef": "crates/sdkwork-routes-voice-app-api/src/manifest.rs",
+      "sourceRef": "crates/sdkwork-routes-voice-app-api/Cargo.toml"
+    },
+    {
+      "packageName": "sdkwork-routes-voice-backend-api",
+      "memberDir": "crates/sdkwork-routes-voice-backend-api",
+      "libName": "sdkwork_routes_voice_backend_api",
+      "surface": "backend-api",
+      "pathPrefix": null,
+      "mountOrder": 1,
+      "componentRef": "crates/sdkwork-routes-voice-backend-api/specs/component.spec.json",
+      "routeManifestRef": "crates/sdkwork-routes-voice-backend-api/src/manifest.rs",
+      "sourceRef": "crates/sdkwork-routes-voice-backend-api/Cargo.toml"
+    }
+  ]
+}

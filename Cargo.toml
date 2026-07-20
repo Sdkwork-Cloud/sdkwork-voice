@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+    "crates/sdkwork-api-voice-assembly",
     "crates/sdkwork-voice-contract",
     "crates/sdkwork-voice-service",
     "crates/sdkwork-voice-generation-provider-spi",
