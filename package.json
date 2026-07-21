@@ -1,4 +1,5 @@
-{
+﻿{
+  "license": "AGPL-3.0-or-later",
   "name": "@sdkwork/voice-workspace",
   "private": true,
   "version": "0.1.0",
