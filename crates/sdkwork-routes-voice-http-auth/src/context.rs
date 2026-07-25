@@ -76,6 +76,7 @@ pub fn webhook_ingress_web_request_context(trace_id: String) -> WebRequestContex
             auth_token_present: false,
             access_token_present: false,
             api_key_present: false,
+            ingress_token_present: false,
             oauth_bearer_present: false,
             agent_token_present: false,
         },
