@@ -41,9 +41,9 @@ Kubernetes / deploy.yaml: use `/healthz` for liveness and `/readyz` for readines
 
 | Symptom | Likely cause | Action |
 | --- | --- | --- |
-| `/readyz` 503 | DB down or not migrated | Run `pnpm db:bootstrap`; verify `VOICE_DATABASE_URL` |
+| `/readyz` 503 | DB down or not migrated | Run `pnpm db:bootstrap`; verify `SDKWORK_DATABASE_*` |
 | Tasks stay `queued` | Generation worker down or provider unavailable | Restart worker; check provider routes and claw-router |
-| Drive sync `failed` | Missing `source_uri`, Drive DB down, or object store path | Inspect sync row error; verify `DRIVE_DATABASE_URL` and `VOICE_DRIVE_OBJECT_STORE_ROOT` |
+| Drive sync `failed` | Missing `source_uri`, workspace DB down, or object store path | Inspect sync row error; verify `SDKWORK_DATABASE_*` and `VOICE_DRIVE_OBJECT_STORE_ROOT` |
 | Webhook 401/403 | HMAC mismatch | Align `VOICE_WEBHOOK_SECRET` with provider; avoid `VOICE_WEBHOOK_DEV_MODE` in production |
 | API 5xx on boot | Database not migrated | Run `pnpm db:bootstrap` and `pnpm db:drift:check` |
 
@@ -56,7 +56,7 @@ Kubernetes / deploy.yaml: use `/healthz` for liveness and `/readyz` for readines
 
 Build and run from repository root — see [deployments/docker/README.md](../../deployments/docker/README.md).
 
-Run migrations before first serve (or rely on `VOICE_DATABASE_AUTO_MIGRATE=true` at bootstrap):
+Run migrations before first serve. Authoritative server auto-migration defaults to disabled; use the explicit migration command:
 
 ```powershell
 sdkwork-api-voice-standalone-gateway db-migrate

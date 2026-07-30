@@ -2,13 +2,11 @@ use std::path::PathBuf;
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use sdkwork_database_sqlx::{create_any_pool_from_config, DatabasePool};
+use sdkwork_database_sqlx::DatabasePool;
 use sdkwork_drive_storage_local::LocalDriveObjectStore;
 use sdkwork_drive_workspace_service::application::space_service::DriveSpaceService;
 use sdkwork_drive_workspace_service::application::workspace_service::DriveWorkspaceService;
-use sdkwork_drive_workspace_service::bootstrap::{
-    bootstrap_drive_database, connect_drive_database_pool_from_env,
-};
+use sdkwork_drive_workspace_service::bootstrap::bootstrap_drive_database;
 use sdkwork_drive_workspace_service::infrastructure::sql::space_store::SqlSpaceStore;
 use sdkwork_drive_workspace_service::infrastructure::sql::workspace_store::SqlDriveWorkspaceStore;
 use sdkwork_utils_rust::{format_datetime, now, sha256_hash};
@@ -33,22 +31,22 @@ pub struct VoiceDriveSyncProcessor {
 }
 
 impl VoiceDriveSyncProcessor {
-    pub async fn try_from_env() -> Result<Option<Self>, String> {
+    pub async fn try_from_pool(
+        database_pool: DatabasePool,
+        drive_pool: AnyPool,
+    ) -> Result<Option<Self>, String> {
         if !drive_sync_enabled_from_env() {
             return Ok(None);
         }
 
-        let drive_pool = match connect_drive_database_pool_from_env().await {
-            Ok(pool) => pool,
-            Err(error) => {
-                tracing::debug!("drive database unavailable for voice drive sync: {error}");
-                return Ok(None);
-            }
-        };
-        let _host = bootstrap_drive_database(drive_pool.clone())
+        if database_pool.as_postgres().is_none() {
+            return Err(
+                "voice drive sync authoritative persistence requires PostgreSQL".to_string(),
+            );
+        }
+        let _host = bootstrap_drive_database(database_pool)
             .await
             .map_err(|error| error.to_string())?;
-        let any_pool = pool_to_any(drive_pool).await?;
         let object_store_root = object_store_root_from_env();
         std::fs::create_dir_all(&object_store_root).map_err(|error| error.to_string())?;
 
@@ -57,7 +55,7 @@ impl VoiceDriveSyncProcessor {
                 .timeout(std::time::Duration::from_secs(120))
                 .build()
                 .map_err(|error| error.to_string())?,
-            drive_pool: any_pool,
+            drive_pool,
             object_store_root,
             object_store_bucket: std::env::var("VOICE_DRIVE_OBJECT_STORE_BUCKET")
                 .unwrap_or_else(|_| "voice-generated".to_owned()),
@@ -184,10 +182,7 @@ impl VoiceArtifactDriveSyncProcessorPort for VoiceDriveSyncProcessor {
         let uploaded_at = format_datetime(now(), None);
         ports
             .repository
-            .update_audio_artifact_media_resource(
-                sync.artifact_id,
-                &drive_resource.to_string(),
-            )
+            .update_audio_artifact_media_resource(sync.artifact_id, &drive_resource.to_string())
             .await?;
 
         ports
@@ -220,12 +215,6 @@ fn object_store_root_from_env() -> PathBuf {
     std::env::var("VOICE_DRIVE_OBJECT_STORE_ROOT")
         .map(PathBuf::from)
         .unwrap_or_else(|_| PathBuf::from(".data/voice-drive-objects"))
-}
-
-async fn pool_to_any(pool: DatabasePool) -> Result<AnyPool, String> {
-    create_any_pool_from_config(pool.config().clone())
-        .await
-        .map_err(|error| error.to_string())
 }
 
 fn actor_from_task(task: &VoiceTaskRecord) -> GeneratedArtifactActor {
@@ -270,11 +259,9 @@ async fn fetch_source_bytes(
 
     if source_uri.starts_with("http://") || source_uri.starts_with("https://") {
         validate_fetch_url(source_uri)?;
-        let response = client
-            .get(source_uri)
-            .send()
-            .await
-            .map_err(|error| VoiceServiceError::transport(format!("source fetch failed: {error}")))?;
+        let response = client.get(source_uri).send().await.map_err(|error| {
+            VoiceServiceError::transport(format!("source fetch failed: {error}"))
+        })?;
         if !response.status().is_success() {
             return Err(VoiceServiceError::transport(format!(
                 "source fetch returned HTTP {}",
@@ -288,10 +275,9 @@ async fn fetch_source_bytes(
                 "source payload exceeds {MAX_SOURCE_BYTES} bytes"
             )));
         }
-        let bytes = response
-            .bytes()
-            .await
-            .map_err(|error| VoiceServiceError::transport(format!("source read failed: {error}")))?;
+        let bytes = response.bytes().await.map_err(|error| {
+            VoiceServiceError::transport(format!("source read failed: {error}"))
+        })?;
         if bytes.len() as u64 > MAX_SOURCE_BYTES {
             return Err(VoiceServiceError::validation(format!(
                 "source payload exceeds {MAX_SOURCE_BYTES} bytes"
@@ -344,9 +330,13 @@ fn decode_data_url(payload: &str) -> Result<Vec<u8>, VoiceServiceError> {
     use base64::Engine;
     base64::engine::general_purpose::STANDARD
         .decode(encoded)
-        .map_err(|error| VoiceServiceError::validation(format!("invalid data URL encoding: {error}")))
+        .map_err(|error| {
+            VoiceServiceError::validation(format!("invalid data URL encoding: {error}"))
+        })
 }
 
-fn map_drive_error(error: sdkwork_voice_artifact_drive_service::VoiceDrivePersistenceError) -> VoiceServiceError {
+fn map_drive_error(
+    error: sdkwork_voice_artifact_drive_service::VoiceDrivePersistenceError,
+) -> VoiceServiceError {
     VoiceServiceError::storage(error.to_string())
 }

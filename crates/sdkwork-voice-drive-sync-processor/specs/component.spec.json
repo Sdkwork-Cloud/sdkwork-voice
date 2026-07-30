@@ -29,7 +29,7 @@
   "contracts": {
     "publicExports": ["."],
     "runtimeEntrypoints": [
-      "sdkwork_voice_drive_sync_processor::VoiceDriveSyncProcessor::try_from_env"
+      "sdkwork_voice_drive_sync_processor::VoiceDriveSyncProcessor::try_from_pool"
     ],
     "routeManifest": null,
     "sdkClients": [],
@@ -39,7 +39,6 @@
     "events": [],
     "configKeys": [
       "VOICE_DRIVE_SYNC_ENABLED",
-      "DRIVE_DATABASE_URL",
       "VOICE_DRIVE_OBJECT_STORE_ROOT"
     ]
   },

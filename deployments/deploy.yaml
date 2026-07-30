@@ -26,12 +26,14 @@ runtime:
   requestTimeoutSec: 60
   requestBodyLimitBytes: 16777216
   environment:
-    voiceDatabaseUrl: VOICE_DATABASE_URL
+    databaseEngine: SDKWORK_DATABASE_ENGINE
+    databaseUrl: SDKWORK_DATABASE_URL
+    databaseName: SDKWORK_DATABASE_NAME
+    databaseSchema: SDKWORK_DATABASE_SCHEMA
+    databaseAutoMigrate: SDKWORK_DATABASE_AUTO_MIGRATE
     webhookSecret: VOICE_WEBHOOK_SECRET
     webhookDevMode: VOICE_WEBHOOK_DEV_MODE
     driveSyncEnabled: VOICE_DRIVE_SYNC_ENABLED
-    driveDatabaseUrl: DRIVE_DATABASE_URL
-    driveDatabaseUrlAlt: SDKWORK_DRIVE_DATABASE_URL
     driveObjectStoreRoot: VOICE_DRIVE_OBJECT_STORE_ROOT
     driveObjectStoreBucket: VOICE_DRIVE_OBJECT_STORE_BUCKET
 workers:

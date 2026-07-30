@@ -5,7 +5,8 @@ Build and run the SDKWork Voice API container from the repository root (with sib
 ```powershell
 docker build -f deployments/docker/Dockerfile -t sdkwork-voice:local .
 docker run --rm -p 18096:18096 `
-  -e VOICE_DATABASE_URL=postgresql://voice:voice@host.docker.internal:5432/voice `
+  -e SDKWORK_DATABASE_URL=postgresql://sdkwork_ai_dev:sdkworkdev123@host.docker.internal:5432/sdkwork_ai_dev `
+  -e SDKWORK_DATABASE_SCHEMA=sdkwork_ai_dev `
   -e VOICE_API_CORS_ORIGINS=http://localhost:5173 `
   sdkwork-voice:local
 ```

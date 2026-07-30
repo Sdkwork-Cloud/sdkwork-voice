@@ -7,7 +7,7 @@ Deployment, monitoring, and incident response for SDKWork Voice.
 | Profile | Entry | Config |
 | --- | --- | --- |
 | Standalone server | `cargo run -p sdkwork-api-voice-standalone-gateway` | `deployments/deploy.yaml`, `sdkwork.app.config.json` |
-| Container | `deployments/docker/Dockerfile` | `SDKWORK_VOICE_APP_ROOT=/app`, `VOICE_DATABASE_URL` |
+| Container | `deployments/docker/Dockerfile` | `SDKWORK_VOICE_APP_ROOT=/app`, `SDKWORK_DATABASE_*` |
 | Embedded | `sdkwork-voice-embedded-bootstrap` router merge | Platform consumer wires IAM + database pools |
 | Workers | `@sdkwork/voice-generation-worker`, `@sdkwork/voice-drive-sync-worker` | Backend SDK credentials, poll intervals |
 
@@ -15,13 +15,16 @@ Deployment, monitoring, and incident response for SDKWork Voice.
 
 | Variable | Purpose |
 | --- | --- |
-| `VOICE_DATABASE_URL` | Voice PostgreSQL |
+| `SDKWORK_DATABASE_URL` | Explicit workspace PostgreSQL URL override |
+| `SDKWORK_DATABASE_NAME` | Environment identity (`sdkwork_ai_dev`, `sdkwork_ai_test`, `sdkwork_ai_staging`, or `sdkwork_ai_prod`) |
+| `SDKWORK_DATABASE_SCHEMA` | Must equal `SDKWORK_DATABASE_NAME` |
 | `VOICE_API_BIND` | HTTP bind (default `0.0.0.0:18096`) |
 | `VOICE_API_CORS_ORIGINS` | CORS allowlist |
 | `VOICE_WEBHOOK_SECRET` | Provider webhook HMAC |
 | `VOICE_DEPLOY_ENV` | `production` blocks webhook dev mode |
-| `DRIVE_DATABASE_URL` | Drive DB (enables artifact byte persistence) |
 | `VOICE_DRIVE_OBJECT_STORE_ROOT` | Local object store for Drive sync processor |
+
+Voice and its embedded Drive module always share the same workspace PostgreSQL database, schema, and process pool.
 
 ## Health And Readiness
 

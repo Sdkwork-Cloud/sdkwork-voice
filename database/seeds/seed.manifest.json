@@ -1,9 +1,19 @@
 {
   "schemaVersion": 1,
   "kind": "sdkwork.database.seed",
+  "i18nVersion": "1.0.0",
   "defaultLocale": "zh-CN",
+  "fallbackLocale": "zh-CN",
   "supportedLocales": ["zh-CN", "en-US", "ja-JP", "de-DE", "fr-FR", "ru-RU", "ko-KR"],
   "activeLocales": ["zh-CN"],
+  "localeSets": {
+    "zh-CN": {
+      "version": "1.0.0",
+      "required": true,
+      "checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "files": []
+    }
+  },
   "profiles": {
     "minimal": {
       "common": [],

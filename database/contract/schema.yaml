@@ -1,5 +1,6 @@
 schema_version: 1
 kind: sdkwork.database.schema
+database_role: authoritative-server
 module_id: voice
 contract_version: 1.0.0
 owner_team: voice-platform

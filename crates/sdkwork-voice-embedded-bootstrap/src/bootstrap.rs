@@ -37,13 +37,13 @@ pub async fn assemble_embedded_voice_application_router(
     let any_pool = create_any_pool_from_config(config)
         .await
         .map_err(|error| format!("create voice any pool failed: {error}"))?;
-    let store = SqlVoiceStore::new(any_pool);
+    let store = SqlVoiceStore::new(any_pool.clone());
 
     let app_service: Arc<dyn VoiceAppApiServicePort> =
         Arc::new(VoiceAppRuntimeService::new(store.clone()));
 
     let mut backend_runtime = VoiceBackendRuntimeService::new(store.clone());
-    if let Some(processor) = VoiceDriveSyncProcessor::try_from_env()
+    if let Some(processor) = VoiceDriveSyncProcessor::try_from_pool(voice_pool.clone(), any_pool)
         .await
         .map_err(|error| error.to_string())?
     {
@@ -51,7 +51,7 @@ pub async fn assemble_embedded_voice_application_router(
         backend_runtime = backend_runtime.with_drive_sync_processor(processor);
         tracing::info!("voice drive sync processor enabled");
     } else {
-        tracing::info!("voice drive sync processor disabled (DRIVE database not configured)");
+        tracing::info!("voice drive sync processor disabled by VOICE_DRIVE_SYNC_ENABLED");
     }
     let backend_service: Arc<dyn VoiceBackendApiServicePort> = Arc::new(backend_runtime);
 

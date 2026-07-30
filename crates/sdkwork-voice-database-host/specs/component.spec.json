@@ -30,7 +30,12 @@
     "dependencyApiExports": [],
     "dependencyApiSurfaces": [],
     "events": [],
-    "configKeys": ["VOICE_DATABASE_URL"]
+    "configKeys": [
+      "SDKWORK_DATABASE_URL",
+      "SDKWORK_DATABASE_NAME",
+      "SDKWORK_DATABASE_SCHEMA",
+      "SDKWORK_DATABASE_AUTO_MIGRATE"
+    ]
   },
   "verification": {
     "commands": ["cargo test -p sdkwork-voice-database-host"]

@@ -85,7 +85,7 @@ deployments/                       deploy.yaml for standalone/cloud parity
 3. Provider webhooks ingress updates linked tasks from signed callbacks; `providerWebhookEvents.replay` reprocesses stored events.
 4. Reconcile creates `voice_audio_artifact` and `voice_artifact_drive_sync` (`pending_upload`) rows.
 5. `@sdkwork/voice-drive-sync-worker` polls `artifactDriveSync.list?sync_status=pending_upload` and calls `artifactDriveSync.retry`.
-6. When `DRIVE_DATABASE_URL` (or `SDKWORK_DRIVE_DATABASE_URL`) is configured, `sdkwork-voice-drive-sync-processor` fetches provider bytes and persists through `sdkwork-voice-artifact-drive-service` into Drive AI-generated spaces.
+6. When drive sync is enabled, `sdkwork-voice-drive-sync-processor` fetches provider bytes and persists through `sdkwork-voice-artifact-drive-service` into Drive AI-generated spaces using the process-shared workspace PostgreSQL pool.
 
 ## 8. Deployment
 
@@ -94,12 +94,11 @@ deployments/                       deploy.yaml for standalone/cloud parity
 - Workers: run generation and drive-sync workers as separate processes with backend SDK credentials
 - Drive sync processor env:
   - `VOICE_DRIVE_SYNC_ENABLED` (default `true`)
-  - `DRIVE_DATABASE_URL` / `SDKWORK_DRIVE_DATABASE_URL`
   - `VOICE_DRIVE_OBJECT_STORE_ROOT` (default `.data/voice-drive-objects`)
   - `VOICE_DRIVE_OBJECT_STORE_BUCKET` (default `voice-generated`)
 - Container: `deployments/docker/Dockerfile` → `sdkwork-api-voice-standalone-gateway` binary + `/app/database`; optional `otel` feature + `OTEL_EXPORTER_OTLP_ENDPOINT`
 - Request audit: `voice_request_log.trace_id` aligned with HTTP `traceId` from `sdkwork-web-framework`
-- Config: `sdkwork.app.config.json`, `deployments/deploy.yaml`, `VOICE_DATABASE_URL`
+- Config: `sdkwork.app.config.json`, `deployments/deploy.yaml`, `SDKWORK_DATABASE_*`
 
 ## 9. Verification
 
