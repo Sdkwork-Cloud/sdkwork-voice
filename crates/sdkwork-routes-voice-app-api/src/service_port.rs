@@ -3,9 +3,7 @@ use std::{collections::BTreeMap, sync::Arc};
 use async_trait::async_trait;
 use serde_json::Value;
 
-pub use sdkwork_routes_voice_http_auth::{
-    VoiceAuthError, VoiceRequestContext, VoiceRouteError,
-};
+pub use sdkwork_routes_voice_http_auth::{VoiceAuthError, VoiceRequestContext, VoiceRouteError};
 
 #[async_trait]
 pub trait VoiceAppApiServicePort: Send + Sync {

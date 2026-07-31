@@ -14,7 +14,7 @@ axum.workspace = true
 dotenvy.workspace = true
 clawrouter-open-sdk.workspace = true
 sdkwork-database-config.workspace = true
-sdkwork-database-sqlx.workspace = true
+sdkwork-database-sqlx = { workspace = true, features = ["any"] }
 sdkwork-routes-voice-app-api.workspace = true
 sdkwork-routes-voice-backend-api.workspace = true
 sdkwork-voice-generation-repository-sqlx.workspace = true

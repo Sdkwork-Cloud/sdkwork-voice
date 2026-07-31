@@ -2310,7 +2310,6 @@ dependencies = [
 name = "sdkwork-database-sqlx"
 version = "0.1.0"
 dependencies = [
- "libsqlite3-sys",
  "sdkwork-database-config",
  "serde",
  "sqlx",
@@ -2736,6 +2735,7 @@ dependencies = [
  "async-trait",
  "axum 0.8.9",
  "http",
+ "sdkwork-database-sqlx",
  "sdkwork-web-axum",
  "sdkwork-web-contract",
  "sdkwork-web-core",

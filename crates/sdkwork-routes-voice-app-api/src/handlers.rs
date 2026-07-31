@@ -6,7 +6,7 @@ use axum::{
     Json,
 };
 use sdkwork_routes_voice_http_auth::{
-    finish_success, voice_request_context_from_web, success_status_for_voice_app_operation,
+    finish_success, success_status_for_voice_app_operation, voice_request_context_from_web,
 };
 use sdkwork_web_core::WebRequestContext;
 use serde_json::Value;
@@ -41,14 +41,7 @@ pub async fn create_translation(
     app_ctx: WebRequestContext,
     Json(body): Json<Value>,
 ) -> Response {
-    call_operation(
-        state,
-        app_ctx,
-        "translations.create",
-        BTreeMap::new(),
-        body,
-    )
-    .await
+    call_operation(state, app_ctx, "translations.create", BTreeMap::new(), body).await
 }
 
 pub async fn create_sound_effect(
@@ -56,14 +49,7 @@ pub async fn create_sound_effect(
     app_ctx: WebRequestContext,
     Json(body): Json<Value>,
 ) -> Response {
-    call_operation(
-        state,
-        app_ctx,
-        "soundEffects.create",
-        BTreeMap::new(),
-        body,
-    )
-    .await
+    call_operation(state, app_ctx, "soundEffects.create", BTreeMap::new(), body).await
 }
 
 pub async fn create_music(

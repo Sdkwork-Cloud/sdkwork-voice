@@ -28,10 +28,7 @@ pub fn build_sdkwork_voice_app_api_router(service: Arc<dyn VoiceAppApiServicePor
             post(handlers::create_sound_effect),
         )
         .route("/app/v3/api/voice/music", post(handlers::create_music))
-        .route(
-            "/app/v3/api/voice/tasks",
-            get(handlers::list_tasks),
-        )
+        .route("/app/v3/api/voice/tasks", get(handlers::list_tasks))
         .route(
             "/app/v3/api/voice/tasks/{taskId}",
             get(handlers::retrieve_task),

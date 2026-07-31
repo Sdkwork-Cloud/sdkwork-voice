@@ -43,7 +43,11 @@ pub async fn assemble_embedded_voice_application_router(
         Arc::new(VoiceAppRuntimeService::new(store.clone()));
 
     let mut backend_runtime = VoiceBackendRuntimeService::new(store.clone());
-    if let Some(processor) = VoiceDriveSyncProcessor::try_from_pool(voice_pool.clone(), any_pool)
+    let drive_pool = voice_pool
+        .as_postgres()
+        .cloned()
+        .ok_or_else(|| "voice Drive sync requires a PostgreSQL database pool".to_string())?;
+    if let Some(processor) = VoiceDriveSyncProcessor::try_from_pool(voice_pool.clone(), drive_pool)
         .await
         .map_err(|error| error.to_string())?
     {

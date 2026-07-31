@@ -118,11 +118,7 @@ impl VoiceTaskStatus {
     pub fn is_terminal(self) -> bool {
         matches!(
             self,
-            Self::Succeeded
-                | Self::Failed
-                | Self::Cancelled
-                | Self::Expired
-                | Self::NeedsReview
+            Self::Succeeded | Self::Failed | Self::Cancelled | Self::Expired | Self::NeedsReview
         )
     }
 }

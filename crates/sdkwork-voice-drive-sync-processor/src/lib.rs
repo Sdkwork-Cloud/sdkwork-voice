@@ -20,11 +20,11 @@ use sdkwork_voice_service::{
     VoiceArtifactDriveSyncUploadUpdate, VoiceRuntimePorts, VoiceTaskRecord,
 };
 use serde_json::json;
-use sqlx::AnyPool;
+use sqlx::PgPool;
 
 pub struct VoiceDriveSyncProcessor {
     http_client: reqwest::Client,
-    drive_pool: AnyPool,
+    drive_pool: PgPool,
     object_store_root: PathBuf,
     object_store_bucket: String,
     object_store_provider: String,
@@ -33,7 +33,7 @@ pub struct VoiceDriveSyncProcessor {
 impl VoiceDriveSyncProcessor {
     pub async fn try_from_pool(
         database_pool: DatabasePool,
-        drive_pool: AnyPool,
+        drive_pool: PgPool,
     ) -> Result<Option<Self>, String> {
         if !drive_sync_enabled_from_env() {
             return Ok(None);

@@ -3,16 +3,15 @@ use sdkwork_utils_rust::{format_datetime, now};
 use sdkwork_voice_contract::VoiceServiceError;
 use sdkwork_voice_service::{
     NewVoiceArtifactDriveSync, NewVoiceAudioArtifact, NewVoiceProviderRoute,
-    NewVoiceProviderWebhookEvent, NewVoiceTask, NewVoiceTaskEvent,     VoiceArtifactDriveSyncListPage,
-    VoiceArtifactDriveSyncListQuery, VoiceArtifactDriveSyncRecord,
-    VoiceArtifactDriveSyncUploadUpdate, VoiceAudioArtifactListPage,
-    VoiceAudioArtifactListQuery, VoiceAudioArtifactRecord, VoiceProviderRouteListPage,
-    VoiceProviderRouteListQuery, VoiceProviderRouteRecord, VoiceProviderRouteUpdate,
-    VoiceProviderWebhookEventListPage, VoiceProviderWebhookEventListQuery,
-    VoiceProviderWebhookEventRecord, VoiceRepositoryPort, VoiceRequestLogListPage,
-    VoiceRequestLogListQuery, VoiceRequestLogRecord, NewVoiceRequestLog, VoiceTaskEventListPage,
-    VoiceTaskEventListQuery, VoiceTaskEventRecord, VoiceTaskListPage, VoiceTaskListQuery,
-    VoiceTaskProviderUpdate, VoiceTaskRecord, VoiceWebhookDeliveryListPage,
+    NewVoiceProviderWebhookEvent, NewVoiceRequestLog, NewVoiceTask, NewVoiceTaskEvent,
+    VoiceArtifactDriveSyncListPage, VoiceArtifactDriveSyncListQuery, VoiceArtifactDriveSyncRecord,
+    VoiceArtifactDriveSyncUploadUpdate, VoiceAudioArtifactListPage, VoiceAudioArtifactListQuery,
+    VoiceAudioArtifactRecord, VoiceProviderRouteListPage, VoiceProviderRouteListQuery,
+    VoiceProviderRouteRecord, VoiceProviderRouteUpdate, VoiceProviderWebhookEventListPage,
+    VoiceProviderWebhookEventListQuery, VoiceProviderWebhookEventRecord, VoiceRepositoryPort,
+    VoiceRequestLogListPage, VoiceRequestLogListQuery, VoiceRequestLogRecord,
+    VoiceTaskEventListPage, VoiceTaskEventListQuery, VoiceTaskEventRecord, VoiceTaskListPage,
+    VoiceTaskListQuery, VoiceTaskProviderUpdate, VoiceTaskRecord, VoiceWebhookDeliveryListPage,
     VoiceWebhookDeliveryListQuery, VoiceWebhookDeliveryRecord,
 };
 use sqlx::{AnyPool, Row};
@@ -277,10 +276,14 @@ impl VoiceRepositoryPort for SqlVoiceStore {
         .bind(&created_at)
         .execute(&self.pool)
         .await
-        .map_err(store_error("failed to insert voice artifact drive sync row"))?;
+        .map_err(store_error(
+            "failed to insert voice artifact drive sync row",
+        ))?;
         self.get_artifact_drive_sync_by_id(sync.id)
             .await?
-            .ok_or_else(|| VoiceServiceError::storage("inserted voice artifact drive sync not found"))
+            .ok_or_else(|| {
+                VoiceServiceError::storage("inserted voice artifact drive sync not found")
+            })
     }
 
     async fn insert_task_event(
@@ -694,7 +697,9 @@ impl VoiceRepositoryPort for SqlVoiceStore {
         .bind(&updated_at)
         .execute(&self.pool)
         .await
-        .map_err(store_error("failed to update audio artifact media resource"))?;
+        .map_err(store_error(
+            "failed to update audio artifact media resource",
+        ))?;
         self.get_audio_artifact_by_id(0, artifact_id)
             .await?
             .ok_or_else(|| VoiceServiceError::not_found("audio artifact not found"))
@@ -767,9 +772,7 @@ impl VoiceRepositoryPort for SqlVoiceStore {
             .fetch_optional(&self.pool)
             .await
             .map_err(store_error("failed to get provider webhook event"))?;
-        row.as_ref()
-            .map(map_provider_webhook_event_row)
-            .transpose()
+        row.as_ref().map(map_provider_webhook_event_row).transpose()
     }
 
     async fn update_provider_webhook_event_processing(
@@ -797,7 +800,9 @@ impl VoiceRepositoryPort for SqlVoiceStore {
         .bind(&updated_at)
         .execute(&self.pool)
         .await
-        .map_err(store_error("failed to update provider webhook event processing status"))?;
+        .map_err(store_error(
+            "failed to update provider webhook event processing status",
+        ))?;
         self.get_provider_webhook_event_by_id(event_id)
             .await?
             .ok_or_else(|| VoiceServiceError::not_found("provider webhook event not found"))
@@ -924,9 +929,7 @@ impl SqlVoiceStore {
             .fetch_optional(&self.pool)
             .await
             .map_err(store_error("failed to get provider webhook event"))?;
-        row.as_ref()
-            .map(map_provider_webhook_event_row)
-            .transpose()
+        row.as_ref().map(map_provider_webhook_event_row).transpose()
     }
 }
 
@@ -1269,7 +1272,9 @@ fn map_webhook_delivery_row(
     })
 }
 
-fn map_request_log_row(row: &sqlx::any::AnyRow) -> Result<VoiceRequestLogRecord, VoiceServiceError> {
+fn map_request_log_row(
+    row: &sqlx::any::AnyRow,
+) -> Result<VoiceRequestLogRecord, VoiceServiceError> {
     Ok(VoiceRequestLogRecord {
         id: row.get("id"),
         request_id: row.get("request_id"),
