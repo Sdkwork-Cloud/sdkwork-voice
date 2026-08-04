@@ -506,15 +506,15 @@ describe("@sdkwork/voice-local-api-proxy", () => {
 
     const postgresql = buildVoiceLocalApiProxyPostgresqlSchema({
       dialect: "postgresql",
-      postgresUrl: "postgres://localhost:5432/voice_local_api_proxy",
+      postgresUrl: "postgres://localhost:5432/sdkwork_ai_dev",
     });
     const pgDdl = postgresql.statements.join("\n");
-    expect(VOICE_LOCAL_API_PROXY_DEFAULT_POSTGRES_SCHEMA).toBe("voice_local_api_proxy");
-    expect(postgresql.schemaName).toBe("voice_local_api_proxy");
-    expect(pgDdl).toContain("CREATE SCHEMA IF NOT EXISTS voice_local_api_proxy;");
-    expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS voice_local_api_proxy.vlap_audio_artifacts");
-    expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS voice_local_api_proxy.vlap_artifact_drive_sync");
-    expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS voice_local_api_proxy.vlap_generation_tasks");
+    expect(VOICE_LOCAL_API_PROXY_DEFAULT_POSTGRES_SCHEMA).toBe("sdkwork_ai_dev");
+    expect(postgresql.schemaName).toBe("sdkwork_ai_dev");
+    expect(pgDdl).toContain("CREATE SCHEMA IF NOT EXISTS sdkwork_ai_dev;");
+    expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS sdkwork_ai_dev.vlap_audio_artifacts");
+    expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS sdkwork_ai_dev.vlap_artifact_drive_sync");
+    expect(pgDdl).toContain("CREATE TABLE IF NOT EXISTS sdkwork_ai_dev.vlap_generation_tasks");
     expect(pgDdl).toContain("provider_task_id TEXT");
     expect(pgDdl).toContain("media_resource_json JSONB NOT NULL");
     expect(pgDdl).toContain("drive_resource_json JSONB");

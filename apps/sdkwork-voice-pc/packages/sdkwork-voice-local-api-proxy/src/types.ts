@@ -1,7 +1,7 @@
 export const VOICE_LOCAL_API_PROXY_SCHEMA_VERSION = 1 as const;
 export const VOICE_LOCAL_API_PROXY_TABLE_PREFIX = "vlap_" as const;
 export const VOICE_LOCAL_API_PROXY_DEFAULT_SQLITE_FILENAME = "voice-local-api-proxy.db" as const;
-export const VOICE_LOCAL_API_PROXY_DEFAULT_POSTGRES_SCHEMA = "voice_local_api_proxy" as const;
+export const VOICE_LOCAL_API_PROXY_DEFAULT_POSTGRES_SCHEMA = "sdkwork_ai_dev" as const;
 export const VOICE_LOCAL_API_PROXY_DEFAULT_HOST = "127.0.0.1" as const;
 export const VOICE_LOCAL_API_PROXY_DEFAULT_PORT = 21381 as const;
 
