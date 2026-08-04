@@ -7,7 +7,7 @@ Shared TypeScript packages for the voice domain: contracts, provider adapter, an
 | Package | Role |
 | --- | --- |
 | `@sdkwork/voice-contracts` | Shared wire types and operation constants |
-| `@sdkwork/voice-provider-adapter` | Provider invocation boundary (claw-router) |
+| `@sdkwork/voice-provider-adapter` | Provider invocation boundary (cloud-router) |
 | `@sdkwork/voice-generation-worker` | Drains `queued` tasks via backend reconcile |
 | `@sdkwork/voice-drive-sync-worker` | Drains `pending_upload` drive sync rows via backend retry |
 

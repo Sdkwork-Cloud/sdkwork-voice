@@ -11,5 +11,5 @@ transport-neutral `sdkwork-voice-generation-provider-spi`. The generated SDK rou
 versioned vendor parameters, error mapping, and output normalization belong exclusively to
 `sdkwork-voice-generation-provider-adapter`. Runtime bootstrap constructs the SDK client.
 
-ClawRouter is not a vendor or public provider contract. The initial adapter supports synchronous
+CloudRouter is not a vendor or public provider contract. The initial adapter supports synchronous
 OpenAI-compatible speech because that is the typed operation currently available in the Rust SDK.

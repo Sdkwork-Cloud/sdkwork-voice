@@ -7,7 +7,7 @@ export const VOICE_LOCAL_API_PROXY_DEFAULT_PORT = 21381 as const;
 
 export type VoiceLocalApiProxyMode = "desktop-local" | "server-managed";
 export type VoiceLocalApiClientProtocol = "openai-compatible" | "custom-http";
-export type VoiceLocalApiUpstreamProtocol = "openai-compatible" | "azure-openai" | "claw-router" | "custom-http";
+export type VoiceLocalApiUpstreamProtocol = "openai-compatible" | "azure-openai" | "cloud-router" | "custom-http";
 export type VoiceLocalApiCapability =
   | "audio-speech"
   | "audio-transcription"

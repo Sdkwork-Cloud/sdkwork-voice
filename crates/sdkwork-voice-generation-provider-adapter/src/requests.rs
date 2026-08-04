@@ -1,4 +1,4 @@
-use clawrouter_open_sdk::OpenAiSpeechCreateRequest;
+use cloudrouter_open_sdk::OpenAiSpeechCreateRequest;
 use sdkwork_voice_generation_provider_spi::{
     VoiceGenerationProviderError, VoiceGenerationProviderResult, VoiceSpeechGenerationCommand,
 };

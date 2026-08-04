@@ -42,7 +42,7 @@ Kubernetes / deploy.yaml: use `/healthz` for liveness and `/readyz` for readines
 | Symptom | Likely cause | Action |
 | --- | --- | --- |
 | `/readyz` 503 | DB down or not migrated | Run `pnpm db:bootstrap`; verify `SDKWORK_DATABASE_*` |
-| Tasks stay `queued` | Generation worker down or provider unavailable | Restart worker; check provider routes and claw-router |
+| Tasks stay `queued` | Generation worker down or provider unavailable | Restart worker; check provider routes and cloud-router |
 | Drive sync `failed` | Missing `source_uri`, workspace DB down, or object store path | Inspect sync row error; verify `SDKWORK_DATABASE_*` and `VOICE_DRIVE_OBJECT_STORE_ROOT` |
 | Webhook 401/403 | HMAC mismatch | Align `VOICE_WEBHOOK_SECRET` with provider; avoid `VOICE_WEBHOOK_DEV_MODE` in production |
 | API 5xx on boot | Database not migrated | Run `pnpm db:bootstrap` and `pnpm db:drift:check` |

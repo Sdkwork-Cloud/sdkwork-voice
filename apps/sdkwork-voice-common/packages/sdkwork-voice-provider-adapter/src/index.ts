@@ -222,7 +222,7 @@ export interface VoiceProviderAdapter {
   updateVoiceConsent(command: VoiceConsentUpdateCommand): Promise<SdkworkVoiceProviderInvocationResult>;
 }
 
-export interface ClawRouterVoiceProviderClient {
+export interface CloudRouterVoiceProviderClient {
   audio?: {
     speech?: {
       create(body: unknown): Promise<unknown>;
@@ -394,8 +394,8 @@ interface VoiceProviderArtifactCandidate {
   title?: string;
 }
 
-export interface ClawRouterVoiceProviderAdapterOptions {
-  client: ClawRouterVoiceProviderClient;
+export interface CloudRouterVoiceProviderAdapterOptions {
+  client: CloudRouterVoiceProviderClient;
   defaultProviderCode?: string;
   invokeProviderRoute?: (invocation: ProviderRouteInvocation) => Promise<ProviderRouteInvocationResult>;
 }
@@ -406,7 +406,7 @@ function providerCodeFrom(command: { provider?: VoiceProviderOptions }, fallback
 
 function requireClientMethod<T>(value: T | undefined, name: string): T {
   if (!value) {
-    throw new Error(`Missing claw-router SDK method: ${name}`);
+    throw new Error(`Missing cloud-router SDK method: ${name}`);
   }
   return value;
 }
@@ -1359,7 +1359,7 @@ function estimateBase64ByteLength(value: string) {
   return Math.max(0, Math.floor((normalized.length * 3) / 4) - padding);
 }
 
-function taskRetrieveForProvider(client: ClawRouterVoiceProviderClient, providerCode: string) {
+function taskRetrieveForProvider(client: CloudRouterVoiceProviderClient, providerCode: string) {
   switch (providerCode) {
     case "volcengine":
       return {
@@ -1437,7 +1437,7 @@ function isProviderRoute(command: VoiceMusicCreateCommand, routeId: string) {
 }
 
 async function startViduGenerationTask(
-  client: ClawRouterVoiceProviderClient,
+  client: CloudRouterVoiceProviderClient,
   command: VoiceMusicCreateCommand,
   providerCode: string,
 ) {
@@ -1483,8 +1483,8 @@ async function startViduGenerationTask(
   );
 }
 
-export function createClawRouterVoiceProviderAdapter(
-  options: ClawRouterVoiceProviderAdapterOptions,
+export function createCloudRouterVoiceProviderAdapter(
+  options: CloudRouterVoiceProviderAdapterOptions,
 ): VoiceProviderAdapter {
   const defaultProviderCode = options.defaultProviderCode || "openai";
 

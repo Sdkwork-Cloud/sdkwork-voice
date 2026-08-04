@@ -13,7 +13,7 @@ This README is the SDKWork module entrypoint for `@sdkwork/voice-provider-adapte
 
 ## Required SDK Surface
 
-The adapter consumes an injected `sdkwork-clawrouter` generated SDK client shape. It does not construct SDK clients, read credentials, or issue raw provider HTTP requests.
+The adapter consumes an injected `sdkwork-cloudrouter` generated SDK client shape. It does not construct SDK clients, read credentials, or issue raw provider HTTP requests.
 
 Current generated SDK surfaces:
 
@@ -54,7 +54,7 @@ Current generated SDK surfaces:
 - `client.videosVidu.ent.v2.startEnd2video.create`
 - `client.videosVidu.ent.v2.tasks.creations.list`
 
-ElevenLabs sound generation uses the injected provider-route invoker boundary for claw-router provider passthrough behavior.
+ElevenLabs sound generation uses the injected provider-route invoker boundary for cloud-router provider passthrough behavior.
 
 Generated SDK resources are called through their owning resource objects so class-based generated clients keep their method binding. The adapter must not detach generated SDK methods and call them as unbound functions.
 

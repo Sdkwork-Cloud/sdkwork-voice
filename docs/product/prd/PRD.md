@@ -30,7 +30,7 @@ Enterprises need a tenant-safe voice generation platform that unifies TTS, trans
 
 ### Non-Goals
 
-- Provider implementation inside this repository (owned by claw-router)
+- Provider implementation inside this repository (owned by cloud-router)
 - Billing meter settlement (platform billing integration is a follow-on phase)
 - Real-time voice clone training UI (market clone remains SDK-backed roadmap item)
 

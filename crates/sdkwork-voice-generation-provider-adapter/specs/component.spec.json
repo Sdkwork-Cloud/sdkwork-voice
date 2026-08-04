@@ -24,7 +24,7 @@
     "requiredPorts": [{ "name": "voiceGenerationProvider", "export": "." }],
     "runtimeEntrypoints": [],
     "routeManifest": null,
-    "sdkClients": ["clawrouter-open-sdk"],
+    "sdkClients": ["cloudrouter-open-sdk"],
     "events": [],
     "configKeys": []
   },

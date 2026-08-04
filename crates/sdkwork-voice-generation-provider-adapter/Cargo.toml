@@ -9,7 +9,7 @@ description = "Generated SDK adapter for SDKWork speech generation."
 [dependencies]
 async-trait.workspace = true
 base64.workspace = true
-clawrouter-open-sdk.workspace = true
+cloudrouter-open-sdk.workspace = true
 sdkwork-voice-generation-provider-spi.workspace = true
 serde.workspace = true
 serde_json.workspace = true

@@ -53,7 +53,7 @@ describe("@sdkwork/voice-local-api-proxy", () => {
       "speech" | "transcription" | "translation" | "sound-effect" | "music" | "realtime" | "custom"
     >();
     expectTypeOf<VoiceProxyUpstreamIdentity["protocolKind"]>().toEqualTypeOf<
-      "openai-compatible" | "azure-openai" | "claw-router" | "custom-http"
+      "openai-compatible" | "azure-openai" | "cloud-router" | "custom-http"
     >();
   });
 
@@ -584,11 +584,11 @@ describe("@sdkwork/voice-local-api-proxy", () => {
             { capability: "audio-sound-effect", modelId: "eleven_text_to_sound_v2", role: "sound-effect" },
             { capability: "audio-music", modelId: "suno-v5", role: "music" },
           ],
-          providerId: "claw-router",
+          providerId: "cloud-router",
           upstream: {
             baseUrl: "http://localhost:8080",
             protocolKind: "custom-http",
-            providerId: "claw-router",
+            providerId: "cloud-router",
           },
           upstreamProtocol: "custom-http",
         },

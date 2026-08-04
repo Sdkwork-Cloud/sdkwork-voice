@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
-  createClawRouterVoiceProviderAdapter,
+  createCloudRouterVoiceProviderAdapter,
   normalizeVoiceProviderGeneratedArtifacts,
-  type ClawRouterVoiceProviderClient,
+  type CloudRouterVoiceProviderClient,
 } from "../src/index.ts";
 
 describe("@sdkwork/voice-provider-adapter", () => {
@@ -44,9 +44,9 @@ describe("@sdkwork/voice-provider-adapter", () => {
     ]);
   });
 
-  it("invokes claw-router generated SDK surfaces for OpenAI-compatible speech", async () => {
+  it("invokes cloud-router generated SDK surfaces for OpenAI-compatible speech", async () => {
     const calls: unknown[] = [];
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       audio: {
         speech: {
           async create(body) {
@@ -56,7 +56,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     const result = await adapter.startSpeech({
       input: "hello",
@@ -92,8 +92,8 @@ describe("@sdkwork/voice-provider-adapter", () => {
       audio: {
         speech,
       },
-    } as ClawRouterVoiceProviderClient;
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    } as CloudRouterVoiceProviderClient;
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     await adapter.startSpeech({
       input: "hello",
@@ -111,7 +111,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
   });
 
   it("normalizes synchronous speech bytes into generated artifacts for Drive ingestion", async () => {
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       audio: {
         speech: {
           async create() {
@@ -120,7 +120,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     const result = await adapter.startSpeech({
       input: "hello",
@@ -147,9 +147,9 @@ describe("@sdkwork/voice-provider-adapter", () => {
     });
   });
 
-  it("uses claw-router generated SDK surfaces for voice catalog operations", async () => {
+  it("uses cloud-router generated SDK surfaces for voice catalog operations", async () => {
     const calls: unknown[] = [];
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       audio: {
         voices: {
           async create(body) {
@@ -178,7 +178,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     const listResult = await adapter.listVoices({ limit: 20, order: "asc", provider: { providerCode: "openai" } });
     const createResult = await adapter.createVoice({
@@ -215,9 +215,9 @@ describe("@sdkwork/voice-provider-adapter", () => {
     });
   });
 
-  it("uses claw-router generated SDK surfaces for voice consent operations", async () => {
+  it("uses cloud-router generated SDK surfaces for voice consent operations", async () => {
     const calls: unknown[] = [];
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       audio: {
         voiceConsents: {
           async create(body) {
@@ -261,7 +261,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     await adapter.listVoiceConsents({ after: "consent-0", limit: 10 });
     await adapter.createVoiceConsent({
@@ -311,7 +311,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
       words: [{ end: 0.4, start: 0, word: "hello" }],
     };
     const expectedTranscriptJson = JSON.stringify(expectedTranscriptPayload);
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       audio: {
         transcriptions: {
           async create(body) {
@@ -321,7 +321,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     const result = await adapter.startTranscription({
       file,
@@ -362,7 +362,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
   });
 
   it("normalizes OpenAI-compatible translation text into a translation artifact", async () => {
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       audio: {
         translations: {
           async create() {
@@ -375,7 +375,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     const result = await adapter.startTranslation({
       file: new Blob(["audio"], { type: "audio/mpeg" }),
@@ -407,7 +407,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
   });
 
   it("normalizes plain text transcription responses into transcript artifacts", async () => {
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       audio: {
         transcriptions: {
           async create() {
@@ -416,7 +416,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     const result = await adapter.startTranscription({
       file: new Blob(["audio"], { type: "audio/mpeg" }),
@@ -439,7 +439,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
     ]);
   });
 
-  it("creates realtime transcription sessions through the typed claw-router SDK", async () => {
+  it("creates realtime transcription sessions through the typed cloud-router SDK", async () => {
     const bodies: unknown[] = [];
     const client = {
       realtime: {
@@ -455,8 +455,8 @@ describe("@sdkwork/voice-provider-adapter", () => {
           },
         },
       },
-    } as ClawRouterVoiceProviderClient;
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    } as CloudRouterVoiceProviderClient;
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     const result = await adapter.startRealtimeTranscriptionSession({
       inputAudioFormat: "pcm16",
@@ -485,7 +485,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
     });
   });
 
-  it("creates realtime translation sessions through the typed claw-router SDK", async () => {
+  it("creates realtime translation sessions through the typed cloud-router SDK", async () => {
     const bodies: unknown[] = [];
     const client = {
       realtime: {
@@ -502,8 +502,8 @@ describe("@sdkwork/voice-provider-adapter", () => {
           },
         },
       },
-    } as ClawRouterVoiceProviderClient;
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    } as CloudRouterVoiceProviderClient;
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     const result = await adapter.startRealtimeTranslationSession({
       metadata: { taskId: "voice-task-rt-2" },
@@ -530,7 +530,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
     });
   });
 
-  it("creates generic realtime sessions, client secrets, and calls through typed claw-router SDK surfaces", async () => {
+  it("creates generic realtime sessions, client secrets, and calls through typed cloud-router SDK surfaces", async () => {
     const calls: unknown[] = [];
     const client = {
       realtime: {
@@ -584,8 +584,8 @@ describe("@sdkwork/voice-provider-adapter", () => {
           },
         },
       },
-    } as ClawRouterVoiceProviderClient;
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
+    } as CloudRouterVoiceProviderClient;
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "openai" });
 
     const session = await adapter.startRealtimeSession({
       instructions: "Keep responses concise.",
@@ -662,9 +662,9 @@ describe("@sdkwork/voice-provider-adapter", () => {
     expect(hungUp.providerResponse).toMatchObject({ status: "ended" });
   });
 
-  it("starts Suno music tasks through the typed claw-router SDK", async () => {
+  it("starts Suno music tasks through the typed cloud-router SDK", async () => {
     const bodies: unknown[] = [];
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       audioSuno: {
         v1: {
           music: {
@@ -678,7 +678,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "suno" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "suno" });
 
     const result = await adapter.startMusic({
       callbackUrl: "https://voice.example/webhook",
@@ -705,7 +705,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
   });
 
   it("normalizes completed Suno task tracks into ordered music, image, and video artifacts", async () => {
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       audioSuno: {
         v1: {
           music: {
@@ -740,7 +740,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "suno" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "suno" });
 
     const snapshot = await adapter.queryTask({ providerCode: "suno", providerTaskId: "suno-task-1" });
 
@@ -787,7 +787,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
 
   it("starts Volcengine provider tasks when the provider route requests Volcengine", async () => {
     const bodies: unknown[] = [];
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       videosVolcengine: {
         api: {
           v3: {
@@ -805,7 +805,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "volcengine" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "volcengine" });
 
     const result = await adapter.startMusic({
       model: "doubao-music",
@@ -823,7 +823,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
     ]);
   });
 
-  it("starts Kling, Nano Banana, and Midjourney provider tasks through typed claw-router SDK surfaces", async () => {
+  it("starts Kling, Nano Banana, and Midjourney provider tasks through typed cloud-router SDK surfaces", async () => {
     const calls: unknown[] = [];
     const client = {
       imagesMidjourney: {
@@ -862,8 +862,8 @@ describe("@sdkwork/voice-provider-adapter", () => {
           },
         },
       },
-    } as unknown as ClawRouterVoiceProviderClient;
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "suno" });
+    } as unknown as CloudRouterVoiceProviderClient;
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "suno" });
 
     const klingResult = await adapter.startMusic({
       callbackUrl: "https://voice.example/kling-webhook",
@@ -963,7 +963,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
     ]);
   });
 
-  it("routes Vidu provider tasks to the selected typed claw-router SDK creation surface", async () => {
+  it("routes Vidu provider tasks to the selected typed cloud-router SDK creation surface", async () => {
     const calls: unknown[] = [];
     const client = {
       imagesVidu: {
@@ -1008,8 +1008,8 @@ describe("@sdkwork/voice-provider-adapter", () => {
           },
         },
       },
-    } as unknown as ClawRouterVoiceProviderClient;
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "vidu" });
+    } as unknown as CloudRouterVoiceProviderClient;
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "vidu" });
 
     const textResult = await adapter.startMusic({
       durationSeconds: 4,
@@ -1127,7 +1127,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
   });
 
   it("normalizes completed Volcengine video arrays into ordered generated artifacts", async () => {
-    const client: ClawRouterVoiceProviderClient = {
+    const client: CloudRouterVoiceProviderClient = {
       videosVolcengine: {
         api: {
           v3: {
@@ -1164,7 +1164,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
         },
       },
     };
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "volcengine" });
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "volcengine" });
 
     const snapshot = await adapter.queryTask({ providerCode: "volcengine", providerTaskId: "volc-task-1" });
 
@@ -1192,7 +1192,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
     ]);
   });
 
-  it("queries Kling video tasks through the typed claw-router SDK", async () => {
+  it("queries Kling video tasks through the typed cloud-router SDK", async () => {
     const retrievedTaskIds: string[] = [];
     const client = {
       videosKling: {
@@ -1218,8 +1218,8 @@ describe("@sdkwork/voice-provider-adapter", () => {
           },
         },
       },
-    } as ClawRouterVoiceProviderClient;
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "kling" });
+    } as CloudRouterVoiceProviderClient;
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "kling" });
 
     const snapshot = await adapter.queryTask({ providerCode: "kling", providerTaskId: "kling-task-1" });
 
@@ -1243,7 +1243,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
     });
   });
 
-  it("queries Nano Banana image tasks through the typed claw-router SDK", async () => {
+  it("queries Nano Banana image tasks through the typed cloud-router SDK", async () => {
     const retrievedTaskIds: string[] = [];
     const client = {
       imagesNanoBanana: {
@@ -1268,8 +1268,8 @@ describe("@sdkwork/voice-provider-adapter", () => {
           },
         },
       },
-    } as ClawRouterVoiceProviderClient;
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "nano-banana" });
+    } as CloudRouterVoiceProviderClient;
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "nano-banana" });
 
     const snapshot = await adapter.queryTask({ providerCode: "nano-banana", providerTaskId: "nano-task-1" });
 
@@ -1287,7 +1287,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
     ]);
   });
 
-  it("queries Midjourney image tasks through the typed claw-router SDK", async () => {
+  it("queries Midjourney image tasks through the typed cloud-router SDK", async () => {
     const retrievedTaskIds: string[] = [];
     const client = {
       imagesMidjourney: {
@@ -1312,8 +1312,8 @@ describe("@sdkwork/voice-provider-adapter", () => {
           },
         },
       },
-    } as ClawRouterVoiceProviderClient;
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "midjourney" });
+    } as CloudRouterVoiceProviderClient;
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "midjourney" });
 
     const snapshot = await adapter.queryTask({ providerCode: "midjourney", providerTaskId: "midjourney-task-1" });
 
@@ -1331,7 +1331,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
     ]);
   });
 
-  it("queries Vidu task creations through the typed claw-router SDK", async () => {
+  it("queries Vidu task creations through the typed cloud-router SDK", async () => {
     const listedTaskIds: string[] = [];
     const client = {
       videosVidu: {
@@ -1359,8 +1359,8 @@ describe("@sdkwork/voice-provider-adapter", () => {
           },
         },
       },
-    } as ClawRouterVoiceProviderClient;
-    const adapter = createClawRouterVoiceProviderAdapter({ client, defaultProviderCode: "vidu" });
+    } as CloudRouterVoiceProviderClient;
+    const adapter = createCloudRouterVoiceProviderAdapter({ client, defaultProviderCode: "vidu" });
 
     const snapshot = await adapter.queryTask({ providerCode: "vidu", providerTaskId: "vidu-task-1" });
 
@@ -1388,7 +1388,7 @@ describe("@sdkwork/voice-provider-adapter", () => {
 
   it("uses configured provider route invoker for ElevenLabs sound effects", async () => {
     const invocations: unknown[] = [];
-    const adapter = createClawRouterVoiceProviderAdapter({
+    const adapter = createCloudRouterVoiceProviderAdapter({
       client: {},
       defaultProviderCode: "elevenlabs",
       async invokeProviderRoute(invocation) {

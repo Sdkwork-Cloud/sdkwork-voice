@@ -99,7 +99,7 @@ Application, feature, shell, and service packages `MUST` consume HTTP SDKs throu
 
 - Backend API clients (`backend-admin` only): `@sdkwork/<application-code>-backend-sdk`
 
-- Federated Claw Router domain surfaces: `@sdkwork/clawrouter-app-sdk/domains` and `@sdkwork/clawrouter-backend-sdk/domains`
+- Federated Cloud Router domain surfaces: `@sdkwork/cloudrouter-app-sdk/domains` and `@sdkwork/cloudrouter-backend-sdk/domains`
 
 - Open/domain API clients: `@sdkwork/<domain>-sdk`
 
@@ -115,7 +115,7 @@ import { createClient, type SdkworkAppClient } from '@sdkwork/iam-app-sdk';
 
 import type { SdkworkBackendClient } from '@sdkwork/iam-backend-sdk'; // backend-admin only
 
-import { createClient as createClawRouterDomainsClient } from '@sdkwork/clawrouter-app-sdk/domains';
+import { createClient as createCloudRouterDomainsClient } from '@sdkwork/cloudrouter-app-sdk/domains';
 
 ```
 
@@ -127,7 +127,7 @@ Forbidden in application `apps/`, `packages/`, bootstrap, services, UI, contract
 
 - `sdkwork-*-app-sdk-generated-typescript`, `sdkwork-*-backend-sdk-generated-typescript`, and other generator transport names as consumer imports
 
-- `@sdkwork/commerce-app-sdk`, `@sdkwork/commerce-backend-sdk`, `@sdkwork/clawrouter-*-domain-transport-sdk`
+- `@sdkwork/commerce-app-sdk`, `@sdkwork/commerce-backend-sdk`, `@sdkwork/cloudrouter-*-domain-transport-sdk`
 
 - filesystem paths containing `domain-transport-typescript`, `domain-transport-sdk`, or sibling `*-typescript/generated` hops from composed `src/**`
 
@@ -139,7 +139,7 @@ Allowed:
 
 
 
-- Composed facade entry imports such as `@sdkwork/iam-app-sdk`, `@sdkwork/knowledgebase-app-sdk`, and `@sdkwork/clawrouter-app-sdk/domains`
+- Composed facade entry imports such as `@sdkwork/iam-app-sdk`, `@sdkwork/knowledgebase-app-sdk`, and `@sdkwork/cloudrouter-app-sdk/domains`
 
 - Composed re-exports that import only from `../generated/**` within the same `*-sdk-typescript` family root
 

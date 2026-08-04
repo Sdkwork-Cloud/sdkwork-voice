@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use axum::Router;
-use clawrouter_open_sdk::{SdkworkAiClient, SdkworkConfig};
+use cloudrouter_open_sdk::{SdkworkAiClient, SdkworkConfig};
 use sdkwork_database_sqlx::{create_any_pool_from_config, DatabasePool};
 use sdkwork_routes_voice_app_api::{VoiceAppApiServicePort, VoiceAppRuntimeService};
 use sdkwork_routes_voice_backend_api::{VoiceBackendApiServicePort, VoiceBackendRuntimeService};
@@ -68,15 +68,15 @@ pub async fn assemble_embedded_voice_application_router(
 }
 
 pub fn build_voice_generation_service_from_env() -> Result<Arc<VoiceGenerationService>, String> {
-    let base_url = std::env::var("SDKWORK_CLAWROUTER_OPEN_API_BASE_URL")
-        .or_else(|_| std::env::var("CLAWROUTER_OPEN_API_BASE_URL"))
+    let base_url = std::env::var("SDKWORK_CLOUDROUTER_OPEN_API_BASE_URL")
+        .or_else(|_| std::env::var("CLOUDROUTER_OPEN_API_BASE_URL"))
         .map_err(|_| {
-            "SDKWORK_CLAWROUTER_OPEN_API_BASE_URL (or CLAWROUTER_OPEN_API_BASE_URL) is required"
+            "SDKWORK_CLOUDROUTER_OPEN_API_BASE_URL (or CLOUDROUTER_OPEN_API_BASE_URL) is required"
                 .to_string()
         })?;
     let client = SdkworkAiClient::new(SdkworkConfig::new(base_url.trim()))
         .map_err(|error| format!("speech generation SDK client init failed: {error}"))?;
-    if let Ok(api_key) = std::env::var("SDKWORK_CLAWROUTER_OPEN_API_KEY") {
+    if let Ok(api_key) = std::env::var("SDKWORK_CLOUDROUTER_OPEN_API_KEY") {
         if !api_key.trim().is_empty() {
             client.set_api_key(api_key.trim());
         }

@@ -107,7 +107,7 @@ Polls backend `artifactDriveSync.list` for `pending_upload` / `failed` rows and 
 
 Package: `@sdkwork/voice-provider-adapter`
 
-Owns the common provider-routing boundary used by voice orchestration code. It is designed around `sdkwork-clawrouter` provider capabilities and avoids product-local raw provider HTTP clients.
+Owns the common provider-routing boundary used by voice orchestration code. It is designed around `sdkwork-cloudrouter` provider capabilities and avoids product-local raw provider HTTP clients.
 
 The adapter currently supports:
 
@@ -127,7 +127,7 @@ The adapter currently supports:
 - Nano Banana and Midjourney image task creation and lookup through `client.imagesNanoBanana.v1.images.generations`, and `client.imagesMidjourney.v1.images.generations`
 - Vidu image/video task creation through `client.imagesVidu.ent.v2.reference2image.create`, `client.videosVidu.ent.v2.text2video.create`, `client.videosVidu.ent.v2.img2video.create`, `client.videosVidu.ent.v2.reference2video.create`, and `client.videosVidu.ent.v2.startEnd2video.create`
 - Vidu task creations lookup through `client.videosVidu.ent.v2.tasks.creations.list`
-- ElevenLabs sound generation through an injected provider-route invoker, matching claw-router provider passthrough behavior
+- ElevenLabs sound generation through an injected provider-route invoker, matching cloud-router provider passthrough behavior
 
 The adapter returns a normalized `SdkworkVoiceProviderInvocationResult` so the application can persist the same task and artifact state regardless of whether the provider responds synchronously, starts an async task, or later sends a webhook.
 
@@ -159,7 +159,7 @@ Owns voice-specific local API proxy contracts:
 - realtime transcription route capability
 - realtime translation route capability
 - OpenAI-compatible `/v1/audio/*` and `/v1/realtime/*` operation catalog
-- claw-router/custom provider operation catalog
+- cloud-router/custom provider operation catalog
 - voice route grouping and model-binding contracts
 - SQLite and PostgreSQL schema builders for voice local proxy state
 - local task/event/webhook tables for provider-state consistency
@@ -336,7 +336,7 @@ Multi-output provider responses are modeled as one task with many artifacts. Eac
 
 Runtime synchronization flow:
 
-1. The provider adapter invokes `sdkwork-clawrouter` through generated SDK surfaces or the approved route invoker.
+1. The provider adapter invokes `sdkwork-cloudrouter` through generated SDK surfaces or the approved route invoker.
 2. Successful provider responses are normalized into `generatedArtifacts` without leaking provider DTOs into application APIs.
 3. The voice task worker creates `voice_audio_artifact` rows using the normalized `artifactIndex`, kind, provider asset id, source URI, MIME type, and media provenance.
 4. The worker creates or updates matching `voice_artifact_drive_sync` rows with `pending_upload` or `uploading` status.
