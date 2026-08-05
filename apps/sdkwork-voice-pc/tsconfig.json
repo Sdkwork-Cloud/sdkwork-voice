@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "isolatedModules": true,
@@ -10,13 +14,21 @@
     "jsx": "react-jsx",
     "strict": true,
     "allowImportingTsExtensions": true,
-    "types": ["vite/client"],
+    "types": [
+      "vite/client"
+    ],
     "noEmit": true,
     "paths": {
-      "sdkwork-voice-pc-commons": ["./packages/sdkwork-voice-pc-commons/src"],
-      "sdkwork-voice-pc-core": ["./packages/sdkwork-voice-pc-core/src"],
-      "@sdkwork/voice-app-sdk": ["../../sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/src/index.ts"]
+      "sdkwork-voice-pc-commons": [
+        "./packages/sdkwork-voice-pc-commons/src"
+      ],
+      "sdkwork-voice-pc-core": [
+        "./packages/sdkwork-voice-pc-core/src"
+      ]
     }
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

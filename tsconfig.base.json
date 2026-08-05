@@ -1,52 +1,36 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "baseUrl": ".",
     "paths": {
-      "@sdkwork/voice-contracts": [
-        "apps/sdkwork-voice-common/packages/sdkwork-voice-contracts/src/index.ts"
-      ],
-      "@sdkwork/voice-provider-adapter": [
-        "apps/sdkwork-voice-common/packages/sdkwork-voice-provider-adapter/src/index.ts"
-      ],
-      "@sdkwork/voice-generation-worker": [
-        "apps/sdkwork-voice-common/packages/sdkwork-voice-generation-worker/src/index.ts"
-      ],
-      "@sdkwork/voice-drive-sync-worker": [
-        "apps/sdkwork-voice-common/packages/sdkwork-voice-drive-sync-worker/src/index.ts"
-      ],
-      "@sdkwork/voice-local-api-proxy": [
-        "apps/sdkwork-voice-pc/packages/sdkwork-voice-local-api-proxy/src/index.ts"
-      ],
-      "@sdkwork/voice-app-sdk": [
-        "sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript/src/index.ts"
-      ],
-      "@sdkwork/voice-backend-sdk": [
-        "sdks/sdkwork-voice-backend-sdk/sdkwork-voice-backend-sdk-typescript/src/index.ts"
-      ],
       "react": [
-        "node_modules/@types/react"
+        "./node_modules/@types/react"
       ],
       "react-dom": [
-        "node_modules/@types/react-dom"
+        "./node_modules/@types/react-dom"
       ],
       "react/jsx-runtime": [
-        "node_modules/@types/react/jsx-runtime.d.ts"
+        "./node_modules/@types/react/jsx-runtime.d.ts"
       ]
     },
     "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
     "strict": true,
     "noEmit": true,
-    "ignoreDeprecations": "6.0",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "types": ["node", "@testing-library/jest-dom"]
+    "types": [
+      "node",
+      "@testing-library/jest-dom"
+    ]
   }
 }
