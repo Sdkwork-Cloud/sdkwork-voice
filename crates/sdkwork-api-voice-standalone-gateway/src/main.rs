@@ -28,11 +28,7 @@ async fn main() {
 
     let cors_layer = sdkwork_web_bootstrap::application_cors_layer_from_env(
         &["SDKWORK_VOICE_ENVIRONMENT", "VOICE_ENVIRONMENT"],
-        &[
-            "VOICE_API_CORS_ORIGINS",
-            "SDKWORK_VOICE_CORS_ALLOWED_ORIGINS",
-            "SDKWORK_CORS_ALLOWED_ORIGINS",
-        ],
+        &["SDKWORK_CORS_ALLOWED_ORIGINS"],
     );
     let assembly = match assemble_api_router().await {
         Ok(assembly) => assembly,

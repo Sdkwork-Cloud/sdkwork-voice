@@ -2206,6 +2206,7 @@ dependencies = [
  "sdkwork-routes-voice-http-auth",
  "sdkwork-voice-embedded-bootstrap",
  "sdkwork-web-bootstrap",
+ "sdkwork-web-core",
  "tokio",
 ]
 
