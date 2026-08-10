@@ -3,7 +3,7 @@ use sdkwork_routes_voice_app_api::{app_routes, required_dual_token_headers, Http
 #[test]
 fn exposes_voice_app_route_catalog() {
     let app_routes = app_routes();
-    assert_eq!(app_routes.len(), 12);
+    assert_eq!(app_routes.len(), 17);
 
     assert!(app_routes.iter().any(|route| {
         route.method == HttpMethod::Post
@@ -43,6 +43,31 @@ fn exposes_voice_app_route_catalog() {
         route.method == HttpMethod::Get
             && route.path == "/app/v3/api/voice/artifact_drive_sync"
             && route.operation_id == "artifactDriveSync.list"
+    }));
+    assert!(app_routes.iter().any(|route| {
+        route.method == HttpMethod::Post
+            && route.path == "/app/v3/api/voice/voice_profiles"
+            && route.operation_id == "voiceProfiles.create"
+    }));
+    assert!(app_routes.iter().any(|route| {
+        route.method == HttpMethod::Get
+            && route.path == "/app/v3/api/voice/voice_profiles"
+            && route.operation_id == "voiceProfiles.list"
+    }));
+    assert!(app_routes.iter().any(|route| {
+        route.method == HttpMethod::Get
+            && route.path == "/app/v3/api/voice/voice_profiles/{profileId}"
+            && route.operation_id == "voiceProfiles.retrieve"
+    }));
+    assert!(app_routes.iter().any(|route| {
+        route.method == HttpMethod::Patch
+            && route.path == "/app/v3/api/voice/voice_profiles/{profileId}"
+            && route.operation_id == "voiceProfiles.update"
+    }));
+    assert!(app_routes.iter().any(|route| {
+        route.method == HttpMethod::Delete
+            && route.path == "/app/v3/api/voice/voice_profiles/{profileId}"
+            && route.operation_id == "voiceProfiles.delete"
     }));
 
     for route in &app_routes {

@@ -3,7 +3,7 @@
   "generator": "@sdkwork/sdk-generator",
   "sdk": {
     "name": "sdkwork-voice-app-sdk",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "language": "typescript",
     "sdkType": "app",
     "protocol": "http",
@@ -32,7 +32,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "ecb55fcda2ed37d190a142ed7f8fe40ecc076276324fd22efd4fd15ab8610ee5"
+      "sha256": "fb941a0806986a54fc192f98a98f6d9c282b8d350b2b19a3e71dda404e92d545"
     },
     {
       "path": "LICENSE",
@@ -40,15 +40,15 @@
     },
     {
       "path": "package.json",
-      "sha256": "6038e10912aed59ddae221fbd42059044f0b306fb5f7ecf0a9ed1abb18575b21"
+      "sha256": "3cd1874205e3ce3c80dc3e929edf6d3b644b1bef15aa957ccfbb536abdf5d0af"
     },
     {
       "path": "README.md",
-      "sha256": "24db52d1e07774893b9b936c341e5f7af24914802a39749a059187dc5460c528"
+      "sha256": "fb110466bc451b92949e8543f5d1920b2b7217ffedcf4c7de9636aa9e1dab4db"
     },
     {
       "path": "sdkwork-sdk.json",
-      "sha256": "e7bea3934dd527b6dc1f2d44aee2f93e8225320446ea7f3840bb311f6fa14ed7"
+      "sha256": "17f0aafef18bbaa56700c63952abab7910146b684234d7d7f3a0b08a968f98d9"
     },
     {
       "path": "src/api/base.ts",
@@ -64,7 +64,7 @@
     },
     {
       "path": "src/api/voice.ts",
-      "sha256": "2fd6d0ba37a1ba113307607597088d67c94faf5f5361ffaa7f6ad1525aa148ad"
+      "sha256": "22af4ddbdcfa812cb4a88be275c642de271b4e7021f89e350d08a76981862bfa"
     },
     {
       "path": "src/auth/index.ts",
@@ -72,7 +72,7 @@
     },
     {
       "path": "src/http/client.ts",
-      "sha256": "902ecbf9b15072c147ac9716f22209cd50b770e517b55d1ce1583671ab4d2c3e"
+      "sha256": "9349831b44a1a7336bdb8963379ad2ee616c48a4ae7c6d2540737780810ee8bc"
     },
     {
       "path": "src/http/index.ts",
@@ -92,11 +92,11 @@
     },
     {
       "path": "src/types/field-error.ts",
-      "sha256": "df70e331e6bff0817bc35428286fa8de5d7274ab83a6c60d7184759bf680a088"
+      "sha256": "7688827a804d5c888fdf626b89e3356832f858e24f0657069b6b842a31ae6907"
     },
     {
       "path": "src/types/index.ts",
-      "sha256": "b0f9a91758c95c933572dfdfc5cbfcc90f62a856df1d6febeef7b088c70fb4de"
+      "sha256": "12c9d04d2e7f3b365137b7e1f1f1f50bc94cbc2617e22ba14be2db7e74dd0bd4"
     },
     {
       "path": "src/types/media-access.ts",
@@ -116,7 +116,7 @@
     },
     {
       "path": "src/types/media-resource.ts",
-      "sha256": "a142953a62cfcf7ef7446b2e2e368713d221cdc8f98ecef4074aca4dcaf1df66"
+      "sha256": "0abecb59a01e256d720b6b8fba1fc280f89416f66d6691dfc988eb53b5703f59"
     },
     {
       "path": "src/types/media-source.ts",
@@ -128,7 +128,7 @@
     },
     {
       "path": "src/types/problem-detail.ts",
-      "sha256": "deca621176487754cbfa2012aa3eab046131ced5829ddf7cff64de692f8bcb0e"
+      "sha256": "c41fdf6433e1167d2fb1f3ac38fd13eb77178f4c0633c9e27824f1e1687ee4f6"
     },
     {
       "path": "src/types/sdk-work-api-response.ts",
@@ -208,7 +208,7 @@
     },
     {
       "path": "src/types/voice-task-reconcile-command.ts",
-      "sha256": "7e891feffc7a6e3dd59dbe1e1be4d7f5e294eafdef63012f05c025436f59aefa"
+      "sha256": "fbd174c7c380e25ae40b7e79a94b14b26e0819f09fd3c026b12d9f28f45fef7b"
     },
     {
       "path": "src/types/voice-task-status.ts",
@@ -225,6 +225,14 @@
     {
       "path": "src/types/voice-translation-create-command.ts",
       "sha256": "68034a4618cc42b5c9f38da7108da6e6f286a74d6e59231b1c9147c30010c015"
+    },
+    {
+      "path": "src/types/voice-voice-profile-create-command.ts",
+      "sha256": "70f4d2e8ab7bf715894c1c660c0ccd9cfa3225ba8b9cf92ce99c24f713c7b407"
+    },
+    {
+      "path": "src/types/voice-voice-profile-update-command.ts",
+      "sha256": "632a57061ce7b9002df587a7663eff75340bf3eb941326a3c8ec37db2bb4ed23"
     },
     {
       "path": "tsconfig.json",

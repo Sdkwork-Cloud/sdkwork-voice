@@ -153,6 +153,88 @@ pub async fn retrieve_audio_asset(
     .await
 }
 
+pub async fn create_voice_profile(
+    State(state): State<VoiceAppApiState>,
+    app_ctx: WebRequestContext,
+    Json(body): Json<Value>,
+) -> Response {
+    call_operation(
+        state,
+        app_ctx,
+        "voiceProfiles.create",
+        BTreeMap::new(),
+        body,
+    )
+    .await
+}
+
+pub async fn list_voice_profiles(
+    State(state): State<VoiceAppApiState>,
+    app_ctx: WebRequestContext,
+    Query(query): Query<BTreeMap<String, String>>,
+) -> Response {
+    call_operation(
+        state,
+        app_ctx,
+        "voiceProfiles.list",
+        BTreeMap::new(),
+        query_body(query),
+    )
+    .await
+}
+
+pub async fn retrieve_voice_profile(
+    State(state): State<VoiceAppApiState>,
+    app_ctx: WebRequestContext,
+    Path(profile_id): Path<String>,
+) -> Response {
+    let mut path_params = BTreeMap::new();
+    path_params.insert("profileId".to_owned(), profile_id);
+    call_operation(
+        state,
+        app_ctx,
+        "voiceProfiles.retrieve",
+        path_params,
+        Value::Null,
+    )
+    .await
+}
+
+pub async fn update_voice_profile(
+    State(state): State<VoiceAppApiState>,
+    app_ctx: WebRequestContext,
+    Path(profile_id): Path<String>,
+    Json(body): Json<Value>,
+) -> Response {
+    let mut path_params = BTreeMap::new();
+    path_params.insert("profileId".to_owned(), profile_id);
+    call_operation(
+        state,
+        app_ctx,
+        "voiceProfiles.update",
+        path_params,
+        body,
+    )
+    .await
+}
+
+pub async fn delete_voice_profile(
+    State(state): State<VoiceAppApiState>,
+    app_ctx: WebRequestContext,
+    Path(profile_id): Path<String>,
+) -> Response {
+    let mut path_params = BTreeMap::new();
+    path_params.insert("profileId".to_owned(), profile_id);
+    call_operation(
+        state,
+        app_ctx,
+        "voiceProfiles.delete",
+        path_params,
+        Value::Null,
+    )
+    .await
+}
+
 async fn call_task_operation(
     state: VoiceAppApiState,
     app_ctx: WebRequestContext,

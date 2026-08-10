@@ -229,6 +229,96 @@
         "sdkFamily": "sdkwork-voice-app-sdk",
         "sourceRouteCrate": "sdkwork-routes-voice-app-api"
       }
+    },
+    {
+      "method": "GET",
+      "path": "/app/v3/api/voice/voice_profiles",
+      "operationId": "voiceProfiles.list",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/voice/voice_profiles",
+      "operationId": "voiceProfiles.create",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/app/v3/api/voice/voice_profiles/{profileId}",
+      "operationId": "voiceProfiles.delete",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/app/v3/api/voice/voice_profiles/{profileId}",
+      "operationId": "voiceProfiles.retrieve",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/app/v3/api/voice/voice_profiles/{profileId}",
+      "operationId": "voiceProfiles.update",
+      "tags": [
+        "voice"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true
+      },
+      "ownership": {
+        "owner": "sdkwork-voice",
+        "apiAuthority": "sdkwork-voice-app-api",
+        "sdkFamily": "sdkwork-voice-app-sdk",
+        "sourceRouteCrate": "sdkwork-routes-voice-app-api"
+      }
     }
   ]
 }

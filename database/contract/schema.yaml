@@ -27,6 +27,9 @@ tables:
   - name: voice_artifact_drive_sync
     lifecycle_status: active
     owner: voice-platform
+  - name: voice_profile
+    lifecycle_status: active
+    owner: voice-platform
   - name: voice_provider_webhook_event
     lifecycle_status: active
     owner: voice-platform

@@ -448,6 +448,30 @@ function buildSchemas() {
         mediaResource: { $ref: "#/components/schemas/MediaResource" },
       },
     },
+    VoiceVoiceProfileCreateCommand: {
+      type: "object",
+      additionalProperties: false,
+      required: ["name"],
+      properties: {
+        name: { type: "string", minLength: 1, maxLength: 128 },
+        description: { type: "string", maxLength: 512 },
+        kind: { type: "string", enum: ["cloned", "uploaded", "preset"] },
+        status: { type: "string", enum: ["training", "ready", "failed", "disabled"] },
+        voiceId: { type: "string", maxLength: 128 },
+        providerCode: { type: "string", maxLength: 64 },
+        sampleMedia: { $ref: "#/components/schemas/MediaResource" },
+        durationSeconds: { type: "number", minimum: 0 },
+      },
+    },
+    VoiceVoiceProfileUpdateCommand: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        name: { type: "string", minLength: 1, maxLength: 128 },
+        description: { type: "string", maxLength: 512 },
+        voiceId: { type: "string", maxLength: 128 },
+      },
+    },
     VoiceOperationType: {
       type: "string",
       enum: [
@@ -874,6 +898,10 @@ function requestSchemaRefForOperation(operationId) {
       return "#/components/schemas/VoiceProviderWebhookEventCommand";
     case "tasks.reconcile":
       return "#/components/schemas/VoiceTaskReconcileCommand";
+    case "voiceProfiles.create":
+      return "#/components/schemas/VoiceVoiceProfileCreateCommand";
+    case "voiceProfiles.update":
+      return "#/components/schemas/VoiceVoiceProfileUpdateCommand";
     default:
       return "#/components/schemas/VoiceOperationCommand";
   }

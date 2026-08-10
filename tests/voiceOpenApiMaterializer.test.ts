@@ -28,6 +28,11 @@ describe("sdkwork-voice OpenAPI materializer", () => {
       "tasks.cancel",
       "transcriptions.create",
       "translations.create",
+      "voiceProfiles.list",
+      "voiceProfiles.create",
+      "voiceProfiles.delete",
+      "voiceProfiles.retrieve",
+      "voiceProfiles.update",
     ]);
     expect(backendRoutes.map((route) => route.operationId)).toEqual([
       "artifactDriveSync.list",

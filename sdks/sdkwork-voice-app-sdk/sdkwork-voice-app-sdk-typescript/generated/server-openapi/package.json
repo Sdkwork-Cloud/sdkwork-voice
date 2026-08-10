@@ -1,7 +1,8 @@
 {
   "name": "sdkwork-voice-app-sdk-generated-typescript",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
+  "sdkworkRole": "transport",
   "description": "Generator-owned TypeScript transport SDK for sdkwork-voice-app-sdk.",
   "author": "SDKWork Team",
   "license": "MIT",
@@ -25,7 +26,8 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@sdkwork/sdk-common": "^1.0.2"
+    "@sdkwork/sdk-common": "^1.0.4",
+    "@sdkwork/utils": "^0.11.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -37,6 +39,5 @@
     "api",
     "app",
     "sdkwork"
-  ],
-  "sdkworkRole": "transport"
+  ]
 }

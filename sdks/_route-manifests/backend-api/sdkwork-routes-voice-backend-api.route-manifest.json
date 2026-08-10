@@ -233,7 +233,7 @@
     {
       "method": "POST",
       "path": "/backend/v3/api/voice/provider_webhooks/{providerCode}",
-      "operationId": "providerWebhooks.create",
+      "operationId": "providerWebhooks.accept",
       "tags": [
         "voice"
       ],

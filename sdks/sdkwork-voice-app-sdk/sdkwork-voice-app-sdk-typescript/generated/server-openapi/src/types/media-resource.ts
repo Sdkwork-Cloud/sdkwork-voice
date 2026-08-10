@@ -9,8 +9,8 @@ export interface MediaResource {
   kind: MediaKind;
   source: MediaSource;
   /** Delivery URL. May be temporary or signed. */
-  url?: string;
-  publicUrl?: string;
+  url?: string | null;
+  publicUrl?: string | null;
   uri?: string | null;
   objectBlobId?: string | null;
   fileName?: string | null;

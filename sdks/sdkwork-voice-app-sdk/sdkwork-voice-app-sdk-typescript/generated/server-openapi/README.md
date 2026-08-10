@@ -18,7 +18,7 @@ pnpm add @sdkwork/voice-app-sdk
 import { SdkworkAppClient } from '@sdkwork/voice-app-sdk';
 
 const client = new SdkworkAppClient({
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'http://localhost:18096',
   timeout: 30000,
 });
 
@@ -33,9 +33,8 @@ const params = {
   cursor: 'cursor',
   sort: 'sort',
   q: 'q',
-  task_id: 'task_id',
 };
-const result = await client.voice.audioAssets.list(params);
+const result = await client.voice.voiceProfiles.list(params);
 ```
 
 ## Authentication
@@ -52,7 +51,7 @@ Access-Token: <accessToken>
 import { SdkworkAppClient } from '@sdkwork/voice-app-sdk';
 
 const client = new SdkworkAppClient({
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'http://localhost:18096',
   timeout: 30000, // Request timeout in ms
   headers: {      // Custom headers
     'X-Custom-Header': 'value',
@@ -69,16 +68,15 @@ const client = new SdkworkAppClient({
 ### voice
 
 ```typescript
-// Audio Assets list.
+// Voice Profiles list.
 const params = {
   page: 1,
   page_size: 2,
   cursor: 'cursor',
   sort: 'sort',
   q: 'q',
-  task_id: 'task_id',
 };
-const result = await client.voice.audioAssets.list(params);
+const result = await client.voice.voiceProfiles.list(params);
 ```
 
 ## Error Handling
@@ -93,9 +91,8 @@ try {
     cursor: 'cursor',
     sort: 'sort',
     q: 'q',
-    task_id: 'task_id',
   };
-  const result = await client.voice.audioAssets.list(params);
+  const result = await client.voice.voiceProfiles.list(params);
 } catch (error) {
   if (error instanceof AuthenticationError) {
     console.error('Authentication failed:', error.message);

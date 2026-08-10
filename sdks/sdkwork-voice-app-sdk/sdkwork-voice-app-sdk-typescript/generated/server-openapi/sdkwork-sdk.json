@@ -1,10 +1,12 @@
 {
   "schemaVersion": 1,
   "name": "sdkwork-voice-app-sdk",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "language": "typescript",
   "sdkType": "app",
   "packageName": "sdkwork-voice-app-sdk-generated-typescript",
+  "transportPackageName": "sdkwork-voice-app-sdk-generated-typescript",
+  "consumerPackageName": "@sdkwork/voice-app-sdk",
   "generator": "@sdkwork/sdk-generator",
   "capabilities": {
     "supportsGeneratedTests": true,
@@ -26,7 +28,5 @@
     "stateRoots": [
       ".sdkwork/"
     ]
-  },
-  "transportPackageName": "sdkwork-voice-app-sdk-generated-typescript",
-  "consumerPackageName": "@sdkwork/voice-app-sdk"
+  }
 }

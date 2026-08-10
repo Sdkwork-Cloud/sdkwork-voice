@@ -329,6 +329,66 @@ pub struct VoiceArtifactDriveSyncListQuery {
 }
 
 #[derive(Clone, Debug, PartialEq)]
+pub struct VoiceProfileRecord {
+    pub id: i64,
+    pub profile_no: String,
+    pub tenant_id: i64,
+    pub organization_id: i64,
+    pub user_id: i64,
+    pub name: String,
+    pub description: Option<String>,
+    pub kind: String,
+    pub status: String,
+    pub voice_id: Option<String>,
+    pub provider_code: Option<String>,
+    pub sample_media_json: String,
+    pub duration_seconds: Option<i32>,
+    pub created_at: String,
+    pub updated_at: String,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct NewVoiceProfile {
+    pub id: i64,
+    pub profile_no: String,
+    pub tenant_id: i64,
+    pub organization_id: i64,
+    pub user_id: i64,
+    pub name: String,
+    pub description: Option<String>,
+    pub kind: String,
+    pub status: String,
+    pub voice_id: Option<String>,
+    pub provider_code: Option<String>,
+    pub sample_media_json: String,
+    pub duration_seconds: Option<i32>,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct VoiceProfileUpdate {
+    pub id: i64,
+    pub tenant_id: i64,
+    pub user_id: i64,
+    pub name: Option<String>,
+    pub description: Option<String>,
+    pub voice_id: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct VoiceProfileListQuery {
+    pub tenant_id: i64,
+    pub user_id: i64,
+    pub page: i32,
+    pub page_size: i32,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct VoiceProfileListPage {
+    pub items: Vec<VoiceProfileRecord>,
+    pub has_more: bool,
+}
+
+#[derive(Clone, Debug, PartialEq)]
 pub struct VoiceArtifactDriveSyncListPage {
     pub items: Vec<VoiceArtifactDriveSyncRecord>,
     pub has_more: bool,
@@ -507,6 +567,35 @@ pub trait VoiceRepositoryPort: Send + Sync {
         &self,
         tenant_id: i64,
         artifact_id: i64,
+    ) -> Result<(), VoiceServiceError>;
+
+    async fn insert_voice_profile(
+        &self,
+        profile: NewVoiceProfile,
+    ) -> Result<VoiceProfileRecord, VoiceServiceError>;
+
+    async fn list_voice_profiles(
+        &self,
+        query: VoiceProfileListQuery,
+    ) -> Result<VoiceProfileListPage, VoiceServiceError>;
+
+    async fn get_voice_profile_by_id(
+        &self,
+        tenant_id: i64,
+        user_id: i64,
+        profile_id: i64,
+    ) -> Result<Option<VoiceProfileRecord>, VoiceServiceError>;
+
+    async fn update_voice_profile(
+        &self,
+        update: VoiceProfileUpdate,
+    ) -> Result<VoiceProfileRecord, VoiceServiceError>;
+
+    async fn delete_voice_profile(
+        &self,
+        tenant_id: i64,
+        user_id: i64,
+        profile_id: i64,
     ) -> Result<(), VoiceServiceError>;
 
     async fn list_artifact_drive_sync(

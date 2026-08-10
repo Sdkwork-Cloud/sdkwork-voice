@@ -131,7 +131,7 @@ describe("voice v3 OpenAPI materializer", () => {
     expect(appManifest.packageName).toBe("sdkwork-routes-voice-app-api");
     expect(appManifest.surface).toBe("app-api");
     expect(appManifest.source.crateRoot).toBe("crates/sdkwork-routes-voice-app-api");
-    expect(appManifest.routes).toHaveLength(12);
+    expect(appManifest.routes).toHaveLength(17);
 
     expect(backendManifest.packageName).toBe("sdkwork-routes-voice-backend-api");
     expect(backendManifest.surface).toBe("backend-api");

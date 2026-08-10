@@ -1,8 +1,57 @@
 import { appApiPath } from './paths';
-import type { HttpClient } from '../http/client';
+import type { ApiRequestOptions, HttpClient } from '../http/client';
 
-import type { SdkWorkCommandData, SdkWorkPageData, VoiceMusicCreateCommand, VoiceOperationCommand, VoiceSoundEffectCreateCommand, VoiceSpeechCreateCommand, VoiceTranscriptionCreateCommand, VoiceTranslationCreateCommand } from '../types';
+import type { SdkWorkCommandData, SdkWorkPageData, VoiceMusicCreateCommand, VoiceOperationCommand, VoiceSoundEffectCreateCommand, VoiceSpeechCreateCommand, VoiceTranscriptionCreateCommand, VoiceTranslationCreateCommand, VoiceVoiceProfileCreateCommand, VoiceVoiceProfileUpdateCommand } from '../types';
 
+
+export interface VoiceVoiceProfilesListParams {
+  page?: number;
+  pageSize?: number;
+  cursor?: string;
+  sort?: string;
+  q?: string;
+}
+
+export class VoiceVoiceProfilesApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Voice Profiles list. */
+  async list(params?: VoiceVoiceProfilesListParams, requestOptions?: ApiRequestOptions): Promise<SdkWorkPageData> {
+    const query = buildQueryString([
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+      { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
+      { name: 'sort', value: params?.sort, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.request<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/voice_profiles`), query), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'GET' as any, sdkworkUnwrapKind: 'page' });
+  }
+
+/** Voice Profiles create. */
+  async create(body: VoiceVoiceProfileCreateCommand, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/voice_profiles`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'POST' as any, body, contentType: 'application/json', sdkworkUnwrapKind: 'item' });
+  }
+
+/** Voice Profiles delete. */
+  async delete(profileId: string, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/voice_profiles/${serializePathParameter(profileId, { name: 'profileId', style: 'simple', explode: false })}`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'DELETE' as any, sdkworkUnwrapKind: 'item' });
+  }
+
+/** Voice Profiles retrieve. */
+  async retrieve(profileId: string, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/voice_profiles/${serializePathParameter(profileId, { name: 'profileId', style: 'simple', explode: false })}`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'GET' as any, sdkworkUnwrapKind: 'item' });
+  }
+
+/** Voice Profiles update. */
+  async update(profileId: string, body?: VoiceVoiceProfileUpdateCommand, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/voice_profiles/${serializePathParameter(profileId, { name: 'profileId', style: 'simple', explode: false })}`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'PATCH' as any, body, contentType: 'application/json', sdkworkUnwrapKind: 'item' });
+  }
+}
 
 export class VoiceTranslationsApi {
   private client: HttpClient;
@@ -13,8 +62,8 @@ export class VoiceTranslationsApi {
 
 
 /** Translations create. */
-  async create(body: VoiceTranslationCreateCommand): Promise<Record<string, unknown>> {
-    return this.client.post<Record<string, unknown>>(appApiPath(`/voice/translations`), body, undefined, undefined, 'application/json');
+  async create(body: VoiceTranslationCreateCommand, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/translations`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'POST' as any, body, contentType: 'application/json', sdkworkUnwrapKind: 'item' });
   }
 }
 
@@ -27,8 +76,8 @@ export class VoiceTranscriptionsApi {
 
 
 /** Transcriptions create. */
-  async create(body: VoiceTranscriptionCreateCommand): Promise<Record<string, unknown>> {
-    return this.client.post<Record<string, unknown>>(appApiPath(`/voice/transcriptions`), body, undefined, undefined, 'application/json');
+  async create(body: VoiceTranscriptionCreateCommand, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/transcriptions`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'POST' as any, body, contentType: 'application/json', sdkworkUnwrapKind: 'item' });
   }
 }
 
@@ -52,7 +101,7 @@ export class VoiceTasksApi {
 
 
 /** Tasks list. */
-  async list(params?: VoiceTasksListParams): Promise<SdkWorkPageData> {
+  async list(params?: VoiceTasksListParams, requestOptions?: ApiRequestOptions): Promise<SdkWorkPageData> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
@@ -63,17 +112,17 @@ export class VoiceTasksApi {
       { name: 'operation_type', value: params?.operationType, style: 'form', explode: true, allowReserved: false },
       { name: 'provider_code', value: params?.providerCode, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/tasks`), query));
+    return this.client.request<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/tasks`), query), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'GET' as any, sdkworkUnwrapKind: 'page' });
   }
 
 /** Tasks retrieve. */
-  async retrieve(taskId: string): Promise<Record<string, unknown>> {
-    return this.client.get<Record<string, unknown>>(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}`));
+  async retrieve(taskId: string, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'GET' as any, sdkworkUnwrapKind: 'item' });
   }
 
 /** Tasks cancel. */
-  async cancel(taskId: string, body: VoiceOperationCommand): Promise<SdkWorkCommandData> {
-    return this.client.post<SdkWorkCommandData>(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/cancel`), body, undefined, undefined, 'application/json');
+  async cancel(taskId: string, body: VoiceOperationCommand, requestOptions?: ApiRequestOptions): Promise<SdkWorkCommandData> {
+    return this.client.request<SdkWorkCommandData>(appApiPath(`/voice/tasks/${serializePathParameter(taskId, { name: 'taskId', style: 'simple', explode: false })}/cancel`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'POST' as any, body, contentType: 'application/json', sdkworkUnwrapKind: 'command' });
   }
 }
 
@@ -95,7 +144,7 @@ export class VoiceTaskEventsApi {
 
 
 /** Task Events list. */
-  async list(params?: VoiceTaskEventsListParams): Promise<SdkWorkPageData> {
+  async list(params?: VoiceTaskEventsListParams, requestOptions?: ApiRequestOptions): Promise<SdkWorkPageData> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
@@ -104,7 +153,7 @@ export class VoiceTaskEventsApi {
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
       { name: 'task_id', value: params?.taskId, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/task_events`), query));
+    return this.client.request<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/task_events`), query), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'GET' as any, sdkworkUnwrapKind: 'page' });
   }
 }
 
@@ -117,8 +166,8 @@ export class VoiceSpeechApi {
 
 
 /** Speech create. */
-  async create(body: VoiceSpeechCreateCommand): Promise<Record<string, unknown>> {
-    return this.client.post<Record<string, unknown>>(appApiPath(`/voice/speech`), body, undefined, undefined, 'application/json');
+  async create(body: VoiceSpeechCreateCommand, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/speech`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'POST' as any, body, contentType: 'application/json', sdkworkUnwrapKind: 'item' });
   }
 }
 
@@ -131,8 +180,8 @@ export class VoiceSoundEffectsApi {
 
 
 /** Sound Effects create. */
-  async create(body: VoiceSoundEffectCreateCommand): Promise<Record<string, unknown>> {
-    return this.client.post<Record<string, unknown>>(appApiPath(`/voice/sound_effects`), body, undefined, undefined, 'application/json');
+  async create(body: VoiceSoundEffectCreateCommand, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/sound_effects`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'POST' as any, body, contentType: 'application/json', sdkworkUnwrapKind: 'item' });
   }
 }
 
@@ -145,8 +194,8 @@ export class VoiceMusicApi {
 
 
 /** Music create. */
-  async create(body: VoiceMusicCreateCommand): Promise<Record<string, unknown>> {
-    return this.client.post<Record<string, unknown>>(appApiPath(`/voice/music`), body, undefined, undefined, 'application/json');
+  async create(body: VoiceMusicCreateCommand, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/music`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'POST' as any, body, contentType: 'application/json', sdkworkUnwrapKind: 'item' });
   }
 }
 
@@ -168,7 +217,7 @@ export class VoiceAudioAssetsApi {
 
 
 /** Audio Assets list. */
-  async list(params?: VoiceAudioAssetsListParams): Promise<SdkWorkPageData> {
+  async list(params?: VoiceAudioAssetsListParams, requestOptions?: ApiRequestOptions): Promise<SdkWorkPageData> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
@@ -177,12 +226,12 @@ export class VoiceAudioAssetsApi {
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
       { name: 'task_id', value: params?.taskId, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/audio_assets`), query));
+    return this.client.request<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/audio_assets`), query), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'GET' as any, sdkworkUnwrapKind: 'page' });
   }
 
 /** Audio Assets retrieve. */
-  async retrieve(audioAssetId: string): Promise<Record<string, unknown>> {
-    return this.client.get<Record<string, unknown>>(appApiPath(`/voice/audio_assets/${serializePathParameter(audioAssetId, { name: 'audioAssetId', style: 'simple', explode: false })}`));
+  async retrieve(audioAssetId: string, requestOptions?: ApiRequestOptions): Promise<Record<string, unknown>> {
+    return this.client.request<Record<string, unknown>>(appApiPath(`/voice/audio_assets/${serializePathParameter(audioAssetId, { name: 'audioAssetId', style: 'simple', explode: false })}`), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'GET' as any, sdkworkUnwrapKind: 'item' });
   }
 }
 
@@ -205,7 +254,7 @@ export class VoiceArtifactDriveSyncApi {
 
 
 /** Artifact Drive Sync list. */
-  async list(params?: VoiceArtifactDriveSyncListParams): Promise<SdkWorkPageData> {
+  async list(params?: VoiceArtifactDriveSyncListParams, requestOptions?: ApiRequestOptions): Promise<SdkWorkPageData> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
@@ -215,7 +264,7 @@ export class VoiceArtifactDriveSyncApi {
       { name: 'sync_status', value: params?.syncStatus, style: 'form', explode: true, allowReserved: false },
       { name: 'task_id', value: params?.taskId, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/artifact_drive_sync`), query));
+    return this.client.request<SdkWorkPageData>(appendQueryString(appApiPath(`/voice/artifact_drive_sync`), query), { signal: requestOptions?.signal, timeout: requestOptions?.timeout, method: 'GET' as any, sdkworkUnwrapKind: 'page' });
   }
 }
 
@@ -230,6 +279,7 @@ export class VoiceApi {
   public readonly tasks: VoiceTasksApi;
   public readonly transcriptions: VoiceTranscriptionsApi;
   public readonly translations: VoiceTranslationsApi;
+  public readonly voiceProfiles: VoiceVoiceProfilesApi;
 
   constructor(client: HttpClient) {
     this.client = client;
@@ -242,6 +292,7 @@ export class VoiceApi {
     this.tasks = new VoiceTasksApi(client);
     this.transcriptions = new VoiceTranscriptionsApi(client);
     this.translations = new VoiceTranslationsApi(client);
+    this.voiceProfiles = new VoiceVoiceProfilesApi(client);
   }
 
 }

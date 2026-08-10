@@ -472,8 +472,15 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Success"
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad request",
@@ -807,7 +814,7 @@
         "operationId": "providerRoutes.create",
         "parameters": [],
         "responses": {
-          "201": {
+          "200": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -923,8 +930,15 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Success"
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad request",
@@ -1503,7 +1517,7 @@
           "voice"
         ],
         "summary": "Provider Webhooks accept.",
-        "operationId": "providerWebhooks.create",
+        "operationId": "providerWebhooks.accept",
         "parameters": [
           {
             "name": "providerCode",
@@ -1515,7 +1529,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -2843,7 +2857,7 @@
         "format": "int32",
         "minimum": 40001,
         "maximum": 79999,
-        "description": "Platform or domain error code per API_SPEC.md 搂15.3."
+        "description": "Platform or domain error code per API_SPEC.md §15.3."
       },
       "ProblemDetail": {
         "type": "object",
@@ -2882,6 +2896,14 @@
             "format": "uuid",
             "description": "Server-owned request correlation id."
           },
+          "i18nKey": {
+            "type": "string",
+            "description": "Optional stable localization key such as errors.result.40001."
+          },
+          "locale": {
+            "type": "string",
+            "description": "Optional effective BCP 47 locale used by framework message mapping."
+          },
           "errors": {
             "type": "array",
             "items": {
@@ -2909,6 +2931,28 @@
             "format": "int32",
             "minimum": 40011,
             "maximum": 40099
+          },
+          "i18nKey": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            }
           }
         }
       },
@@ -2973,6 +3017,75 @@
         "properties": {
           "mediaResource": {
             "$ref": "#/components/schemas/MediaResource"
+          }
+        }
+      },
+      "VoiceVoiceProfileCreateCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "cloned",
+              "uploaded",
+              "preset"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "training",
+              "ready",
+              "failed",
+              "disabled"
+            ]
+          },
+          "voiceId": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "providerCode": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "sampleMedia": {
+            "$ref": "#/components/schemas/MediaResource"
+          },
+          "durationSeconds": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      },
+      "VoiceVoiceProfileUpdateCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "voiceId": {
+            "type": "string",
+            "maxLength": 128
           }
         }
       },

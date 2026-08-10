@@ -4,7 +4,6 @@ use axum::{
     routing::{get, post},
     Router,
 };
-
 use crate::{
     handlers,
     manifest::voice_app_api_http_route_manifest,
@@ -52,6 +51,16 @@ pub fn build_sdkwork_voice_app_api_router(service: Arc<dyn VoiceAppApiServicePor
         .route(
             "/app/v3/api/voice/audio_assets/{audioAssetId}",
             get(handlers::retrieve_audio_asset),
+        )
+        .route(
+            "/app/v3/api/voice/voice_profiles",
+            get(handlers::list_voice_profiles).post(handlers::create_voice_profile),
+        )
+        .route(
+            "/app/v3/api/voice/voice_profiles/{profileId}",
+            get(handlers::retrieve_voice_profile)
+                .patch(handlers::update_voice_profile)
+                .delete(handlers::delete_voice_profile),
         )
         .with_state(VoiceAppApiState::new(service));
     with_dual_token_request_context(router, voice_app_api_http_route_manifest())

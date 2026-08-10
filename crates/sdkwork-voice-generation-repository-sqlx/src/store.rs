@@ -2,11 +2,12 @@ use async_trait::async_trait;
 use sdkwork_utils_rust::{format_datetime, now};
 use sdkwork_voice_contract::VoiceServiceError;
 use sdkwork_voice_service::{
-    NewVoiceArtifactDriveSync, NewVoiceAudioArtifact, NewVoiceProviderRoute,
+    NewVoiceArtifactDriveSync, NewVoiceAudioArtifact, NewVoiceProfile, NewVoiceProviderRoute,
     NewVoiceProviderWebhookEvent, NewVoiceRequestLog, NewVoiceTask, NewVoiceTaskEvent,
     VoiceArtifactDriveSyncListPage, VoiceArtifactDriveSyncListQuery, VoiceArtifactDriveSyncRecord,
     VoiceArtifactDriveSyncUploadUpdate, VoiceAudioArtifactListPage, VoiceAudioArtifactListQuery,
-    VoiceAudioArtifactRecord, VoiceProviderRouteListPage, VoiceProviderRouteListQuery,
+    VoiceAudioArtifactRecord, VoiceProfileListPage, VoiceProfileListQuery, VoiceProfileRecord,
+    VoiceProfileUpdate, VoiceProviderRouteListPage, VoiceProviderRouteListQuery,
     VoiceProviderRouteRecord, VoiceProviderRouteUpdate, VoiceProviderWebhookEventListPage,
     VoiceProviderWebhookEventListQuery, VoiceProviderWebhookEventRecord, VoiceRepositoryPort,
     VoiceRequestLogListPage, VoiceRequestLogListQuery, VoiceRequestLogRecord,
@@ -531,6 +532,146 @@ impl VoiceRepositoryPort for SqlVoiceStore {
         .execute(&self.pool)
         .await
         .map_err(store_error("failed to delete audio artifact"))?;
+        Ok(())
+    }
+
+    async fn insert_voice_profile(
+        &self,
+        profile: NewVoiceProfile,
+    ) -> Result<VoiceProfileRecord, VoiceServiceError> {
+        let created_at = now_text();
+        sqlx::query(
+            "INSERT INTO voice_profile (
+                id, profile_no, tenant_id, organization_id, user_id,
+                name, description, kind, status, voice_id, provider_code,
+                sample_media_json, duration_seconds, created_at, updated_at
+             ) VALUES (
+                $1, $2, $3, $4, $5,
+                $6, $7, $8, $9, $10, $11,
+                $12, $13, $14, $14
+             )",
+        )
+        .bind(profile.id)
+        .bind(&profile.profile_no)
+        .bind(profile.tenant_id)
+        .bind(profile.organization_id)
+        .bind(profile.user_id)
+        .bind(&profile.name)
+        .bind(profile.description.as_deref())
+        .bind(&profile.kind)
+        .bind(&profile.status)
+        .bind(profile.voice_id.as_deref())
+        .bind(profile.provider_code.as_deref())
+        .bind(&profile.sample_media_json)
+        .bind(profile.duration_seconds)
+        .bind(&created_at)
+        .execute(&self.pool)
+        .await
+        .map_err(store_error("failed to insert voice profile"))?;
+        self.get_voice_profile_by_id(0, 0, profile.id)
+            .await?
+            .ok_or_else(|| VoiceServiceError::storage("inserted voice profile not found"))
+    }
+
+    async fn list_voice_profiles(
+        &self,
+        query: VoiceProfileListQuery,
+    ) -> Result<VoiceProfileListPage, VoiceServiceError> {
+        let limit = list_limit(query.page, query.page_size);
+        let offset = list_offset(query.page, query.page_size);
+        let rows = sqlx::query(VOICE_PROFILE_LIST_SQL)
+            .bind(query.tenant_id)
+            .bind(query.user_id)
+            .bind(limit)
+            .bind(offset)
+            .fetch_all(&self.pool)
+            .await
+            .map_err(store_error("failed to list voice profiles"))?;
+        let has_more = rows.len() as i32 > query.page_size;
+        let items = rows
+            .iter()
+            .take(query.page_size as usize)
+            .map(map_voice_profile_row)
+            .collect::<Result<Vec<_>, _>>()?;
+        Ok(VoiceProfileListPage { items, has_more })
+    }
+
+    async fn get_voice_profile_by_id(
+        &self,
+        tenant_id: i64,
+        user_id: i64,
+        profile_id: i64,
+    ) -> Result<Option<VoiceProfileRecord>, VoiceServiceError> {
+        let row = if tenant_id == 0 && user_id == 0 {
+            sqlx::query(VOICE_PROFILE_SELECT_SQL)
+                .bind(profile_id)
+                .fetch_optional(&self.pool)
+                .await
+                .map_err(store_error("failed to get voice profile"))?
+        } else {
+            sqlx::query(VOICE_PROFILE_SELECT_BY_SCOPE_SQL)
+                .bind(profile_id)
+                .bind(tenant_id)
+                .bind(user_id)
+                .fetch_optional(&self.pool)
+                .await
+                .map_err(store_error("failed to get voice profile"))?
+        };
+        row.as_ref().map(map_voice_profile_row).transpose()
+    }
+
+    async fn update_voice_profile(
+        &self,
+        update: VoiceProfileUpdate,
+    ) -> Result<VoiceProfileRecord, VoiceServiceError> {
+        let existing = self
+            .get_voice_profile_by_id(update.tenant_id, update.user_id, update.id)
+            .await?
+            .ok_or_else(|| VoiceServiceError::not_found("voice profile not found"))?;
+        let name = update.name.unwrap_or(existing.name);
+        let description = update.description.or(existing.description);
+        let voice_id = update.voice_id.or(existing.voice_id);
+        let updated_at = now_text();
+        sqlx::query(
+            "UPDATE voice_profile
+             SET name=$2, description=$3, voice_id=$4, updated_at=$5, version=version+1
+             WHERE id=$1 AND deleted=FALSE",
+        )
+        .bind(update.id)
+        .bind(&name)
+        .bind(description.as_deref())
+        .bind(voice_id.as_deref())
+        .bind(&updated_at)
+        .execute(&self.pool)
+        .await
+        .map_err(store_error("failed to update voice profile"))?;
+        self.get_voice_profile_by_id(0, 0, update.id)
+            .await?
+            .ok_or_else(|| VoiceServiceError::storage("updated voice profile not found"))
+    }
+
+    async fn delete_voice_profile(
+        &self,
+        tenant_id: i64,
+        user_id: i64,
+        profile_id: i64,
+    ) -> Result<(), VoiceServiceError> {
+        let existing = self
+            .get_voice_profile_by_id(tenant_id, user_id, profile_id)
+            .await?
+            .ok_or_else(|| VoiceServiceError::not_found("voice profile not found"))?;
+        let _ = existing;
+        let updated_at = now_text();
+        sqlx::query(
+            "UPDATE voice_profile
+             SET deleted=TRUE, updated_at=$2, version=version+1
+             WHERE id=$1 AND deleted=FALSE",
+        )
+        .bind(profile_id)
+        .bind(&updated_at)
+        .execute(&self.pool)
+        .await
+        .map_err(store_error("failed to delete voice profile"))?;
         Ok(())
     }
 
@@ -1064,6 +1205,34 @@ const AUDIO_ARTIFACT_SELECT_BY_TASK_INDEX_SQL: &str = "
     WHERE task_id = $1 AND artifact_index = $2 AND deleted = FALSE
     LIMIT 1";
 
+const VOICE_PROFILE_SELECT_SQL: &str = "
+    SELECT id, profile_no, tenant_id, organization_id, user_id,
+           name, description, kind, status, voice_id, provider_code,
+           sample_media_json, duration_seconds,
+           CAST(created_at AS TEXT) AS created_at, CAST(updated_at AS TEXT) AS updated_at
+    FROM voice_profile
+    WHERE id=$1 AND deleted=FALSE
+    LIMIT 1";
+
+const VOICE_PROFILE_SELECT_BY_SCOPE_SQL: &str = "
+    SELECT id, profile_no, tenant_id, organization_id, user_id,
+           name, description, kind, status, voice_id, provider_code,
+           sample_media_json, duration_seconds,
+           CAST(created_at AS TEXT) AS created_at, CAST(updated_at AS TEXT) AS updated_at
+    FROM voice_profile
+    WHERE id=$1 AND tenant_id=$2 AND user_id=$3 AND deleted=FALSE
+    LIMIT 1";
+
+const VOICE_PROFILE_LIST_SQL: &str = "
+    SELECT id, profile_no, tenant_id, organization_id, user_id,
+           name, description, kind, status, voice_id, provider_code,
+           sample_media_json, duration_seconds,
+           CAST(created_at AS TEXT) AS created_at, CAST(updated_at AS TEXT) AS updated_at
+    FROM voice_profile
+    WHERE tenant_id = $1 AND user_id = $2 AND deleted = FALSE
+    ORDER BY created_at DESC, id DESC
+    LIMIT $3 OFFSET $4";
+
 const ARTIFACT_DRIVE_SYNC_SELECT_SQL: &str = "
     SELECT id, sync_no, task_id, artifact_id, artifact_index, tenant_id, organization_id, user_id,
            sync_status, source_uri, drive_space_type, drive_space_id, drive_node_id,
@@ -1209,6 +1378,28 @@ fn map_audio_artifact_row(
         duration_seconds: row.get("duration_seconds"),
         media_resource_json: row.get("media_resource_json"),
         status: row.get("status"),
+        created_at: row.get("created_at"),
+        updated_at: row.get("updated_at"),
+    })
+}
+
+fn map_voice_profile_row(
+    row: &sqlx::any::AnyRow,
+) -> Result<VoiceProfileRecord, VoiceServiceError> {
+    Ok(VoiceProfileRecord {
+        id: row.get("id"),
+        profile_no: row.get("profile_no"),
+        tenant_id: row.get("tenant_id"),
+        organization_id: row.get("organization_id"),
+        user_id: row.get("user_id"),
+        name: row.get("name"),
+        description: row.get("description"),
+        kind: row.get("kind"),
+        status: row.get("status"),
+        voice_id: row.get("voice_id"),
+        provider_code: row.get("provider_code"),
+        sample_media_json: row.get("sample_media_json"),
+        duration_seconds: row.get("duration_seconds"),
         created_at: row.get("created_at"),
         updated_at: row.get("updated_at"),
     })

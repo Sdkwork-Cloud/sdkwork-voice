@@ -10,5 +10,9 @@ export interface ProblemDetail {
   code: SdkWorkPlatformErrorCode;
   /** Server-owned request correlation id. */
   traceId: string;
+  /** Optional stable localization key such as errors.result.40001. */
+  i18nKey?: string;
+  /** Optional effective BCP 47 locale used by framework message mapping. */
+  locale?: string;
   errors?: FieldError[];
 }

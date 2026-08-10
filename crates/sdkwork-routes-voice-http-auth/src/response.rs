@@ -84,6 +84,7 @@ const VOICE_APP_CREATED_OPERATIONS: &[&str] = &[
     "translations.create",
     "soundEffects.create",
     "music.create",
+    "voiceProfiles.create",
 ];
 
 const VOICE_BACKEND_CREATED_OPERATIONS: &[&str] = &["providerRoutes.create"];

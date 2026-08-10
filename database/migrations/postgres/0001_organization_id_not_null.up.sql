@@ -18,14 +18,17 @@
 
 BEGIN;
 
+ALTER TABLE voice_generation_task ADD COLUMN IF NOT EXISTS organization_id BIGINT NOT NULL DEFAULT 0;
 UPDATE voice_generation_task SET organization_id = 0 WHERE organization_id IS NULL;
 ALTER TABLE voice_generation_task ALTER COLUMN organization_id SET DEFAULT 0;
 ALTER TABLE voice_generation_task ALTER COLUMN organization_id SET NOT NULL;
 
+ALTER TABLE voice_artifact_drive_sync ADD COLUMN IF NOT EXISTS organization_id BIGINT NOT NULL DEFAULT 0;
 UPDATE voice_artifact_drive_sync SET organization_id = 0 WHERE organization_id IS NULL;
 ALTER TABLE voice_artifact_drive_sync ALTER COLUMN organization_id SET DEFAULT 0;
 ALTER TABLE voice_artifact_drive_sync ALTER COLUMN organization_id SET NOT NULL;
 
+ALTER TABLE voice_profile ADD COLUMN IF NOT EXISTS organization_id BIGINT NOT NULL DEFAULT 0;
 UPDATE voice_profile SET organization_id = 0 WHERE organization_id IS NULL;
 ALTER TABLE voice_profile ALTER COLUMN organization_id SET DEFAULT 0;
 ALTER TABLE voice_profile ALTER COLUMN organization_id SET NOT NULL;

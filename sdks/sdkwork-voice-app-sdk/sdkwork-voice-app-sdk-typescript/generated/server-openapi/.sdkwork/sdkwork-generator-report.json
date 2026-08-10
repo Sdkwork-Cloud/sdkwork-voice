@@ -12,7 +12,7 @@
   "mode": "apply",
   "hasChanges": true,
   "hasDestructiveChanges": false,
-  "changeFingerprint": "6a3e110060502f92c133c6e7ff3390c242da35544330ac809a0574406b3b1428",
+  "changeFingerprint": "dddc801e60ad185a30965759ba8506886049a1550ce6c7ba0371e63943d06434",
   "changeImpact": {
     "schemaVersion": 1,
     "areas": [
@@ -22,7 +22,6 @@
       "build-metadata",
       "publish-workflow",
       "documentation",
-      "custom-scaffold",
       "unknown"
     ],
     "details": [
@@ -74,7 +73,9 @@
           "src/types/voice-task-status.ts",
           "src/types/voice-task.ts",
           "src/types/voice-transcription-create-command.ts",
-          "src/types/voice-translation-create-command.ts"
+          "src/types/voice-translation-create-command.ts",
+          "src/types/voice-voice-profile-create-command.ts",
+          "src/types/voice-voice-profile-update-command.ts"
         ]
       },
       {
@@ -107,15 +108,7 @@
         "area": "documentation",
         "paths": [
           "CHANGELOG.md",
-          "custom/README.md",
           "README.md"
-        ]
-      },
-      {
-        "area": "custom-scaffold",
-        "paths": [
-          "custom/build-runtime.mjs",
-          "custom/README.md"
         ]
       },
       {
@@ -127,7 +120,7 @@
       }
     ],
     "requiresVerification": true,
-    "summary": "Detected impact areas: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown. Verification is required."
+    "summary": "Detected impact areas: api-surface, models, runtime, build-metadata, publish-workflow, documentation, unknown. Verification is required."
   },
   "executionDecision": {
     "schemaVersion": 1,
@@ -137,8 +130,8 @@
     "applyRequiresExpectedFingerprint": false,
     "summary": "Changes have been applied. Run the required verification plan now.",
     "reasons": [
+      "backed-up-generated-files",
       "manual-review-required",
-      "preserved-legacy-files",
       "unknown-impact",
       "verification-required"
     ]
@@ -151,7 +144,7 @@
         "id": "verify-check",
         "title": "Unified package check",
         "required": true,
-        "rationale": "Validate the generated package with the unified publish helper. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
+        "rationale": "Validate the generated package with the unified publish helper. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, unknown.",
         "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-app-sdk\\sdkwork-voice-app-sdk-typescript\\generated\\server-openapi",
         "command": "node",
         "args": [
@@ -169,7 +162,7 @@
         "id": "verify-build",
         "title": "Unified package build",
         "required": true,
-        "rationale": "Run the full package build because this language uses a lighter check path than the final build. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
+        "rationale": "Run the full package build because this language uses a lighter check path than the final build. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, unknown.",
         "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-app-sdk\\sdkwork-voice-app-sdk-typescript\\generated\\server-openapi",
         "command": "node",
         "args": [
@@ -188,13 +181,13 @@
   "verificationPlan": {
     "shouldRun": true,
     "runPhase": "now",
-    "summary": "Detected impact areas: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown. Verification is required. Run the required verification commands now against the generated SDK output.",
+    "summary": "Detected impact areas: api-surface, models, runtime, build-metadata, publish-workflow, documentation, unknown. Verification is required. Run the required verification commands now against the generated SDK output.",
     "steps": [
       {
         "id": "check",
         "title": "Unified package check",
         "required": true,
-        "rationale": "Validate the generated package with the unified publish helper. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
+        "rationale": "Validate the generated package with the unified publish helper. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, unknown.",
         "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-app-sdk\\sdkwork-voice-app-sdk-typescript\\generated\\server-openapi",
         "command": "node",
         "args": [
@@ -212,7 +205,7 @@
         "id": "build",
         "title": "Unified package build",
         "required": true,
-        "rationale": "Run the full package build because this language uses a lighter check path than the final build. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
+        "rationale": "Run the full package build because this language uses a lighter check path than the final build. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, unknown.",
         "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-app-sdk\\sdkwork-voice-app-sdk-typescript\\generated\\server-openapi",
         "command": "node",
         "args": [
@@ -230,7 +223,7 @@
   },
   "sdk": {
     "name": "sdkwork-voice-app-sdk",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "language": "typescript",
     "sdkType": "app",
     "protocol": "http",
@@ -238,27 +231,31 @@
     "packageName": "@sdkwork/voice-app-sdk"
   },
   "versioning": {
-    "resolvedVersion": "1.0.0",
+    "resolvedVersion": "0.1.0",
     "localVersions": []
   },
   "stats": {
-    "totalFiles": 57,
-    "models": 33,
+    "totalFiles": 59,
+    "models": 35,
     "apis": 1,
-    "types": 35
+    "types": 37
   },
   "warnings": [],
   "syncSummary": {
     "dryRun": false,
     "controlPlaneEnabled": true,
     "writtenFiles": 57,
-    "skippedScaffoldFiles": 0,
+    "skippedScaffoldFiles": 2,
     "skippedUnchangedGeneratedFiles": 0,
     "deletedGeneratedFiles": 0,
     "changeSummaryPath": ".sdkwork/sdkwork-generator-changes.json",
-    "changeFingerprint": "6a3e110060502f92c133c6e7ff3390c242da35544330ac809a0574406b3b1428",
+    "changeFingerprint": "dddc801e60ad185a30965759ba8506886049a1550ce6c7ba0371e63943d06434",
     "changes": {
       "createdGeneratedFiles": [
+        "src/types/voice-voice-profile-create-command.ts",
+        "src/types/voice-voice-profile-update-command.ts"
+      ],
+      "updatedGeneratedFiles": [
         "bin/publish-core.mjs",
         "bin/publish.ps1",
         "bin/publish.sh",
@@ -315,15 +312,70 @@
         "src/types/voice-translation-create-command.ts",
         "tsconfig.json"
       ],
-      "updatedGeneratedFiles": [],
       "unchangedGeneratedFiles": [],
       "deletedGeneratedFiles": [],
-      "scaffoldedFiles": [
+      "scaffoldedFiles": [],
+      "preservedScaffoldFiles": [
         "custom/build-runtime.mjs",
         "custom/README.md"
       ],
-      "preservedScaffoldFiles": [],
-      "backedUpFiles": []
+      "backedUpFiles": [
+        "bin/publish-core.mjs",
+        "bin/publish.ps1",
+        "bin/publish.sh",
+        "bin/sdk-gen.bat",
+        "bin/sdk-gen.sh",
+        "CHANGELOG.md",
+        "LICENSE",
+        "package.json",
+        "README.md",
+        "sdkwork-sdk.json",
+        "src/api/base.ts",
+        "src/api/index.ts",
+        "src/api/paths.ts",
+        "src/api/voice.ts",
+        "src/auth/index.ts",
+        "src/http/client.ts",
+        "src/http/index.ts",
+        "src/index.ts",
+        "src/sdk.ts",
+        "src/types/common.ts",
+        "src/types/field-error.ts",
+        "src/types/index.ts",
+        "src/types/media-access.ts",
+        "src/types/media-ai-provenance.ts",
+        "src/types/media-checksum.ts",
+        "src/types/media-kind.ts",
+        "src/types/media-resource.ts",
+        "src/types/media-source.ts",
+        "src/types/page-info.ts",
+        "src/types/problem-detail.ts",
+        "src/types/sdk-work-api-response.ts",
+        "src/types/sdk-work-command-data.ts",
+        "src/types/sdk-work-command-response.ts",
+        "src/types/sdk-work-list-response.ts",
+        "src/types/sdk-work-page-data.ts",
+        "src/types/sdk-work-platform-error-code.ts",
+        "src/types/sdk-work-resource-data.ts",
+        "src/types/sdk-work-resource-response.ts",
+        "src/types/voice-artifact-drive-sync-status.ts",
+        "src/types/voice-artifact-drive-sync.ts",
+        "src/types/voice-artifact.ts",
+        "src/types/voice-music-create-command.ts",
+        "src/types/voice-operation-command.ts",
+        "src/types/voice-operation-type.ts",
+        "src/types/voice-provider-options.ts",
+        "src/types/voice-provider-webhook-event-command.ts",
+        "src/types/voice-sound-effect-create-command.ts",
+        "src/types/voice-speech-create-command.ts",
+        "src/types/voice-task-event.ts",
+        "src/types/voice-task-reconcile-command.ts",
+        "src/types/voice-task-status.ts",
+        "src/types/voice-task.ts",
+        "src/types/voice-transcription-create-command.ts",
+        "src/types/voice-translation-create-command.ts",
+        "tsconfig.json"
+      ]
     },
     "impact": {
       "schemaVersion": 1,
@@ -334,7 +386,6 @@
         "build-metadata",
         "publish-workflow",
         "documentation",
-        "custom-scaffold",
         "unknown"
       ],
       "details": [
@@ -386,7 +437,9 @@
             "src/types/voice-task-status.ts",
             "src/types/voice-task.ts",
             "src/types/voice-transcription-create-command.ts",
-            "src/types/voice-translation-create-command.ts"
+            "src/types/voice-translation-create-command.ts",
+            "src/types/voice-voice-profile-create-command.ts",
+            "src/types/voice-voice-profile-update-command.ts"
           ]
         },
         {
@@ -419,15 +472,7 @@
           "area": "documentation",
           "paths": [
             "CHANGELOG.md",
-            "custom/README.md",
             "README.md"
-          ]
-        },
-        {
-          "area": "custom-scaffold",
-          "paths": [
-            "custom/build-runtime.mjs",
-            "custom/README.md"
           ]
         },
         {
@@ -439,18 +484,18 @@
         }
       ],
       "requiresVerification": true,
-      "summary": "Detected impact areas: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown. Verification is required."
+      "summary": "Detected impact areas: api-surface, models, runtime, build-metadata, publish-workflow, documentation, unknown. Verification is required."
     },
     "verificationPlan": {
       "shouldRun": true,
       "runPhase": "now",
-      "summary": "Detected impact areas: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown. Verification is required. Run the required verification commands now against the generated SDK output.",
+      "summary": "Detected impact areas: api-surface, models, runtime, build-metadata, publish-workflow, documentation, unknown. Verification is required. Run the required verification commands now against the generated SDK output.",
       "steps": [
         {
           "id": "check",
           "title": "Unified package check",
           "required": true,
-          "rationale": "Validate the generated package with the unified publish helper. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
+          "rationale": "Validate the generated package with the unified publish helper. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, unknown.",
           "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-app-sdk\\sdkwork-voice-app-sdk-typescript\\generated\\server-openapi",
           "command": "node",
           "args": [
@@ -468,7 +513,7 @@
           "id": "build",
           "title": "Unified package build",
           "required": true,
-          "rationale": "Run the full package build because this language uses a lighter check path than the final build. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, custom-scaffold, unknown.",
+          "rationale": "Run the full package build because this language uses a lighter check path than the final build. Triggered by: api-surface, models, runtime, build-metadata, publish-workflow, documentation, unknown.",
           "workingDirectory": "E:\\sdkwork-space\\sdkwork-voice\\sdks\\sdkwork-voice-app-sdk\\sdkwork-voice-app-sdk-typescript\\generated\\server-openapi",
           "command": "node",
           "args": [
@@ -492,13 +537,69 @@
       "applyRequiresExpectedFingerprint": false,
       "summary": "Changes have been applied. Run the required verification plan now.",
       "reasons": [
+        "backed-up-generated-files",
         "manual-review-required",
-        "preserved-legacy-files",
         "unknown-impact",
         "verification-required"
       ]
     },
-    "backedUpFiles": [],
-    "preservedLegacyFiles": true
+    "backedUpFiles": [
+      "bin/publish-core.mjs",
+      "bin/publish.ps1",
+      "bin/publish.sh",
+      "bin/sdk-gen.bat",
+      "bin/sdk-gen.sh",
+      "CHANGELOG.md",
+      "LICENSE",
+      "package.json",
+      "README.md",
+      "sdkwork-sdk.json",
+      "src/api/base.ts",
+      "src/api/index.ts",
+      "src/api/paths.ts",
+      "src/api/voice.ts",
+      "src/auth/index.ts",
+      "src/http/client.ts",
+      "src/http/index.ts",
+      "src/index.ts",
+      "src/sdk.ts",
+      "src/types/common.ts",
+      "src/types/field-error.ts",
+      "src/types/index.ts",
+      "src/types/media-access.ts",
+      "src/types/media-ai-provenance.ts",
+      "src/types/media-checksum.ts",
+      "src/types/media-kind.ts",
+      "src/types/media-resource.ts",
+      "src/types/media-source.ts",
+      "src/types/page-info.ts",
+      "src/types/problem-detail.ts",
+      "src/types/sdk-work-api-response.ts",
+      "src/types/sdk-work-command-data.ts",
+      "src/types/sdk-work-command-response.ts",
+      "src/types/sdk-work-list-response.ts",
+      "src/types/sdk-work-page-data.ts",
+      "src/types/sdk-work-platform-error-code.ts",
+      "src/types/sdk-work-resource-data.ts",
+      "src/types/sdk-work-resource-response.ts",
+      "src/types/voice-artifact-drive-sync-status.ts",
+      "src/types/voice-artifact-drive-sync.ts",
+      "src/types/voice-artifact.ts",
+      "src/types/voice-music-create-command.ts",
+      "src/types/voice-operation-command.ts",
+      "src/types/voice-operation-type.ts",
+      "src/types/voice-provider-options.ts",
+      "src/types/voice-provider-webhook-event-command.ts",
+      "src/types/voice-sound-effect-create-command.ts",
+      "src/types/voice-speech-create-command.ts",
+      "src/types/voice-task-event.ts",
+      "src/types/voice-task-reconcile-command.ts",
+      "src/types/voice-task-status.ts",
+      "src/types/voice-task.ts",
+      "src/types/voice-transcription-create-command.ts",
+      "src/types/voice-translation-create-command.ts",
+      "tsconfig.json"
+    ],
+    "preservedLegacyFiles": false
   }
 }

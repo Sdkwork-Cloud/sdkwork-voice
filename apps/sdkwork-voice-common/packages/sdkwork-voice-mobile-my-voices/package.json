@@ -1,0 +1,40 @@
+{
+  "name": "@sdkwork/voice-mobile-my-voices",
+  "private": true,
+  "version": "0.1.0",
+  "description": "SDKWork Voice mobile React package: my voice library CRUD (list, preview, create, rename, delete) for H5 hosts.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./runtime": {
+      "types": "./src/runtime/index.ts",
+      "import": "./src/runtime/index.ts",
+      "default": "./src/runtime/index.ts"
+    }
+  },
+  "dependencies": {
+    "@sdkwork/voice-app-sdk": "workspace:*",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.5.0"
+  },
+  "peerDependencies": {
+    "lucide-react": ">=1.0.0",
+    "motion": ">=12.0.0",
+    "react": ">=18",
+    "react-i18next": ">=17.0.0",
+    "react-router": ">=7.0.0"
+  },
+  "sdkwork": {
+    "workspace": "sdkwork-voice",
+    "architecture": "mobile-react",
+    "domain": "voice",
+    "capability": "my-voices",
+    "status": "ready"
+  }
+}

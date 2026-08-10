@@ -11,6 +11,8 @@ export type { SdkWorkResourceResponse } from './sdk-work-resource-response';
 export type { SdkWorkListResponse } from './sdk-work-list-response';
 export type { SdkWorkCommandResponse } from './sdk-work-command-response';
 export type { VoiceOperationCommand } from './voice-operation-command';
+export type { VoiceVoiceProfileCreateCommand } from './voice-voice-profile-create-command';
+export type { VoiceVoiceProfileUpdateCommand } from './voice-voice-profile-update-command';
 export type { VoiceOperationType } from './voice-operation-type';
 export type { VoiceTaskStatus } from './voice-task-status';
 export type { VoiceProviderOptions } from './voice-provider-options';

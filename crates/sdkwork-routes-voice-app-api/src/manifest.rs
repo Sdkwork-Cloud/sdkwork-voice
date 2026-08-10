@@ -110,6 +110,36 @@ pub fn app_routes() -> Vec<VoiceHttpRoute> {
             "voice",
             "audioAssets.retrieve",
         ),
+        VoiceHttpRoute::new(
+            HttpMethod::Post,
+            "/app/v3/api/voice/voice_profiles",
+            "voice",
+            "voiceProfiles.create",
+        ),
+        VoiceHttpRoute::new(
+            HttpMethod::Get,
+            "/app/v3/api/voice/voice_profiles",
+            "voice",
+            "voiceProfiles.list",
+        ),
+        VoiceHttpRoute::new(
+            HttpMethod::Get,
+            "/app/v3/api/voice/voice_profiles/{profileId}",
+            "voice",
+            "voiceProfiles.retrieve",
+        ),
+        VoiceHttpRoute::new(
+            HttpMethod::Patch,
+            "/app/v3/api/voice/voice_profiles/{profileId}",
+            "voice",
+            "voiceProfiles.update",
+        ),
+        VoiceHttpRoute::new(
+            HttpMethod::Delete,
+            "/app/v3/api/voice/voice_profiles/{profileId}",
+            "voice",
+            "voiceProfiles.delete",
+        ),
     ]
 }
 
@@ -189,6 +219,36 @@ const VOICE_APP_API_ROUTES: &[HttpRoute] = &[
         "/app/v3/api/voice/audio_assets/{audioAssetId}",
         "voice",
         "audioAssets.retrieve",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Post,
+        "/app/v3/api/voice/voice_profiles",
+        "voice",
+        "voiceProfiles.create",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/app/v3/api/voice/voice_profiles",
+        "voice",
+        "voiceProfiles.list",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Get,
+        "/app/v3/api/voice/voice_profiles/{profileId}",
+        "voice",
+        "voiceProfiles.retrieve",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Patch,
+        "/app/v3/api/voice/voice_profiles/{profileId}",
+        "voice",
+        "voiceProfiles.update",
+    ),
+    HttpRoute::dual_token(
+        WebHttpMethod::Delete,
+        "/app/v3/api/voice/voice_profiles/{profileId}",
+        "voice",
+        "voiceProfiles.delete",
     ),
 ];
 

@@ -39,6 +39,12 @@
       "lifecycle_status": "active"
     },
     {
+      "table_name": "voice_profile",
+      "owner": "voice-platform",
+      "compliance_level": "L2",
+      "lifecycle_status": "active"
+    },
+    {
       "table_name": "voice_provider_webhook_event",
       "owner": "voice-platform",
       "compliance_level": "L2",

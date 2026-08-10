@@ -7,9 +7,10 @@ use sdkwork_voice_contract::{
 use serde_json::{json, Value};
 
 use crate::{
-    NewVoiceArtifactDriveSync, NewVoiceAudioArtifact, NewVoiceProviderRoute,
+    NewVoiceArtifactDriveSync, NewVoiceAudioArtifact, NewVoiceProfile, NewVoiceProviderRoute,
     NewVoiceProviderWebhookEvent, NewVoiceRequestLog, NewVoiceTask, NewVoiceTaskEvent,
-    VoiceArtifactDriveSyncListQuery, VoiceAudioArtifactListQuery, VoiceProviderRouteListQuery,
+    VoiceArtifactDriveSyncListQuery, VoiceAudioArtifactListQuery, VoiceProfileListQuery,
+    VoiceProfileRecord, VoiceProfileUpdate, VoiceProviderRouteListQuery,
     VoiceProviderRouteUpdate, VoiceProviderWebhookEventListQuery, VoiceRequestLogListQuery,
     VoiceRuntimePorts, VoiceTaskEventListQuery, VoiceTaskListQuery, VoiceTaskProviderUpdate,
     VoiceTaskRecord, VoiceWebhookDeliveryListQuery,
@@ -56,6 +57,20 @@ pub async fn handle_voice_app_operation(
         "audioAssets.retrieve" => {
             let artifact_id = parse_i64_param(&path_params, "audioAssetId")?;
             retrieve_audio_asset(context, artifact_id, ports).await
+        }
+        "voiceProfiles.list" => list_voice_profiles(context, &body, ports).await,
+        "voiceProfiles.retrieve" => {
+            let profile_id = parse_i64_param(&path_params, "profileId")?;
+            retrieve_voice_profile(context, profile_id, ports).await
+        }
+        "voiceProfiles.create" => create_voice_profile(context, &body, ports).await,
+        "voiceProfiles.update" => {
+            let profile_id = parse_i64_param(&path_params, "profileId")?;
+            update_voice_profile(context, profile_id, &body, ports).await
+        }
+        "voiceProfiles.delete" => {
+            let profile_id = parse_i64_param(&path_params, "profileId")?;
+            delete_voice_profile(context, profile_id, ports).await
         }
         _ => Err(VoiceServiceError::validation(format!(
             "unsupported voice app operation: {operation_id}"
@@ -797,6 +812,155 @@ async fn delete_audio_asset(
     Ok(json!({ "deleted": true }))
 }
 
+fn parse_profile_user_id(context: &VoiceRuntimeContext) -> i64 {
+    parse_i64(&context.user_id)
+}
+
+fn parse_profile_organization_id(context: &VoiceRuntimeContext) -> i64 {
+    context
+        .organization_id
+        .as_deref()
+        .map(parse_i64)
+        .unwrap_or(0)
+}
+
+async fn list_voice_profiles(
+    context: &VoiceRuntimeContext,
+    body: &Value,
+    ports: &VoiceRuntimePorts<'_>,
+) -> Result<Value, VoiceServiceError> {
+    let tenant_id = parse_tenant_id(context)?;
+    let page = page_field(body, "page", 1);
+    let page_size = page_size_field(body);
+    let page_result = ports
+        .repository
+        .list_voice_profiles(VoiceProfileListQuery {
+            tenant_id,
+            user_id: parse_profile_user_id(context),
+            page,
+            page_size,
+        })
+        .await?;
+    Ok(list_payload(
+        page_result
+            .items
+            .iter()
+            .map(voice_profile_to_json)
+            .collect(),
+        page,
+        page_size,
+        page_result.has_more,
+    ))
+}
+
+async fn retrieve_voice_profile(
+    context: &VoiceRuntimeContext,
+    profile_id: i64,
+    ports: &VoiceRuntimePorts<'_>,
+) -> Result<Value, VoiceServiceError> {
+    let tenant_id = parse_tenant_id(context)?;
+    let profile = ports
+        .repository
+        .get_voice_profile_by_id(tenant_id, parse_profile_user_id(context), profile_id)
+        .await?
+        .ok_or_else(|| VoiceServiceError::not_found("voice profile not found"))?;
+    Ok(json!({ "item": voice_profile_to_json(&profile) }))
+}
+
+async fn create_voice_profile(
+    context: &VoiceRuntimeContext,
+    body: &Value,
+    ports: &VoiceRuntimePorts<'_>,
+) -> Result<Value, VoiceServiceError> {
+    let name = required_string(body, &["name"])?;
+    let trimmed_name = name.trim();
+    if trimmed_name.is_empty() {
+        return Err(VoiceServiceError::validation("name must not be empty"));
+    }
+    if trimmed_name.chars().count() > 128 {
+        return Err(VoiceServiceError::validation(
+            "name must not exceed 128 characters",
+        ));
+    }
+    let sample_media = body
+        .get("sampleMedia")
+        .or_else(|| body.get("sample_media"))
+        .cloned()
+        .unwrap_or_else(|| json!({ "source": "none" }));
+    let profile = ports
+        .repository
+        .insert_voice_profile(NewVoiceProfile {
+            id: next_voice_id(),
+            profile_no: format!("vp-{}", sdkwork_utils_rust::uuid()),
+            tenant_id: parse_tenant_id(context)?,
+            organization_id: parse_profile_organization_id(context),
+            user_id: parse_profile_user_id(context),
+            name: trimmed_name.to_owned(),
+            description: string_field(body, &["description"]),
+            kind: string_field(body, &["kind"]).unwrap_or_else(|| "cloned".to_owned()),
+            status: string_field(body, &["status"]).unwrap_or_else(|| "ready".to_owned()),
+            voice_id: string_field(body, &["voiceId", "voice_id"]),
+            provider_code: string_field(body, &["providerCode", "provider_code"]),
+            sample_media_json: sample_media.to_string(),
+            duration_seconds: i64_field(body, &["durationSeconds", "duration_seconds"])
+                .map(|value| value as i32),
+        })
+        .await?;
+    Ok(json!({ "item": voice_profile_to_json(&profile) }))
+}
+
+async fn update_voice_profile(
+    context: &VoiceRuntimeContext,
+    profile_id: i64,
+    body: &Value,
+    ports: &VoiceRuntimePorts<'_>,
+) -> Result<Value, VoiceServiceError> {
+    let tenant_id = parse_tenant_id(context)?;
+    let user_id = parse_profile_user_id(context);
+    let existing = ports
+        .repository
+        .get_voice_profile_by_id(tenant_id, user_id, profile_id)
+        .await?
+        .ok_or_else(|| VoiceServiceError::not_found("voice profile not found"))?;
+    let name = string_field(body, &["name"]).unwrap_or(existing.name);
+    let trimmed_name = name.trim();
+    if trimmed_name.is_empty() {
+        return Err(VoiceServiceError::validation("name must not be empty"));
+    }
+    if trimmed_name.chars().count() > 128 {
+        return Err(VoiceServiceError::validation(
+            "name must not exceed 128 characters",
+        ));
+    }
+    let description = string_field(body, &["description"]);
+    let voice_id = string_field(body, &["voiceId", "voice_id"]);
+    let updated = ports
+        .repository
+        .update_voice_profile(VoiceProfileUpdate {
+            id: profile_id,
+            tenant_id,
+            user_id,
+            name: Some(trimmed_name.to_owned()),
+            description,
+            voice_id,
+        })
+        .await?;
+    Ok(json!({ "item": voice_profile_to_json(&updated) }))
+}
+
+async fn delete_voice_profile(
+    context: &VoiceRuntimeContext,
+    profile_id: i64,
+    ports: &VoiceRuntimePorts<'_>,
+) -> Result<Value, VoiceServiceError> {
+    let tenant_id = parse_tenant_id(context)?;
+    ports
+        .repository
+        .delete_voice_profile(tenant_id, parse_profile_user_id(context), profile_id)
+        .await?;
+    Ok(json!({ "deleted": true }))
+}
+
 async fn list_artifact_drive_sync(
     context: &VoiceRuntimeContext,
     body: &Value,
@@ -1420,6 +1584,24 @@ fn audio_artifact_to_json(artifact: &crate::VoiceAudioArtifactRecord) -> Value {
         "status": artifact.status,
         "createdAt": artifact.created_at,
         "updatedAt": artifact.updated_at,
+    })
+}
+
+fn voice_profile_to_json(profile: &VoiceProfileRecord) -> Value {
+    json!({
+        "id": profile.id.to_string(),
+        "profileNo": profile.profile_no,
+        "name": profile.name,
+        "description": profile.description,
+        "kind": profile.kind,
+        "status": profile.status,
+        "voiceId": profile.voice_id,
+        "providerCode": profile.provider_code,
+        "sampleMedia": serde_json::from_str::<Value>(&profile.sample_media_json)
+            .unwrap_or(Value::Object(Default::default())),
+        "durationSeconds": profile.duration_seconds,
+        "createdAt": profile.created_at,
+        "updatedAt": profile.updated_at,
     })
 }
 
