@@ -166,6 +166,27 @@ CREATE TABLE IF NOT EXISTS voice_artifact_drive_sync (
   CONSTRAINT uk_voice_artifact_drive_sync_artifact UNIQUE (artifact_id)
 );
 
+CREATE TABLE IF NOT EXISTS voice_profile (
+  id BIGINT PRIMARY KEY,
+  profile_no VARCHAR(64) NOT NULL,
+  tenant_id BIGINT NOT NULL DEFAULT 0,
+  organization_id BIGINT NOT NULL DEFAULT 0,
+  user_id BIGINT NOT NULL DEFAULT 0,
+  name VARCHAR(128) NOT NULL,
+  description VARCHAR(512),
+  kind VARCHAR(32) NOT NULL DEFAULT 'cloned',
+  status VARCHAR(32) NOT NULL DEFAULT 'ready',
+  voice_id VARCHAR(128),
+  provider_code VARCHAR(64),
+  sample_media_json TEXT NOT NULL,
+  duration_seconds INTEGER,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL,
+  deleted BOOLEAN NOT NULL DEFAULT FALSE,
+  version BIGINT NOT NULL DEFAULT 0,
+  CONSTRAINT uk_voice_profile_no UNIQUE (profile_no)
+);
+
 CREATE TABLE IF NOT EXISTS voice_provider_webhook_event (
   id BIGINT PRIMARY KEY,
   event_no VARCHAR(64) NOT NULL,
@@ -243,6 +264,7 @@ CREATE INDEX IF NOT EXISTS idx_voice_audio_artifact_voice ON voice_audio_artifac
 CREATE INDEX IF NOT EXISTS idx_voice_artifact_drive_sync_status ON voice_artifact_drive_sync (tenant_id, sync_status, updated_at);
 CREATE INDEX IF NOT EXISTS idx_voice_artifact_drive_sync_task ON voice_artifact_drive_sync (task_id, artifact_index);
 CREATE INDEX IF NOT EXISTS idx_voice_artifact_drive_sync_drive_node ON voice_artifact_drive_sync (drive_space_id, drive_node_id);
+CREATE INDEX IF NOT EXISTS idx_voice_profile_user ON voice_profile (tenant_id, user_id, deleted, created_at);
 CREATE INDEX IF NOT EXISTS idx_voice_provider_webhook_event_status ON voice_provider_webhook_event (provider_code, processing_status, received_at);
 CREATE INDEX IF NOT EXISTS idx_voice_webhook_delivery_due ON voice_webhook_delivery (delivery_status, next_retry_at);
 CREATE INDEX IF NOT EXISTS idx_voice_request_log_tenant_created ON voice_request_log (tenant_id, created_at);
