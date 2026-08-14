@@ -3,7 +3,7 @@
   "app": {
     "id": "sdkwork-voice",
     "name": "SDKWork Voice",
-    "repository": "Sdkwork-Cloud/sdkwork-voice",
+    "repository": "sdkwork-ai/sdkwork-voice",
     "sourcePath": ".",
     "configPath": "sdkwork.app.config.json"
   },
@@ -39,42 +39,42 @@
   "dependencies": [
     {
       "id": "sdkwork-appbase",
-      "repository": "Sdkwork-Cloud/sdkwork-appbase",
+      "repository": "sdkwork-ai/sdkwork-appbase",
       "ref": "main",
       "refInput": "SDKWORK_APPBASE_REF",
       "tokenSecret": "SDKWORK_RELEASE_TOKEN"
     },
     {
       "id": "sdkwork-iam",
-      "repository": "Sdkwork-Cloud/sdkwork-iam",
+      "repository": "sdkwork-ai/sdkwork-iam",
       "ref": "main",
       "refInput": "SDKWORK_IAM_REF",
       "tokenSecret": "SDKWORK_RELEASE_TOKEN"
     },
     {
       "id": "sdkwork-utils",
-      "repository": "Sdkwork-Cloud/sdkwork-utils",
+      "repository": "sdkwork-ai/sdkwork-utils",
       "ref": "main",
       "refInput": "SDKWORK_UTILS_REF",
       "tokenSecret": "SDKWORK_RELEASE_TOKEN"
     },
     {
       "id": "sdkwork-database",
-      "repository": "Sdkwork-Cloud/sdkwork-database",
+      "repository": "sdkwork-ai/sdkwork-database",
       "ref": "main",
       "refInput": "SDKWORK_DATABASE_REF",
       "tokenSecret": "SDKWORK_RELEASE_TOKEN"
     },
     {
       "id": "sdkwork-drive",
-      "repository": "Sdkwork-Cloud/sdkwork-drive",
+      "repository": "sdkwork-ai/sdkwork-drive",
       "ref": "main",
       "refInput": "SDKWORK_DRIVE_REF",
       "tokenSecret": "SDKWORK_RELEASE_TOKEN"
     },
     {
       "id": "sdkwork-web-framework",
-      "repository": "Sdkwork-Cloud/sdkwork-web-framework",
+      "repository": "sdkwork-ai/sdkwork-web-framework",
       "ref": "main",
       "refInput": "SDKWORK_WEB_FRAMEWORK_REF",
       "tokenSecret": "SDKWORK_RELEASE_TOKEN"

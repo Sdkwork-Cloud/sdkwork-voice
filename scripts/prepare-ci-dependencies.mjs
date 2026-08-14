@@ -18,7 +18,7 @@ const mode = args.has('--apply') || process.env.GITHUB_ACTIONS === 'true'
 const staticDependencies = [
   {
     id: 'sdkwork-specs',
-    repository: 'Sdkwork-Cloud/sdkwork-specs',
+    repository: 'sdkwork-ai/sdkwork-specs',
     ref: 'main',
     refInput: 'SDKWORK_SPECS_REF',
     tokenSecret: 'SDKWORK_RELEASE_TOKEN',
@@ -56,7 +56,7 @@ function resolveRef(dependency, env = process.env) {
 }
 
 function resolveRepoUrl(dependency) {
-  if (!/^Sdkwork-Cloud\/sdkwork-[a-z0-9-]+$/u.test(dependency.repository || '')) {
+  if (!/^sdkwork-ai\/sdkwork-[a-z0-9-]+$/u.test(dependency.repository || '')) {
     throw new Error(`${dependency.id} must use an owner/repo SDKWork repository`);
   }
   return `https://github.com/${dependency.repository}.git`;
