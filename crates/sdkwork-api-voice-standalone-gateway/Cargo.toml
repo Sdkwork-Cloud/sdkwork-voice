@@ -25,7 +25,6 @@ path = "src/main.rs"
 
 [dependencies]
 axum.workspace = true
-sdkwork-voice-database-host.workspace = true
 sdkwork-api-voice-assembly.workspace = true
 sdkwork-web-bootstrap = { workspace = true, features = ["sqlx"] }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "signal"] }

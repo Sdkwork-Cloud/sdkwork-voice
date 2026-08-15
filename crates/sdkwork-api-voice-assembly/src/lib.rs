@@ -1,12 +1,14 @@
 //! API assembly for sdkwork-voice.
 //! Application bootstrap lives in `bootstrap.rs`; route inventory is in `assembly-manifest.json`.
+// SDKWORK-ASSEMBLY-LIB-CUSTOM
 
 mod bootstrap;
 mod generated;
 
 pub use bootstrap::{
     assemble_api_router, assemble_api_router_with_pool, assemble_contribution_with_pool,
-    gateway_contract_fallback_config, ApiAssembly,
+    gateway_contract_fallback_config, run_database_migrate_only, ApiAssembly,
+    ApiAssemblyContribution,
 };
 pub use sdkwork_voice_embedded_bootstrap::voice_database_readiness_check;
 

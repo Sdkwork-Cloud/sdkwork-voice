@@ -13,3 +13,4 @@ export {
   tryGetVoicePcSdkPorts,
   getConfiguredVoiceAppSdkClient,
 } from './sdkPorts';
+export type { SdkworkAppClient } from './sdk';

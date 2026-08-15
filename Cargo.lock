@@ -2204,10 +2204,12 @@ dependencies = [
  "sdkwork-routes-voice-app-api",
  "sdkwork-routes-voice-backend-api",
  "sdkwork-routes-voice-http-auth",
+ "sdkwork-voice-database-host",
  "sdkwork-voice-embedded-bootstrap",
  "sdkwork-web-bootstrap",
  "sdkwork-web-core",
  "tokio",
+ "tracing",
 ]
 
 [[package]]
@@ -2219,7 +2221,6 @@ dependencies = [
  "opentelemetry-otlp",
  "opentelemetry_sdk",
  "sdkwork-api-voice-assembly",
- "sdkwork-voice-database-host",
  "sdkwork-web-bootstrap",
  "tokio",
  "tower-http 0.5.2",

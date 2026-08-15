@@ -37,6 +37,9 @@
       "default": "./src/composition/index.ts"
     }
   },
+  "dependencies": {
+    "@sdkwork/voice-app-sdk": "workspace:*"
+  },
   "sdkwork": {
     "workspace": "sdkwork-voice",
     "architecture": "pc",

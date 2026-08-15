@@ -5,3 +5,4 @@ export {
   tryGetVoicePcSdkPorts,
   getConfiguredVoiceAppSdkClient,
 } from "../sdkPorts.js";
+export type { SdkworkAppClient } from '@sdkwork/voice-app-sdk';

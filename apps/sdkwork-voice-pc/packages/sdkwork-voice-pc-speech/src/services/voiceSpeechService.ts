@@ -1,7 +1,7 @@
-import type { SdkworkAppClient } from '@sdkwork/voice-app-sdk';
 import {
   getConfiguredVoiceAppSdkClient,
   listVoiceAudioAssetOptions,
+  type SdkworkAppClient,
   type VoiceAudioAssetOption,
 } from 'sdkwork-voice-pc-core';
 

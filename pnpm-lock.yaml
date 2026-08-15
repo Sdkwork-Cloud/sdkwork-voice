@@ -723,13 +723,14 @@ importers:
         specifier: ^3.5.0
         version: 3.6.0
 
-  apps/sdkwork-voice-pc/packages/sdkwork-voice-pc-core: {}
-
-  apps/sdkwork-voice-pc/packages/sdkwork-voice-pc-market:
+  apps/sdkwork-voice-pc/packages/sdkwork-voice-pc-core:
     dependencies:
       '@sdkwork/voice-app-sdk':
         specifier: workspace:*
         version: link:../../../../sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript
+
+  apps/sdkwork-voice-pc/packages/sdkwork-voice-pc-market:
+    dependencies:
       i18next:
         specifier: ^25.8.13
         version: 25.10.10(typescript@6.0.3)
@@ -754,9 +755,6 @@ importers:
 
   apps/sdkwork-voice-pc/packages/sdkwork-voice-pc-speech:
     dependencies:
-      '@sdkwork/voice-app-sdk':
-        specifier: workspace:*
-        version: link:../../../../sdks/sdkwork-voice-app-sdk/sdkwork-voice-app-sdk-typescript
       i18next:
         specifier: ^25.8.13
         version: 25.10.10(typescript@6.0.3)

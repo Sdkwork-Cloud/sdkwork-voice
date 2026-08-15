@@ -1,5 +1,4 @@
 //! Tracing bootstrap for `sdkwork-api-voice-standalone-gateway`.
-
 pub fn init_tracing() {
     #[cfg(feature = "otel")]
     if std::env::var("OTEL_EXPORTER_OTLP_ENDPOINT")
@@ -97,12 +96,5 @@ fn init_otel_tracing(service_name: &str) -> Result<(), Box<dyn std::error::Error
         service = service_name,
         "sdkwork-voice OTLP tracing initialized"
     );
-    Ok(())
-}
-
-pub async fn run_database_migrate_only() -> Result<(), String> {
-    std::env::set_var("SDKWORK_DATABASE_AUTO_MIGRATE", "true");
-    sdkwork_voice_database_host::bootstrap_voice_database_from_env().await?;
-    tracing::info!("voice database migration completed");
     Ok(())
 }

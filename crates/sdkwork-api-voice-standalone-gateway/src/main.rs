@@ -1,7 +1,7 @@
 use sdkwork_api_voice_assembly::{
-    assemble_api_router, gateway_contract_fallback_config, voice_database_readiness_check,
+    assemble_api_router, gateway_contract_fallback_config, run_database_migrate_only,
 };
-use sdkwork_api_voice_standalone_gateway::{init_tracing, run_database_migrate_only};
+use sdkwork_api_voice_standalone_gateway::init_tracing;
 use sdkwork_web_bootstrap::{service_router, ServiceRouterConfig};
 use std::process;
 use std::time::Duration;
@@ -42,7 +42,7 @@ async fn main() {
         .layer(TraceLayer::new_for_http());
 
     let service_config = ServiceRouterConfig::default()
-        .with_readiness_check(voice_database_readiness_check(&assembly.voice_pool))
+        .with_readiness_check(assembly.readiness_check.clone())
         .with_contract_fallback(gateway_contract_fallback_config());
     let app = service_router(business, service_config);
     let addr = std::env::var("VOICE_API_BIND").unwrap_or_else(|_| "0.0.0.0:18096".to_owned());
