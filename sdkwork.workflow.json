@@ -10,7 +10,11 @@
   "release": {
     "artifactPrefix": "sdkwork-voice",
     "defaultVersion": "0.1.0",
-    "channels": ["DEV", "INTERNAL", "STABLE"]
+    "channels": [
+      "DEV",
+      "INTERNAL",
+      "STABLE"
+    ]
   },
   "targets": [
     {
@@ -20,9 +24,13 @@
       "deploymentProfile": "standalone",
       "runtimeTarget": "server",
       "profile": "server",
-      "formats": ["tar.gz"],
+      "formats": [
+        "tar.gz"
+      ],
       "runner": "ubuntu-latest",
-      "outputGlobs": ["target/release/sdkwork-api-voice-standalone-gateway"]
+      "outputGlobs": [
+        "target/release/sdkwork-api-voice-standalone-gateway"
+      ]
     },
     {
       "id": "container-x64-cloud-container-oci",
@@ -31,9 +39,13 @@
       "deploymentProfile": "cloud",
       "runtimeTarget": "container",
       "profile": "container",
-      "formats": ["oci"],
+      "formats": [
+        "oci"
+      ],
       "runner": "ubuntu-latest",
-      "outputGlobs": ["deployments/container/sdkwork-voice-image.tar"]
+      "outputGlobs": [
+        "deployments/container/sdkwork-voice-image.tar"
+      ]
     }
   ],
   "dependencies": [
@@ -77,6 +89,30 @@
       "repository": "sdkwork-ai/sdkwork-web-framework",
       "ref": "main",
       "refInput": "SDKWORK_WEB_FRAMEWORK_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-app-topology",
+      "repository": "sdkwork-ai/sdkwork-app-topology",
+      "refInput": "SDKWORK_APP_TOPOLOGY_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-core",
+      "repository": "sdkwork-ai/sdkwork-core",
+      "refInput": "SDKWORK_CORE_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-sdk-commons",
+      "repository": "sdkwork-ai/sdkwork-sdk-commons",
+      "refInput": "SDKWORK_SDK_COMMONS_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-ui",
+      "repository": "sdkwork-ai/sdkwork-ui",
+      "refInput": "SDKWORK_UI_REF",
       "tokenSecret": "SDKWORK_RELEASE_TOKEN"
     }
   ],

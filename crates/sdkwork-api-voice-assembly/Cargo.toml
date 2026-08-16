@@ -18,6 +18,6 @@ sdkwork-voice-database-host.workspace = true
 sdkwork-database-sqlx.workspace = true
 sdkwork-web-bootstrap = { workspace = true, features = ["sqlx"] }
 sdkwork-web-core.workspace = true
-sdkwork-routes-voice-http-auth = { workspace = true, package = "sdkwork-routes-voice-http-auth" }
+sdkwork-routes-voice-http-auth.workspace = true
 sdkwork-routes-voice-app-api.workspace = true
 sdkwork-routes-voice-backend-api.workspace = true

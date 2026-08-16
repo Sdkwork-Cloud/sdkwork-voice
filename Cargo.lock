@@ -2221,6 +2221,7 @@ dependencies = [
  "opentelemetry-otlp",
  "opentelemetry_sdk",
  "sdkwork-api-voice-assembly",
+ "sdkwork-iam-web-adapter",
  "sdkwork-web-bootstrap",
  "tokio",
  "tower-http 0.5.2",

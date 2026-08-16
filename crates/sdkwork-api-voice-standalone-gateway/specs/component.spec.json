@@ -27,6 +27,13 @@
   ],
   "contracts": {
     "publicExports": [],
+    "requiredPorts": [
+      {
+        "name": "applicationApiAssembly",
+        "export": "sdkwork_api_voice_assembly::assemble_api_router",
+        "provider": "sdkwork-api-voice-assembly"
+      }
+    ],
     "runtimeEntrypoints": [
       "sdkwork-api-voice-standalone-gateway"
     ],

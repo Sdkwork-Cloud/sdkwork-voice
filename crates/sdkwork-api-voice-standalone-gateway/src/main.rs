@@ -1,8 +1,10 @@
-use sdkwork_api_voice_assembly::{
-    assemble_api_router, gateway_contract_fallback_config, run_database_migrate_only,
-};
+use sdkwork_api_voice_assembly::assemble_api_router;
+use sdkwork_api_voice_assembly::run_database_migrate_only;
 use sdkwork_api_voice_standalone_gateway::init_tracing;
-use sdkwork_web_bootstrap::{service_router, ServiceRouterConfig};
+use sdkwork_iam_web_adapter::{
+    build_web_framework_builder, iam_web_request_context_resolver_from_env,
+};
+use sdkwork_web_bootstrap::{infra_public_path_prefixes, ComposedApiAssembly};
 use std::process;
 use std::time::Duration;
 use tower_http::limit::RequestBodyLimitLayer;
@@ -34,17 +36,20 @@ async fn main() {
         Ok(assembly) => assembly,
         Err(error) => exit_with_error("bootstrap", error),
     };
-    let business = assembly
+    let framework = build_web_framework_builder(
+        iam_web_request_context_resolver_from_env().await,
+        assembly.route_manifest.clone(),
+        infra_public_path_prefixes(),
+    );
+    let business = ComposedApiAssembly::try_compose("SDKWork Voice API", vec![assembly])
+        .unwrap_or_else(|error| exit_with_error("composition", error))
+        .into_hosted(framework)
         .router
         .layer(cors_layer)
         .layer(RequestBodyLimitLayer::new(16 * 1024 * 1024))
         .layer(TimeoutLayer::new(Duration::from_secs(60)))
         .layer(TraceLayer::new_for_http());
-
-    let service_config = ServiceRouterConfig::default()
-        .with_readiness_check(assembly.readiness_check.clone())
-        .with_contract_fallback(gateway_contract_fallback_config());
-    let app = service_router(business, service_config);
+    let app = business;
     let addr = std::env::var("VOICE_API_BIND").unwrap_or_else(|_| "0.0.0.0:18096".to_owned());
     let listener = match tokio::net::TcpListener::bind(&addr).await {
         Ok(listener) => listener,
