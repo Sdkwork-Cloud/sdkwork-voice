@@ -1,6 +1,6 @@
 {
   "name": "@sdkwork/voice-app-sdk",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "SDKWork sdkwork-voice-app-sdk composed consumer facade.",
   "type": "module",
   "private": false,
@@ -15,7 +15,7 @@
     }
   },
   "dependencies": {
-    "@sdkwork/sdk-common": "workspace:*"
+    "@sdkwork/sdk-common": "^1.0.5"
   },
   "publishConfig": {
     "access": "public",
