@@ -18,7 +18,7 @@ pnpm add @sdkwork/voice-app-sdk
 import { SdkworkAppClient } from '@sdkwork/voice-app-sdk';
 
 const client = new SdkworkAppClient({
-  baseUrl: 'http://localhost:18096',
+  baseUrl: 'http://localhost:8080',
   timeout: 30000,
 });
 
@@ -51,7 +51,7 @@ Access-Token: <accessToken>
 import { SdkworkAppClient } from '@sdkwork/voice-app-sdk';
 
 const client = new SdkworkAppClient({
-  baseUrl: 'http://localhost:18096',
+  baseUrl: 'http://localhost:8080',
   timeout: 30000, // Request timeout in ms
   headers: {      // Custom headers
     'X-Custom-Header': 'value',
@@ -112,6 +112,8 @@ This SDK includes cross-platform publish scripts in `bin/`:
 - `bin/publish-core.mjs`
 - `bin/publish.sh`
 - `bin/publish.ps1`
+
+TypeScript check and publish commands use pnpm to materialize workspace dependency versions in a temporary tarball. They reject local-only dependency protocols before npm publication and do not rewrite the source `package.json`.
 
 ### Check
 

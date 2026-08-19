@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "sdkwork-voice-app-sdk",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "language": "typescript",
   "sdkType": "app",
   "packageName": "sdkwork-voice-app-sdk-generated-typescript",

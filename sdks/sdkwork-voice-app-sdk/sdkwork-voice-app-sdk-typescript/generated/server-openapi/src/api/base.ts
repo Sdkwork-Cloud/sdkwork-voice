@@ -53,6 +53,12 @@ export abstract class BaseApi {
     headers?: Record<string, string>,
     contentType?: string,
   ): Promise<T> {
-    return this.http.request<T>(`${this.basePath}${path}`, { method: method as any, body, params, headers, contentType });
+    return this.http.request<T>(`${this.basePath}${path}`, {
+      method: method as any,
+      ...(body !== undefined ? { body } : {}),
+      ...(params !== undefined ? { params } : {}),
+      ...(headers !== undefined ? { headers } : {}),
+      ...(contentType !== undefined ? { contentType } : {}),
+    });
   }
 }

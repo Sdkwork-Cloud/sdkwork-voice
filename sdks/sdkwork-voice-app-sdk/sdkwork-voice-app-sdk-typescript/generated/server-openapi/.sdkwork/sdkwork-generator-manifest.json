@@ -3,7 +3,7 @@
   "generator": "@sdkwork/sdk-generator",
   "sdk": {
     "name": "sdkwork-voice-app-sdk",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "language": "typescript",
     "sdkType": "app",
     "protocol": "http",
@@ -12,7 +12,7 @@
   "generatedFiles": [
     {
       "path": "bin/publish-core.mjs",
-      "sha256": "98ad0918a78bfbe22bf8f12fec709b0bed545b9e01edd40f5e4abf31a23378a5"
+      "sha256": "a47e95119bf3eafcbcb2102f7024c147f967924e4e3f343d1a29effb4b6765df"
     },
     {
       "path": "bin/publish.ps1",
@@ -32,7 +32,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "fb941a0806986a54fc192f98a98f6d9c282b8d350b2b19a3e71dda404e92d545"
+      "sha256": "ecb55fcda2ed37d190a142ed7f8fe40ecc076276324fd22efd4fd15ab8610ee5"
     },
     {
       "path": "LICENSE",
@@ -40,19 +40,19 @@
     },
     {
       "path": "package.json",
-      "sha256": "3cd1874205e3ce3c80dc3e929edf6d3b644b1bef15aa957ccfbb536abdf5d0af"
+      "sha256": "7cd921f453e1edfb874b86cff5c0ec5501dff848f74b2c1347e8107b4946b85e"
     },
     {
       "path": "README.md",
-      "sha256": "fb110466bc451b92949e8543f5d1920b2b7217ffedcf4c7de9636aa9e1dab4db"
+      "sha256": "f2a664f05d65c057d199255440a12458d51d57df33a81eb635e706bef43cf2af"
     },
     {
       "path": "sdkwork-sdk.json",
-      "sha256": "17f0aafef18bbaa56700c63952abab7910146b684234d7d7f3a0b08a968f98d9"
+      "sha256": "f4b032869c16b284660dd9ffd00da95d88cf5dc1e1e5fb9f04cb3ccfcea590f7"
     },
     {
       "path": "src/api/base.ts",
-      "sha256": "02ad25e6bf331ff241ba387c2947ddf1900dd849038e08c2757416a3aa788a04"
+      "sha256": "94d136c54a008dfe7602e373a0b2c79176bbf2fc6e7c899fc23b1f12f750380f"
     },
     {
       "path": "src/api/index.ts",
@@ -64,7 +64,7 @@
     },
     {
       "path": "src/api/voice.ts",
-      "sha256": "22af4ddbdcfa812cb4a88be275c642de271b4e7021f89e350d08a76981862bfa"
+      "sha256": "7300feaa4e0e3ee5972c05c9c916650f05d7b4b2988f3817d8a52e4aa39b6951"
     },
     {
       "path": "src/auth/index.ts",
@@ -72,7 +72,7 @@
     },
     {
       "path": "src/http/client.ts",
-      "sha256": "9349831b44a1a7336bdb8963379ad2ee616c48a4ae7c6d2540737780810ee8bc"
+      "sha256": "868b7785497a93658b628de2d9b520d9d2456406bcf2ef717319beaa6913146d"
     },
     {
       "path": "src/http/index.ts",

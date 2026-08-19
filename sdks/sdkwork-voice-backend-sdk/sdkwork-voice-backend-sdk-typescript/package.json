@@ -1,6 +1,6 @@
 {
   "name": "@sdkwork/voice-backend-sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "SDKWork sdkwork-voice-backend-sdk composed consumer facade.",
   "type": "module",
   "private": false,
