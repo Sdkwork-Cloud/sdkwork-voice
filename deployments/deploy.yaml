@@ -1,45 +1,133 @@
-schemaVersion: 1
-kind: sdkwork.deploy
-applicationCode: voice
-displayName: SDKWork Voice API
-owner: voice-platform
-deploymentProfile: standalone
-services:
-  - name: voice-api
-    kind: http
-    crate: sdkwork-api-voice-standalone-gateway
-    bindEnv: VOICE_API_BIND
-    defaultBind: "0.0.0.0:18096"
-    healthPath: /healthz
-    readinessPath: /readyz
-    database:
-      serviceCode: VOICE
-      manifest: database/database.manifest.json
-    dependencies:
-      - sdkwork-database
-      - sdkwork-drive
-      - sdkwork-web-framework
-      - sdkwork-iam-web-adapter
-runtime:
-  corsOriginsEnv: VOICE_API_CORS_ORIGINS
-  gracefulShutdown: true
-  requestTimeoutSec: 60
-  requestBodyLimitBytes: 16777216
-  environment:
-    databaseEngine: SDKWORK_DATABASE_ENGINE
-    databaseUrl: SDKWORK_DATABASE_URL
-    databaseName: SDKWORK_DATABASE_NAME
-    databaseSchema: SDKWORK_DATABASE_SCHEMA
-    databaseAutoMigrate: SDKWORK_DATABASE_AUTO_MIGRATE
-    webhookSecret: VOICE_WEBHOOK_SECRET
-    webhookDevMode: VOICE_WEBHOOK_DEV_MODE
-    driveSyncEnabled: VOICE_DRIVE_SYNC_ENABLED
-    driveObjectStoreRoot: VOICE_DRIVE_OBJECT_STORE_ROOT
-    driveObjectStoreBucket: VOICE_DRIVE_OBJECT_STORE_BUCKET
-workers:
-  - name: voice-generation-worker
-    package: "@sdkwork/voice-generation-worker"
-    polls: tasks.list?status=queued
-  - name: voice-drive-sync-worker
-    package: "@sdkwork/voice-drive-sync-worker"
-    polls: artifactDriveSync.list?sync_status=pending_upload,failed
+version: 2
+defaultProfile: cloud.production
+
+profiles:
+  cloud.test:
+    deployment:
+      deploymentProfile: cloud
+      environment: test
+      deliveryKind: container-image
+      deploymentDriver: kubernetes
+      managementModel: sdkwork-managed
+      tenancyModel: single-tenant
+      isolationModel: dedicated
+      networkExposure: public
+      rolloutStrategy: rolling
+      availabilityMode: high-availability
+    install:
+      layout: binary-package
+    expose:
+      - domain: voice-test.sdkwork.com
+        tls: sdkwork.com
+        mode: api
+        apiPathStyle: full-prefix
+    packages: []
+    overrides:
+      topology:
+        spec: specs/topology.spec.json
+        profile: cloud.test
+        env: etc/topology/cloud.test.env
+      kubernetes:
+        reference: deployments/kubernetes/
+      proxy:
+        upstreams:
+          application.public-ingress: http://127.0.0.1:18096
+          platform.api-gateway: http://127.0.0.1:3900
+
+  cloud.staging:
+    deployment:
+      deploymentProfile: cloud
+      environment: staging
+      deliveryKind: container-image
+      deploymentDriver: kubernetes
+      managementModel: sdkwork-managed
+      tenancyModel: single-tenant
+      isolationModel: dedicated
+      networkExposure: public
+      rolloutStrategy: rolling
+      availabilityMode: high-availability
+    install:
+      layout: binary-package
+    expose:
+      - domain: voice-staging.sdkwork.com
+        tls: sdkwork.com
+        mode: api
+        apiPathStyle: full-prefix
+    packages: []
+    overrides:
+      topology:
+        spec: specs/topology.spec.json
+        profile: cloud.staging
+        env: etc/topology/cloud.staging.env
+      kubernetes:
+        reference: deployments/kubernetes/
+      proxy:
+        upstreams:
+          application.public-ingress: http://127.0.0.1:18096
+          platform.api-gateway: http://127.0.0.1:3900
+
+  cloud.production:
+    deployment:
+      deploymentProfile: cloud
+      environment: production
+      deliveryKind: container-image
+      deploymentDriver: kubernetes
+      managementModel: sdkwork-managed
+      tenancyModel: single-tenant
+      isolationModel: dedicated
+      networkExposure: public
+      rolloutStrategy: rolling
+      availabilityMode: high-availability
+    install:
+      layout: binary-package
+    expose:
+      - domain: voice.sdkwork.com
+        tls: sdkwork.com
+        mode: api
+        apiPathStyle: full-prefix
+    packages: []
+    overrides:
+      topology:
+        spec: specs/topology.spec.json
+        profile: cloud.production
+        env: etc/topology/cloud.production.env
+      kubernetes:
+        reference: deployments/kubernetes/
+      proxy:
+        upstreams:
+          application.public-ingress: http://127.0.0.1:18096
+          platform.api-gateway: http://127.0.0.1:3900
+      nginx:
+        clientMaxBodySize: 32m
+
+  standalone.production:
+    deployment:
+      deploymentProfile: standalone
+      environment: production
+      deliveryKind: host-package
+      deploymentDriver: nginx
+      managementModel: customer-managed
+      tenancyModel: single-tenant
+      isolationModel: dedicated
+      networkExposure: private
+      rolloutStrategy: recreate
+      availabilityMode: single-instance
+    install:
+      layout: binary-package
+    expose:
+      - domain: voice.internal.example
+        tls: managed
+        mode: api
+        apiPathStyle: full-prefix
+    packages: []
+    overrides:
+      topology:
+        spec: specs/topology.spec.json
+        profile: standalone.production
+        env: etc/topology/standalone.production.env
+      proxy:
+        upstreams:
+          application.public-ingress: http://127.0.0.1:18096
+          platform.api-gateway: http://127.0.0.1:3900
+      nginx:
+        clientMaxBodySize: 32m

@@ -16,6 +16,8 @@
     "environment": {
       "allowed": [
         "development",
+        "test",
+        "staging",
         "production"
       ]
     }
@@ -28,8 +30,12 @@
   },
   "profileFiles": {
     "standalone.development": "etc/topology/standalone.development.env",
+    "standalone.test": "etc/topology/standalone.test.env",
+    "standalone.staging": "etc/topology/standalone.staging.env",
     "standalone.production": "etc/topology/standalone.production.env",
     "cloud.development": "etc/topology/cloud.development.env",
+    "cloud.test": "etc/topology/cloud.test.env",
+    "cloud.staging": "etc/topology/cloud.staging.env",
     "cloud.production": "etc/topology/cloud.production.env"
   },
   "envKeys": {
@@ -112,6 +118,56 @@
         ]
       },
       "cloud.production": {
+        "processes": [
+          {
+            "id": "application.public-ingress",
+            "crate": "sdkwork-api-voice-standalone-gateway",
+            "binary": "sdkwork-api-voice-standalone-gateway",
+            "required": true,
+            "role": "api-standalone-gateway"
+          }
+        ],
+        "healthSurfaces": [
+          "application.public-ingress",
+          "platform.api-gateway"
+        ]
+      },
+      "standalone.test": {
+        "processes": [
+          {
+            "id": "application.public-ingress",
+            "crate": "sdkwork-api-voice-standalone-gateway",
+            "binary": "sdkwork-api-voice-standalone-gateway",
+            "required": true,
+            "role": "api-standalone-gateway"
+          }
+        ],
+        "healthSurfaces": [
+          "application.public-ingress"
+        ]
+      },
+      "standalone.staging": {
+        "processes": [
+          {
+            "id": "application.public-ingress",
+            "crate": "sdkwork-api-voice-standalone-gateway",
+            "binary": "sdkwork-api-voice-standalone-gateway",
+            "required": true,
+            "role": "api-standalone-gateway"
+          }
+        ],
+        "healthSurfaces": [
+          "application.public-ingress"
+        ]
+      },
+      "cloud.test": {
+        "processes": [],
+        "healthSurfaces": [
+          "application.public-ingress",
+          "platform.api-gateway"
+        ]
+      },
+      "cloud.staging": {
         "processes": [
           {
             "id": "application.public-ingress",
