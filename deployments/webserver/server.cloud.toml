@@ -6,6 +6,6 @@ profile = "cloud"
 name = "gateway"
 
 [[http.upstream.target]]
-address = "127.0.0.1:8080"
+address = "sdkwork-api-cloud-gateway:8080"
 weight = 1
 

@@ -1,0 +1,17 @@
+# Adaptive Web roots for sdkwork-voice (copy into runtime config when in-process).
+# Docker entrypoint generates /etc/sdkwork/webserver/module-app-roots/sdkwork-voice.toml
+
+[app_roots]
+tablet_surface = "pc"
+
+[app_roots.pc_static_by_environment]
+development = "apps/sdkwork-voice-pc/dist/dev"
+test = "apps/sdkwork-voice-pc/dist/test"
+staging = "apps/sdkwork-voice-pc/dist/staging"
+production = "apps/sdkwork-voice-pc/dist/prod"
+
+[app_roots.static_fallback_by_environment]
+development = "deployments/webserver/static"
+test = "deployments/webserver/static"
+staging = "deployments/webserver/static"
+production = "deployments/webserver/static"

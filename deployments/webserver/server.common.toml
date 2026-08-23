@@ -1,7 +1,7 @@
 specVersion = 1
 kind = "sdkwork.webserver.server"
 id = "voice"
-description = "sdkwork-voice web server"
+description = "sdkwork-voice web server (application.public-ingress)"
 
 [nginx]
 enabled = true
@@ -13,6 +13,8 @@ confFile = "nginx.conf"
 [main]
 user = "sdkwork"
 workerProcesses = "auto"
+pid = "/run/sdkwork/voice/webserver.pid"
+errorLog = "/var/log/sdkwork/voice/webserver/error.log warn"
 
 [main.events]
 workerConnections = 1024
@@ -22,78 +24,10 @@ sendfile = true
 keepaliveTimeout = 75
 clientMaxBodySize = "1100m"
 serverTokens = "off"
-
-[http.certificates]
-
-[http.certificates."sdkwork.com"]
-certFile = "/opt/certs/letsencrypt/live/sdkwork.com/fullchain.pem"
-certKeyFile = "/opt/certs/letsencrypt/live/sdkwork.com/privkey.pem"
-chainFile = "/opt/certs/letsencrypt/live/sdkwork.com/chain.pem"
-ocspStapling = true
+gzip = true
 
 [[http.upstream]]
 name = "gateway"
 loadBalancing = "least-connections"
 keepalive = 32
 
-[[http.server]]
-listen = ["443 ssl", "80"]
-serverName = ["voice.sdkwork.com"]
-
-[http.server.tls]
-cert = "sdkwork.com"
-protocols = ["TLSv1.2", "TLSv1.3"]
-preferServerCiphers = true
-sessionCache = "shared:SSL:10m"
-
-[[http.server.location]]
-match = "= /healthz"
-proxyPass = "http://gateway"
-proxySetHeader = ["Host $host", "X-Forwarded-For $proxy_add_x_forwarded_for", "X-Forwarded-Proto $scheme"]
-proxyHttpVersion = "1.1"
-
-[[http.server.location]]
-match = "= /readyz"
-proxyPass = "http://gateway"
-proxySetHeader = ["Host $host", "X-Forwarded-For $proxy_add_x_forwarded_for", "X-Forwarded-Proto $scheme"]
-proxyHttpVersion = "1.1"
-
-[[http.server.location]]
-match = "/"
-proxyPass = "http://gateway"
-proxySetHeader = ["Host $host", "X-Real-IP $remote_addr", "X-Forwarded-For $proxy_add_x_forwarded_for", "X-Forwarded-Proto $scheme"]
-proxyHttpVersion = "1.1"
-proxyBuffering = false
-proxyReadTimeout = "120s"
-proxySendTimeout = "120s"
-
-[[http.server]]
-listen = ["443 ssl", "80"]
-serverName = ["api.sdkwork.com"]
-
-[http.server.tls]
-cert = "sdkwork.com"
-protocols = ["TLSv1.2", "TLSv1.3"]
-preferServerCiphers = true
-sessionCache = "shared:SSL:10m"
-
-[[http.server.location]]
-match = "= /healthz"
-proxyPass = "http://gateway"
-proxySetHeader = ["Host $host", "X-Forwarded-For $proxy_add_x_forwarded_for", "X-Forwarded-Proto $scheme"]
-proxyHttpVersion = "1.1"
-
-[[http.server.location]]
-match = "= /readyz"
-proxyPass = "http://gateway"
-proxySetHeader = ["Host $host", "X-Forwarded-For $proxy_add_x_forwarded_for", "X-Forwarded-Proto $scheme"]
-proxyHttpVersion = "1.1"
-
-[[http.server.location]]
-match = "/"
-proxyPass = "http://gateway"
-proxySetHeader = ["Host $host", "X-Real-IP $remote_addr", "X-Forwarded-For $proxy_add_x_forwarded_for", "X-Forwarded-Proto $scheme"]
-proxyHttpVersion = "1.1"
-proxyBuffering = false
-proxyReadTimeout = "120s"
-proxySendTimeout = "120s"

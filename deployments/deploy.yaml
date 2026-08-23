@@ -1,6 +1,5 @@
 version: 2
 defaultProfile: cloud.production
-
 profiles:
   cloud.test:
     deployment:
@@ -21,6 +20,26 @@ profiles:
         tls: sdkwork.com
         mode: api
         apiPathStyle: full-prefix
+      - domain: voice-test.birdcoder.com
+        tls: birdcoder.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.dtupay.com
+        tls: dtupay.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.sdkwork.cn
+        tls: sdkwork.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.birdcoder.cn
+        tls: birdcoder.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.dtupay.cn
+        tls: dtupay.cn
+        mode: api
+        apiPathStyle: full-prefix
     packages: []
     overrides:
       topology:
@@ -33,7 +52,6 @@ profiles:
         upstreams:
           application.public-ingress: http://127.0.0.1:18096
           platform.api-gateway: http://127.0.0.1:3900
-
   cloud.staging:
     deployment:
       deploymentProfile: cloud
@@ -53,6 +71,26 @@ profiles:
         tls: sdkwork.com
         mode: api
         apiPathStyle: full-prefix
+      - domain: voice-staging.birdcoder.com
+        tls: birdcoder.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.dtupay.com
+        tls: dtupay.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.sdkwork.cn
+        tls: sdkwork.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.birdcoder.cn
+        tls: birdcoder.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.dtupay.cn
+        tls: dtupay.cn
+        mode: api
+        apiPathStyle: full-prefix
     packages: []
     overrides:
       topology:
@@ -65,7 +103,6 @@ profiles:
         upstreams:
           application.public-ingress: http://127.0.0.1:18096
           platform.api-gateway: http://127.0.0.1:3900
-
   cloud.production:
     deployment:
       deploymentProfile: cloud
@@ -85,6 +122,26 @@ profiles:
         tls: sdkwork.com
         mode: api
         apiPathStyle: full-prefix
+      - domain: voice.birdcoder.com
+        tls: birdcoder.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.dtupay.com
+        tls: dtupay.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.sdkwork.cn
+        tls: sdkwork.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.birdcoder.cn
+        tls: birdcoder.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.dtupay.cn
+        tls: dtupay.cn
+        mode: api
+        apiPathStyle: full-prefix
     packages: []
     overrides:
       topology:
@@ -99,7 +156,6 @@ profiles:
           platform.api-gateway: http://127.0.0.1:3900
       nginx:
         clientMaxBodySize: 32m
-
   standalone.production:
     deployment:
       deploymentProfile: standalone
@@ -115,8 +171,28 @@ profiles:
     install:
       layout: binary-package
     expose:
-      - domain: voice.internal.example
-        tls: managed
+      - domain: voice.sdkwork.com
+        tls: sdkwork.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.birdcoder.com
+        tls: birdcoder.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.dtupay.com
+        tls: dtupay.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.sdkwork.cn
+        tls: sdkwork.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.birdcoder.cn
+        tls: birdcoder.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.dtupay.cn
+        tls: dtupay.cn
         mode: api
         apiPathStyle: full-prefix
     packages: []
