@@ -40,6 +40,38 @@ profiles:
         tls: dtupay.cn
         mode: api
         apiPathStyle: full-prefix
+      - domain: voice-test.skubc.com
+        tls: skubc.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.skubc.cn
+        tls: skubc.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.zowalk.com
+        tls: zowalk.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.zowalk.cn
+        tls: zowalk.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.offer86.com
+        tls: offer86.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.offer86.cn
+        tls: offer86.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.86offer.com
+        tls: 86offer.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.86offer.cn
+        tls: 86offer.cn
+        mode: api
+        apiPathStyle: full-prefix
     packages: []
     overrides:
       topology:
@@ -89,6 +121,38 @@ profiles:
         apiPathStyle: full-prefix
       - domain: voice-staging.dtupay.cn
         tls: dtupay.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.skubc.com
+        tls: skubc.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.skubc.cn
+        tls: skubc.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.zowalk.com
+        tls: zowalk.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.zowalk.cn
+        tls: zowalk.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.offer86.com
+        tls: offer86.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.offer86.cn
+        tls: offer86.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.86offer.com
+        tls: 86offer.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.86offer.cn
+        tls: 86offer.cn
         mode: api
         apiPathStyle: full-prefix
     packages: []
@@ -142,6 +206,38 @@ profiles:
         tls: dtupay.cn
         mode: api
         apiPathStyle: full-prefix
+      - domain: voice.skubc.com
+        tls: skubc.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.skubc.cn
+        tls: skubc.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.zowalk.com
+        tls: zowalk.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.zowalk.cn
+        tls: zowalk.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.offer86.com
+        tls: offer86.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.offer86.cn
+        tls: offer86.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.86offer.com
+        tls: 86offer.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.86offer.cn
+        tls: 86offer.cn
+        mode: api
+        apiPathStyle: full-prefix
     packages: []
     overrides:
       topology:
@@ -193,6 +289,38 @@ profiles:
         apiPathStyle: full-prefix
       - domain: voice.dtupay.cn
         tls: dtupay.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.skubc.com
+        tls: skubc.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.skubc.cn
+        tls: skubc.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.zowalk.com
+        tls: zowalk.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.zowalk.cn
+        tls: zowalk.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.offer86.com
+        tls: offer86.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.offer86.cn
+        tls: offer86.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.86offer.com
+        tls: 86offer.com
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.86offer.cn
+        tls: 86offer.cn
         mode: api
         apiPathStyle: full-prefix
     packages: []

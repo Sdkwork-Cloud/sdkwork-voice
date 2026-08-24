@@ -2,59 +2,8 @@ environment = "test"
 
 [http]
 
-[http.certificates]
-
-[http.certificates."sdkwork.com"]
-certFile = "/etc/sdkwork/certs/letsencrypt/sdkwork.com/fullchain.pem"
-certKeyFile = "/etc/sdkwork/certs/letsencrypt/sdkwork.com/privkey.pem"
-chainFile = "/etc/sdkwork/certs/letsencrypt/sdkwork.com/chain.pem"
-ocspStapling = true
-
-[http.certificates."birdcoder.com"]
-certFile = "/etc/sdkwork/certs/letsencrypt/birdcoder.com/fullchain.pem"
-certKeyFile = "/etc/sdkwork/certs/letsencrypt/birdcoder.com/privkey.pem"
-chainFile = "/etc/sdkwork/certs/letsencrypt/birdcoder.com/chain.pem"
-ocspStapling = true
-
-[http.certificates."dtupay.com"]
-certFile = "/etc/sdkwork/certs/letsencrypt/dtupay.com/fullchain.pem"
-certKeyFile = "/etc/sdkwork/certs/letsencrypt/dtupay.com/privkey.pem"
-chainFile = "/etc/sdkwork/certs/letsencrypt/dtupay.com/chain.pem"
-ocspStapling = true
-
-[http.certificates."sdkwork.cn"]
-certFile = "/etc/sdkwork/certs/letsencrypt/sdkwork.cn/fullchain.pem"
-certKeyFile = "/etc/sdkwork/certs/letsencrypt/sdkwork.cn/privkey.pem"
-chainFile = "/etc/sdkwork/certs/letsencrypt/sdkwork.cn/chain.pem"
-ocspStapling = true
-
-[http.certificates."birdcoder.cn"]
-certFile = "/etc/sdkwork/certs/letsencrypt/birdcoder.cn/fullchain.pem"
-certKeyFile = "/etc/sdkwork/certs/letsencrypt/birdcoder.cn/privkey.pem"
-chainFile = "/etc/sdkwork/certs/letsencrypt/birdcoder.cn/chain.pem"
-ocspStapling = true
-
-[http.certificates."dtupay.cn"]
-certFile = "/etc/sdkwork/certs/letsencrypt/dtupay.cn/fullchain.pem"
-certKeyFile = "/etc/sdkwork/certs/letsencrypt/dtupay.cn/privkey.pem"
-chainFile = "/etc/sdkwork/certs/letsencrypt/dtupay.cn/chain.pem"
-ocspStapling = true
-
 [[http.server]]
 listen = ["80"]
-serverName = ["voice-test.sdkwork.com", "voice-test.birdcoder.com", "voice-test.dtupay.com", "voice-test.sdkwork.cn", "voice-test.birdcoder.cn", "voice-test.dtupay.cn"]
-
-[[http.server.location]]
-match = "/api/"
-proxyPass = "http://gateway"
-proxyHttpVersion = "1.1"
-proxySetHeader = ["Host $host", "X-Forwarded-For $proxy_add_x_forwarded_for", "X-Forwarded-Proto $scheme"]
-
-[[http.server.location]]
-match = "/"
-proxyPass = "http://gateway"
-proxyHttpVersion = "1.1"
-proxySetHeader = ["Host $host", "X-Forwarded-For $proxy_add_x_forwarded_for", "X-Forwarded-Proto $scheme"]
-proxyBuffering = false
-proxyReadTimeout = "300s"
+serverName = ["voice-test.sdkwork.com", "voice-test.birdcoder.com", "voice-test.dtupay.com", "voice-test.sdkwork.cn", "voice-test.birdcoder.cn", "voice-test.dtupay.cn", "voice-test.skubc.com", "voice-test.skubc.cn", "voice-test.zowalk.com", "voice-test.zowalk.cn", "voice-test.offer86.com", "voice-test.offer86.cn", "voice-test.86offer.com", "voice-test.86offer.cn"]
+include = ["snippets/gateway-locations.nonproduction.conf"]
 
