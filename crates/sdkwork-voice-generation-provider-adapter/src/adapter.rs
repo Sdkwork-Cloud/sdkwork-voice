@@ -105,6 +105,15 @@ fn map_sdk_error(error: cloudrouter_open_sdk::SdkworkError) -> VoiceGenerationPr
         cloudrouter_open_sdk::SdkworkError::Serialization(error) => {
             VoiceGenerationProviderError::InvalidProviderResponse(error.to_string())
         }
+        cloudrouter_open_sdk::SdkworkError::ResponseBodyTooLarge { .. } => {
+            VoiceGenerationProviderError::InvalidProviderResponse(error.to_string())
+        }
+        cloudrouter_open_sdk::SdkworkError::ApiStatus { code, trace_id } => {
+            VoiceGenerationProviderError::Rejected(format!("api status {code} (traceId={trace_id})"))
+        }
+        cloudrouter_open_sdk::SdkworkError::MissingAccessToken => {
+            VoiceGenerationProviderError::Configuration(error.to_string())
+        }
         error @ (cloudrouter_open_sdk::SdkworkError::InvalidHeaderName(_)
         | cloudrouter_open_sdk::SdkworkError::InvalidHeaderValue(_)
         | cloudrouter_open_sdk::SdkworkError::InvalidHttpMethod(_)) => {

@@ -6,16 +6,24 @@ use sdkwork_voice_generation_provider_spi::{
 
 pub(crate) fn normalize_speech_result(
     command: &VoiceSpeechGenerationCommand,
-    payload: String,
+    payload: Vec<u8>,
 ) -> NormalizedVoiceGenerationResult {
-    let payload = payload.trim().to_string();
-    let source = if payload.starts_with("http://")
-        || payload.starts_with("https://")
-        || payload.starts_with("provider://")
-    {
-        VoiceGeneratedAudioSource::ProviderUrl(payload)
-    } else {
-        VoiceGeneratedAudioSource::Inline(decode_inline_payload(&payload))
+    // create_speech returns raw audio bytes. Keep the legacy text behavior
+    // (provider URL passthrough / inline base64) when the payload is a
+    // UTF-8 text representation; binary audio payloads are used as-is.
+    let source = match std::str::from_utf8(&payload) {
+        Ok(text) => {
+            let text = text.trim();
+            if text.starts_with("http://")
+                || text.starts_with("https://")
+                || text.starts_with("provider://")
+            {
+                VoiceGeneratedAudioSource::ProviderUrl(text.to_string())
+            } else {
+                VoiceGeneratedAudioSource::Inline(decode_inline_payload(text))
+            }
+        }
+        Err(_) => VoiceGeneratedAudioSource::Inline(payload),
     };
     NormalizedVoiceGenerationResult {
         vendor: command.vendor.to_string(),
