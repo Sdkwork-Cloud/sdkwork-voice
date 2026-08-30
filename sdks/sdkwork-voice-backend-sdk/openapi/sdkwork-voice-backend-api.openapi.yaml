@@ -472,15 +472,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
-                }
-              }
-            }
+          "204": {
+            "description": "Success"
           },
           "400": {
             "description": "Bad request",
@@ -814,7 +807,7 @@
         "operationId": "providerRoutes.create",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -930,15 +923,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
-                }
-              }
-            }
+          "204": {
+            "description": "Success"
           },
           "400": {
             "description": "Bad request",
@@ -1517,7 +1503,7 @@
           "voice"
         ],
         "summary": "Provider Webhooks accept.",
-        "operationId": "providerWebhooks.accept",
+        "operationId": "providerWebhooks.create",
         "parameters": [
           {
             "name": "providerCode",
@@ -1526,10 +1512,20 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "application/json": {

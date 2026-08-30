@@ -1,0 +1,9 @@
+{
+  "playbackError": "Failed to resolve playback URL",
+  "nameRequired": "Please enter a voice name",
+  "loadError": "Failed to load voices",
+  "loadErrorRetry": "Retry",
+  "createError": "Failed to create voice, please retry",
+  "renameError": "Rename failed, please retry",
+  "deleteError": "Delete failed, please retry"
+}

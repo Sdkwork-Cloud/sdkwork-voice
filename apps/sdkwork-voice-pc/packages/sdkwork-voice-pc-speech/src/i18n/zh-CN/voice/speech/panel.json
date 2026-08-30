@@ -9,7 +9,5 @@
   "submitting": "合成中…",
   "success": "语音合成已完成。",
   "successWithTask": "语音合成已完成（taskId: {{taskId}}）。",
-  "previewLabel": "试听",
-  "voiceLoadFailed": "无法加载音色目录。",
-  "audioPending": "任务已完成，但音频尚未就绪，请检查 Drive 同步状态。"
+  "previewLabel": "试听"
 }

@@ -1,0 +1,10 @@
+{
+  "createdAtLabel": "Created At",
+  "durationLabel": "Duration",
+  "usageLabel": "Usage",
+  "usageValue": "Personal use only",
+  "statusTraining": "Training",
+  "statusReady": "Ready",
+  "statusFailed": "Failed",
+  "statusDisabled": "Disabled"
+}

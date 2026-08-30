@@ -1,0 +1,17 @@
+{
+  "title": "我的声音",
+  "subtitle": "我的声音库",
+  "empty": "还没有声音",
+  "emptyHint": "录制或上传一段音频，创建属于你的专属声音",
+  "create": "新建声音",
+  "createTitle": "创建声音",
+  "cloneTitle": "声音克隆",
+  "detailTitle": "声音详情",
+  "loadMore": "加载更多",
+  "loading": "加载中…",
+  "play": "播放",
+  "pause": "暂停",
+  "created": "已创建",
+  "updated": "已保存",
+  "saved": "已保存"
+}

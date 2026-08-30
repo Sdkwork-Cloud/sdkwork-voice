@@ -1,0 +1,21 @@
+{
+  "detailsName": "Voice Name",
+  "detailsNamePlaceholder": "Name this voice, e.g. My Soft Tone",
+  "detailsDesc": "Description",
+  "detailsDescPlaceholder": "Describe the purpose or characteristics (optional)",
+  "detailsSave": "Save Voice",
+  "saving": "Saving…",
+  "deleteConfirmTitle": "Delete Voice",
+  "deleteConfirmMessage": "This cannot be undone. Delete \"{{name}}\"?",
+  "deleted": "Deleted",
+  "renamePrompt": "Enter a new voice name",
+  "rename": "Rename",
+  "edit": "Edit",
+  "delete": "Delete Voice",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "typeLabel": "Voice Type",
+  "typeCloned": "Cloned Voice",
+  "typeUploaded": "Uploaded Voice",
+  "typePreset": "Preset Voice"
+}

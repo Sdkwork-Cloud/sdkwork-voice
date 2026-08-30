@@ -1,8 +1,13 @@
 import { createInstance } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { tryGetVoicePcSdkPorts } from 'sdkwork-voice-pc-core';
-import zhCN from './locales/zh-CN.json';
-import enUS from './locales/en-US.json';
+import panelZh from './zh-CN/voice/speech/panel.json';
+import errorsZh from './zh-CN/voice/speech/errors.json';
+import panelEn from './en-US/voice/speech/panel.json';
+import errorsEn from './en-US/voice/speech/errors.json';
+
+const zhCN = { ...panelZh, ...errorsZh };
+const enUS = { ...panelEn, ...errorsEn };
 
 const SUPPORTED_LANGUAGES = ['zh-CN', 'en-US'] as const;
 type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];

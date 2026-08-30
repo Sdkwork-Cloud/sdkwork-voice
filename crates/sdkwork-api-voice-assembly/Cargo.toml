@@ -12,12 +12,12 @@ path = "src/lib.rs"
 [dependencies]
 axum.workspace = true
 tokio.workspace = true
+sdkwork-web-bootstrap.workspace = true
+sdkwork-web-core.workspace = true
 tracing.workspace = true
 sdkwork-voice-embedded-bootstrap.workspace = true
 sdkwork-voice-database-host.workspace = true
 sdkwork-database-sqlx.workspace = true
-sdkwork-web-bootstrap = { workspace = true, features = ["sqlx"] }
-sdkwork-web-core.workspace = true
 sdkwork-routes-voice-http-auth.workspace = true
 sdkwork-routes-voice-app-api.workspace = true
 sdkwork-routes-voice-backend-api.workspace = true

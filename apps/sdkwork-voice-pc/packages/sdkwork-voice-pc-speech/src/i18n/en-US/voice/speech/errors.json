@@ -1,0 +1,4 @@
+{
+  "voiceLoadFailed": "Unable to load voice catalog.",
+  "audioPending": "Task completed but audio is not ready yet. Check artifact drive sync status."
+}

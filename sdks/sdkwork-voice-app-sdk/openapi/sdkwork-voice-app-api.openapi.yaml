@@ -453,7 +453,7 @@
         "operationId": "music.create",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -560,7 +560,7 @@
         "operationId": "soundEffects.create",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -667,7 +667,7 @@
         "operationId": "speech.create",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -1314,7 +1314,7 @@
         "operationId": "transcriptions.create",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -1421,7 +1421,7 @@
         "operationId": "translations.create",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -1669,7 +1669,7 @@
         "operationId": "voiceProfiles.create",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -1785,15 +1785,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SdkWorkResourceResponse"
-                }
-              }
-            }
+          "204": {
+            "description": "Success"
           },
           "400": {
             "description": "Bad request",

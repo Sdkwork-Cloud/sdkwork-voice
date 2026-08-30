@@ -1,0 +1,9 @@
+{
+  "playbackError": "音频播放地址获取失败",
+  "nameRequired": "请输入声音名称",
+  "loadError": "声音列表加载失败",
+  "loadErrorRetry": "重试",
+  "createError": "声音创建失败，请重试",
+  "renameError": "重命名失败，请重试",
+  "deleteError": "删除失败，请重试"
+}

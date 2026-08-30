@@ -1,0 +1,17 @@
+{
+  "title": "My Voices",
+  "subtitle": "My Voice Library",
+  "empty": "No voices yet",
+  "emptyHint": "Record or upload an audio sample to create your own voice",
+  "create": "New Voice",
+  "createTitle": "Create Voice",
+  "cloneTitle": "Voice Clone",
+  "detailTitle": "Voice Details",
+  "loadMore": "Load More",
+  "loading": "Loading…",
+  "play": "Play",
+  "pause": "Pause",
+  "created": "Created",
+  "updated": "Saved",
+  "saved": "Saved"
+}

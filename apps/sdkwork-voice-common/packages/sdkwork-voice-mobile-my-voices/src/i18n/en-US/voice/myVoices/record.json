@@ -1,0 +1,19 @@
+{
+  "recordTab": "Record",
+  "uploadTab": "Upload Audio",
+  "uploadSelect": "Select Audio File",
+  "recordStart": "Start Recording",
+  "recordStop": "Stop Recording",
+  "recordRetake": "Re-record",
+  "recordHint": "Record 5–30 seconds in a quiet environment, speak clearly and naturally",
+  "uploadHint": "Common audio formats supported, 5 seconds to 3 minutes recommended",
+  "uploading": "Uploading…",
+  "previewTitle": "Preview",
+  "previewQuote": "“Hi, I'm your personal AI voice companion.”",
+  "previewConfirm": "Use This Audio",
+  "previewRetake": "Re-record",
+  "processing": "Processing audio…",
+  "processingHint": "Your voice model is being trained, please wait",
+  "recordError": "Microphone access denied",
+  "uploadError": "Upload failed, please retry"
+}

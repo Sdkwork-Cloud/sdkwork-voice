@@ -1,8 +1,8 @@
 import { createInstance } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { tryGetVoicePcSdkPorts } from 'sdkwork-voice-pc-core';
-import zhCN from './locales/zh-CN/voice.json';
-import enUS from './locales/en-US/voice.json';
+import zhCN from './zh-CN/voice/market/voice.json';
+import enUS from './en-US/voice/market/voice.json';
 
 const SUPPORTED_LANGUAGES = ['zh-CN', 'en-US'] as const;
 type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];

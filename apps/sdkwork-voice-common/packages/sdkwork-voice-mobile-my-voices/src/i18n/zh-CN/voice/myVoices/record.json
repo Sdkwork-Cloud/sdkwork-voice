@@ -1,0 +1,19 @@
+{
+  "recordTab": "录音克隆",
+  "uploadTab": "上传音频",
+  "uploadSelect": "选择音频文件",
+  "recordStart": "开始录音",
+  "recordStop": "停止录音",
+  "recordRetake": "重新录制",
+  "recordHint": "请安静环境下录制 5~30 秒，吐字清晰、语速自然",
+  "uploadHint": "支持常见音频格式，建议时长 5 秒~3 分钟",
+  "uploading": "上传中…",
+  "previewTitle": "试听一下",
+  "previewQuote": "“您好，我是您的专属AI智能语音伴侣。”",
+  "previewConfirm": "使用此音频",
+  "previewRetake": "重新录制",
+  "processing": "正在处理音频…",
+  "processingHint": "克隆模型正在训练，请稍候",
+  "recordError": "无法访问麦克风，请检查权限",
+  "uploadError": "音频上传失败，请重试"
+}

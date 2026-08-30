@@ -1,0 +1,21 @@
+{
+  "detailsName": "声音名称",
+  "detailsNamePlaceholder": "给声音起个名字，例如：我的温柔音色",
+  "detailsDesc": "声音描述",
+  "detailsDescPlaceholder": "简单描述这个声音的用途或特点（可选）",
+  "detailsSave": "保存声音",
+  "saving": "保存中…",
+  "deleteConfirmTitle": "删除声音",
+  "deleteConfirmMessage": "删除后无法恢复，确定删除「{{name}}」吗？",
+  "deleted": "已删除",
+  "renamePrompt": "输入新的声音名称",
+  "rename": "重命名",
+  "edit": "编辑",
+  "delete": "删除声音",
+  "cancel": "取消",
+  "confirm": "确定",
+  "typeLabel": "声音类型",
+  "typeCloned": "克隆声音",
+  "typeUploaded": "上传声音",
+  "typePreset": "预设声音"
+}

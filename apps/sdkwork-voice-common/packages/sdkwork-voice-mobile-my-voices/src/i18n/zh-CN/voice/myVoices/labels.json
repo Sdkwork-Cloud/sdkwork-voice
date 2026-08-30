@@ -1,0 +1,10 @@
+{
+  "createdAtLabel": "创建时间",
+  "durationLabel": "时长",
+  "usageLabel": "使用限制",
+  "usageValue": "仅限本人使用",
+  "statusTraining": "训练中",
+  "statusReady": "就绪",
+  "statusFailed": "训练失败",
+  "statusDisabled": "已停用"
+}
