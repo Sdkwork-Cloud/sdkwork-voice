@@ -67,28 +67,6 @@
       "managedBy": "sdkwork-voice"
     }
   },
-  "environments": {
-    "development": {
-      "accessUrl": "http://localhost:18096",
-      "deployUrl": "http://localhost:18096",
-      "deployEnv": "dev"
-    },
-    "test": {
-      "accessUrl": "https://api-test.sdkwork.com/apps/sdkwork-voice",
-      "deployUrl": "https://api-test.sdkwork.com/apps/sdkwork-voice",
-      "deployEnv": "test"
-    },
-    "staging": {
-      "accessUrl": "https://api-staging.sdkwork.com/apps/sdkwork-voice",
-      "deployUrl": "https://api-staging.sdkwork.com/apps/sdkwork-voice",
-      "deployEnv": "staging"
-    },
-    "production": {
-      "accessUrl": "https://api.sdkwork.com/apps/sdkwork-voice",
-      "deployUrl": "https://api.sdkwork.com/apps/sdkwork-voice",
-      "deployEnv": "production"
-    }
-  },
   "metadata": {
     "standardOwner": "voice-platform",
     "initializedAt": "2026-06-30T00:00:00Z"
