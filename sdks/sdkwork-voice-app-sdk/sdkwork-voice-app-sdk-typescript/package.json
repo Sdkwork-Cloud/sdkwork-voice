@@ -1,6 +1,6 @@
 {
   "name": "@sdkwork/voice-app-sdk",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "SDKWork sdkwork-voice-app-sdk composed consumer facade.",
   "type": "module",
   "private": false,
