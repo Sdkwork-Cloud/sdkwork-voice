@@ -7,9 +7,7 @@
 //! catalog, domain context injectors, and the readiness check.
 
 use axum::Router;
-use sdkwork_web_bootstrap::{
-    ContractFallbackConfig, DatabasePoolReadinessCheck,
-};
+use sdkwork_web_bootstrap::{ContractFallbackConfig, DatabasePoolReadinessCheck, WebModule};
 use sdkwork_web_core::HttpRouteManifest;
 use std::sync::Arc;
 
@@ -80,4 +78,19 @@ pub async fn run_database_migrate_only() -> Result<(), String> {
     sdkwork_voice_database_host::bootstrap_voice_database_from_env().await?;
     tracing::info!("voice database migration completed");
     Ok(())
+}
+
+/// Canonical Web Module definition for this application
+/// (API_ASSEMBLY_SPEC §4.1.1): the complete HTTP surface — every route,
+/// manifest, and OpenAPI document of this owner — as one installable module.
+pub async fn web_module() -> Result<WebModule, String> {
+    Ok(WebModule::from_contribution(assemble_api_router().await?))
+}
+
+/// Same as [`web_module`] but composed on a process-shared database pool
+/// (platform gateways, API_ASSEMBLY_SPEC §4.1.1).
+pub async fn web_module_with_pool(
+    pool: sdkwork_database_sqlx::DatabasePool,
+) -> Result<WebModule, String> {
+    Ok(WebModule::from_contribution(assemble_api_router_with_pool(pool).await?))
 }

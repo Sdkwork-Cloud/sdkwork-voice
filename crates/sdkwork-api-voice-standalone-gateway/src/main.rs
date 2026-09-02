@@ -4,7 +4,7 @@ use sdkwork_api_voice_standalone_gateway::init_tracing;
 use sdkwork_iam_web_adapter::{
     build_web_framework_builder, iam_web_request_context_resolver_from_env,
 };
-use sdkwork_web_bootstrap::{infra_public_path_prefixes, ComposedApiAssembly};
+use sdkwork_web_bootstrap::{ApiModuleRegistry, ComposedApiAssembly, infra_public_path_prefixes};
 use std::process;
 use std::time::Duration;
 use tower_http::limit::RequestBodyLimitLayer;
@@ -41,7 +41,10 @@ async fn main() {
         assembly.route_manifest.clone(),
         infra_public_path_prefixes(),
     );
-    let business = ComposedApiAssembly::try_compose("SDKWork Voice API", vec![assembly])
+    let mut module_registry = ApiModuleRegistry::new();
+    module_registry.add_modules(vec![assembly]);
+    let business = module_registry
+        .try_compose("SDKWork Voice API")
         .unwrap_or_else(|error| exit_with_error("composition", error))
         .into_hosted(framework)
         .router
