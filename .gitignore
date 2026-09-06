@@ -72,3 +72,6 @@ config/*.local.toml
 Thumbs.db
 # Runtime-generated environment configuration
 **/public/runtime-env.json
+
+# Build artifacts
+/bin/

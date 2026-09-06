@@ -8,10 +8,12 @@ tablet_surface = "pc"
 development = "apps/sdkwork-voice-pc/dist/standalone/dev"
 test = "apps/sdkwork-voice-pc/dist/standalone/test"
 staging = "apps/sdkwork-voice-pc/dist/standalone/staging"
+demo = "apps/sdkwork-voice-pc/dist/standalone/demo"
 production = "apps/sdkwork-voice-pc/dist/standalone/prod"
 
 [app_roots.static_fallback_by_environment]
 development = "deployments/webserver/static"
 test = "deployments/webserver/static"
 staging = "deployments/webserver/static"
+demo = "deployments/webserver/static"
 production = "deployments/webserver/static"

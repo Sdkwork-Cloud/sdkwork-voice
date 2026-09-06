@@ -414,3 +414,20 @@ Verification:
 node ../sdkwork-specs/tools/sync-agent-sdk-generation-standard.mjs --root . --check
 ```
 <!-- /SDKWORK-SDK-GENERATION-STANDARD: v1 -->
+
+
+## Deployment Standard (bin/)
+
+Per `../sdkwork-specs/MODULE_BIN_SPEC.md`, this module ships the standardized
+nine-entrypoint `bin/` family; all build/package/deploy/installer work `MUST`
+go through them. See `bin/README.md` for the usage card and
+`bin/lib/module.sh` for the delegation wiring (hooks not yet wired to a
+canonical repository command fail fast with guidance).
+
+- App types declared: see `SDKWORK_APP_TYPES` in `bin/lib/module.sh`;
+  environments: `development`, `test`, `staging`, `demo`, `production`.
+- Image reference: `registry.sdkwork.com/apps/<docker-name>:<version>`
+  (`DOCKER_SPEC.md` §2.1; no `latest`, no env-suffixed tags).
+- Authoritative specs: `MODULE_BIN_SPEC.md`, `DOCKER_SPEC.md`,
+  `DEPLOYMENT_SPEC.md`, `OPERATIONS_SPEC.md`.
+<!-- /SDKWORK-DEPLOYMENT-STANDARD: scaffolded -->
