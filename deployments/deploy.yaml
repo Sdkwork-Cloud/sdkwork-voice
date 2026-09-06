@@ -28,6 +28,10 @@ profiles:
         tls: dtupay.com
         mode: api
         apiPathStyle: full-prefix
+      - domain: voice-test.noaper.com
+        tls: noaper.com
+        mode: api
+        apiPathStyle: full-prefix
       - domain: voice-test.sdkwork.cn
         tls: sdkwork.cn
         mode: api
@@ -38,6 +42,10 @@ profiles:
         apiPathStyle: full-prefix
       - domain: voice-test.dtupay.cn
         tls: dtupay.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-test.noaper.cn
+        tls: noaper.cn
         mode: api
         apiPathStyle: full-prefix
       - domain: voice-test.skubc.com
@@ -111,6 +119,10 @@ profiles:
         tls: dtupay.com
         mode: api
         apiPathStyle: full-prefix
+      - domain: voice-staging.noaper.com
+        tls: noaper.com
+        mode: api
+        apiPathStyle: full-prefix
       - domain: voice-staging.sdkwork.cn
         tls: sdkwork.cn
         mode: api
@@ -121,6 +133,10 @@ profiles:
         apiPathStyle: full-prefix
       - domain: voice-staging.dtupay.cn
         tls: dtupay.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice-staging.noaper.cn
+        tls: noaper.cn
         mode: api
         apiPathStyle: full-prefix
       - domain: voice-staging.skubc.com
@@ -194,6 +210,10 @@ profiles:
         tls: dtupay.com
         mode: api
         apiPathStyle: full-prefix
+      - domain: voice.noaper.com
+        tls: noaper.com
+        mode: api
+        apiPathStyle: full-prefix
       - domain: voice.sdkwork.cn
         tls: sdkwork.cn
         mode: api
@@ -204,6 +224,10 @@ profiles:
         apiPathStyle: full-prefix
       - domain: voice.dtupay.cn
         tls: dtupay.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.noaper.cn
+        tls: noaper.cn
         mode: api
         apiPathStyle: full-prefix
       - domain: voice.skubc.com
@@ -279,6 +303,10 @@ profiles:
         tls: dtupay.com
         mode: api
         apiPathStyle: full-prefix
+      - domain: voice.noaper.com
+        tls: noaper.com
+        mode: api
+        apiPathStyle: full-prefix
       - domain: voice.sdkwork.cn
         tls: sdkwork.cn
         mode: api
@@ -289,6 +317,10 @@ profiles:
         apiPathStyle: full-prefix
       - domain: voice.dtupay.cn
         tls: dtupay.cn
+        mode: api
+        apiPathStyle: full-prefix
+      - domain: voice.noaper.cn
+        tls: noaper.cn
         mode: api
         apiPathStyle: full-prefix
       - domain: voice.skubc.com

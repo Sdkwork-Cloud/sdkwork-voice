@@ -28,6 +28,14 @@ cert = "dtupay.com"
 
 [[http.server]]
 listen = ["443 ssl", "80"]
+serverName = ["voice.noaper.com"]
+include = ["snippets/gateway-locations.production.conf"]
+
+[http.server.tls]
+cert = "noaper.com"
+
+[[http.server]]
+listen = ["443 ssl", "80"]
 serverName = ["voice.sdkwork.cn"]
 include = ["snippets/gateway-locations.production.conf"]
 
@@ -49,6 +57,14 @@ include = ["snippets/gateway-locations.production.conf"]
 
 [http.server.tls]
 cert = "dtupay.cn"
+
+[[http.server]]
+listen = ["443 ssl", "80"]
+serverName = ["voice.noaper.cn"]
+include = ["snippets/gateway-locations.production.conf"]
+
+[http.server.tls]
+cert = "noaper.cn"
 
 [[http.server]]
 listen = ["443 ssl", "80"]
